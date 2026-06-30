@@ -229,7 +229,7 @@
         .flag-eu { background-image: url('https://flagcdn.com/w40/eu.png'); position: absolute; left: 0; z-index: 2; }
         .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
 
-        /* ОНОВЛЕНІ ТАЙМФРЕЙМИ (3 в ряд) */
+        /* СІТКА ТАЙМФРЕЙМІВ (3 колонки) */
         .tf-container { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -386,7 +386,7 @@
         .info-value { font-weight: 600; color: var(--text-main); }
         .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
-        /* ОНОВЛЕНА НАВІГАЦІЯ (підсвічування профілю) */
+        /* НАВІГАЦІЯ (Однакова поведінка для активних вкладок) */
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
             position: relative; z-index: 1000;
@@ -396,12 +396,12 @@
         }
         .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
         
-        /* Однакове підсвічування для обох кнопок при активному стані */
+        /* однакове яскраве підсвічування */
         .nav-item.active { 
-            background: var(--accent-gradient); 
-            color: #ffffff; 
-            border: transparent; 
-            box-shadow: var(--hover-shadow);
+            background: var(--accent-gradient) !important; 
+            color: #ffffff !important; 
+            border: none !important;
+            box-shadow: var(--hover-shadow) !important;
         }
         .nav-item.active:hover { filter: var(--hover-brightness); }
     </style>
@@ -599,7 +599,6 @@
             const modal = document.getElementById('profileModal');
             
             if (tab === 'profile') {
-                navSignals.remove('active');
                 navSignals.classList.remove('active');
                 navProfile.classList.add('active');
                 modal.classList.add('show');
