@@ -167,13 +167,26 @@
             background-color: var(--dropdown-bg);
             border: 1px solid var(--border-color);
             border-radius: 14px;
-            overflow: hidden;
+            overflow-y: auto;
+            max-height: 280px; /* Додано прокрутку, бо пар стало багато */
             display: none;
             flex-direction: column;
             z-index: 999;
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
         }
         .dropdown-menu.show { display: flex; }
+
+        /* Заголовки категорій у меню валютних пар */
+        .dropdown-category {
+            padding: 8px 16px 4px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #a855f7;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: #11151f;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
 
         .dropdown-item {
             padding: 14px 16px;
@@ -406,11 +419,27 @@
                         </div>
                         <i class="fa-solid fa-chevron-down" style="font-size: 12px; color: var(--text-muted);"></i>
                     </div>
+                    
                     <div class="dropdown-menu" id="pairMenu">
+                        <div class="dropdown-category">OTC Рынок</div>
                         <div class="dropdown-item" onclick="selectPair('EUR/USD OTC')">EUR/USD OTC</div>
                         <div class="dropdown-item" onclick="selectPair('GBP/USD OTC')">GBP/USD OTC</div>
                         <div class="dropdown-item" onclick="selectPair('USD/JPY OTC')">USD/JPY OTC</div>
                         <div class="dropdown-item" onclick="selectPair('EUR/GBP OTC')">EUR/GBP OTC</div>
+                        
+                        <div class="dropdown-category">Реальный рынок (Forex)</div>
+                        <div class="dropdown-item" onclick="selectPair('EUR/USD')">EUR/USD</div>
+                        <div class="dropdown-item" onclick="selectPair('GBP/USD')">GBP/USD</div>
+                        <div class="dropdown-item" onclick="selectPair('USD/JPY')">USD/JPY</div>
+                        <div class="dropdown-item" onclick="selectPair('AUD/USD')">AUD/USD</div>
+                        <div class="dropdown-item" onclick="selectPair('USD/CAD')">USD/CAD</div>
+                        
+                        <div class="dropdown-category">Криптовалюта</div>
+                        <div class="dropdown-item" onclick="selectPair('BTC/USDT')">BTC/USDT</div>
+                        <div class="dropdown-item" onclick="selectPair('ETH/USDT')">ETH/USDT</div>
+                        <div class="dropdown-item" onclick="selectPair('SOL/USDT')">SOL/USDT</div>
+                        <div class="dropdown-item" onclick="selectPair('BNB/USDT')">BNB/USDT</div>
+                        <div class="dropdown-item" onclick="selectPair('XRP/USDT')">XRP/USDT</div>
                     </div>
                 </div>
             </div>
@@ -513,8 +542,6 @@
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
-            
-            // Запускаємо відмальовку даних профілю одразу
             loadTelegramUserData();
         }
 
@@ -554,24 +581,17 @@
         function loadTelegramUserData() {
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
                 const user = Telegram.WebApp.initDataUnsafe.user;
-                
-                // Формуємо повне ім'я
                 const fullName = (user.first_name + ' ' + (user.last_name || '')).trim();
                 document.getElementById('userName').innerText = fullName;
-                
-                // Ставимо юзернейм або ID (якщо ніка немає)
                 document.getElementById('userUsername').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
                 
-                // Пробуємо завантажити аватарку
                 if (user.photo_url) {
                     document.getElementById('userAvatar').src = user.photo_url;
                 } else {
-                    // Красива дефолтна заглушка, якщо аватарка прихована
                     const firstLetter = user.first_name ? user.first_name.charAt(0).toUpperCase() : 'U';
                     document.getElementById('userAvatar').src = `https://placehold.co/120x120/141822/ffffff.png?text=${firstLetter}`;
                 }
             } else {
-                // Запасні дані для перегляду у звичайному браузері комп'ютера
                 document.getElementById('userName').innerText = "Тестовый Пользователь";
                 document.getElementById('userUsername').innerText = "@test_user";
                 document.getElementById('userAvatar').src = "https://placehold.co/120x120/141822/ffffff.png?text=T";
@@ -614,6 +634,14 @@
         }
 
         function triggerAutoSignal() {
+            // Вибираємо абсолютно будь-яку випадкову пару з усього списку пар для автосигналу
+            const pairItems = document.querySelectorAll('#pairMenu .dropdown-item');
+            if(pairItems.length > 0) {
+                const randomPairIndex = Math.floor(Math.random() * pairItems.length);
+                const randomPairText = pairItems[randomPairIndex].innerText;
+                selectPair(randomPairText);
+            }
+
             const buttons = document.querySelectorAll('.tf-btn');
             const randomIndex = Math.floor(Math.random() * buttons.length);
             const randomButton = buttons[randomIndex];
