@@ -92,7 +92,7 @@
             font-size: 11px;
             letter-spacing: 5px;
             color: var(--text-muted);
-            margin: 15px 0 25px;
+            margin: 15px 0 20px;
             position: relative;
             z-index: 10;
         }
@@ -108,7 +108,7 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             position: relative;
             z-index: 20;
         }
@@ -124,7 +124,7 @@
             font-weight: 500;
         }
 
-        /* Виправлена багатошаровість контексту */
+        /* Багатошаровість контексту */
         .dropdown-block { position: relative; }
         #typeBlock { z-index: 200; }
         #pairBlock { z-index: 150; }
@@ -161,7 +161,7 @@
             box-shadow: var(--hover-shadow);
         }
 
-        /* Виправлене меню списків зі скролом */
+        /* Меню списків зі скролом */
         .dropdown-menu {
             position: absolute;
             top: calc(100% + 6px);
@@ -171,7 +171,7 @@
             border: 1px solid var(--border-color);
             border-radius: 14px;
             overflow-y: auto;
-            max-height: 240px; /* Обмеження висоти, щоб влізало на екран */
+            max-height: 240px;
             display: none;
             flex-direction: column;
             z-index: 9999;
@@ -179,7 +179,6 @@
         }
         .dropdown-menu.show { display: flex; }
 
-        /* Стилізація скролбару всередині меню */
         .dropdown-menu::-webkit-scrollbar {
             width: 6px;
         }
@@ -202,12 +201,12 @@
             letter-spacing: 1px;
             background-color: #11151f;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            position: sticky; /* Щоб заголовок залишався зверху при скролі */
+            position: sticky;
             top: 0;
             z-index: 10;
         }
         .dropdown-category:not(:first-child) {
-            position: relative; /* Наступні заголовки просто розділяють */
+            position: relative;
             top: auto;
         }
 
@@ -230,8 +229,14 @@
         .flag-eu { background-image: url('https://flagcdn.com/w40/eu.png'); position: absolute; left: 0; z-index: 2; }
         .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
 
-        /* ТАЙМФРЕЙМИ */
-        .tf-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; position: relative; z-index: 10; }
+        /* ОНОВЛЕНІ ТАЙМФРЕЙМИ (3 в ряд) */
+        .tf-container { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            position: relative; 
+            z-index: 10; 
+        }
         .tf-btn {
             background-color: var(--card-bg); 
             border: 1px solid var(--border-color); 
@@ -261,7 +266,7 @@
 
         /* Кнопки дії */
         .action-container {
-            margin-top: auto; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; align-items: center;
+            margin-top: auto; margin-bottom: 20px; display: flex; flex-direction: column; gap: 10px; align-items: center;
             position: relative; z-index: 5;
         }
 
@@ -381,7 +386,7 @@
         .info-value { font-weight: 600; color: var(--text-main); }
         .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
-        /* Нижня навігація */
+        /* ОНОВЛЕНА НАВІГАЦІЯ (підсвічування профілю) */
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
             position: relative; z-index: 1000;
@@ -390,8 +395,15 @@
             color: var(--text-muted); font-size: 18px; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
         }
         .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
-        .nav-item.active { background-color: #1e2538; color: #ffffff; border: 1px solid #6366f1; }
-        .nav-item.active:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: var(--hover-shadow); }
+        
+        /* Однакове підсвічування для обох кнопок при активному стані */
+        .nav-item.active { 
+            background: var(--accent-gradient); 
+            color: #ffffff; 
+            border: transparent; 
+            box-shadow: var(--hover-shadow);
+        }
+        .nav-item.active:hover { filter: var(--hover-brightness); }
     </style>
 </head>
 <body>
@@ -475,6 +487,8 @@
                     <button class="tf-btn" data-minutes="3" onclick="selectTimeframe(this)">3 M</button>
                     <button class="tf-btn" data-minutes="5" onclick="selectTimeframe(this)">5 M</button>
                     <button class="tf-btn" data-minutes="10" onclick="selectTimeframe(this)">10 M</button>
+                    <button class="tf-btn" data-minutes="30" onclick="selectTimeframe(this)">30 M</button>
+                    <button class="tf-btn" data-minutes="60" onclick="selectTimeframe(this)">1 H</button>
                 </div>
             </div>
 
@@ -585,6 +599,7 @@
             const modal = document.getElementById('profileModal');
             
             if (tab === 'profile') {
+                navSignals.remove('active');
                 navSignals.classList.remove('active');
                 navProfile.classList.add('active');
                 modal.classList.add('show');
@@ -704,11 +719,11 @@
 
             if (randomDir === 'UP') {
                 dirContainer.className = "direction-value dir-up";
-                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> Вверх ${selectedMinutes} мин`;
+                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> Вверх ${selectedTimeframeText}`;
                 progressFill.classList.add('bg-green');
             } else {
                 dirContainer.className = "direction-value dir-down";
-                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> Вниз ${selectedMinutes} мин`;
+                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> Вниз ${selectedTimeframeText}`;
                 progressFill.classList.add('bg-red');
             }
 
