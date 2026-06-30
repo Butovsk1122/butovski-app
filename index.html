@@ -65,7 +65,7 @@
             justify-content: space-between;
             align-items: center;
             position: relative;
-            z-index: 20;
+            z-index: 100;
         }
 
         .btn-close {
@@ -94,6 +94,7 @@
             color: var(--text-muted);
             margin: 15px 0 25px;
             position: relative;
+            z-index: 10;
         }
         .brand-line::before, .brand-line::after {
             content: ''; position: absolute; top: 50%; width: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--border-color));
@@ -108,6 +109,8 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
+            position: relative;
+            z-index: 20;
         }
 
         .hidden { display: none !important; }
@@ -121,10 +124,10 @@
             font-weight: 500;
         }
 
-        /* Контекстні шари для списків */
+        /* Виправлена багатошаровість контексту */
         .dropdown-block { position: relative; }
-        #typeBlock { z-index: 50; }
-        #pairBlock { z-index: 40; }
+        #typeBlock { z-index: 200; }
+        #pairBlock { z-index: 150; }
 
         .custom-dropdown {
             position: relative;
@@ -158,7 +161,7 @@
             box-shadow: var(--hover-shadow);
         }
 
-        /* Меню списків */
+        /* Виправлене меню списків зі скролом */
         .dropdown-menu {
             position: absolute;
             top: calc(100% + 6px);
@@ -168,17 +171,30 @@
             border: 1px solid var(--border-color);
             border-radius: 14px;
             overflow-y: auto;
-            max-height: 280px; /* Додано прокрутку, бо пар стало багато */
+            max-height: 240px; /* Обмеження висоти, щоб влізало на екран */
             display: none;
             flex-direction: column;
-            z-index: 999;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
         }
         .dropdown-menu.show { display: flex; }
 
+        /* Стилізація скролбару всередині меню */
+        .dropdown-menu::-webkit-scrollbar {
+            width: 6px;
+        }
+        .dropdown-menu::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.1);
+            border-radius: 14px;
+        }
+        .dropdown-menu::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 14px;
+        }
+
         /* Заголовки категорій у меню валютних пар */
         .dropdown-category {
-            padding: 8px 16px 4px;
+            padding: 10px 16px 6px;
             font-size: 10px;
             font-weight: 700;
             color: #a855f7;
@@ -186,6 +202,13 @@
             letter-spacing: 1px;
             background-color: #11151f;
             border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            position: sticky; /* Щоб заголовок залишався зверху при скролі */
+            top: 0;
+            z-index: 10;
+        }
+        .dropdown-category:not(:first-child) {
+            position: relative; /* Наступні заголовки просто розділяють */
+            top: auto;
         }
 
         .dropdown-item {
@@ -208,7 +231,7 @@
         .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
 
         /* ТАЙМФРЕЙМИ */
-        .tf-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .tf-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; position: relative; z-index: 10; }
         .tf-btn {
             background-color: var(--card-bg); 
             border: 1px solid var(--border-color); 
@@ -239,6 +262,7 @@
         /* Кнопки дії */
         .action-container {
             margin-top: auto; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; align-items: center;
+            position: relative; z-index: 5;
         }
 
         .btn-main {
@@ -278,7 +302,7 @@
         /* Екрани завантаження */
         .loading-overlay {
             position: absolute; top: 70px; left: 0; width: 100%; height: calc(100% - 70px);
-            background-color: var(--bg-color); z-index: 10; display: flex; flex-direction: column;
+            background-color: var(--bg-color); z-index: 500; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
         }
         .spinner {
@@ -324,7 +348,7 @@
         /* ВІКНО ПРОФІЛЮ КОРИСТУВАЧА */
         .modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(13, 15, 20, 0.96); z-index: 2000;
+            background: rgba(13, 15, 20, 0.96); z-index: 20000;
             display: none; justify-content: center; align-items: center;
             opacity: 0; transition: opacity 0.2s ease;
         }
@@ -335,7 +359,7 @@
             width: 88%; max-width: 330px; padding: 25px; box-sizing: border-box;
             position: relative; text-align: center; transform: scale(0.95); transition: transform 0.2s ease;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            z-index: 2001;
+            z-index: 20001;
         }
         .modal-overlay.show .profile-card { transform: scale(1); }
         
@@ -360,7 +384,7 @@
         /* Нижня навігація */
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
-            position: relative; z-index: 100;
+            position: relative; z-index: 1000;
         }
         .nav-item { 
             color: var(--text-muted); font-size: 18px; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
@@ -538,7 +562,7 @@
     </div>
 
     <script>
-        // Автоматична ініціалізація WebApp та миттєве завантаження даних ПРИ ВХОДІ
+        // Автоматична ініціалізація WebApp
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
@@ -598,7 +622,7 @@
             }
         }
 
-        // Логіка випадаючих списків
+        // Керування випадаючими списками
         function toggleDropdown(menuId) {
             const menus = ['typeMenu', 'pairMenu'];
             menus.forEach(id => {
@@ -634,7 +658,6 @@
         }
 
         function triggerAutoSignal() {
-            // Вибираємо абсолютно будь-яку випадкову пару з усього списку пар для автосигналу
             const pairItems = document.querySelectorAll('#pairMenu .dropdown-item');
             if(pairItems.length > 0) {
                 const randomPairIndex = Math.floor(Math.random() * pairItems.length);
