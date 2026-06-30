@@ -340,18 +340,21 @@
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
             position: relative; z-index: 1000;
-            margin-top: auto; /* ВИПРАВЛЕНО: Навігація завжди притиснута до низу додатка */
+            margin-top: auto;
         }
         .nav-item { 
             color: var(--text-muted); font-size: 18px; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
         }
         .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
         
+        /* ВИПРАВЛЕНО: Залізобетонна підсвітка кнопок та білий колір для іконки всередині */
         .nav-item.active { 
             background: var(--accent-gradient) !important; 
-            color: #ffffff !important; 
             border: none !important;
             box-shadow: var(--hover-shadow) !important;
+        }
+        .nav-item.active i {
+            color: #ffffff !important;
         }
         .nav-item.active:hover { filter: var(--hover-brightness); }
     </style>
@@ -632,11 +635,10 @@
             startSignalProcess();
         }
 
-        // ВИПРАВЛЕНО: приховуємо навігацію на час пошуку сигналу
         function startSignalProcess() {
             document.getElementById('mainScreen').classList.add('hidden');
             document.getElementById('brandLine').classList.add('hidden');
-            document.getElementById('mainNavigation').classList.add('hidden'); // Приховуємо меню
+            document.getElementById('mainNavigation').classList.add('hidden'); 
             document.getElementById('loadingScreen').classList.remove('hidden');
 
             setTimeout(() => {
@@ -675,7 +677,7 @@
             }
 
             document.getElementById('resultScreen').classList.remove('hidden');
-            document.getElementById('mainNavigation').classList.remove('hidden'); // Повертаємо меню для екрана результату
+            document.getElementById('mainNavigation').classList.remove('hidden'); 
             
             const actionBtn = document.getElementById('signalActionButton');
             actionBtn.innerText = "Сбросить сигнал";
@@ -727,7 +729,7 @@
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('mainScreen').classList.remove('hidden');
             document.getElementById('brandLine').classList.remove('hidden');
-            document.getElementById('mainNavigation').classList.remove('hidden'); // Переконуємось, що меню на місці
+            document.getElementById('mainNavigation').classList.remove('hidden'); 
         }
     </script>
 </body>
