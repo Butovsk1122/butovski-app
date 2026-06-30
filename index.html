@@ -229,7 +229,7 @@
         .flag-eu { background-image: url('https://flagcdn.com/w40/eu.png'); position: absolute; left: 0; z-index: 2; }
         .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
 
-        /* СІТКА ТАЙМФРЕЙМІВ (3 колонки) */
+        /* СІТКА ТАЙМФРЕЙМІВ */
         .tf-container { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -304,11 +304,19 @@
         }
         .btn-outline:hover { background-color: rgba(255, 255, 255, 0.05); border-color: #64748b; }
 
-        /* Екрани завантаження */
+        /* ВИПРАВЛЕНО: Екран завантаження тепер перекриває абсолютно все (z-index: 30000) */
         .loading-overlay {
-            position: absolute; top: 70px; left: 0; width: 100%; height: calc(100% - 70px);
-            background-color: var(--bg-color); z-index: 500; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background-color: var(--bg-color); 
+            z-index: 30000; 
+            display: flex; 
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
         }
         .spinner {
             width: 55px; height: 55px; border: 3px solid rgba(168, 85, 247, 0.1); border-radius: 50%;
@@ -368,9 +376,11 @@
         }
         .modal-overlay.show .profile-card { transform: scale(1); }
         
+        /* ВИПРАВЛЕНО: Кнопка закриття профілю */
         .profile-close {
             position: absolute; top: 14px; right: 16px;
             background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer;
+            z-index: 20005; padding: 5px;
         }
         .profile-header img {
             width: 75px; height: 75px; border-radius: 50%; border: 2px solid #a855f7;
@@ -386,7 +396,7 @@
         .info-value { font-weight: 600; color: var(--text-main); }
         .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
-        /* НАВІГАЦІЯ (Однакова поведінка для активних вкладок) */
+        /* НАВІГАЦІЯ */
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
             position: relative; z-index: 1000;
@@ -396,7 +406,7 @@
         }
         .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
         
-        /* однакове яскраве підсвічування */
+        /* ВИПРАВЛЕНО: Жорстке та яскраве підсвічування для обох кнопок через !important */
         .nav-item.active { 
             background: var(--accent-gradient) !important; 
             color: #ffffff !important; 
@@ -576,7 +586,6 @@
     </div>
 
     <script>
-        // Автоматична ініціалізація WebApp
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
@@ -592,7 +601,7 @@
         let selectedTimeframeText = "1 m";
         let selectedMinutes = 1; 
 
-        // Керування табами (Навігація)
+        // ВИПРАВЛЕНО: Чітка зміна класів та активного стану кнопок
         function switchTab(tab) {
             const navSignals = document.getElementById('navSignals');
             const navProfile = document.getElementById('navProfile');
@@ -615,7 +624,6 @@
             }
         }
 
-        // Функція отримання реальних даних з Telegram
         function loadTelegramUserData() {
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
                 const user = Telegram.WebApp.initDataUnsafe.user;
@@ -636,7 +644,6 @@
             }
         }
 
-        // Керування випадаючими списками
         function toggleDropdown(menuId) {
             const menus = ['typeMenu', 'pairMenu'];
             menus.forEach(id => {
