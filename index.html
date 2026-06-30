@@ -146,7 +146,7 @@
             transition: all 0.25s ease;
         }
         
-        /* Кнопка типу сигналу без початкової підсвітки */
+        /* Кнопка типу сигналу */
         .type-trigger {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -194,7 +194,7 @@
         .flag-eu { background-image: url('https://flagcdn.com/w40/eu.png'); position: absolute; left: 0; z-index: 2; }
         .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
 
-        /* ТАЙМФРЕЙМИ: ТЕПЕР ЗБЕРІГАЮТЬ ПОВНУ ПІДСВІТКУ */
+        /* ТАЙМФРЕЙМИ */
         .tf-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .tf-btn {
             background-color: var(--card-bg); 
@@ -213,7 +213,6 @@
             border-color: #a855f7; 
             background-color: #1a2030; 
         }
-        /* Стан обраної кнопки тепер залишається яскравим із неоновим свіченням */
         .tf-btn.active { 
             background: var(--accent-gradient);
             color: #ffffff; 
@@ -224,7 +223,7 @@
             filter: var(--hover-brightness);
         }
 
-        /* Кнопки дії без початкової підсвітки */
+        /* Кнопки дії */
         .action-container {
             margin-top: auto; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; align-items: center;
         }
@@ -309,20 +308,21 @@
         .btn-action-signal.new-mode:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: var(--hover-shadow); }
         .btn-action-signal.reset-mode { background-color: #2c3247; color: #a9b2cb; }
 
-        /* М О Д А Л Ь Н Е   В І К Н О   П Р О Ф І Л Ю */
+        /* ВІКНО ПРОФІЛЮ КОРИСТУВАЧА */
         .modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(13, 15, 20, 0.95); z-index: 2000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+            background: rgba(13, 15, 20, 0.96); z-index: 2000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.2s ease;
         }
-        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        .modal-overlay.show { display: flex; opacity: 1; }
         
         .profile-card {
             background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px;
             width: 88%; max-width: 330px; padding: 25px; box-sizing: border-box;
-            position: relative; text-align: center; transform: scale(0.9); transition: transform 0.25s ease;
+            position: relative; text-align: center; transform: scale(0.95); transition: transform 0.2s ease;
             box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            z-index: 2001;
         }
         .modal-overlay.show .profile-card { transform: scale(1); }
         
@@ -347,6 +347,7 @@
         /* Нижня навігація */
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
+            position: relative; z-index: 100;
         }
         .nav-item { 
             color: var(--text-muted); font-size: 18px; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
@@ -376,6 +377,7 @@
 
         <div class="brand-line" id="brandLine">BUTOVSKI</div>
 
+        <!-- Головний екран -->
         <main class="screen" id="mainScreen">
             <div class="dropdown-block" id="typeBlock">
                 <div class="section-title">Тип сигнала</div>
@@ -426,7 +428,7 @@
 
             <div class="action-container">
                 <button class="btn-main" onclick="startSignalProcess()">
-                    <i class="fa-solid fa-bolt"></i> Получить signal
+                    <i class="fa-solid fa-bolt"></i> Получить сигнал
                 </button>
                 <span class="divider-text">или</span>
                 <button class="btn-outline" onclick="triggerAutoSignal()">
@@ -435,6 +437,7 @@
             </div>
         </main>
 
+        <!-- Екран результату сигналу -->
         <main class="screen hidden" id="resultScreen">
             <div class="signal-card">
                 <div class="card-header-title">Сигнал (<span id="resType">OTC</span>)</div>
@@ -472,9 +475,10 @@
             </button>
         </main>
 
+        <!-- МОДАЛЬНЕ ВІКНО ПРОФІЛЮ КОРИСТУВАЧА -->
         <div id="profileModal" class="modal-overlay" onclick="closeProfileOutside(event)">
             <div class="profile-card">
-                <button class="profile-close" onclick="toggleProfile()">✕</button>
+                <button class="profile-close" onclick="switchTab('signals')">✕</button>
                 <div class="profile-header">
                     <img id="userAvatar" src="https://placehold.co/120x120/141822/ffffff.png?text=B" alt="Avatar">
                     <h3 id="userName">Загрузка...</h3>
@@ -497,9 +501,14 @@
             </div>
         </div>
 
+        <!-- Нижня навігаційна панель -->
         <nav class="nav-bar">
-            <div class="nav-item active" id="navSignals" onclick="switchTab('signals')"><i class="fa-solid fa-chart-simple"></i></div>
-            <div class="nav-item" id="navProfile" onclick="switchTab('profile')"><i class="fa-regular fa-user"></i></div>
+            <div class="nav-item active" id="navSignals" onclick="switchTab('signals')">
+                <i class="fa-solid fa-chart-simple" style="pointer-events: none;"></i>
+            </div>
+            <div class="nav-item" id="navProfile" onclick="switchTab('profile')">
+                <i class="fa-regular fa-user" style="pointer-events: none;"></i>
+            </div>
         </nav>
     </div>
 
@@ -522,34 +531,23 @@
         function switchTab(tab) {
             const navSignals = document.getElementById('navSignals');
             const navProfile = document.getElementById('navProfile');
+            const modal = document.getElementById('profileModal');
             
             if (tab === 'profile') {
                 navSignals.classList.remove('active');
                 navProfile.classList.add('active');
-                toggleProfile(true); // Відкрити профіль
-            } else {
-                navProfile.classList.remove('active');
-                navSignals.classList.add('active');
-                toggleProfile(false); // Закрити профіль
-            }
-        }
-
-        // Вікно Профілю
-        function toggleProfile(show) {
-            const modal = document.getElementById('profileModal');
-            if (show) {
                 modal.classList.add('show');
                 loadTelegramUserData();
             } else {
+                navProfile.classList.remove('active');
+                navSignals.classList.add('active');
                 modal.classList.remove('show');
-                document.getElementById('navProfile').classList.remove('active');
-                document.getElementById('navSignals').classList.add('active');
             }
         }
 
         function closeProfileOutside(event) {
             if (event.target.id === 'profileModal') {
-                toggleProfile(false);
+                switchTab('signals');
             }
         }
 
@@ -563,8 +561,7 @@
                     document.getElementById('userAvatar').src = user.photo_url;
                 }
             } else {
-                // Заглушка для перевірки в браузері на ПК
-                document.getElementById('userName').innerText = "Vadim (Тест)";
+                document.getElementById('userName').innerText = "Vadim";
                 document.getElementById('userUsername').innerText = "@butovsk1122";
             }
         }
