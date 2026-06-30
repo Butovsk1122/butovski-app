@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Butovski App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0d0f14;
+            --card-bg: #141822;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
+            --btn-secondary: #1e2538;
+            --text-main: #ffffff;
+            --text-muted: #64748b;
+            --border-color: #232a3d;
+            --red-signal: #ef4444;
+            --green-signal: #22c55e;
+            --hover-brightness: brightness(1.2);
+            --hover-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+            --dropdown-bg: #151a26;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        /* Контейнер додатку */
+        .app-container {
+            width: 100%;
+            max-width: 390px;
+            height: 100vh;
+            max-height: 844px;
+            background-color: var(--bg-color);
+            border-radius: 30px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Шапка */
+        .header {
+            padding: 20px 20px 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 20;
+        }
+
+        .btn-close {
+            color: #3b82f6;
+            background: none;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        .btn-close:hover { opacity: 0.8; }
+
+        .title-block { text-align: center; flex-grow: 1; }
+        .title-block h1 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+        .title-block p { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+        .btn-more { color: var(--text-muted); background: none; border: none; font-size: 18px; cursor: pointer; transition: color 0.2s; }
+        .btn-more:hover { color: var(--text-main); }
+
+        /* Лінія бренду */
+        .brand-line {
+            text-align: center;
+            font-size: 11px;
+            letter-spacing: 5px;
+            color: var(--text-muted);
+            margin: 15px 0 25px;
+            position: relative;
+        }
+        .brand-line::before, .brand-line::after {
+            content: ''; position: absolute; top: 50%; width: 20%; height: 1px; background: linear-gradient(90deg, transparent, var(--border-color));
+        }
+        .brand-line::before { left: 15px; }
+        .brand-line::after { right: 15px; transform: rotate(180deg); }
+
+        /* Екрани */
+        .screen {
+            padding: 0 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .hidden { display: none !important; }
+
+        .section-title {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        /* Контекстні шари для списків */
+        .dropdown-block { position: relative; }
+        #typeBlock { z-index: 50; }
+        #pairBlock { z-index: 40; }
+
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+        }
+        
+        .dropdown-trigger {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 14px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-main);
+            transition: all 0.25s ease;
+        }
+        
+        /* Кнопка типу сигналу без початкової підсвітки */
+        .type-trigger {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+        }
+        .type-trigger:hover {
+            background: var(--accent-gradient);
+            border-color: transparent;
+            box-shadow: var(--hover-shadow);
+        }
+
+        /* Меню списків */
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 100%;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 999;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.7);
+        }
+        .dropdown-menu.show { display: flex; }
+
+        .dropdown-item {
+            padding: 14px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #d1d5db;
+            transition: all 0.2s;
+        }
+        .dropdown-item:hover {
+            background-color: #242c3e;
+            color: #ffffff;
+        }
+
+        .pair-info { display: flex; align-items: center; gap: 10px; }
+        .flags { display: flex; position: relative; width: 28px; height: 18px; }
+        .flag { width: 18px; height: 18px; border-radius: 50%; background-size: cover; border: 1.5px solid var(--card-bg); }
+        .flag-eu { background-image: url('https://flagcdn.com/w40/eu.png'); position: absolute; left: 0; z-index: 2; }
+        .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
+
+        /* ТАЙМФРЕЙМИ: ТЕПЕР ЗБЕРІГАЮТЬ ПОВНУ ПІДСВІТКУ */
+        .tf-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .tf-btn {
+            background-color: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            color: var(--text-muted);
+            padding: 12px 0; 
+            border-radius: 10px; 
+            font-weight: 600; 
+            font-size: 12px; 
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: none;
+        }
+        .tf-btn:hover { 
+            color: var(--text-main); 
+            border-color: #a855f7; 
+            background-color: #1a2030; 
+        }
+        /* Стан обраної кнопки тепер залишається яскравим із неоновим свіченням */
+        .tf-btn.active { 
+            background: var(--accent-gradient);
+            color: #ffffff; 
+            border-color: transparent;
+            box-shadow: var(--hover-shadow);
+        }
+        .tf-btn.active:hover {
+            filter: var(--hover-brightness);
+        }
+
+        /* Кнопки дії без початкової підсвітки */
+        .action-container {
+            margin-top: auto; margin-bottom: 25px; display: flex; flex-direction: column; gap: 12px; align-items: center;
+        }
+
+        .btn-main {
+            width: 100%; 
+            background-color: var(--card-bg);
+            color: var(--text-main); 
+            border: 1px solid var(--border-color); 
+            padding: 16px;
+            border-radius: 14px; 
+            font-weight: 600; 
+            font-size: 14px; 
+            text-transform: uppercase; 
+            cursor: pointer;
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px;
+            box-shadow: none; 
+            transition: all 0.25s ease;
+        }
+        .btn-main:hover { 
+            background: var(--accent-gradient); 
+            border-color: transparent;
+            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6); 
+        }
+
+        .divider-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+        
+        .btn-outline {
+            width: 100%; background: transparent; color: white; border: 1px solid var(--border-color); padding: 16px;
+            border-radius: 14px; font-weight: 600; font-size: 14px; text-transform: uppercase; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-outline:hover { background-color: rgba(255, 255, 255, 0.05); border-color: #64748b; }
+
+        /* Екран завантаження */
+        .loading-overlay {
+            position: absolute; top: 70px; left: 0; width: 100%; height: calc(100% - 70px);
+            background-color: var(--bg-color); z-index: 10; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+        }
+        .spinner {
+            width: 55px; height: 55px; border: 3px solid rgba(168, 85, 247, 0.1); border-radius: 50%;
+            border-top-color: #a855f7; border-right-color: #6366f1; animation: spin 1s linear infinite; margin-bottom: 35px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loader-brand { font-size: 13px; font-weight: 600; letter-spacing: 6px; color: #ffffff; text-transform: uppercase; margin-bottom: 12px; padding-left: 6px; }
+        .loader-status { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
+
+        /* Екран результату */
+        .signal-card {
+            background-color: #131722; border: 1px solid #1f2535; border-radius: 18px; padding: 24px; display: flex; flex-direction: column; position: relative;
+        }
+        .card-header-title { text-align: center; font-size: 15px; font-weight: 600; margin-bottom: 25px; letter-spacing: 0.5px; }
+        .grid-info { display: grid; grid-template-columns: 1fr 1fr; row-gap: 20px; margin-bottom: 25px; }
+        .info-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .info-value { font-size: 14px; font-weight: 600; }
+        .direction-value { display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; }
+        
+        .dir-down { color: var(--red-signal); }
+        .dir-up { color: var(--green-signal); }
+
+        .timer-section { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 10px; }
+        .progress-bar-container { width: 100%; height: 8px; background-color: #1c2132; border-radius: 10px; overflow: hidden; position: relative; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5); }
+        .progress-fill { height: 100%; width: 100%; transition: width 1s linear; }
+        
+        .bg-red { background-color: var(--red-signal); box-shadow: 0 0 12px var(--red-signal); }
+        .bg-green { background-color: var(--green-signal); box-shadow: 0 0 12px var(--green-signal); }
+        .timer-text { font-size: 11px; font-weight: 600; color: #ffffff; letter-spacing: 0.5px; }
+
+        .btn-action-signal {
+            width: 100%; background-color: #2c3247; color: #ffffff; border: none; padding: 16px; border-radius: 14px;
+            font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer;
+            margin-top: auto; margin-bottom: 25px; transition: all 0.25s ease;
+            box-shadow: none;
+        }
+        .btn-action-signal.reset-mode:hover { background-color: #383f59; color: #ffffff; }
+        .btn-action-signal.new-mode { background-color: var(--card-bg); color: white; border: 1px solid var(--border-color); }
+        .btn-action-signal.new-mode:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: var(--hover-shadow); }
+        .btn-action-signal.reset-mode { background-color: #2c3247; color: #a9b2cb; }
+
+        /* Нижня навігація */
+        .nav-bar {
+            background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
+        }
+        .nav-item { 
+            color: var(--text-muted); font-size: 18px; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
+        }
+        .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
+        .nav-item.active { background-color: #1e2538; color: #ffffff; border: 1px solid #6366f1; }
+        .nav-item.active:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: var(--hover-shadow); }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <button class="btn-close" onclick="if(window.Telegram && Telegram.WebApp) Telegram.WebApp.close();">Закрыть</button>
+            <div class="title-block">
+                <h1>Butovski App</h1>
+                <p>мини-приложение</p>
+            </div>
+            <button class="btn-more"><i class="fa-solid fa-ellipsis"></i></button>
+        </header>
+
+        <div class="loading-overlay hidden" id="loadingScreen">
+            <div class="spinner"></div>
+            <div class="loader-brand">Butovski</div>
+            <div class="loader-status">Поиск сигнала</div>
+        </div>
+
+        <div class="brand-line" id="brandLine">BUTOVSKI</div>
+
+        <main class="screen" id="mainScreen">
+            <div class="dropdown-block" id="typeBlock">
+                <div class="section-title">Тип сигнала</div>
+                <div class="custom-dropdown">
+                    <div class="dropdown-trigger type-trigger" onclick="toggleDropdown('typeMenu')">
+                        <span id="currentTypeLabel">OTC</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                    <div class="dropdown-menu" id="typeMenu">
+                        <div class="dropdown-item" onclick="selectType('OTC')">OTC (Внебиржевой)</div>
+                        <div class="dropdown-item" onclick="selectType('Реальный рынок')">Реальный рынок</div>
+                        <div class="dropdown-item" onclick="selectType('Crypto')">Crypto (Индекс)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown-block" id="pairBlock">
+                <div class="section-title">Валютная пара</div>
+                <div class="custom-dropdown">
+                    <div class="dropdown-trigger" onclick="toggleDropdown('pairMenu')">
+                        <div class="pair-info">
+                            <div class="flags">
+                                <div class="flag flag-eu"></div>
+                                <div class="flag flag-us"></div>
+                            </div>
+                            <span class="pair-name" id="currentPairLabel">EUR/USD OTC</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 12px; color: var(--text-muted);"></i>
+                    </div>
+                    <div class="dropdown-menu" id="pairMenu">
+                        <div class="dropdown-item" onclick="selectPair('EUR/USD OTC')">EUR/USD OTC</div>
+                        <div class="dropdown-item" onclick="selectPair('GBP/USD OTC')">GBP/USD OTC</div>
+                        <div class="dropdown-item" onclick="selectPair('USD/JPY OTC')">USD/JPY OTC</div>
+                        <div class="dropdown-item" onclick="selectPair('EUR/GBP OTC')">EUR/GBP OTC</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="section-title">Таймфрейм</div>
+                <div class="tf-container" id="timeframeContainer">
+                    <button class="tf-btn active" data-minutes="1" onclick="selectTimeframe(this)">1 M</button>
+                    <button class="tf-btn" data-minutes="3" onclick="selectTimeframe(this)">3 M</button>
+                    <button class="tf-btn" data-minutes="5" onclick="selectTimeframe(this)">5 M</button>
+                    <button class="tf-btn" data-minutes="10" onclick="selectTimeframe(this)">10 M</button>
+                </div>
+            </div>
+
+            <div class="action-container">
+                <button class="btn-main" onclick="startSignalProcess()">
+                    <i class="fa-solid fa-bolt"></i> Получить сигнал
+                </button>
+                <span class="divider-text">или</span>
+                <button class="btn-outline" onclick="triggerAutoSignal()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Автосигнал
+                </button>
+            </div>
+        </main>
+
+        <main class="screen hidden" id="resultScreen">
+            <div class="signal-card">
+                <div class="card-header-title">Сигнал (<span id="resType">OTC</span>)</div>
+                
+                <div class="grid-info">
+                    <div>
+                        <div class="info-label">Валютная пара</div>
+                        <div class="info-value" id="resPair">EUR/USD OTC</div>
+                    </div>
+                    <div>
+                        <div class="info-label">Точность</div>
+                        <div class="info-value" id="resAccuracy">81%</div>
+                    </div>
+                    <div>
+                        <div class="info-label">Таймфрейм</div>
+                        <div class="info-value" id="resTimeframe">1 m</div>
+                    </div>
+                    <div>
+                        <div class="info-label">Направление</div>
+                        <div class="direction-value" id="resDirection"></div>
+                    </div>
+                </div>
+
+                <div class="timer-section">
+                    <div class="info-label" style="align-self: flex-start;">Время до конца</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="timer-text" id="timerDigits">00:00/00:00</div>
+                </div>
+            </div>
+
+            <button class="btn-action-signal reset-mode" id="signalActionButton" onclick="handleSignalAction()">
+                Сбросить сигнал
+            </button>
+        </main>
+
+        <nav class="nav-bar">
+            <div class="nav-item active"><i class="fa-solid fa-chart-simple"></i></div>
+            <div class="nav-item"><i class="fa-regular fa-user"></i></div>
+        </nav>
+    </div>
+
+    <script>
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+        }
+
+        let countdownInterval;
+        let totalSeconds = 60; 
+        let secondsLeft = totalSeconds;
+        
+        let selectedType = "OTC";
+        let selectedPair = "EUR/USD OTC";
+        let selectedTimeframeText = "1 m";
+        let selectedMinutes = 1; 
+
+        function toggleDropdown(menuId) {
+            const menus = ['typeMenu', 'pairMenu'];
+            menus.forEach(id => {
+                if(id !== menuId) document.getElementById(id).classList.remove('show');
+            });
+            document.getElementById(menuId).classList.toggle('show');
+        }
+
+        function selectType(type) {
+            selectedType = type;
+            document.getElementById('currentTypeLabel').innerText = type;
+            document.getElementById('typeMenu').classList.remove('show');
+        }
+
+        function selectPair(pair) {
+            selectedPair = pair;
+            document.getElementById('currentPairLabel').innerText = pair;
+            document.getElementById('pairMenu').classList.remove('show');
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.custom-dropdown')) {
+                document.getElementById('typeMenu').classList.remove('show');
+                document.getElementById('pairMenu').classList.remove('show');
+            }
+        }
+
+        function selectTimeframe(element) {
+            document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active'); // Залишає підсвітку активною
+            selectedTimeframeText = element.innerText.toLowerCase();
+            selectedMinutes = parseInt(element.getAttribute('data-minutes'));
+        }
+
+        // Логіка для кнопки "Автосигнал"
+        function triggerAutoSignal() {
+            const buttons = document.querySelectorAll('.tf-btn');
+            // Обираємо рандомну кнопку таймфрейму з чотирьох доступних
+            const randomIndex = Math.floor(Math.random() * buttons.length);
+            const randomButton = buttons[randomIndex];
+            
+            // Емулюємо клік по ній (активуємо та підсвічуємо)
+            selectTimeframe(randomButton);
+            
+            // Запускаємо стандартний процес завантаження та пошуку
+            startSignalProcess();
+        }
+
+        function startSignalProcess() {
+            document.getElementById('mainScreen').classList.add('hidden');
+            document.getElementById('brandLine').classList.add('hidden');
+            document.getElementById('loadingScreen').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+                generateAndShowSignal();
+            }, 3000);
+        }
+
+        function generateAndShowSignal() {
+            document.getElementById('resPair').innerText = selectedPair;
+            document.getElementById('resTimeframe').innerText = selectedTimeframeText;
+            document.getElementById('resType').innerText = selectedType;
+
+            totalSeconds = selectedMinutes * 60;
+            secondsLeft = totalSeconds;
+
+            const randomAccuracy = Math.floor(Math.random() * (90 - 74 + 1)) + 74;
+            document.getElementById('resAccuracy').innerText = randomAccuracy + '%';
+
+            const directions = ['UP', 'DOWN'];
+            const randomDir = directions[Math.floor(Math.random() * directions.length)];
+            
+            const dirContainer = document.getElementById('resDirection');
+            const progressFill = document.getElementById('progressFill');
+
+            progressFill.className = "progress-fill";
+
+            if (randomDir === 'UP') {
+                dirContainer.className = "direction-value dir-up";
+                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> Вверх ${selectedMinutes} мин`;
+                progressFill.classList.add('bg-green');
+            } else {
+                dirContainer.className = "direction-value dir-down";
+                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> Вниз ${selectedMinutes} мин`;
+                progressFill.classList.add('bg-red');
+            }
+
+            document.getElementById('resultScreen').classList.remove('hidden');
+            
+            const actionBtn = document.getElementById('signalActionButton');
+            actionBtn.innerText = "Сбросить сигнал";
+            actionBtn.className = "btn-action-signal reset-mode";
+
+            updateTimerUI();
+
+            clearInterval(countdownInterval);
+            countdownInterval = setInterval(() => {
+                secondsLeft--;
+                updateTimerUI();
+
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    timerFinished();
+                }
+            }, 1000);
+        }
+
+        function updateTimerUI() {
+            const progressFill = document.getElementById('progressFill');
+            const timerDigits = document.getElementById('timerDigits');
+            
+            const percentage = (secondsLeft / totalSeconds) * 100;
+            progressFill.style.width = percentage + '%';
+
+            const currentMins = Math.floor(secondsLeft / 60);
+            const currentSecs = secondsLeft % 60;
+
+            const totalMins = Math.floor(totalSeconds / 60);
+            const totalSecs = totalSeconds % 60;
+
+            const strCurrentMins = currentMins < 10 ? '0' + currentMins : currentMins;
+            const strCurrentSecs = currentSecs < 10 ? '0' + currentSecs : currentSecs;
+            const strTotalMins = totalMins < 10 ? '0' + totalMins : totalMins;
+            const strTotalSecs = totalSecs < 10 ? '0' + totalSecs : totalSecs;
+
+            timerDigits.innerText = `${strCurrentMins}:${strCurrentSecs}/${strTotalMins}:${strTotalSecs}`;
+        }
+
+        function timerFinished() {
+            const actionBtn = document.getElementById('signalActionButton');
+            actionBtn.innerText = "Новый сигнал";
+            actionBtn.className = "btn-action-signal new-mode";
+        }
+
+        function handleSignalAction() {
+            clearInterval(countdownInterval);
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('mainScreen').classList.remove('hidden');
+            document.getElementById('brandLine').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
