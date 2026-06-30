@@ -263,7 +263,7 @@
         }
         .btn-outline:hover { background-color: rgba(255, 255, 255, 0.05); border-color: #64748b; }
 
-        /* Екран завантаження */
+        /* Екрани завантаження */
         .loading-overlay {
             position: absolute; top: 70px; left: 0; width: 100%; height: calc(100% - 70px);
             background-color: var(--bg-color); z-index: 10; display: flex; flex-direction: column;
@@ -308,6 +308,41 @@
         .btn-action-signal.new-mode { background-color: var(--card-bg); color: white; border: 1px solid var(--border-color); }
         .btn-action-signal.new-mode:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: var(--hover-shadow); }
         .btn-action-signal.reset-mode { background-color: #2c3247; color: #a9b2cb; }
+
+        /* М О Д А Л Ь Н Е   В І К Н О   П Р О Ф І Л Ю */
+        .modal-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(13, 15, 20, 0.95); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+        }
+        .modal-overlay.show { opacity: 1; pointer-events: auto; }
+        
+        .profile-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px;
+            width: 88%; max-width: 330px; padding: 25px; box-sizing: border-box;
+            position: relative; text-align: center; transform: scale(0.9); transition: transform 0.25s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+        .modal-overlay.show .profile-card { transform: scale(1); }
+        
+        .profile-close {
+            position: absolute; top: 14px; right: 16px;
+            background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer;
+        }
+        .profile-header img {
+            width: 75px; height: 75px; border-radius: 50%; border: 2px solid #a855f7;
+            margin-bottom: 12px; object-fit: cover; box-shadow: var(--hover-shadow);
+        }
+        .profile-header h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+        .profile-header p { color: var(--text-muted); font-size: 13px; margin-bottom: 22px; }
+        
+        .profile-info-list { text-align: left; background: #0d1017; border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
+        .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; }
+        .info-item:last-child { margin-bottom: 0; }
+        .info-label { color: var(--text-muted); font-weight: 500; }
+        .info-value { font-weight: 600; color: var(--text-main); }
+        .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
         /* Нижня навігація */
         .nav-bar {
@@ -391,7 +426,7 @@
 
             <div class="action-container">
                 <button class="btn-main" onclick="startSignalProcess()">
-                    <i class="fa-solid fa-bolt"></i> Получить сигнал
+                    <i class="fa-solid fa-bolt"></i> Получить signal
                 </button>
                 <span class="divider-text">или</span>
                 <button class="btn-outline" onclick="triggerAutoSignal()">
@@ -437,9 +472,34 @@
             </button>
         </main>
 
+        <div id="profileModal" class="modal-overlay" onclick="closeProfileOutside(event)">
+            <div class="profile-card">
+                <button class="profile-close" onclick="toggleProfile()">✕</button>
+                <div class="profile-header">
+                    <img id="userAvatar" src="https://placehold.co/120x120/141822/ffffff.png?text=B" alt="Avatar">
+                    <h3 id="userName">Загрузка...</h3>
+                    <p id="userUsername">@username</p>
+                </div>
+                <div class="profile-info-list">
+                    <div class="info-item">
+                        <span class="info-label">Тип аккаунту:</span>
+                        <span class="info-value" style="color: #6366f1;">Партнерский (Pocket Option)</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Статус подписки:</span>
+                        <span class="info-value status-badge">VIP Доступ</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Срок действия:</span>
+                        <span class="info-value">Безлимитно</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <nav class="nav-bar">
-            <div class="nav-item active"><i class="fa-solid fa-chart-simple"></i></div>
-            <div class="nav-item"><i class="fa-regular fa-user"></i></div>
+            <div class="nav-item active" id="navSignals" onclick="switchTab('signals')"><i class="fa-solid fa-chart-simple"></i></div>
+            <div class="nav-item" id="navProfile" onclick="switchTab('profile')"><i class="fa-regular fa-user"></i></div>
         </nav>
     </div>
 
@@ -458,6 +518,58 @@
         let selectedTimeframeText = "1 m";
         let selectedMinutes = 1; 
 
+        // Керування табами (Навігація)
+        function switchTab(tab) {
+            const navSignals = document.getElementById('navSignals');
+            const navProfile = document.getElementById('navProfile');
+            
+            if (tab === 'profile') {
+                navSignals.classList.remove('active');
+                navProfile.classList.add('active');
+                toggleProfile(true); // Відкрити профіль
+            } else {
+                navProfile.classList.remove('active');
+                navSignals.classList.add('active');
+                toggleProfile(false); // Закрити профіль
+            }
+        }
+
+        // Вікно Профілю
+        function toggleProfile(show) {
+            const modal = document.getElementById('profileModal');
+            if (show) {
+                modal.classList.add('show');
+                loadTelegramUserData();
+            } else {
+                modal.classList.remove('show');
+                document.getElementById('navProfile').classList.remove('active');
+                document.getElementById('navSignals').classList.add('active');
+            }
+        }
+
+        function closeProfileOutside(event) {
+            if (event.target.id === 'profileModal') {
+                toggleProfile(false);
+            }
+        }
+
+        // Автоматичне отримання даних із Telegram WebApp
+        function loadTelegramUserData() {
+            if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
+                const user = Telegram.WebApp.initDataUnsafe.user;
+                document.getElementById('userName').innerText = (user.first_name + ' ' + (user.last_name || '')).trim();
+                document.getElementById('userUsername').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
+                if (user.photo_url) {
+                    document.getElementById('userAvatar').src = user.photo_url;
+                }
+            } else {
+                // Заглушка для перевірки в браузері на ПК
+                document.getElementById('userName').innerText = "Vadim (Тест)";
+                document.getElementById('userUsername').innerText = "@butovsk1122";
+            }
+        }
+
+        // Твоя логіка випадаючих списків
         function toggleDropdown(menuId) {
             const menus = ['typeMenu', 'pairMenu'];
             menus.forEach(id => {
@@ -480,29 +592,23 @@
 
         window.onclick = function(event) {
             if (!event.target.closest('.custom-dropdown')) {
-                document.getElementById('typeMenu').classList.remove('show');
-                document.getElementById('pairMenu').classList.remove('show');
+                if(document.getElementById('typeMenu')) document.getElementById('typeMenu').classList.remove('show');
+                if(document.getElementById('pairMenu')) document.getElementById('pairMenu').classList.remove('show');
             }
         }
 
         function selectTimeframe(element) {
             document.querySelectorAll('.tf-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active'); // Залишає підсвітку активною
+            element.classList.add('active');
             selectedTimeframeText = element.innerText.toLowerCase();
             selectedMinutes = parseInt(element.getAttribute('data-minutes'));
         }
 
-        // Логіка для кнопки "Автосигнал"
         function triggerAutoSignal() {
             const buttons = document.querySelectorAll('.tf-btn');
-            // Обираємо рандомну кнопку таймфрейму з чотирьох доступних
             const randomIndex = Math.floor(Math.random() * buttons.length);
             const randomButton = buttons[randomIndex];
-            
-            // Емулюємо клік по ній (активуємо та підсвічуємо)
             selectTimeframe(randomButton);
-            
-            // Запускаємо стандартний процес завантаження та пошуку
             startSignalProcess();
         }
 
