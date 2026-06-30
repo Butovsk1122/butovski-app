@@ -377,7 +377,6 @@
 
         <div class="brand-line" id="brandLine">BUTOVSKI</div>
 
-        <!-- Головний екран -->
         <main class="screen" id="mainScreen">
             <div class="dropdown-block" id="typeBlock">
                 <div class="section-title">Тип сигнала</div>
@@ -437,7 +436,6 @@
             </div>
         </main>
 
-        <!-- Екран результату сигналу -->
         <main class="screen hidden" id="resultScreen">
             <div class="signal-card">
                 <div class="card-header-title">Сигнал (<span id="resType">OTC</span>)</div>
@@ -475,7 +473,6 @@
             </button>
         </main>
 
-        <!-- МОДАЛЬНЕ ВІКНО ПРОФІЛЮ КОРИСТУВАЧА -->
         <div id="profileModal" class="modal-overlay" onclick="closeProfileOutside(event)">
             <div class="profile-card">
                 <button class="profile-close" onclick="switchTab('signals')">✕</button>
@@ -501,7 +498,6 @@
             </div>
         </div>
 
-        <!-- Нижня навігаційна панель -->
         <nav class="nav-bar">
             <div class="nav-item active" id="navSignals" onclick="switchTab('signals')">
                 <i class="fa-solid fa-chart-simple" style="pointer-events: none;"></i>
@@ -513,9 +509,13 @@
     </div>
 
     <script>
+        // Автоматична ініціалізація WebApp та миттєве завантаження даних ПРИ ВХОДІ
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
+            
+            // Запускаємо відмальовку даних профілю одразу
+            loadTelegramUserData();
         }
 
         let countdownInterval;
@@ -537,7 +537,6 @@
                 navSignals.classList.remove('active');
                 navProfile.classList.add('active');
                 modal.classList.add('show');
-                loadTelegramUserData();
             } else {
                 navProfile.classList.remove('active');
                 navSignals.classList.add('active');
@@ -551,22 +550,35 @@
             }
         }
 
-        // Автоматичне отримання даних із Telegram WebApp
+        // Функція отримання реальних даних з Telegram
         function loadTelegramUserData() {
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
                 const user = Telegram.WebApp.initDataUnsafe.user;
-                document.getElementById('userName').innerText = (user.first_name + ' ' + (user.last_name || '')).trim();
+                
+                // Формуємо повне ім'я
+                const fullName = (user.first_name + ' ' + (user.last_name || '')).trim();
+                document.getElementById('userName').innerText = fullName;
+                
+                // Ставимо юзернейм або ID (якщо ніка немає)
                 document.getElementById('userUsername').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
+                
+                // Пробуємо завантажити аватарку
                 if (user.photo_url) {
                     document.getElementById('userAvatar').src = user.photo_url;
+                } else {
+                    // Красива дефолтна заглушка, якщо аватарка прихована
+                    const firstLetter = user.first_name ? user.first_name.charAt(0).toUpperCase() : 'U';
+                    document.getElementById('userAvatar').src = `https://placehold.co/120x120/141822/ffffff.png?text=${firstLetter}`;
                 }
             } else {
-                document.getElementById('userName').innerText = "Vadim";
-                document.getElementById('userUsername').innerText = "@butovsk1122";
+                // Запасні дані для перегляду у звичайному браузері комп'ютера
+                document.getElementById('userName').innerText = "Тестовый Пользователь";
+                document.getElementById('userUsername').innerText = "@test_user";
+                document.getElementById('userAvatar').src = "https://placehold.co/120x120/141822/ffffff.png?text=T";
             }
         }
 
-        // Твоя логіка випадаючих списків
+        // Логіка випадаючих списків
         function toggleDropdown(menuId) {
             const menus = ['typeMenu', 'pairMenu'];
             menus.forEach(id => {
