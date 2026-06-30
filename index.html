@@ -124,7 +124,7 @@
             font-weight: 500;
         }
 
-        /* Багатошаровість контексту */
+        /* Випадаючі списки */
         .dropdown-block { position: relative; }
         #typeBlock { z-index: 200; }
         #pairBlock { z-index: 150; }
@@ -149,7 +149,6 @@
             transition: all 0.25s ease;
         }
         
-        /* Кнопка типу сигналу */
         .type-trigger {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -161,7 +160,6 @@
             box-shadow: var(--hover-shadow);
         }
 
-        /* Меню списків зі скролом */
         .dropdown-menu {
             position: absolute;
             top: calc(100% + 6px);
@@ -179,19 +177,10 @@
         }
         .dropdown-menu.show { display: flex; }
 
-        .dropdown-menu::-webkit-scrollbar {
-            width: 6px;
-        }
-        .dropdown-menu::-webkit-scrollbar-track {
-            background: rgba(0,0,0,0.1);
-            border-radius: 14px;
-        }
-        .dropdown-menu::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 14px;
-        }
+        .dropdown-menu::-webkit-scrollbar { width: 6px; }
+        .dropdown-menu::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 14px; }
+        .dropdown-menu::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 14px; }
 
-        /* Заголовки категорій у меню валютних пар */
         .dropdown-category {
             padding: 10px 16px 6px;
             font-size: 10px;
@@ -205,23 +194,10 @@
             top: 0;
             z-index: 10;
         }
-        .dropdown-category:not(:first-child) {
-            position: relative;
-            top: auto;
-        }
+        .dropdown-category:not(:first-child) { position: relative; top: auto; }
 
-        .dropdown-item {
-            padding: 14px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            color: #d1d5db;
-            transition: all 0.2s;
-        }
-        .dropdown-item:hover {
-            background-color: #242c3e;
-            color: #ffffff;
-        }
+        .dropdown-item { padding: 14px 16px; font-size: 14px; font-weight: 500; cursor: pointer; color: #d1d5db; transition: all 0.2s; }
+        .dropdown-item:hover { background-color: #242c3e; color: #ffffff; }
 
         .pair-info { display: flex; align-items: center; gap: 10px; }
         .flags { display: flex; position: relative; width: 28px; height: 18px; }
@@ -229,7 +205,7 @@
         .flag-eu { background-image: url('https://flagcdn.com/w40/eu.png'); position: absolute; left: 0; z-index: 2; }
         .flag-us { background-image: url('https://flagcdn.com/w40/us.png'); position: absolute; left: 12px; z-index: 1; }
 
-        /* СІТКА ТАЙМФРЕЙМІВ */
+        /* Сітка таймфреймів */
         .tf-container { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
@@ -249,20 +225,14 @@
             transition: all 0.25s ease;
             box-shadow: none;
         }
-        .tf-btn:hover { 
-            color: var(--text-main); 
-            border-color: #a855f7; 
-            background-color: #1a2030; 
-        }
+        .tf-btn:hover { color: var(--text-main); border-color: #a855f7; background-color: #1a2030; }
         .tf-btn.active { 
             background: var(--accent-gradient);
             color: #ffffff; 
             border-color: transparent;
             box-shadow: var(--hover-shadow);
         }
-        .tf-btn.active:hover {
-            filter: var(--hover-brightness);
-        }
+        .tf-btn.active:hover { filter: var(--hover-brightness); }
 
         /* Кнопки дії */
         .action-container {
@@ -271,52 +241,26 @@
         }
 
         .btn-main {
-            width: 100%; 
-            background-color: var(--card-bg);
-            color: var(--text-main); 
-            border: 1px solid var(--border-color); 
-            padding: 16px;
-            border-radius: 14px; 
-            font-weight: 600; 
-            font-size: 14px; 
-            text-transform: uppercase; 
-            cursor: pointer;
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 8px;
-            box-shadow: none; 
-            transition: all 0.25s ease;
+            width: 100%; background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 16px;
+            border-radius: 14px; font-weight: 600; font-size: 14px; text-transform: uppercase; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.25s ease;
         }
-        .btn-main:hover { 
-            background: var(--accent-gradient); 
-            border-color: transparent;
-            box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6); 
-        }
+        .btn-main:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: 0 6px 25px rgba(139, 92, 246, 0.6); }
 
         .divider-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
         
         .btn-outline {
             width: 100%; background: transparent; color: white; border: 1px solid var(--border-color); padding: 16px;
             border-radius: 14px; font-weight: 600; font-size: 14px; text-transform: uppercase; cursor: pointer;
-            display: flex; justify-content: center; align-items: center; gap: 8px;
-            transition: all 0.2s;
+            display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s;
         }
         .btn-outline:hover { background-color: rgba(255, 255, 255, 0.05); border-color: #64748b; }
 
-        /* ВИПРАВЛЕНО: Екран завантаження тепер перекриває абсолютно все (z-index: 30000) */
+        /* Екран завантаження */
         .loading-overlay {
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%;
-            background-color: var(--bg-color); 
-            z-index: 30000; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-color); z-index: 30000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
         }
         .spinner {
             width: 55px; height: 55px; border: 3px solid rgba(168, 85, 247, 0.1); border-radius: 50%;
@@ -350,15 +294,13 @@
         .btn-action-signal {
             width: 100%; background-color: #2c3247; color: #ffffff; border: none; padding: 16px; border-radius: 14px;
             font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer;
-            margin-top: auto; margin-bottom: 25px; transition: all 0.25s ease;
-            box-shadow: none;
+            margin-top: auto; margin-bottom: 25px; transition: all 0.25s ease; box-shadow: none;
         }
         .btn-action-signal.reset-mode:hover { background-color: #383f59; color: #ffffff; }
         .btn-action-signal.new-mode { background-color: var(--card-bg); color: white; border: 1px solid var(--border-color); }
         .btn-action-signal.new-mode:hover { background: var(--accent-gradient); border-color: transparent; box-shadow: var(--hover-shadow); }
-        .btn-action-signal.reset-mode { background-color: #2c3247; color: #a9b2cb; }
 
-        /* ВІКНО ПРОФІЛЮ КОРИСТУВАЧА */
+        /* Вікно профілю */
         .modal-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(13, 15, 20, 0.96); z-index: 20000;
@@ -371,12 +313,10 @@
             background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px;
             width: 88%; max-width: 330px; padding: 25px; box-sizing: border-box;
             position: relative; text-align: center; transform: scale(0.95); transition: transform 0.2s ease;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-            z-index: 20001;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6); z-index: 20001;
         }
         .modal-overlay.show .profile-card { transform: scale(1); }
         
-        /* ВИПРАВЛЕНО: Кнопка закриття профілю */
         .profile-close {
             position: absolute; top: 14px; right: 16px;
             background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer;
@@ -396,17 +336,17 @@
         .info-value { font-weight: 600; color: var(--text-main); }
         .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
-        /* НАВІГАЦІЯ */
+        /* Навігація */
         .nav-bar {
             background-color: #0a0c10; border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px;
             position: relative; z-index: 1000;
+            margin-top: auto; /* ВИПРАВЛЕНО: Навігація завжди притиснута до низу додатка */
         }
         .nav-item { 
             color: var(--text-muted); font-size: 18px; width: 42px; height: 42px; display: flex; justify-content: center; align-items: center; border-radius: 12px; cursor: pointer; transition: all 0.25s ease;
         }
         .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
         
-        /* ВИПРАВЛЕНО: Жорстке та яскраве підсвічування для обох кнопок через !important */
         .nav-item.active { 
             background: var(--accent-gradient) !important; 
             color: #ffffff !important; 
@@ -575,7 +515,7 @@
             </div>
         </div>
 
-        <nav class="nav-bar">
+        <nav class="nav-bar" id="mainNavigation">
             <div class="nav-item active" id="navSignals" onclick="switchTab('signals')">
                 <i class="fa-solid fa-chart-simple" style="pointer-events: none;"></i>
             </div>
@@ -601,7 +541,6 @@
         let selectedTimeframeText = "1 m";
         let selectedMinutes = 1; 
 
-        // ВИПРАВЛЕНО: Чітка зміна класів та активного стану кнопок
         function switchTab(tab) {
             const navSignals = document.getElementById('navSignals');
             const navProfile = document.getElementById('navProfile');
@@ -693,9 +632,11 @@
             startSignalProcess();
         }
 
+        // ВИПРАВЛЕНО: приховуємо навігацію на час пошуку сигналу
         function startSignalProcess() {
             document.getElementById('mainScreen').classList.add('hidden');
             document.getElementById('brandLine').classList.add('hidden');
+            document.getElementById('mainNavigation').classList.add('hidden'); // Приховуємо меню
             document.getElementById('loadingScreen').classList.remove('hidden');
 
             setTimeout(() => {
@@ -734,6 +675,7 @@
             }
 
             document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('mainNavigation').classList.remove('hidden'); // Повертаємо меню для екрана результату
             
             const actionBtn = document.getElementById('signalActionButton');
             actionBtn.innerText = "Сбросить сигнал";
@@ -785,6 +727,7 @@
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('mainScreen').classList.remove('hidden');
             document.getElementById('brandLine').classList.remove('hidden');
+            document.getElementById('mainNavigation').classList.remove('hidden'); // Переконуємось, що меню на місці
         }
     </script>
 </body>
