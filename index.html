@@ -610,7 +610,7 @@
                 const initData = window.Telegram.WebApp.initData;
 
                 // Замініть адресу нижче на ваш підключений бекенд
-                fetch('https://butovski-signal-bot.onrender.com', {
+                fetch('https://butovski-signal-bot.onrender.com/check-user', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ initData: initData })
