@@ -65,7 +65,7 @@
             justify-content: space-between;
             align-items: center;
             position: relative;
-            z-index: 100;
+            z-index: 10005; /* Піднято для меню мови */
         }
 
         .btn-close {
@@ -83,8 +83,37 @@
         .title-block h1 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
         .title-block p { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
-        .btn-more { color: var(--text-muted); background: none; border: none; font-size: 18px; cursor: pointer; transition: color 0.2s; }
+        .btn-more-container { position: relative; }
+        .btn-more { color: var(--text-muted); background: none; border: none; font-size: 18px; cursor: pointer; transition: color 0.2s; padding: 5px; }
         .btn-more:hover { color: var(--text-main); }
+
+        /* Меню перемикання мови */
+        .lang-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            width: 150px;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: none;
+            flex-direction: column;
+            z-index: 20000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+        }
+        .lang-dropdown-menu.show { display: flex; }
+        .lang-item {
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #d1d5db;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .lang-item:hover { background-color: #242c3e; color: #ffffff; }
+        .lang-item.active { color: #a855f7; font-weight: 600; }
 
         /* Лінія бренду */
         .brand-line {
@@ -347,7 +376,6 @@
         }
         .nav-item:hover { color: var(--text-main); background-color: rgba(255, 255, 255, 0.05); }
         
-        /* ВИПРАВЛЕНО: Залізобетонна підсвітка кнопок та білий колір для іконки всередині */
         .nav-item.active { 
             background: var(--accent-gradient) !important; 
             border: none !important;
@@ -363,42 +391,49 @@
 
     <div class="app-container">
         <header class="header">
-            <button class="btn-close" onclick="if(window.Telegram && Telegram.WebApp) Telegram.WebApp.close();">Закрыть</button>
+            <button class="btn-close" id="lblClose" onclick="if(window.Telegram && Telegram.WebApp) Telegram.WebApp.close();">Закрыть</button>
             <div class="title-block">
                 <h1>Butovski App</h1>
-                <p>мини-приложение</p>
+                <p id="lblSubTitle">мини-приложение</p>
             </div>
-            <button class="btn-more"><i class="fa-solid fa-ellipsis"></i></button>
+            <div class="btn-more-container">
+                <button class="btn-more" onclick="toggleDropdown('langMenu', event)"><i class="fa-solid fa-ellipsis"></i></button>
+                <!-- Випадаюче вікно зміни мови -->
+                <div class="lang-dropdown-menu" id="langMenu">
+                    <div class="lang-item active" id="lang-ru" onclick="changeLanguage('ru')">Русский</div>
+                    <div class="lang-item" id="lang-uk" onclick="changeLanguage('uk')">Українська</div>
+                    <div class="lang-item" id="lang-en" onclick="changeLanguage('en')">English</div>
+                </div>
+            </div>
         </header>
 
         <div class="loading-overlay hidden" id="loadingScreen">
             <div class="spinner"></div>
             <div class="loader-brand">Butovski</div>
-            <div class="loader-status">Поиск сигнала</div>
+            <div class="loader-status" id="lblLoadingStatus">Поиск сигнала</div>
         </div>
 
         <div class="brand-line" id="brandLine">BUTOVSKI</div>
 
+        <!-- Головний екран -->
         <main class="screen" id="mainScreen">
             <div class="dropdown-block" id="typeBlock">
-                <div class="section-title">Тип сигнала</div>
+                <div class="section-title" id="lblTypeTitle">Тип сигнала</div>
                 <div class="custom-dropdown">
-                    <div class="dropdown-trigger type-trigger" onclick="toggleDropdown('typeMenu')">
+                    <div class="dropdown-trigger type-trigger" onclick="toggleDropdown('typeMenu', event)">
                         <span id="currentTypeLabel">OTC</span>
                         <i class="fa-solid fa-chevron-down" style="font-size: 12px; color: var(--text-muted);"></i>
                     </div>
                     <div class="dropdown-menu" id="typeMenu">
-                        <div class="dropdown-item" onclick="selectType('OTC')">OTC (Внебиржевой)</div>
-                        <div class="dropdown-item" onclick="selectType('Реальный рынок')">Реальный рынок</div>
-                        <div class="dropdown-item" onclick="selectType('Crypto')">Crypto (Индекс)</div>
+                        <!-- Буде генеруватися через JS залежно від мови -->
                     </div>
                 </div>
             </div>
 
             <div class="dropdown-block" id="pairBlock">
-                <div class="section-title">Валютная пара</div>
+                <div class="section-title" id="lblPairTitle">Валютная пара</div>
                 <div class="custom-dropdown">
-                    <div class="dropdown-trigger" onclick="toggleDropdown('pairMenu')">
+                    <div class="dropdown-trigger" onclick="toggleDropdown('pairMenu', event)">
                         <div class="pair-info">
                             <div class="flags">
                                 <div class="flag flag-eu"></div>
@@ -410,31 +445,13 @@
                     </div>
                     
                     <div class="dropdown-menu" id="pairMenu">
-                        <div class="dropdown-category">OTC Рынок</div>
-                        <div class="dropdown-item" onclick="selectPair('EUR/USD OTC')">EUR/USD OTC</div>
-                        <div class="dropdown-item" onclick="selectPair('GBP/USD OTC')">GBP/USD OTC</div>
-                        <div class="dropdown-item" onclick="selectPair('USD/JPY OTC')">USD/JPY OTC</div>
-                        <div class="dropdown-item" onclick="selectPair('EUR/GBP OTC')">EUR/GBP OTC</div>
-                        
-                        <div class="dropdown-category">Реальный рынок (Forex)</div>
-                        <div class="dropdown-item" onclick="selectPair('EUR/USD')">EUR/USD</div>
-                        <div class="dropdown-item" onclick="selectPair('GBP/USD')">GBP/USD</div>
-                        <div class="dropdown-item" onclick="selectPair('USD/JPY')">USD/JPY</div>
-                        <div class="dropdown-item" onclick="selectPair('AUD/USD')">AUD/USD</div>
-                        <div class="dropdown-item" onclick="selectPair('USD/CAD')">USD/CAD</div>
-                        
-                        <div class="dropdown-category">Криптовалюта</div>
-                        <div class="dropdown-item" onclick="selectPair('BTC/USDT')">BTC/USDT</div>
-                        <div class="dropdown-item" onclick="selectPair('ETH/USDT')">ETH/USDT</div>
-                        <div class="dropdown-item" onclick="selectPair('SOL/USDT')">SOL/USDT</div>
-                        <div class="dropdown-item" onclick="selectPair('BNB/USDT')">BNB/USDT</div>
-                        <div class="dropdown-item" onclick="selectPair('XRP/USDT')">XRP/USDT</div>
+                        <!-- Буде генеруватися через JS залежно від мови -->
                     </div>
                 </div>
             </div>
 
             <div>
-                <div class="section-title">Таймфрейм</div>
+                <div class="section-title" id="lblTfTitle">Таймфрейм</div>
                 <div class="tf-container" id="timeframeContainer">
                     <button class="tf-btn active" data-minutes="1" onclick="selectTimeframe(this)">1 M</button>
                     <button class="tf-btn" data-minutes="3" onclick="selectTimeframe(this)">3 M</button>
@@ -446,41 +463,42 @@
             </div>
 
             <div class="action-container">
-                <button class="btn-main" onclick="startSignalProcess()">
+                <button class="btn-main" id="lblGetSignal" onclick="startSignalProcess()">
                     <i class="fa-solid fa-bolt"></i> Получить сигнал
                 </button>
-                <span class="divider-text">или</span>
-                <button class="btn-outline" onclick="triggerAutoSignal()">
+                <span class="divider-text" id="lblOr">или</span>
+                <button class="btn-outline" id="lblAutoSignal" onclick="triggerAutoSignal()">
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Автосигнал
                 </button>
             </div>
         </main>
 
+        <!-- Екран результату сигналу -->
         <main class="screen hidden" id="resultScreen">
             <div class="signal-card">
-                <div class="card-header-title">Сигнал (<span id="resType">OTC</span>)</div>
+                <div class="card-header-title"><span id="lblCardTitle">Сигнал</span> (<span id="resType">OTC</span>)</div>
                 
                 <div class="grid-info">
                     <div>
-                        <div class="info-label">Валютная пара</div>
+                        <div class="info-label" id="lblResPair">Валютная пара</div>
                         <div class="info-value" id="resPair">EUR/USD OTC</div>
                     </div>
                     <div>
-                        <div class="info-label">Точность</div>
+                        <div class="info-label" id="lblResAccuracy">Точность</div>
                         <div class="info-value" id="resAccuracy">81%</div>
                     </div>
                     <div>
-                        <div class="info-label">Таймфрейм</div>
+                        <div class="info-label" id="lblResTf">Таймфрейм</div>
                         <div class="info-value" id="resTimeframe">1 m</div>
                     </div>
                     <div>
-                        <div class="info-label">Направление</div>
+                        <div class="info-label" id="lblResDir">Направление</div>
                         <div class="direction-value" id="resDirection"></div>
                     </div>
                 </div>
 
                 <div class="timer-section">
-                    <div class="info-label" style="align-self: flex-start;">Время до конца</div>
+                    <div class="info-label" id="lblTimeLeft" style="align-self: flex-start;">Время до конца</div>
                     <div class="progress-bar-container">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
@@ -493,6 +511,7 @@
             </button>
         </main>
 
+        <!-- МОДАЛЬНЕ ВІКНО ПРОФІЛЮ КОРИСТУВАЧА -->
         <div id="profileModal" class="modal-overlay" onclick="closeProfileOutside(event)">
             <div class="profile-card">
                 <button class="profile-close" onclick="switchTab('signals')">✕</button>
@@ -503,21 +522,22 @@
                 </div>
                 <div class="profile-info-list">
                     <div class="info-item">
-                        <span class="info-label">Тип аккаунту:</span>
+                        <span class="info-label" id="lblAccType">Тип аккаунту:</span>
                         <span class="info-value" style="color: #6366f1;">VIP</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Статус подписки:</span>
-                        <span class="info-value status-badge">VIP Доступ</span>
+                        <span class="info-label" id="lblSubStatus">Статус подписки:</span>
+                        <span class="info-value status-badge" id="lblVipBadge">VIP Доступ</span>
                     </div>
                     <div class="info-item">
-                        <span class="info-label">Срок действия:</span>
-                        <span class="info-value">Безлимитно</span>
+                        <span class="info-label" id="lblDuration">Срок действия:</span>
+                        <span class="info-value" id="lblUnlimited">Безлимитно</span>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Нижня навігаційна панель -->
         <nav class="nav-bar" id="mainNavigation">
             <div class="nav-item active" id="navSignals" onclick="switchTab('signals')">
                 <i class="fa-solid fa-chart-simple" style="pointer-events: none;"></i>
@@ -529,11 +549,54 @@
     </div>
 
     <script>
-        if (window.Telegram && Telegram.WebApp) {
-            Telegram.WebApp.ready();
-            Telegram.WebApp.expand();
-            loadTelegramUserData();
-        }
+        // ЛОКАЛІЗАЦІЯ (ПЕРЕКЛАДИ)
+        const languages = {
+            ru: {
+                close: "Закрыть", subTitle: "мини-приложение", loadingStatus: "Поиск сигнала",
+                typeTitle: "Тип сигнала", pairTitle: "Валютная пара", tfTitle: "Таймфрейм",
+                getSignal: "<i class='fa-solid fa-bolt'></i> Получить сигнал", or: "или",
+                autoSignal: "<i class='fa-solid fa-wand-magic-sparkles'></i> Автосигнал",
+                cardTitle: "Сигнал", resPair: "Валютная пара", resAccuracy: "Точность",
+                resTf: "Таймфрейм", resDir: "Направление", timeLeft: "Время до конца",
+                btnReset: "Сбросить сигнал", btnNew: "Новый сигнал",
+                accType: "Тип аккаунта:", subStatus: "Статус подписки:", duration: "Срок действия:",
+                vipBadge: "VIP Доступ", unlimited: "Безлимитно", Loading: "Загрузка...",
+                dirUp: "Вверх", dirDown: "Вниз",
+                catOtc: "OTC Рынок", catReal: "Реальный рынок (Forex)", catCrypto: "Криптовалюта",
+                types: ["OTC (Внебиржевой)", "Реальный рынок", "Crypto (Индекс)"]
+            },
+            uk: {
+                close: "Закрити", subTitle: "міні-додаток", loadingStatus: "Пошук сигналу",
+                typeTitle: "Тип сигналу", pairTitle: "Валютна пара", tfTitle: "Таймфрейм",
+                getSignal: "<i class='fa-solid fa-bolt'></i> Отримати сигнал", or: "або",
+                autoSignal: "<i class='fa-solid fa-wand-magic-sparkles'></i> Автосигнал",
+                cardTitle: "Сигнал", resPair: "Валютна пара", resAccuracy: "Точність",
+                resTf: "Таймфрейм", resDir: "Напрямок", timeLeft: "Час до кінця",
+                btnReset: "Скинути сигнал", btnNew: "Новий сигнал",
+                accType: "Тип акаунту:", subStatus: "Статус підписки:", duration: "Термін дії:",
+                vipBadge: "VIP Доступ", unlimited: "Безлімітно", Loading: "Завантаження...",
+                dirUp: "Вгору", dirDown: "Вниз",
+                catOtc: "OTC Ринок", catReal: "Реальний ринок (Forex)", catCrypto: "Криптовалюта",
+                types: ["OTC (Позабіржовий)", "Реальний ринок", "Crypto (Індекс)"]
+            },
+            en: {
+                close: "Close", subTitle: "mini-app", loadingStatus: "Searching signal",
+                typeTitle: "Signal Type", pairTitle: "Currency Pair", tfTitle: "Timeframe",
+                getSignal: "<i class='fa-solid fa-bolt'></i> Get Signal", or: "or",
+                autoSignal: "<i class='fa-solid fa-wand-magic-sparkles'></i> Auto Signal",
+                cardTitle: "Signal", resPair: "Currency Pair", resAccuracy: "Accuracy",
+                resTf: "Timeframe", resDir: "Direction", timeLeft: "Time remaining",
+                btnReset: "Reset Signal", btnNew: "New Signal",
+                accType: "Account Type:", subStatus: "Subscription:", duration: "Duration:",
+                vipBadge: "VIP Access", unlimited: "Lifetime", Loading: "Loading...",
+                dirUp: "Up", dirDown: "Down",
+                catOtc: "OTC Market", catReal: "Real Market (Forex)", catCrypto: "Cryptocurrency",
+                types: ["OTC (Off-exchange)", "Real Market", "Crypto (Index)"]
+            }
+        };
+
+        let currentLang = "ru"; 
+        let currentDirection = "UP"; 
 
         let countdownInterval;
         let totalSeconds = 60; 
@@ -543,6 +606,98 @@
         let selectedPair = "EUR/USD OTC";
         let selectedTimeframeText = "1 m";
         let selectedMinutes = 1; 
+
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.ready();
+            Telegram.WebApp.expand();
+            loadTelegramUserData();
+        }
+
+        // Ініціалізація списків при першому старті
+        renderDropdowns();
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // Оновлення активного стану в меню мов
+            document.querySelectorAll('.lang-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(`lang-${lang}`).classList.add('active');
+
+            // Зміна інтерфейсу тексту
+            document.getElementById('lblClose').innerText = languages[lang].close;
+            document.getElementById('lblSubTitle').innerText = languages[lang].subTitle;
+            document.getElementById('lblLoadingStatus').innerText = languages[lang].loadingStatus;
+            document.getElementById('lblTypeTitle').innerText = languages[lang].typeTitle;
+            document.getElementById('lblPairTitle').innerText = languages[lang].pairTitle;
+            document.getElementById('lblTfTitle').innerText = languages[lang].tfTitle;
+            document.getElementById('lblGetSignal').innerHTML = languages[lang].getSignal;
+            document.getElementById('lblOr').innerText = languages[lang].or;
+            document.getElementById('lblAutoSignal').innerHTML = languages[lang].autoSignal;
+            document.getElementById('lblCardTitle').innerText = languages[lang].cardTitle;
+            document.getElementById('lblResPair').innerText = languages[lang].resPair;
+            document.getElementById('lblResAccuracy').innerText = languages[lang].resAccuracy;
+            document.getElementById('lblResTf').innerText = languages[lang].resTf;
+            document.getElementById('lblResDir').innerText = languages[lang].resDir;
+            document.getElementById('lblTimeLeft').innerText = languages[lang].timeLeft;
+            document.getElementById('lblAccType').innerText = languages[lang].accType;
+            document.getElementById('lblSubStatus').innerText = languages[lang].subStatus;
+            document.getElementById('lblVipBadge').innerText = languages[lang].vipBadge;
+            document.getElementById('lblDuration').innerText = languages[lang].duration;
+            document.getElementById('lblUnlimited').innerText = languages[lang].unlimited;
+
+            // Оновлення тексту кнопок станів
+            const actionBtn = document.getElementById('signalActionButton');
+            if(actionBtn.classList.contains('reset-mode')) {
+                actionBtn.innerText = languages[lang].btnReset;
+            } else {
+                actionBtn.innerText = languages[lang].btnNew;
+            }
+
+            // Перемальовуємо елементи випадаючих списків під нову мову
+            renderDropdowns();
+
+            // Оновлюємо напрямок стрілки, якщо зараз відкритий екран результату
+            if(!document.getElementById('resultScreen').classList.contains('hidden')) {
+                updateDirectionUI();
+            }
+
+            // Закриваємо меню мови
+            document.getElementById('langMenu').classList.remove('show');
+        }
+
+        function renderDropdowns() {
+            // Оновлення типу ринку
+            const typeMenu = document.getElementById('typeMenu');
+            typeMenu.innerHTML = `
+                <div class="dropdown-item" onclick="selectType('OTC')">${languages[currentLang].types[0]}</div>
+                <div class="dropdown-item" onclick="selectType('Реальный рынок')">${languages[currentLang].types[1]}</div>
+                <div class="dropdown-item" onclick="selectType('Crypto')">${languages[currentLang].types[2]}</div>
+            `;
+
+            // Оновлення категорій у списку валютних пар
+            const pairMenu = document.getElementById('pairMenu');
+            pairMenu.innerHTML = `
+                <div class="dropdown-category">${languages[currentLang].catOtc}</div>
+                <div class="dropdown-item" onclick="selectPair('EUR/USD OTC')">EUR/USD OTC</div>
+                <div class="dropdown-item" onclick="selectPair('GBP/USD OTC')">GBP/USD OTC</div>
+                <div class="dropdown-item" onclick="selectPair('USD/JPY OTC')">USD/JPY OTC</div>
+                <div class="dropdown-item" onclick="selectPair('EUR/GBP OTC')">EUR/GBP OTC</div>
+                
+                <div class="dropdown-category">${languages[currentLang].catReal}</div>
+                <div class="dropdown-item" onclick="selectPair('EUR/USD')">EUR/USD</div>
+                <div class="dropdown-item" onclick="selectPair('GBP/USD')">GBP/USD</div>
+                <div class="dropdown-item" onclick="selectPair('USD/JPY')">USD/JPY</div>
+                <div class="dropdown-item" onclick="selectPair('AUD/USD')">AUD/USD</div>
+                <div class="dropdown-item" onclick="selectPair('USD/CAD')">USD/CAD</div>
+                
+                <div class="dropdown-category">${languages[currentLang].catCrypto}</div>
+                <div class="dropdown-item" onclick="selectPair('BTC/USDT')">BTC/USDT</div>
+                <div class="dropdown-item" onclick="selectPair('ETH/USDT')">ETH/USDT</div>
+                <div class="dropdown-item" onclick="selectPair('SOL/USDT')">SOL/USDT</div>
+                <div class="dropdown-item" onclick="selectPair('BNB/USDT')">BNB/USDT</div>
+                <div class="dropdown-item" onclick="selectPair('XRP/USDT')">XRP/USDT</div>
+            `;
+        }
 
         function switchTab(tab) {
             const navSignals = document.getElementById('navSignals');
@@ -586,8 +741,9 @@
             }
         }
 
-        function toggleDropdown(menuId) {
-            const menus = ['typeMenu', 'pairMenu'];
+        function toggleDropdown(menuId, event) {
+            if(event) event.stopPropagation(); // Зупиняє закриття кліком по документу
+            const menus = ['typeMenu', 'pairMenu', 'langMenu'];
             menus.forEach(id => {
                 if(id !== menuId) document.getElementById(id).classList.remove('show');
             });
@@ -606,10 +762,12 @@
             document.getElementById('pairMenu').classList.remove('show');
         }
 
+        // Закриття всіх меню при кліку на будь-яку порожню область додатка
         window.onclick = function(event) {
-            if (!event.target.closest('.custom-dropdown')) {
+            if (!event.target.closest('.custom-dropdown') && !event.target.closest('.btn-more-container')) {
                 if(document.getElementById('typeMenu')) document.getElementById('typeMenu').classList.remove('show');
                 if(document.getElementById('pairMenu')) document.getElementById('pairMenu').classList.remove('show');
+                if(document.getElementById('langMenu')) document.getElementById('langMenu').classList.remove('show');
             }
         }
 
@@ -659,28 +817,15 @@
             document.getElementById('resAccuracy').innerText = randomAccuracy + '%';
 
             const directions = ['UP', 'DOWN'];
-            const randomDir = directions[Math.floor(Math.random() * directions.length)];
+            currentDirection = directions[Math.floor(Math.random() * directions.length)];
             
-            const dirContainer = document.getElementById('resDirection');
-            const progressFill = document.getElementById('progressFill');
-
-            progressFill.className = "progress-fill";
-
-            if (randomDir === 'UP') {
-                dirContainer.className = "direction-value dir-up";
-                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> Вверх ${selectedTimeframeText}`;
-                progressFill.classList.add('bg-green');
-            } else {
-                dirContainer.className = "direction-value dir-down";
-                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> Вниз ${selectedTimeframeText}`;
-                progressFill.classList.add('bg-red');
-            }
+            updateDirectionUI();
 
             document.getElementById('resultScreen').classList.remove('hidden');
             document.getElementById('mainNavigation').classList.remove('hidden'); 
             
             const actionBtn = document.getElementById('signalActionButton');
-            actionBtn.innerText = "Сбросить сигнал";
+            actionBtn.innerText = languages[currentLang].btnReset;
             actionBtn.className = "btn-action-signal reset-mode";
 
             updateTimerUI();
@@ -695,6 +840,22 @@
                     timerFinished();
                 }
             }, 1000);
+        }
+
+        function updateDirectionUI() {
+            const dirContainer = document.getElementById('resDirection');
+            const progressFill = document.getElementById('progressFill');
+            progressFill.className = "progress-fill";
+
+            if (currentDirection === 'UP') {
+                dirContainer.className = "direction-value dir-up";
+                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-up"></i> ${languages[currentLang].dirUp} ${selectedTimeframeText}`;
+                progressFill.classList.add('bg-green');
+            } else {
+                dirContainer.className = "direction-value dir-down";
+                dirContainer.innerHTML = `<i class="fa-solid fa-arrow-trend-down"></i> ${languages[currentLang].dirDown} ${selectedTimeframeText}`;
+                progressFill.classList.add('bg-red');
+            }
         }
 
         function updateTimerUI() {
@@ -720,7 +881,7 @@
 
         function timerFinished() {
             const actionBtn = document.getElementById('signalActionButton');
-            actionBtn.innerText = "Новый сигнал";
+            actionBtn.innerText = languages[currentLang].btnNew;
             actionBtn.className = "btn-action-signal new-mode";
         }
 
