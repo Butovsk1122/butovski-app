@@ -20,6 +20,9 @@
             --dropdown-bg: #151a26;
             --nav-bg: #0a0c10;
             --tv-theme: dark;
+            --red-signal: #ef4444;
+            --green-signal: #22c55e;
+            --hover-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
         }
 
         [data-theme="amoled"] {
@@ -32,6 +35,9 @@
             --dropdown-bg: #0f0f10;
             --nav-bg: #000000;
             --tv-theme: dark;
+            --red-signal: #ef4444;
+            --green-signal: #22c55e;
+            --hover-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
         }
 
         [data-theme="light"] {
@@ -44,12 +50,12 @@
             --dropdown-bg: #f1f5f9;
             --nav-bg: #ffffff;
             --tv-theme: light;
+            --red-signal: #dc2626;
+            --green-signal: #16a34a;
+            --hover-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
 
-        --red-signal: #ef4444;
-        --green-signal: #22c55e;
         --hover-brightness: brightness(1.2);
-        --hover-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
 
         * {
             box-sizing: border-box;
@@ -67,7 +73,7 @@
             align-items: center;
             min-height: 100vh;
             padding: 10px;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.2s, color 0.2s;
         }
 
         /* Контейнер додатку */
@@ -84,7 +90,7 @@
             position: relative;
             border: 1px solid var(--border-color);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transition: background-color 0.3s, border-color 0.3s;
+            transition: background-color 0.2s, border-color 0.2s;
         }
 
         /* Шапка */
@@ -122,7 +128,7 @@
             position: absolute;
             top: calc(100% + 8px);
             right: 0;
-            width: 165px;
+            width: 170px;
             background-color: var(--dropdown-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -318,14 +324,14 @@
         .info-label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
         .info-value { font-size: 13px; font-weight: 600; }
         .direction-value { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
-        .dir-down { color: #ef4444; }
-        .dir-up { color: #22c55e; }
+        .dir-down { color: var(--red-signal); }
+        .dir-up { color: var(--green-signal); }
 
         .timer-section { display: flex; flex-direction: column; align-items: center; gap: 6px; }
         .progress-bar-container { width: 100%; height: 6px; background-color: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; width: 100%; transition: width 1s linear; }
-        .bg-red { background-color: #ef4444; }
-        .bg-green { background-color: #22c55e; }
+        .bg-red { background-color: var(--red-signal); }
+        .bg-green { background-color: var(--green-signal); }
         .timer-text { font-size: 11px; font-weight: 600; color: var(--text-main); }
 
         .btn-action-signal {
@@ -336,14 +342,14 @@
         /* Вікно профілю */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 20000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s ease; }
         .modal-overlay.show { display: flex; opacity: 1; }
-        .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; width: 88%; max-width: 330px; padding: 25px; text-align: center; }
+        .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; width: 88%; max-width: 330px; padding: 25px; text-align: center; position: relative; }
         .profile-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 5px; }
         .profile-header img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #3b82f6; margin-bottom: 12px; object-fit: cover; }
         .profile-header h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
         .profile-header p { color: var(--text-muted); font-size: 13px; margin-bottom: 22px; }
         .profile-info-list { text-align: left; background: rgba(0,0,0,0.1); border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
         .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; }
-        .status-badge { color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
+        .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
 
         /* Навігація */
         .nav-bar { background-color: var(--nav-bg); border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px; margin-top: auto; }
@@ -571,19 +577,19 @@
         }
 
         renderDropdowns();
-        setTheme('cyberpunk'); // Встановлюємо дефолтну тему
+        setTheme('cyberpunk'); 
 
         function setTheme(themeName) {
             currentTheme = themeName;
             document.getElementById('app').setAttribute('data-theme', themeName);
             
-            // Оновлюємо активне виділення теми у списку
             document.querySelectorAll('#langMenu .lang-item').forEach(item => {
                 if(item.id.startsWith('theme-')) item.classList.remove('active');
             });
-            document.getElementById(`theme-${themeName}`).classList.add('active');
+            const targetElement = document.getElementById(`theme-${themeName}`);
+            if(targetElement) targetElement.classList.add('active');
 
-            // Якщо зараз відкрито графік — перемальовуємо його під колір нової теми
+            // Перемальовуємо графік, якщо екран результату активний
             if(!document.getElementById('resultScreen').classList.contains('hidden')) {
                 updateTradingViewWidget();
             }
@@ -656,15 +662,12 @@
             `;
         }
 
-        // Функція для підготовки та очищення Тікера (символу) для віджета графіку
         function updateTradingViewWidget() {
-            // Очищуємо "OTC" з назви пари для відображення на TradingView
+            if (typeof TradingView === 'undefined') return;
+
             let cleanPair = selectedPair.replace(" OTC", "").replace("/", "");
-            
-            // Якщо тип Crypto, використовуємо тійкер біржі BINANCE, інакше — валюти FX
             let symbolTicker = selectedType === "Crypto" ? `BINANCE:${cleanPair}` : `FX:${cleanPair}`;
             
-            // Мапінг таймфреймів під стандарти TradingView
             let intervalMap = "1";
             if(selectedMinutes === 3) intervalMap = "3";
             if(selectedMinutes === 5) intervalMap = "5";
@@ -674,7 +677,9 @@
 
             let tvThemeMode = currentTheme === "light" ? "light" : "dark";
 
-            // Створюємо новий інстанс віджета всередині контейнера
+            // Перестворюємо блок графіка з нуля для запобігання дублюванню
+            document.getElementById('tvChartContainer').innerHTML = '<div id="tradingview_widget"></div>';
+
             new TradingView.widget({
                 "width": "100%",
                 "height": 220,
@@ -726,7 +731,10 @@
             if(event) event.stopPropagation(); 
             const menus = ['typeMenu', 'pairMenu', 'langMenu'];
             menus.forEach(id => {
-                if(id !== menuId) document.getElementById(id).classList.remove('show');
+                if(id !== menuId) {
+                    const menuEl = document.getElementById(id);
+                    if(menuEl) menuEl.classList.remove('show');
+                }
             });
             document.getElementById(menuId).classList.toggle('show');
         }
@@ -746,7 +754,8 @@
         window.onclick = function(event) {
             if (!event.target.closest('.custom-dropdown') && !event.target.closest('.btn-more-container')) {
                 ['typeMenu', 'pairMenu', 'langMenu'].forEach(id => {
-                    if(document.getElementById(id)) document.getElementById(id).classList.remove('show');
+                    const menuEl = document.getElementById(id);
+                    if(menuEl) menuEl.classList.remove('show');
                 });
             }
         }
@@ -790,6 +799,7 @@
             currentDirection = ['UP', 'DOWN'][Math.floor(Math.random() * 2)];
             updateDirectionUI();
 
+            // ВИПРАВЛЕНО: спочатку відкриваємо екран, прибираючи .hidden
             document.getElementById('resultScreen').classList.remove('hidden');
             document.getElementById('mainNavigation').classList.remove('hidden'); 
             
@@ -799,8 +809,10 @@
 
             updateTimerUI();
             
-            // Завантажуємо інтерактивний графік TradingView під налаштування сигналу
-            updateTradingViewWidget();
+            // Тільки після відображення контейнера ініціалізуємо графік через мікротаймаут
+            setTimeout(() => {
+                updateTradingViewWidget();
+            }, 50);
 
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
