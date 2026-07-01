@@ -91,7 +91,7 @@
             transition: background-color 0.2s, border-color 0.2s;
         }
 
-        /* Шапка з виправленим накладанням тексту */
+        /* Шапка */
         .header {
             padding: 20px 20px 10px;
             display: flex;
@@ -243,6 +243,7 @@
             color: white;
         }
 
+        /* Виправлена поведінка меню та категорій валют (запобігає накладанню) */
         .dropdown-menu {
             position: absolute;
             top: calc(100% + 6px);
@@ -252,7 +253,7 @@
             border: 1px solid var(--border-color);
             border-radius: 14px;
             overflow-y: auto;
-            max-height: 200px;
+            max-height: 220px;
             display: none;
             flex-direction: column;
             z-index: 9999;
@@ -261,20 +262,28 @@
         .dropdown-menu.show { display: flex; }
 
         .dropdown-category {
-            padding: 10px 16px 6px;
+            padding: 12px 16px 4px;
             font-size: 10px;
             font-weight: 700;
             color: #3b82f6;
             text-transform: uppercase;
             letter-spacing: 1px;
-            background-color: rgba(0,0,0,0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            background-color: var(--dropdown-bg);
+            border-bottom: 1px solid var(--border-color);
+            display: block;
+            clear: both;
         }
-        .dropdown-item { padding: 14px 16px; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-main); opacity: 0.9; transition: all 0.2s; }
-        .dropdown-item:hover { background-color: rgba(0,0,0,0.05); opacity: 1; }
+        .dropdown-item { 
+            padding: 12px 16px; 
+            font-size: 14px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            color: var(--text-main); 
+            opacity: 0.9; 
+            transition: all 0.2s;
+            display: block;
+        }
+        .dropdown-item:hover { background-color: rgba(255,255,255,0.04); opacity: 1; }
 
         .pair-info { display: flex; align-items: center; gap: 10px; }
         .flags { display: flex; position: relative; width: 28px; height: 18px; }
@@ -305,7 +314,7 @@
             border-radius: 14px; font-weight: 600; font-size: 14px; text-transform: uppercase; cursor: pointer;
             display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s;
         }
-        .btn-outline:hover { background-color: rgba(0, 0, 0, 0.05); }
+        .btn-outline:hover { background-color: rgba(255, 255, 255, 0.02); }
 
         /* Трейдінг віджет графіку */
         .tradingview-widget-container {
@@ -325,7 +334,7 @@
         .loader-brand { font-size: 13px; font-weight: 600; letter-spacing: 6px; color: var(--text-main); text-transform: uppercase; margin-bottom: 12px; }
         .loader-status { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
 
-        /* Екран результату - Стилі виправлені для відображення на білому */
+        /* Екран результату сигналу */
         .signal-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; position: relative; }
         .card-header-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px; color: var(--text-main); }
         .grid-info { display: grid; grid-template-columns: 1fr 1fr; row-gap: 12px; margin-bottom: 15px; }
@@ -336,7 +345,7 @@
         .dir-up { color: var(--green-signal); }
 
         .timer-section { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .progress-bar-container { width: 100%; height: 6px; background-color: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; }
+        .progress-bar-container { width: 100%; height: 6px; background-color: rgba(0,0,0,0.1); border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; width: 100%; transition: width 1s linear; }
         .bg-red { background-color: var(--red-signal); }
         .bg-green { background-color: var(--green-signal); }
@@ -346,7 +355,7 @@
             width: 100%; background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 14px;
             font-weight: 600; font-size: 13px; text-transform: uppercase; cursor: pointer; margin-top: auto; margin-bottom: 15px; transition: all 0.2s;
         }
-        .btn-action-signal:hover { background-color: rgba(0,0,0,0.03); }
+        .btn-action-signal:hover { background-color: rgba(255,255,255,0.02); }
 
         /* Вікно профілю */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 20000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s ease; }
@@ -356,9 +365,9 @@
         .profile-header img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #3b82f6; margin-bottom: 12px; object-fit: cover; }
         .profile-header h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: var(--text-main); }
         .profile-header p { color: var(--text-muted); font-size: 13px; margin-bottom: 22px; }
-        .profile-info-list { text-align: left; background: rgba(0,0,0,0.03); border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
+        .profile-info-list { text-align: left; background: rgba(0,0,0,0.15); border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
         .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; }
-        .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+        .status-badge { color: var(--text-muted); background: rgba(100, 116, 139, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
         /* Навігація */
         .nav-bar { background-color: var(--nav-bg); border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px; margin-top: auto; }
@@ -442,7 +451,7 @@
 
             <div class="action-container">
                 <button class="btn-main" id="lblGetSignal" onclick="startSignalProcess()">
-                    <i class="fa-solid fa-bolt"></i> Получить信号
+                    <i class="fa-solid fa-bolt"></i> Получить сигнал
                 </button>
                 <span class="divider-text" id="lblOr">или</span>
                 <button class="btn-outline" id="lblAutoSignal" onclick="triggerAutoSignal()">
@@ -501,7 +510,7 @@
                 <div class="profile-info-list">
                     <div class="info-item">
                         <span class="info-label" id="lblAccType">Тип аккаунта:</span>
-                        <span class="info-value" id="txtAccountTypeName" style="color: var(--text-muted);">Обычный</span>
+                        <span class="info-value" id="txtAccountTypeName">Обычный</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label" id="lblSubStatus">Статус подписки:</span>
@@ -582,7 +591,7 @@
         let selectedTimeframeText = "1 m";
         let selectedMinutes = 1; 
 
-        // Глобальні змінні користувача, які приходять з бекенду
+        // За замовчуванням ВСІ користувачі звичайні та заблоковані, доки сервер не скаже зворотне
         let isUserVip = false;
 
         if (window.Telegram && Telegram.WebApp) {
@@ -592,63 +601,55 @@
 
         renderDropdowns();
         setTheme('cyberpunk'); 
-        loadTelegramUserData(); // Робимо перевірку доступу при старті
+        loadTelegramUserData(); 
 
         function loadTelegramUserData() {
-            // Показуємо лоадер на початку перевірки
             document.getElementById('loadingScreen').classList.remove('hidden');
 
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
                 const initData = window.Telegram.WebApp.initData;
 
-                // ВСТАВТЕ СЮДИ АДРЕСУ ВАШОГО МАЙБУТНЬОГО СЕРВЕРА
+                // Замініть адресу нижче на ваш підключений бекенд
                 fetch('https://your-backend-server.com/api/check-user', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ initData: initData })
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) throw new Error("Заборонено");
+                    return response.json();
+                })
                 .then(data => {
-                    // Перевірка 1: Чи надав адмін доступ
+                    // Якщо сервер відповів, але доступ false
                     if (!data.has_access) {
                         renderAccessDeniedScreen();
                         return;
                     }
 
-                    // Якщо доступ є, прибираємо завантаження та відкриваємо інтерфейс
+                    // Доступ дозволено сервером
                     document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('mainScreen').classList.remove('hidden');
                     document.getElementById('mainNavigation').classList.remove('hidden');
 
-                    // Заповнюємо дані профілю
                     document.getElementById('userName').innerText = data.name;
                     document.getElementById('userUsername').innerText = data.username;
                     if (data.photo_url) document.getElementById('userAvatar').src = data.photo_url;
 
-                    // Перевірка 2: Налаштування VIP статусу користувача
                     isUserVip = data.is_vip;
                     updateVipUI();
                 })
                 .catch(err => {
-                    console.error("Помилка авторизації бекенду. Робота в режимі офлайн-тесту.", err);
-                    // Для локальних тестів, якщо сервер не запущений:
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').classList.add('hidden');
-                        document.getElementById('mainScreen').classList.remove('hidden');
-                        document.getElementById('mainNavigation').classList.remove('hidden');
-                        document.getElementById('userName').innerText = "Тестовый Пользователь";
-                        document.getElementById('userUsername').innerText = "@test_user";
-                        updateVipUI();
-                    }, 1000);
+                    console.log("Сервер не повернув схвалення. Доступ повністю заблоковано.");
+                    renderAccessDeniedScreen(); // Жорстке блокування інтерфейсу без сервера
                 });
             } else {
-                // Якщо запущено просто у браузері поза Telegram
+                // Якщо тестуєте локально у браузері на ПК без Telegram API
                 setTimeout(() => {
                     document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('mainScreen').classList.remove('hidden');
                     document.getElementById('mainNavigation').classList.remove('hidden');
-                    document.getElementById('userName').innerText = "Браузер Тест";
-                    document.getElementById('userUsername').innerText = "@browser_test";
+                    document.getElementById('userName').innerText = "Локальний Тест (Браузер)";
+                    document.getElementById('userUsername').innerText = "@local_test";
                     updateVipUI();
                 }, 1000);
             }
@@ -684,10 +685,10 @@
 
         function renderAccessDeniedScreen() {
             document.body.innerHTML = `
-                <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; background:#0d0f14; color:#fff; font-family:'Montserrat',sans-serif; padding:20px; text-align:center;">
+                <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; width:100vw; background:#0d0f14; color:#fff; font-family:'Montserrat',sans-serif; padding:20px; text-align:center; position:absolute; top:0; left:0; z-index:999999;">
                     <i class="fa-solid fa-lock" style="font-size:45px; color:#ef4444; margin-bottom:20px;"></i>
-                    <h2 style="font-weight:700; font-size:20px;">Доступ обмежено</h2>
-                    <p style="color:#64748b; font-size:13px; margin-top:10px; max-width:280px; line-height:1.5;">Ви не допущені до використання додатку. Зверніться до адміністратора для активації вашого облікового запису.</p>
+                    <h2 style="font-weight:700; font-size:20px; color:#fff;">Доступ обмежено</h2>
+                    <p style="color:#64748b; font-size:13px; margin-top:10px; max-width:280px; line-height:1.5;">Ви не допущені до використання додатку або не активовані в базі. Зверніться до адміністратора.</p>
                 </div>`;
         }
 
