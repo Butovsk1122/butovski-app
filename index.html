@@ -391,7 +391,7 @@
             </div>
         </header>
 
-        <div class="loading-overlay hidden" id="loadingScreen">
+        <div class="loading-overlay" id="loadingScreen">
             <div class="spinner"></div>
             <div class="loader-brand">Butovski</div>
             <div class="loader-status" id="lblLoadingStatus">Поиск сигнала</div>
@@ -399,7 +399,7 @@
 
         <div class="brand-line" id="brandLine">BUTOVSKI</div>
 
-        <main class="screen" id="mainScreen">
+        <main class="screen hidden" id="mainScreen">
             <div class="dropdown-block" id="typeBlock">
                 <div class="section-title" id="lblTypeTitle">Тип сигнала</div>
                 <div class="custom-dropdown">
@@ -442,7 +442,7 @@
 
             <div class="action-container">
                 <button class="btn-main" id="lblGetSignal" onclick="startSignalProcess()">
-                    <i class="fa-solid fa-bolt"></i> Получить сигнал
+                    <i class="fa-solid fa-bolt"></i> Получить信号
                 </button>
                 <span class="divider-text" id="lblOr">или</span>
                 <button class="btn-outline" id="lblAutoSignal" onclick="triggerAutoSignal()">
@@ -500,22 +500,22 @@
                 </div>
                 <div class="profile-info-list">
                     <div class="info-item">
-                        <span class="info-label" id="lblAccType">Тип аккаунту:</span>
-                        <span class="info-value" style="color: #3b82f6;">VIP</span>
+                        <span class="info-label" id="lblAccType">Тип аккаунта:</span>
+                        <span class="info-value" id="txtAccountTypeName" style="color: var(--text-muted);">Обычный</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label" id="lblSubStatus">Статус подписки:</span>
-                        <span class="info-value status-badge" id="lblVipBadge">VIP Доступ</span>
+                        <span class="info-value status-badge" id="lblVipBadge">Неактивна</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label" id="lblDuration">Срок действия:</span>
-                        <span class="info-value" id="lblUnlimited">Безлимитно</span>
+                        <span class="info-value" id="lblUnlimited">—</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <nav class="nav-bar" id="mainNavigation">
+        <nav class="nav-bar hidden" id="mainNavigation">
             <div class="nav-item active" id="navSignals" onclick="switchTab('signals')">
                 <i class="fa-solid fa-chart-simple" style="pointer-events: none;"></i>
             </div>
@@ -537,7 +537,8 @@
                 cardTitle: "Сигнал", resPair: "Валютная пара", resAccuracy: "Точность",
                 resTf: "Таймфрейм", resDir: "Направление", btnReset: "Сбросить сигнал", btnNew: "Новый сигнал",
                 accType: "Тип аккаунта:", subStatus: "Статус подписки:", duration: "Срок действия:",
-                vipBadge: "VIP Доступ", unlimited: "Безлимитно", dirUp: "Вверх", dirDown: "Вниз",
+                vipBadge: "VIP Доступ", vipInactive: "Неактивна", regularType: "Обычный", vipType: "VIP",
+                unlimited: "Безлимитно", dirUp: "Вверх", dirDown: "Вниз",
                 catOtc: "OTC Рынок", catReal: "Реальный рынок (Forex)", catCrypto: "Криптовалюта",
                 types: ["OTC (Внебиржевой)", "Реальный рынок", "Crypto (Индекс)"], menuLang: "Язык / Мова", menuTheme: "Тема"
             },
@@ -549,7 +550,8 @@
                 cardTitle: "Сигнал", resPair: "Валютна пара", resAccuracy: "Точність",
                 resTf: "Таймфрейм", resDir: "Напрямок", btnReset: "Скинути сигнал", btnNew: "Новий сигнал",
                 accType: "Тип акаунту:", subStatus: "Статус підписки:", duration: "Термін дії:",
-                vipBadge: "VIP Доступ", unlimited: "Безлімітно", dirUp: "Вгору", dirDown: "Вниз",
+                vipBadge: "VIP Доступ", vipInactive: "Неактивна", regularType: "Звичайний", vipType: "VIP",
+                unlimited: "Безлімітно", dirUp: "Вгору", dirDown: "Вниз",
                 catOtc: "OTC Ринок", catReal: "Реальний ринок (Forex)", catCrypto: "Криптовалюта",
                 types: ["OTC (Позабіржовий)", "Реальний ринок", "Crypto (Індекс)"], menuLang: "Язык / Мова", menuTheme: "Тема"
             },
@@ -561,7 +563,8 @@
                 cardTitle: "Signal", resPair: "Currency Pair", resAccuracy: "Accuracy",
                 resTf: "Timeframe", resDir: "Direction", btnReset: "Reset Signal", btnNew: "New Signal",
                 accType: "Account Type:", subStatus: "Subscription:", duration: "Duration:",
-                vipBadge: "VIP Access", unlimited: "Lifetime", dirUp: "Up", dirDown: "Down",
+                vipBadge: "VIP Access", vipInactive: "Inactive", regularType: "Regular", vipType: "VIP",
+                unlimited: "Lifetime", dirUp: "Up", dirDown: "Down",
                 catOtc: "OTC Market", catReal: "Real Market (Forex)", catCrypto: "Cryptocurrency",
                 types: ["OTC (Off-exchange)", "Real Market", "Crypto (Index)"], menuLang: "Language", menuTheme: "Theme"
             }
@@ -579,14 +582,114 @@
         let selectedTimeframeText = "1 m";
         let selectedMinutes = 1; 
 
+        // Глобальні змінні користувача, які приходять з бекенду
+        let isUserVip = false;
+
         if (window.Telegram && Telegram.WebApp) {
             Telegram.WebApp.ready();
             Telegram.WebApp.expand();
-            loadTelegramUserData();
         }
 
         renderDropdowns();
         setTheme('cyberpunk'); 
+        loadTelegramUserData(); // Робимо перевірку доступу при старті
+
+        function loadTelegramUserData() {
+            // Показуємо лоадер на початку перевірки
+            document.getElementById('loadingScreen').classList.remove('hidden');
+
+            if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
+                const initData = window.Telegram.WebApp.initData;
+
+                // ВСТАВТЕ СЮДИ АДРЕСУ ВАШОГО МАЙБУТНЬОГО СЕРВЕРА
+                fetch('https://your-backend-server.com/api/check-user', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData: initData })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Перевірка 1: Чи надав адмін доступ
+                    if (!data.has_access) {
+                        renderAccessDeniedScreen();
+                        return;
+                    }
+
+                    // Якщо доступ є, прибираємо завантаження та відкриваємо інтерфейс
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                    document.getElementById('mainScreen').classList.remove('hidden');
+                    document.getElementById('mainNavigation').classList.remove('hidden');
+
+                    // Заповнюємо дані профілю
+                    document.getElementById('userName').innerText = data.name;
+                    document.getElementById('userUsername').innerText = data.username;
+                    if (data.photo_url) document.getElementById('userAvatar').src = data.photo_url;
+
+                    // Перевірка 2: Налаштування VIP статусу користувача
+                    isUserVip = data.is_vip;
+                    updateVipUI();
+                })
+                .catch(err => {
+                    console.error("Помилка авторизації бекенду. Робота в режимі офлайн-тесту.", err);
+                    // Для локальних тестів, якщо сервер не запущений:
+                    setTimeout(() => {
+                        document.getElementById('loadingScreen').classList.add('hidden');
+                        document.getElementById('mainScreen').classList.remove('hidden');
+                        document.getElementById('mainNavigation').classList.remove('hidden');
+                        document.getElementById('userName').innerText = "Тестовый Пользователь";
+                        document.getElementById('userUsername').innerText = "@test_user";
+                        updateVipUI();
+                    }, 1000);
+                });
+            } else {
+                // Якщо запущено просто у браузері поза Telegram
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                    document.getElementById('mainScreen').classList.remove('hidden');
+                    document.getElementById('mainNavigation').classList.remove('hidden');
+                    document.getElementById('userName').innerText = "Браузер Тест";
+                    document.getElementById('userUsername').innerText = "@browser_test";
+                    updateVipUI();
+                }, 1000);
+            }
+        }
+
+        function updateVipUI() {
+            const vipBadge = document.getElementById('lblVipBadge');
+            const durationText = document.getElementById('lblUnlimited');
+            const accTypeName = document.getElementById('txtAccountTypeName');
+
+            if (isUserVip) {
+                accTypeName.innerText = languages[currentLang].vipType;
+                accTypeName.style.color = "#3b82f6";
+                accTypeName.style.fontWeight = "700";
+                
+                vipBadge.innerText = languages[currentLang].vipBadge;
+                vipBadge.style.color = "var(--green-signal)";
+                vipBadge.style.background = "rgba(34, 197, 94, 0.1)";
+                
+                durationText.innerText = languages[currentLang].unlimited;
+            } else {
+                accTypeName.innerText = languages[currentLang].regularType;
+                accTypeName.style.color = "var(--text-muted)";
+                accTypeName.style.fontWeight = "500";
+                
+                vipBadge.innerText = languages[currentLang].vipInactive;
+                vipBadge.style.color = "var(--text-muted)";
+                vipBadge.style.background = "rgba(100, 116, 139, 0.1)";
+                
+                durationText.innerText = "—";
+            }
+        }
+
+        function renderAccessDeniedScreen() {
+            document.body.innerHTML = `
+                <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; height:100vh; background:#0d0f14; color:#fff; font-family:'Montserrat',sans-serif; padding:20px; text-align:center;">
+                    <i class="fa-solid fa-lock" style="font-size:45px; color:#ef4444; margin-bottom:20px;"></i>
+                    <h2 style="font-weight:700; font-size:20px;">Доступ обмежено</h2>
+                    <p style="color:#64748b; font-size:13px; margin-top:10px; max-width:280px; line-height:1.5;">Ви не допущені до використання додатку. Зверніться до адміністратора для активації вашого облікового запису.</p>
+                </div>`;
+        }
 
         function setTheme(themeName) {
             currentTheme = themeName;
@@ -626,9 +729,7 @@
             document.getElementById('lblResDir').innerText = languages[lang].resDir;
             document.getElementById('lblAccType').innerText = languages[lang].accType;
             document.getElementById('lblSubStatus').innerText = languages[lang].subStatus;
-            document.getElementById('lblVipBadge').innerText = languages[lang].vipBadge;
             document.getElementById('lblDuration').innerText = languages[lang].duration;
-            document.getElementById('lblUnlimited').innerText = languages[lang].unlimited;
             document.getElementById('lblMenuLang').innerText = languages[lang].menuLang;
             document.getElementById('lblMenuTheme').innerText = languages[lang].menuTheme;
 
@@ -640,6 +741,7 @@
             }
 
             renderDropdowns();
+            updateVipUI();
             if(!document.getElementById('resultScreen').classList.contains('hidden')) updateDirectionUI();
             document.getElementById('langMenu').classList.remove('show');
         }
@@ -671,10 +773,7 @@
         }
 
         function updateTradingViewWidget() {
-            if (typeof TradingView === 'undefined') {
-                console.log('TradingView JS library not loaded yet');
-                return;
-            }
+            if (typeof TradingView === 'undefined') return;
 
             let cleanPair = selectedPair.replace(" OTC", "").replace("/", "");
             let symbolTicker = selectedType === "Crypto" ? `BINANCE:${cleanPair}` : `FX:${cleanPair}`;
@@ -727,18 +826,6 @@
 
         function closeProfileOutside(event) {
             if (event.target.id === 'profileModal') switchTab('signals');
-        }
-
-        function loadTelegramUserData() {
-            if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
-                const user = Telegram.WebApp.initDataUnsafe.user;
-                document.getElementById('userName').innerText = (user.first_name + ' ' + (user.last_name || '')).trim();
-                document.getElementById('userUsername').innerText = user.username ? '@' + user.username : 'ID: ' + user.id;
-                if (user.photo_url) document.getElementById('userAvatar').src = user.photo_url;
-            } else {
-                document.getElementById('userName').innerText = "Тестовый Пользователь";
-                document.getElementById('userUsername').innerText = "@test_user";
-            }
         }
 
         function toggleDropdown(menuId, event) {
