@@ -45,8 +45,8 @@
             --card-bg: #ffffff;
             --accent-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
             --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
             --dropdown-bg: #f1f5f9;
             --nav-bg: #ffffff;
             --tv-theme: light;
@@ -54,8 +54,6 @@
             --green-signal: #16a34a;
             --hover-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         }
-
-        --hover-brightness: brightness(1.2);
 
         * {
             box-sizing: border-box;
@@ -93,7 +91,7 @@
             transition: background-color 0.2s, border-color 0.2s;
         }
 
-        /* Шапка */
+        /* Шапка з виправленим накладанням тексту */
         .header {
             padding: 20px 20px 10px;
             display: flex;
@@ -101,6 +99,7 @@
             align-items: center;
             position: relative;
             z-index: 10005;
+            min-height: 65px;
         }
 
         .btn-close {
@@ -111,12 +110,21 @@
             cursor: pointer;
             font-weight: 500;
             transition: opacity 0.2s;
+            white-space: nowrap;
         }
         .btn-close:hover { opacity: 0.8; }
 
-        .title-block { text-align: center; flex-grow: 1; }
-        .title-block h1 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-        .title-block p { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+        .title-block { 
+            text-align: center; 
+            flex-grow: 1; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 2px;
+            padding: 0 10px;
+        }
+        .title-block h1 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--text-main); line-height: 1.2; }
+        .title-block p { font-size: 10px; color: var(--text-muted); font-weight: 500; line-height: 1.2; }
 
         .btn-more-container { position: relative; }
         .btn-more { color: var(--text-muted); background: none; border: none; font-size: 18px; cursor: pointer; transition: color 0.2s; padding: 5px; }
@@ -203,7 +211,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 6px;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         /* Випадаючі списки */
@@ -265,8 +273,8 @@
             top: 0;
             z-index: 10;
         }
-        .dropdown-item { padding: 14px 16px; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-main); opacity: 0.8; transition: all 0.2s; }
-        .dropdown-item:hover { background-color: rgba(255,255,255,0.05); opacity: 1; }
+        .dropdown-item { padding: 14px 16px; font-size: 14px; font-weight: 500; cursor: pointer; color: var(--text-main); opacity: 0.9; transition: all 0.2s; }
+        .dropdown-item:hover { background-color: rgba(0,0,0,0.05); opacity: 1; }
 
         .pair-info { display: flex; align-items: center; gap: 10px; }
         .flags { display: flex; position: relative; width: 28px; height: 18px; }
@@ -297,7 +305,7 @@
             border-radius: 14px; font-weight: 600; font-size: 14px; text-transform: uppercase; cursor: pointer;
             display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s;
         }
-        .btn-outline:hover { background-color: rgba(255, 255, 255, 0.05); }
+        .btn-outline:hover { background-color: rgba(0, 0, 0, 0.05); }
 
         /* Трейдінг віджет графіку */
         .tradingview-widget-container {
@@ -317,27 +325,28 @@
         .loader-brand { font-size: 13px; font-weight: 600; letter-spacing: 6px; color: var(--text-main); text-transform: uppercase; margin-bottom: 12px; }
         .loader-status { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; }
 
-        /* Екран результату */
+        /* Екран результату - Стилі виправлені для відображення на білому */
         .signal-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 18px; display: flex; flex-direction: column; position: relative; }
-        .card-header-title { text-align: center; font-size: 14px; font-weight: 600; margin-bottom: 15px; letter-spacing: 0.5px; }
+        .card-header-title { text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 15px; letter-spacing: 0.5px; color: var(--text-main); }
         .grid-info { display: grid; grid-template-columns: 1fr 1fr; row-gap: 12px; margin-bottom: 15px; }
-        .info-label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; }
-        .info-value { font-size: 13px; font-weight: 600; }
-        .direction-value { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+        .info-label { font-size: 11px; color: var(--text-muted); margin-bottom: 2px; font-weight: 500; }
+        .info-value { font-size: 13px; font-weight: 700; color: var(--text-main); }
+        .direction-value { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; }
         .dir-down { color: var(--red-signal); }
         .dir-up { color: var(--green-signal); }
 
         .timer-section { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .progress-bar-container { width: 100%; height: 6px; background-color: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; }
+        .progress-bar-container { width: 100%; height: 6px; background-color: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; }
         .progress-fill { height: 100%; width: 100%; transition: width 1s linear; }
         .bg-red { background-color: var(--red-signal); }
         .bg-green { background-color: var(--green-signal); }
-        .timer-text { font-size: 11px; font-weight: 600; color: var(--text-main); }
+        .timer-text { font-size: 11px; font-weight: 700; color: var(--text-main); }
 
         .btn-action-signal {
-            width: 100%; background-color: var(--border-color); color: var(--text-main); border: none; padding: 14px; border-radius: 14px;
-            font-weight: 600; font-size: 13px; text-transform: uppercase; cursor: pointer; margin-top: auto; margin-bottom: 15px;
+            width: 100%; background-color: var(--card-bg); color: var(--text-main); border: 1px solid var(--border-color); padding: 14px; border-radius: 14px;
+            font-weight: 600; font-size: 13px; text-transform: uppercase; cursor: pointer; margin-top: auto; margin-bottom: 15px; transition: all 0.2s;
         }
+        .btn-action-signal:hover { background-color: rgba(0,0,0,0.03); }
 
         /* Вікно профілю */
         .modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 20000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.2s ease; }
@@ -345,11 +354,11 @@
         .profile-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; width: 88%; max-width: 330px; padding: 25px; text-align: center; position: relative; }
         .profile-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; padding: 5px; }
         .profile-header img { width: 75px; height: 75px; border-radius: 50%; border: 2px solid #3b82f6; margin-bottom: 12px; object-fit: cover; }
-        .profile-header h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+        .profile-header h3 { font-size: 18px; font-weight: 600; margin-bottom: 4px; color: var(--text-main); }
         .profile-header p { color: var(--text-muted); font-size: 13px; margin-bottom: 22px; }
-        .profile-info-list { text-align: left; background: rgba(0,0,0,0.1); border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
+        .profile-info-list { text-align: left; background: rgba(0,0,0,0.03); border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
         .info-item { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 13px; }
-        .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
+        .status-badge { color: var(--green-signal); background: rgba(34, 197, 94, 0.1); padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
 
         /* Навігація */
         .nav-bar { background-color: var(--nav-bg); border-top: 1px solid var(--border-color); padding: 12px 20px 25px; display: flex; justify-content: center; align-items: center; gap: 55px; margin-top: auto; }
@@ -589,7 +598,6 @@
             const targetElement = document.getElementById(`theme-${themeName}`);
             if(targetElement) targetElement.classList.add('active');
 
-            // Перемальовуємо графік, якщо екран результату активний
             if(!document.getElementById('resultScreen').classList.contains('hidden')) {
                 updateTradingViewWidget();
             }
@@ -663,7 +671,10 @@
         }
 
         function updateTradingViewWidget() {
-            if (typeof TradingView === 'undefined') return;
+            if (typeof TradingView === 'undefined') {
+                console.log('TradingView JS library not loaded yet');
+                return;
+            }
 
             let cleanPair = selectedPair.replace(" OTC", "").replace("/", "");
             let symbolTicker = selectedType === "Crypto" ? `BINANCE:${cleanPair}` : `FX:${cleanPair}`;
@@ -677,22 +688,25 @@
 
             let tvThemeMode = currentTheme === "light" ? "light" : "dark";
 
-            // Перестворюємо блок графіка з нуля для запобігання дублюванню
             document.getElementById('tvChartContainer').innerHTML = '<div id="tradingview_widget"></div>';
 
-            new TradingView.widget({
-                "width": "100%",
-                "height": 220,
-                "symbol": symbolTicker,
-                "interval": intervalMap,
-                "timezone": "Etc/UTC",
-                "theme": tvThemeMode,
-                "style": "1",
-                "locale": currentLang,
-                "enable_publishing": false,
-                "hide_sidebar": true,
-                "container_id": "tradingview_widget"
-            });
+            try {
+                new TradingView.widget({
+                    "width": "100%",
+                    "height": 220,
+                    "symbol": symbolTicker,
+                    "interval": intervalMap,
+                    "timezone": "Etc/UTC",
+                    "theme": tvThemeMode,
+                    "style": "1",
+                    "locale": currentLang,
+                    "enable_publishing": false,
+                    "hide_sidebar": true,
+                    "container_id": "tradingview_widget"
+                });
+            } catch (e) {
+                console.error("Widget init failed: ", e);
+            }
         }
 
         function switchTab(tab) {
@@ -799,7 +813,6 @@
             currentDirection = ['UP', 'DOWN'][Math.floor(Math.random() * 2)];
             updateDirectionUI();
 
-            // ВИПРАВЛЕНО: спочатку відкриваємо екран, прибираючи .hidden
             document.getElementById('resultScreen').classList.remove('hidden');
             document.getElementById('mainNavigation').classList.remove('hidden'); 
             
@@ -809,10 +822,9 @@
 
             updateTimerUI();
             
-            // Тільки після відображення контейнера ініціалізуємо графік через мікротаймаут
             setTimeout(() => {
                 updateTradingViewWidget();
-            }, 50);
+            }, 150);
 
             clearInterval(countdownInterval);
             countdownInterval = setInterval(() => {
