@@ -608,6 +608,7 @@
 
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
                 const initData = window.Telegram.WebApp.initData;
+                const userId = tg.initDataUnsafe?.user?.id || "";
 
                 // Замініть адресу нижче на ваш підключений бекенд
                 fetch(`https://butovski-signal-bot.onrender.com/api/check-user`, {
