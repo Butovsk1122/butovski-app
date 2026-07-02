@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.5</title>
+    <title>Butovski App v2.6</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -213,7 +213,7 @@
             letter-spacing: 0.3px;
         }
 
-        /* КРАСИВІ КАСТОМНІ ВИПАДАЮЧІ СПИСКИ */
+        /* КАСТОМНІ ВИПАДАЮЧІ СПИСКИ */
         .custom-select-wrapper {
             position: relative;
             width: 100%;
@@ -470,18 +470,19 @@
             align-items: center;
             padding: 14px 0;
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
         .settings-row:last-child { border-bottom: none; }
-
-        .select-custom {
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 6px 12px;
+        
+        .settings-row .custom-select-wrapper {
+            width: 160px; /* Фіксована ширина для гарного вигляду у списку налаштувань */
+        }
+        
+        .settings-row .custom-select-trigger {
+            padding: 8px 12px;
+            font-size: 13px;
             border-radius: 8px;
-            outline: none;
-            font-weight: 600;
         }
 
         /* Калькулятор Мартингейла */
@@ -659,8 +660,8 @@
     </div>
 
     <!-- ЕКРАН 3: ПРОФІЛЬ -->
-    <div id="screenProfile" class="screen hidden">
-        <div class="card">
+    <div id="screenProfile" class="screen hidden" style="overflow: visible;">
+        <div class="card" style="overflow: visible;">
             <div class="profile-user">
                 <div id="userAvatar" class="profile-avatar">B</div>
                 <div class="profile-info">
@@ -672,21 +673,37 @@
                 <span id="setAccessType">Тип доступу:</span>
                 <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
             </div>
-            <div class="settings-row">
+            
+            <!-- КАСТОМНИЙ ВИБІР ТЕМИ -->
+            <div class="settings-row" style="overflow: visible; z-index: 200;">
                 <span id="setTheme">Тема додатка</span>
-                <select id="themeSelect" class="select-custom" onchange="changeTheme(this.value)">
-                    <option value="cyberpunk">Cyberpunk</option>
-                    <option value="emerald">Emerald</option>
-                    <option value="nordic">Nordic</option>
-                    <option value="light">Light</option>
-                </select>
+                <div class="custom-select-wrapper" id="themeDropdownWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
+                        <span id="themeSelectedValue" data-value="cyberpunk">Cyberpunk</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="custom-options-dropdown">
+                        <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk', 'Cyberpunk')">Cyberpunk</div>
+                        <div class="custom-option" data-value="emerald" onclick="selectThemeOption('emerald', 'Emerald')">Emerald</div>
+                        <div class="custom-option" data-value="nordic" onclick="selectThemeOption('nordic', 'Nordic')">Nordic</div>
+                        <div class="custom-option" data-value="light" onclick="selectThemeOption('light', 'Light')">Light</div>
+                    </div>
+                </div>
             </div>
-            <div class="settings-row">
+            
+            <!-- КАСТОМНИЙ ВИБІР МОВИ -->
+            <div class="settings-row" style="overflow: visible; z-index: 100;">
                 <span>Мова / Language</span>
-                <select id="langSelect" class="select-custom" onchange="changeLanguage(this.value)">
-                    <option value="uk">Українська</option>
-                    <option value="en">English</option>
-                </select>
+                <div class="custom-select-wrapper" id="langDropdownWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
+                        <span id="langSelectedValue" data-value="uk">Українська</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="custom-options-dropdown">
+                        <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk', 'Українська')">Українська</div>
+                        <div class="custom-option" data-value="en" onclick="selectLangOption('en', 'English')">English</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -708,7 +725,7 @@
     </div>
 
     <script>
-        // РОЗШИРЕНИЙ СПИСОК ВАЛЮТНИХ ПАР
+        // РОЗШИРЕНИЙ СПИСОК ВАЛЮТНИХ ПАР ТА МЕТАЛІВ
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: "EUR/USD" },
@@ -828,6 +845,7 @@
             loadTelegramUserData();
             calculateMartingale();
 
+            // Закриття будь-якого кастомного селектора при кліку поза ним
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.custom-select-wrapper')) {
                     document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
@@ -887,6 +905,36 @@
             wrapper.classList.remove('open');
             
             updateTradingPairsAndGraph();
+        }
+
+        // НОВИЙ КАСТОМНИЙ СЕЛЕКТОР ТЕМИ
+        function selectThemeOption(val, text) {
+            const wrapper = document.getElementById('themeDropdownWrapper');
+            const triggerText = document.getElementById('themeSelectedValue');
+            
+            wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            triggerText.innerText = text;
+            triggerText.setAttribute('data-value', val);
+            wrapper.classList.remove('open');
+            
+            changeTheme(val);
+        }
+
+        // НОВИЙ КАСТОМНИЙ СЕЛЕКТОР МОВИ
+        function selectLangOption(val, text) {
+            const wrapper = document.getElementById('langDropdownWrapper');
+            const triggerText = document.getElementById('langSelectedValue');
+            
+            wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            triggerText.innerText = text;
+            triggerText.setAttribute('data-value', val);
+            wrapper.classList.remove('open');
+            
+            changeLanguage(val);
         }
 
         function changeMarketType(type) {
