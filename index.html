@@ -795,7 +795,8 @@
                 setTheme: "App Theme",
                 accNormal: "Standard",
                 accVip: "VIP Access",
-                up: "CALL (UP)", down: "PUT (DOWN)",
+                up: "CALL (UP)",
+                down: "PUT (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTES", m10: "10 MINUTES", m15: "15 MINUTES", m30: "30 MINUTES", h1: "1 HOUR",
                 btnReal: "Real Market", btnOtc: "OTC Market",
                 tf1: "1 m", tf5: "5 m", tf10: "10 m", tf15: "15 m", tf30: "30 m", tf60: "1 h"
@@ -824,7 +825,8 @@
                 setTheme: "Тема приложения",
                 accNormal: "Обычный",
                 accVip: "VIP Доступ",
-                up: "ВВЕРХ", down: "ВНИЗ",
+                up: "ВВЕРХ",
+                down: "ВНИЗ",
                 m1: "1 МИНУТА", m5: "5 МИНУТ", m10: "10 МИНУТ", m15: "15 МИНУТ", m30: "30 МИНУТ", h1: "1 ЧАС",
                 btnReal: "Реальный рынок", btnOtc: "OTC Рынок",
                 tf1: "1 мин", tf5: "5 мин", tf10: "10 мин", tf15: "15 мин", tf30: "30 мин", tf60: "1 ч"
@@ -853,7 +855,8 @@
                 setTheme: "Thème de l'application",
                 accNormal: "Standard",
                 accVip: "Accès VIP",
-                up: "HAUSSE (UP)", down: "BAISSE (DOWN)",
+                up: "HAUSSE (UP)",
+                down: "BAISSE (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTES", m10: "10 MINUTES", m15: "15 MINUTES", m30: "30 MINUTES", h1: "1 HEURE",
                 btnReal: "Marché Réel", btnOtc: "Marché OTC",
                 tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 h"
@@ -882,7 +885,8 @@
                 setTheme: "App-Design",
                 accNormal: "Standard",
                 accVip: "VIP-Zugang",
-                up: "HOCH (UP)", down: "RUNTER (DOWN)",
+                up: "HOCH (UP)",
+                down: "RUNTER (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTEN", m10: "10 MINUTEN", m15: "15 MINUTEN", m30: "30 MINUTEN", h1: "1 STUNDE",
                 btnReal: "Realer Markt", btnOtc: "OTC-Markt",
                 tf1: "1 Min", tf5: "5 Min", tf10: "10 Min", tf15: "15 Min", tf30: "30 Min", tf60: "1 Std"
@@ -911,7 +915,8 @@
                 setTheme: "Tema dell'app",
                 accNormal: "Standard",
                 accVip: "Accesso VIP",
-                up: "SU (UP)", down: "GIÙ (DOWN)",
+                up: "SU (UP)",
+                down: "GIÙ (DOWN)",
                 m1: "1 MINUTO", m5: "5 MINUTI", m10: "10 MINUTI", m15: "15 MINUTI", m30: "30 MINUTI", h1: "1 ORA",
                 btnReal: "Mercato Reale", btnOtc: "Mercato OTC",
                 tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 o"
@@ -926,7 +931,7 @@
         let currentMarket = 'real';
         let selectedAssetValue = "";
         let selectedAssetText = "";
-        let userAccessType = "normal"; // Може змінюватись динамічно ("normal" або "vip")
+        let userAccessType = "normal";
 
         document.addEventListener("DOMContentLoaded", function() {
             if (window.Telegram && Telegram.WebApp) {
@@ -937,7 +942,6 @@
             loadTelegramUserData();
             calculateMartingale();
             updateLanguageInterface();
-
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.custom-select-wrapper')) {
                     document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
@@ -985,12 +989,10 @@
         function selectTimeframeOption(val) {
             const wrapper = document.getElementById('timeframeDropdownWrapper');
             const triggerText = document.getElementById('timeframeSelectedValue');
-            
             wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
             if (event && event.target) {
                 event.target.classList.add('selected');
             }
-            
             triggerText.setAttribute('data-value', val);
             triggerText.innerText = languages[currentLang]["tf" + val];
             wrapper.classList.remove('open');
@@ -1020,232 +1022,240 @@
             triggerText.innerText = text;
             triggerText.setAttribute('data-value', val);
             wrapper.classList.remove('open');
-            
             currentLang = val;
             updateLanguageInterface();
         }
 
-        function updateLanguageInterface() {
-            const data = languages[currentLang];
-            
-            // Основні тексти та елементи
-            document.getElementById('loadingText').innerText = data.loading;
-            document.getElementById('lockTitle').innerText = data.lockTitle;
-            document.getElementById('lockDesc').innerText = data.lockDesc;
-            document.getElementById('menuSignals').innerText = data.menuSignals;
-            document.getElementById('menuCalc').innerText = data.menuCalc;
-            document.getElementById('menuProfile').innerText = data.menuProfile;
-            
-            const actionBtn = document.getElementById('signalActionButton');
-            if(actionBtn.classList.contains('analysing')) {
-                actionBtn.innerText = data.btnAnalyse;
-            } else if(actionBtn.classList.contains('has-result')) {
-                actionBtn.innerText = data.btnNew;
-            } else {
-                actionBtn.innerText = data.btnGet;
-            }
-
-            document.getElementById('lblSelectAsset').innerText = data.lblSelectAsset;
-            document.getElementById('lblSelectTimeframe').innerText = data.lblSelectTimeframe;
-            document.getElementById('lblTimeframe').innerText = data.lblTimeframe;
-            document.getElementById('lblProba').innerText = data.lblProba;
-            
-            // Переклад кнопок вибору ринку
-            document.getElementById('btnRealMarket').innerText = data.btnReal;
-            document.getElementById('btnOtcMarket').innerText = data.btnOtc;
-
-            // Калькулятор
-            document.getElementById('lblStartBet').innerText = data.lblStartBet;
-            document.getElementById('lblMultiplier').innerText = data.lblMultiplier;
-            document.getElementById('lblSteps').innerText = data.lblSteps;
-            document.getElementById('thStep').innerText = data.thStep;
-            document.getElementById('thBet').innerText = data.thBet;
-            document.getElementById('thTotal').innerText = data.thTotal;
-            
-            // Налаштування та Профіль
-            document.getElementById('setAccessType').innerText = data.setAccessType;
-            document.getElementById('setTheme').innerText = data.setTheme;
-            
-            // Динамічний переклад типу доступу в профілі
-            const accessValueSpan = document.getElementById('profileAccessValue');
-            if (userAccessType === 'vip') {
-                accessValueSpan.innerText = data.accVip;
-                accessValueSpan.style.color = '#f59e0b';
-            } else {
-                accessValueSpan.innerText = data.accNormal;
-                accessValueSpan.style.color = '#6366f1';
-            }
-
-            // Динамічне оновлення тексту поточного таймфрейму біля стрілочки
-            const tfTrigger = document.getElementById('timeframeSelectedValue');
-            const currentTfVal = tfTrigger.getAttribute('data-value') || '1';
-            tfTrigger.innerText = data["tf" + currentTfVal];
-
-            // Переклад списку опцій таймфрейму всередині dropdown
-            const tfDropdown = document.getElementById('timeframeCustomOptions');
-            if(tfDropdown) {
-                const options = tfDropdown.querySelectorAll('.custom-option');
-                options.forEach(opt => {
-                    const val = opt.getAttribute('data-value');
-                    opt.innerText = data["tf" + val];
-                });
-            }
-
-            calculateMartingale();
+        function changeTheme(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            currentTheme = themeName;
+            updateTradingPairsAndGraph();
         }
 
         function changeMarketType(type) {
             currentMarket = type;
             document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
-            if(type === 'real') document.getElementById('btnRealMarket').classList.add('active');
-            if(type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
-            if(type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
+            if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
+            if (type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
+            if (type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
+            
             renderAssetOptions(type);
+            updateTradingPairsAndGraph();
         }
 
         function switchScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            if(screenId === 'signals') {
+
+            if (screenId === 'signals') {
                 document.getElementById('screenSignals').classList.remove('hidden');
                 document.getElementById('navSignals').classList.add('active');
-            } else if(screenId === 'calc') {
+            } else if (screenId === 'calc') {
                 document.getElementById('screenCalc').classList.remove('hidden');
                 document.getElementById('navCalc').classList.add('active');
-            } else if(screenId === 'profile') {
+            } else if (screenId === 'profile') {
                 document.getElementById('screenProfile').classList.remove('hidden');
                 document.getElementById('navProfile').classList.add('active');
             }
         }
 
-        function changeTheme(themeName) {
-            currentTheme = themeName;
-            document.documentElement.setAttribute('data-theme', themeName);
-            updateTradingPairsAndGraph();
-        }
+        function updateLanguageInterface() {
+            const langData = languages[currentLang];
+            
+            // Виправлено: оновлення мови для кнопок перемикання ринків
+            document.getElementById('btnRealMarket').innerText = langData.btnReal;
+            document.getElementById('btnOtcMarket').innerText = langData.btnOtc;
 
-        function updateTradingPairsAndGraph() {
-            const tfTrigger = document.getElementById('timeframeSelectedValue');
-            const tf = tfTrigger.getAttribute('data-value') || '1';
-            initTradingViewWidget(currentTheme, selectedAssetValue, tf);
+            document.getElementById('loadingText').innerText = langData.loading;
+            document.getElementById('lockTitle').innerText = langData.lockTitle;
+            document.getElementById('lockDesc').innerText = langData.lockDesc;
+
+            document.getElementById('menuSignals').innerText = langData.menuSignals;
+            document.getElementById('menuCalc').innerText = langData.menuCalc;
+            document.getElementById('menuProfile').innerText = langData.menuProfile;
+
+            const actionBtn = document.getElementById('signalActionButton');
+            if (actionBtn.getAttribute('data-state') === 'analysing') {
+                actionBtn.innerText = langData.btnAnalyse;
+            } else if (actionBtn.getAttribute('data-state') === 'result') {
+                actionBtn.innerText = langData.btnNew;
+            } else {
+                actionBtn.innerText = langData.btnGet;
+            }
+
+            document.getElementById('lblSelectAsset').innerText = langData.lblSelectAsset;
+            document.getElementById('lblSelectTimeframe').innerText = langData.lblSelectTimeframe;
+            document.getElementById('lblTimeframe').innerText = langData.lblTimeframe;
+            document.getElementById('lblProba').innerText = langData.lblProba;
+
+            document.getElementById('lblStartBet').innerText = langData.lblStartBet;
+            document.getElementById('lblMultiplier').innerText = langData.lblMultiplier;
+            document.getElementById('lblSteps').innerText = langData.lblSteps;
+            document.getElementById('thStep').innerText = langData.thStep;
+            document.getElementById('thBet').innerText = langData.thBet;
+            document.getElementById('thTotal').innerText = langData.thTotal;
+
+            document.getElementById('setAccessType').innerText = langData.setAccessType;
+            document.getElementById('setTheme').innerText = langData.setTheme;
+
+            const profileAccessVal = document.getElementById('profileAccessValue');
+            if (userAccessType === 'vip') {
+                profileAccessVal.innerText = langData.accVip;
+            } else {
+                profileAccessVal.innerText = langData.accNormal;
+            }
+
+            const tfValElement = document.getElementById('timeframeSelectedValue');
+            const tfCurrentVal = tfValElement.getAttribute('data-value');
+            tfValElement.innerText = langData["tf" + tfCurrentVal];
+
+            if (document.getElementById('resultScreen').classList.contains('hidden') === false) {
+                const dirElement = document.getElementById('signalDirection');
+                if (dirElement.classList.contains('bg-green')) {
+                    dirElement.innerText = langData.up;
+                } else {
+                    dirElement.innerText = langData.down;
+                }
+                const tfDigits = tfCurrentVal === "60" ? "h1" : "m" + tfCurrentVal;
+                document.getElementById('signalTimeframe').innerText = langData[tfDigits];
+            }
         }
 
         function handleSignalAction() {
             const btn = document.getElementById('signalActionButton');
-            const data = languages[currentLang];
-            
-            if(btn.classList.contains('has-result')) {
-                btn.classList.remove('has-result');
-                btn.innerText = data.btnGet;
+            const langData = languages[currentLang];
+
+            if (btn.getAttribute('data-state') === 'result') {
+                clearInterval(countdownInterval);
                 document.getElementById('resultScreen').classList.add('hidden');
+                btn.removeAttribute('data-state');
+                btn.innerText = langData.btnGet;
                 return;
             }
 
-            btn.classList.add('analysing');
-            btn.innerText = data.btnAnalyse;
+            btn.setAttribute('data-state', 'analysing');
+            btn.innerText = langData.btnAnalyse;
             btn.disabled = true;
 
             setTimeout(() => {
-                btn.classList.remove('analysing');
-                btn.classList.add('has-result');
-                btn.innerText = data.btnNew;
                 btn.disabled = false;
+                btn.setAttribute('data-state', 'result');
+                btn.innerText = langData.btnNew;
 
                 document.getElementById('signalPair').innerText = selectedAssetText;
-                
-                const r = Math.random();
+
+                const isUp = Math.random() > 0.45;
                 const dirBadge = document.getElementById('signalDirection');
-                if(r > 0.5) {
-                    dirBadge.innerText = data.up;
+                if (isUp) {
+                    dirBadge.innerText = langData.up;
                     dirBadge.className = "direction-badge bg-green";
                 } else {
-                    dirBadge.innerText = data.down;
+                    dirBadge.innerText = langData.down;
                     dirBadge.className = "direction-badge bg-red";
                 }
 
-                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || '1';
-                document.getElementById('signalTimeframe').innerText = data["tf" + tfVal].toUpperCase();
-                document.getElementById('signalProbability').innerText = Math.floor(Math.random() * 11) + 85 + "%";
+                const currentTf = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
+                const tfDigits = currentTf === "60" ? "h1" : "m" + currentTf;
+                document.getElementById('signalTimeframe').innerText = langData[tfDigits];
+
+                const randomProba = Math.floor(Math.random() * (96 - 83 + 1)) + 83;
+                document.getElementById('signalProbability').innerText = randomProba + "%";
 
                 document.getElementById('resultScreen').classList.remove('hidden');
-                startTimer(tfVal * 60);
-            }, 2000);
+
+                totalSeconds = parseInt(currentTf) * 60;
+                secondsLeft = totalSeconds;
+                startSignalTimer();
+
+            }, 2500);
         }
 
-        function startTimer(duration) {
+        function startSignalTimer() {
             clearInterval(countdownInterval);
-            totalSeconds = duration;
-            secondsLeft = duration;
-            
             updateTimerDisplay();
-            const fill = document.getElementById('progressFill');
-            fill.style.width = "100%";
-            fill.style.backgroundColor = "var(--green-signal)";
 
             countdownInterval = setInterval(() => {
                 secondsLeft--;
-                updateTimerDisplay();
-
-                const pct = (secondsLeft / totalSeconds) * 100;
-                fill.style.width = pct + "%";
-
-                if(pct < 30) {
-                    fill.style.backgroundColor = "var(--red-signal)";
-                }
-
-                if(secondsLeft <= 0) {
+                if (secondsLeft <= 0) {
                     clearInterval(countdownInterval);
+                    handleSignalAction(); 
+                } else {
+                    updateTimerDisplay();
                 }
             }, 1000);
         }
 
         function updateTimerDisplay() {
-            const m = Math.floor(secondsLeft / 60).toString().padStart(2, '0');
-            const s = (secondsLeft % 60).toString().padStart(2, '0');
-            const tm = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-            const ts = (totalSeconds % 60).toString().padStart(2, '0');
-            document.getElementById('timerDigits').innerText = `${m}:${s} / ${tm}:${ts}`;
+            const progressFill = document.getElementById('progressFill');
+            const timerDigits = document.getElementById('timerDigits');
+
+            const percent = (secondsLeft / totalSeconds) * 100;
+            progressFill.style.width = percent + "%";
+
+            const dirBadge = document.getElementById('signalDirection');
+            if (dirBadge.classList.contains('bg-green')) {
+                progressFill.style.backgroundColor = "var(--green-signal)";
+            } else {
+                progressFill.style.backgroundColor = "var(--red-signal)";
+            }
+
+            timerDigits.innerText = formatTime(secondsLeft) + " / " + formatTime(totalSeconds);
+        }
+
+        function formatTime(totalSecs) {
+            const hrs = Math.floor(totalSecs / 3600);
+            const mins = Math.floor((totalSecs % 3600) / 60);
+            const secs = totalSecs % 60;
+
+            let res = "";
+            if (hrs > 0) { res += (hrs < 10 ? "0" + hrs : hrs) + ":"; }
+            res += (mins < 10 ? "0" + mins : mins) + ":";
+            res += (secs < 10 ? "0" + secs : secs);
+            return res;
+        }
+
+        function updateTradingPairsAndGraph() {
+            const theme = (currentTheme === 'light') ? 'light' : 'dark';
+            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
+            initTradingViewWidget(theme, selectedAssetValue, tf);
         }
 
         function calculateMartingale() {
             const start = parseFloat(document.getElementById('startBet').value) || 1;
             const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
-            
+
             const tbody = document.getElementById('martingaleResultBody');
             tbody.innerHTML = "";
 
             let currentBet = start;
-            let totalCost = 0;
+            let totalSpent = 0;
 
-            for(let i = 1; i <= steps; i++) {
-                totalCost += currentBet;
+            for (let i = 1; i <= steps; i++) {
+                totalSpent += currentBet;
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${i}</td>
                     <td>$${currentBet.toFixed(2)}</td>
-                    <td>$${totalCost.toFixed(2)}</td>
+                    <td>$${totalSpent.toFixed(2)}</td>
                 `;
                 tbody.appendChild(row);
-                currentBet *= mult;
+                currentBet = currentBet * mult;
             }
         }
 
         function loadTelegramUserData() {
-            // Емуляція успішного проходження перевірки ліцензії
             setTimeout(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('brandLine').classList.remove('hidden');
-                document.getElementById('screenSignals').classList.remove('hidden');
+                switchScreen('signals');
                 document.getElementById('mainNavigation').classList.remove('hidden');
-                
+
                 if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initDataUnsafe && Telegram.WebApp.initDataUnsafe.user) {
                     const user = Telegram.WebApp.initDataUnsafe.user;
-                    const name = [user.first_name, user.last_name].filter(Boolean).join(' ');
-                    document.getElementById('profileName').innerText = name || "Користувач";
-                    document.getElementById('profileUsername').innerText = user.username ? "@" + user.username : "";
                     if(user.first_name) {
+                        document.getElementById('profileName').innerText = user.first_name + (user.last_name ? " " + user.last_name : "");
+                        document.getElementById('profileUsername').innerText = user.username ? "@" + user.username : "ID: " + user.id;
                         document.getElementById('userAvatar').innerText = user.first_name.charAt(0).toUpperCase();
                     }
                 }
