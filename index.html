@@ -175,6 +175,33 @@
             margin-bottom: 16px;
         }
 
+        /* Налаштування селекторів на головній */
+        .signal-settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .setting-box label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .full-width-select {
+            width: 100%;
+            background-color: rgba(255,255,255,0.02);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+        }
+
         /* Кнопки */
         .btn-action-signal {
             width: 100%;
@@ -369,10 +396,33 @@
     </div>
 
     <div id="screenSignals" class="screen hidden">
-        <div class="card" style="text-align: center; padding: 24px 16px;">
-            <p id="signalIntro" style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
-                Натисніть кнопку нижче, щоб алгоритм проаналізував поточний стан ринку та видав сигнал.
-            </p>
+        <div class="card" style="padding: 16px;">
+            <div class="signal-settings-grid">
+                <div class="setting-box">
+                    <label id="lblSelectPair">Валютна пара</label>
+                    <select id="assetSelect" class="full-width-select" onchange="handleAssetChange(this.value)">
+                        <option value="FX:EURUSD">EUR/USD</option>
+                        <option value="FX:GBPUSD">GBP/USD</option>
+                        <option value="FX:USDJPY">USD/JPY</option>
+                        <option value="FX:AUDUSD">AUD/USD</option>
+                        <option value="FX:EURJPY">EUR/JPY</option>
+                        <option value="BINANCE:BTCUSDT">BTC/USD</option>
+                        <option value="BINANCE:ETHUSDT">ETH/USD</option>
+                    </select>
+                </div>
+                <div class="setting-box">
+                    <label id="lblSelectTimeframe">Час угоди</label>
+                    <select id="timeframeSelect" class="full-width-select" onchange="handleTimeframeChange(this.value)">
+                        <option value="1">1 хвилина</option>
+                        <option value="5">5 хвилин</option>
+                        <option value="10">10 хвилин</option>
+                        <option value="15">15 хвилин</option>
+                        <option value="30">30 хвилин</option>
+                        <option value="60">1 година</option>
+                    </select>
+                </div>
+            </div>
+
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
@@ -399,7 +449,7 @@
             <div class="timer-text" id="timerDigits">00:00/00:00</div>
         </div>
 
-        <div class="card" style="padding:0; height: 350px; overflow: hidden; border-radius:16px;">
+        <div class="card" style="padding:0; height: 250px; overflow: hidden; border-radius:16px;">
             <div id="tradingview_widget" style="height:100%; width:100%;"></div>
         </div>
     </div>
@@ -488,10 +538,11 @@
                 menuSignals: "Сигнали",
                 menuCalc: "Калькулятор",
                 menuProfile: "Профіль",
-                signalIntro: "Натисніть кнопку нижче, щоб алгоритм проаналізував поточний стан ринку та видав сигнал.",
                 btnGet: "ОТРИМАТИ СИГНАЛ",
                 btnAnalyse: "АНАЛІЗ РИНКУ...",
                 btnNew: "НОВИЙ СИГНАЛ",
+                lblSelectPair: "Валютна пара",
+                lblSelectTimeframe: "Час угоди",
                 lblTimeframe: "ЧАС СИГНАЛУ",
                 lblProba: "ЙМОВІРНІСТЬ",
                 lblStartBet: "Початкова ставка ($)",
@@ -504,9 +555,14 @@
                 setTheme: "Тема додатка",
                 accNormal: "Звичайний",
                 accVip: "VIP Доступ",
-                tf: "1 ХВИЛИНА",
                 up: "ВВЕРХ",
-                down: "ВНИЗ"
+                down: "ВНИЗ",
+                m1: "1 ХВИЛИНА",
+                m5: "5 ХВИЛИН",
+                m10: "10 ХВИЛИН",
+                m15: "15 ХВИЛИН",
+                m30: "30 ХВИЛИН",
+                h1: "1 ГОДИНА"
             },
             en: {
                 loading: "Checking access...",
@@ -515,10 +571,11 @@
                 menuSignals: "Signals",
                 menuCalc: "Calculator",
                 menuProfile: "Profile",
-                signalIntro: "Click the button below so the algorithm can analyze the market and generate a signal.",
                 btnGet: "GET SIGNAL",
                 btnAnalyse: "ANALYZING...",
                 btnNew: "NEW SIGNAL",
+                lblSelectPair: "Currency Pair",
+                lblSelectTimeframe: "Expiration Time",
                 lblTimeframe: "TIMEFRAME",
                 lblProba: "PROBABILITY",
                 lblStartBet: "Initial Bet ($)",
@@ -531,9 +588,14 @@
                 setTheme: "App Theme",
                 accNormal: "Standard",
                 accVip: "VIP Access",
-                tf: "1 MINUTE",
                 up: "CALL (UP)",
-                down: "PUT (DOWN)"
+                down: "PUT (DOWN)",
+                m1: "1 MINUTE",
+                m5: "5 MINUTES",
+                m10: "10 MINUTES",
+                m15: "15 MINUTES",
+                m30: "30 MINUTES",
+                h1: "1 HOUR"
             }
         };
 
@@ -541,6 +603,9 @@
         let countdownInterval;
         let totalSeconds = 60;
         let secondsLeft = 60;
+        let currentAsset = 'FX:EURUSD';
+        let currentTimeframeValue = '1'; 
+        let currentTheme = 'dark';
 
         // Ініціалізація Telegram WebApp
         document.addEventListener("DOMContentLoaded", function() {
@@ -558,11 +623,8 @@
             
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
                 const initData = window.Telegram.WebApp.initData;
-                
-                // Виправлено помилку з неіснуючою змінною tg
                 const tgUser = Telegram.WebApp.initDataUnsafe?.user || {};
                 
-                // Запит на ваш бекенд
                 fetch(`https://butovski-signal-bot.onrender.com/api/check-user`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -574,13 +636,11 @@
                 })
                 .then(data => {
                     if (data.has_access) {
-                        // Показуємо додаток
                         document.getElementById('loadingScreen').classList.add('hidden');
                         document.getElementById('brandLine').classList.remove('hidden');
                         document.getElementById('mainNavigation').classList.remove('hidden');
                         switchScreen('signals');
                         
-                        // Заповнюємо дані профілю
                         document.getElementById('profileName').innerText = data.name || tgUser.first_name || "User";
                         document.getElementById('profileUsername').innerText = data.username || (tgUser.username ? '@'+tgUser.username : '');
                         
@@ -600,7 +660,7 @@
                             document.getElementById('profileAccessValue').innerText = languages[currentLang].accNormal;
                         }
                         
-                        initTradingViewWidget('dark');
+                        initTradingViewWidget(currentTheme, currentAsset, currentTimeframeValue);
                     } else {
                         showLockScreen();
                     }
@@ -610,13 +670,13 @@
                     showLockScreen();
                 });
             } else {
-                // Для тестування у звичайному браузері без Telegram завантажуємо локально
+                // Для девелоп-тестів у браузері
                 setTimeout(() => {
                     document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('brandLine').classList.remove('hidden');
                     document.getElementById('mainNavigation').classList.remove('hidden');
                     switchScreen('signals');
-                    initTradingViewWidget('dark');
+                    initTradingViewWidget(currentTheme, currentAsset, currentTimeframeValue);
                 }, 1000);
             }
         }
@@ -624,6 +684,18 @@
         function showLockScreen() {
             document.getElementById('loadingScreen').classList.add('hidden');
             document.getElementById('lockScreen').classList.remove('hidden');
+        }
+
+        // Зміна обраного активу
+        function handleAssetChange(val) {
+            currentAsset = val;
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframeValue);
+        }
+
+        // Зміна обраного часу (таймфрейму)
+        function handleTimeframeChange(val) {
+            currentTimeframeValue = val;
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframeValue);
         }
 
         // Перемикання екранів
@@ -643,7 +715,18 @@
             }
         }
 
-        // Логіка сигналів
+        // Отримання гарного тексту для таймфрейму з бази локалізації
+        function getLocalizedTimeframeText(val) {
+            if (val === '1') return languages[currentLang].m1;
+            if (val === '5') return languages[currentLang].m5;
+            if (val === '10') return languages[currentLang].m10;
+            if (val === '15') return languages[currentLang].m15;
+            if (val === '30') return languages[currentLang].m30;
+            if (val === '60') return languages[currentLang].h1;
+            return val + " min";
+        }
+
+        // Логіка генерації сигналів
         function handleSignalAction() {
             const actionBtn = document.getElementById('signalActionButton');
             
@@ -655,13 +738,14 @@
                     actionBtn.disabled = false;
                     actionBtn.innerText = languages[currentLang].btnNew;
                     
-                    // Генеруємо випадкові стабільні дані для сигналу
-                    const pairs = ['EUR/USD', 'GBP/USD', 'USD/JPY', 'AUD/USD', 'EUR/JPY', 'BTC/USD'];
-                    const randomPair = pairs[Math.floor(Math.random() * pairs.length)];
-                    const isUp = Math.random() > 0.45;
-                    const proba = Math.floor(Math.random() * (97 - 84 + 1)) + 84;
+                    // Зчитуємо поточну вибрану пару з селектора
+                    const selectEl = document.getElementById('assetSelect');
+                    const selectedPairText = selectEl.options[selectEl.selectedIndex].text;
+                    
+                    const isUp = Math.random() > 0.48;
+                    const proba = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
 
-                    document.getElementById('signalPair').innerText = randomPair;
+                    document.getElementById('signalPair').innerText = selectedPairText;
                     const dirBadge = document.getElementById('signalDirection');
                     
                     if (isUp) {
@@ -672,15 +756,15 @@
                         dirBadge.className = "direction-badge bg-red";
                     }
 
-                    document.getElementById('signalTimeframe').innerText = languages[currentLang].tf;
+                    document.getElementById('signalTimeframe').innerText = getLocalizedTimeframeText(currentTimeframeValue);
                     document.getElementById('signalProbability').innerText = proba + '%';
                     
-                    // Відображаємо картку результату
                     document.getElementById('resultScreen').classList.remove('hidden');
                     
-                    // Запуск таймера
-                    startCountdown(60, isUp);
-                }, 2000);
+                    // Встановлюємо секунди для таймера відповідно до таймфрейму (наприклад 5 хв = 300 сек)
+                    const minutes = parseInt(currentTimeframeValue);
+                    startCountdown(minutes * 60, isUp);
+                }, 1500);
             }
         }
 
@@ -726,7 +810,7 @@
         // Калькулятор Мартингейла
         function calculateMartingale() {
             const startBet = parseFloat(document.getElementById('startBet').value) || 1;
-            const multiplier = parseFloat(document.getElementById('multiplier').value) || 2;
+            const multiplier = parseFloat(document.getElementById('multiplier').value) || 2.2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
 
             const tbody = document.getElementById('martingaleResultBody');
@@ -753,9 +837,9 @@
 
         // Зміна теми
         function changeTheme(themeName) {
+            currentTheme = themeName;
             document.documentElement.setAttribute('data-theme', themeName);
-            const tvTheme = themeName === 'light' ? 'light' : 'dark';
-            initTradingViewWidget(tvTheme);
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframeValue);
         }
 
         // Зміна мови
@@ -769,10 +853,22 @@
             document.getElementById('menuSignals').innerText = textData.menuSignals;
             document.getElementById('menuCalc').innerText = textData.menuCalc;
             document.getElementById('menuProfile').innerText = textData.menuProfile;
-            document.getElementById('signalIntro').innerText = textData.signalIntro;
             
+            document.getElementById('lblSelectPair').innerText = textData.lblSelectPair;
+            document.getElementById('lblSelectTimeframe').innerText = textData.lblSelectTimeframe;
+            
+            // Оновлюємо тексти у селекторі таймфреймів
+            const tfSelect = document.getElementById('timeframeSelect');
+            tfSelect.options[0].text = textData.m1;
+            tfSelect.options[1].text = textData.m5;
+            tfSelect.options[2].text = textData.m10;
+            tfSelect.options[3].text = textData.m15;
+            tfSelect.options[4].text = textData.m30;
+            tfSelect.options[5].text = textData.h1;
+
             const actionBtn = document.getElementById('signalActionButton');
             if(actionBtn.innerText.includes("ОТРИМАТИ") || actionBtn.innerText.includes("GET")) actionBtn.innerText = textData.btnGet;
+            if(actionBtn.innerText.includes("НОВИЙ") || actionBtn.innerText.includes("NEW")) actionBtn.innerText = textData.btnNew;
             
             document.getElementById('lblTimeframe').innerText = textData.lblTimeframe;
             document.getElementById('lblProba').innerText = textData.lblProba;
@@ -788,17 +884,21 @@
             calculateMartingale();
         }
 
-        // Графік TradingView
-        function initTradingViewWidget(theme) {
+        // Динамічний віджет TradingView зі зв'язаним таймфреймом та активом
+        function initTradingViewWidget(theme, asset, timeframe) {
             if (typeof TradingView !== 'undefined') {
+                // Мапінг значень таймфреймів для TradingView (60хв = 1 година = код "H")
+                let tvInterval = timeframe;
+                if (timeframe === '60') tvInterval = '60';
+
                 new TradingView.widget({
                     "autosize": true,
-                    "symbol": "FX:EURUSD",
-                    "interval": "1",
+                    "symbol": asset,
+                    "interval": tvInterval,
                     "timezone": "Etc/UTC",
-                    "theme": theme,
+                    "theme": theme === 'light' ? 'light' : 'dark',
                     "style": "1",
-                    "locale": "uk",
+                    "locale": currentLang,
                     "toolbar_bg": "#f1f3f6",
                     "enable_publishing": false,
                     "hide_legend": true,
