@@ -18,6 +18,7 @@
             --text-muted: #64748b;
             --border-color: #232a3d;
             --dropdown-bg: #151a26;
+            --select-option-text: #0d0f14; /* Темний колір тексту для опцій, щоб було видно на будь-якому пристрої */
             --nav-bg: #0a0c10;
             --tv-theme: dark;
             --red-signal: #ef4444;
@@ -32,6 +33,7 @@
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --dropdown-bg: #ffffff;
+            --select-option-text: #0f172a;
             --nav-bg: #f1f5f9;
             --tv-theme: light;
             --red-signal: #dc2626;
@@ -133,7 +135,79 @@
             box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
         }
 
-        /* Навігація */
+        /* Перемикач типів ринку (Tabs) */
+        .market-tabs {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 14px;
+        }
+
+        .market-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .market-tab.active {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Грід для селекторів вибору активів */
+        .signal-selectors-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .selector-box label {
+            display: block;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* Виправлені стилі для випадаючого списку (чіткий колір фону та тексту всередині option) */
+        .interactive-select {
+            width: 100%;
+            background-color: var(--dropdown-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .interactive-select:focus {
+            border-color: #6366f1;
+        }
+
+        /* Явне виправлення відображення тексту всередині списку на Android/iOS/PC */
+        .interactive-select option {
+            background-color: #ffffff !important; 
+            color: #000000 !important;
+            padding: 10px;
+        }
+
+        /* Нижня навігація */
         .nav-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -175,43 +249,6 @@
             margin-bottom: 16px;
         }
 
-        /* Грід для селекторів вибору активів */
-        .signal-selectors-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .selector-box label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .interactive-select {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.04);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            border-radius: 10px;
-            outline: none;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        .interactive-select:focus {
-            border-color: #6366f1;
-        }
-
-        /* Кнопки */
         .btn-action-signal {
             width: 100%;
             padding: 16px;
@@ -337,13 +374,14 @@
         .settings-row:last-child { border-bottom: none; }
 
         .select-custom {
-            background-color: var(--dropdown-bg);
-            color: var(--text-main);
+            background-color: #ffffff;
+            color: #000000;
             border: 1px solid var(--border-color);
             padding: 6px 12px;
             border-radius: 8px;
             outline: none;
         }
+        .select-custom option { background-color: #ffffff; color: #000000; }
 
         /* Калькулятор Мартингейла */
         .calc-input-group {
@@ -407,18 +445,18 @@
     <div id="screenSignals" class="screen hidden">
         
         <div class="card" style="padding: 14px; margin-bottom: 12px;">
+            
+            <div class="market-tabs">
+                <div id="tabReal" class="market-tab active" onclick="changeMarketType('real')">Реальний</div>
+                <div id="tabOtc" class="market-tab" onclick="changeMarketType('otc')">OTC ринок</div>
+                <div id="tabCrypto" class="market-tab" onclick="changeMarketType('crypto')">Crypto</div>
+            </div>
+
             <div class="signal-selectors-container">
                 <div class="selector-box">
                     <label id="lblSelectAsset">Актив</label>
                     <select id="assetSelect" class="interactive-select" onchange="updateTradingPairsAndGraph()">
-                        <option value="FX:EURUSD">EUR/USD</option>
-                        <option value="FX:GBPUSD">GBP/USD</option>
-                        <option value="FX:USDJPY">USD/JPY</option>
-                        <option value="FX:AUDUSD">AUD/USD</option>
-                        <option value="FX:EURJPY">EUR/JPY</option>
-                        <option value="BINANCE:BTCUSDT">BTC/USD</option>
-                        <option value="BINANCE:ETHUSDT">ETH/USD</option>
-                    </select>
+                        </select>
                 </div>
                 <div class="selector-box">
                     <label id="lblSelectTimeframe">Час (ТФ)</label>
@@ -538,7 +576,29 @@
     </div>
 
     <script>
-        // Мовні пакети
+        // Списки активів під кожен тип ринку
+        const marketAssets = {
+            real: [
+                { value: "FX:EURUSD", name: "EUR/USD" },
+                { value: "FX:GBPUSD", name: "GBP/USD" },
+                { value: "FX:USDJPY", name: "USD/JPY" },
+                { value: "FX:AUDUSD", name: "AUD/USD" },
+                { value: "FX:EURJPY", name: "EUR/JPY" }
+            ],
+            otc: [
+                { value: "OANDA:EURUSD", name: "EUR/USD (OTC)" },
+                { value: "OANDA:GBPUSD", name: "GBP/USD (OTC)" },
+                { value: "OANDA:USDJPY", name: "USD/JPY (OTC)" },
+                { value: "OANDA:AUDUSD", name: "AUD/USD (OTC)" }
+            ],
+            crypto: [
+                { value: "BINANCE:BTCUSDT", name: "BTC/USD" },
+                { value: "BINANCE:ETHUSDT", name: "ETH/USD" },
+                { value: "BINANCE:SOLUSDT", name: "SOL/USD" },
+                { value: "BINANCE:TONUSDT", name: "TON/USD" }
+            ]
+        };
+
         const languages = {
             uk: {
                 loading: "Перевірка доступу...",
@@ -613,18 +673,48 @@
         let totalSeconds = 60;
         let secondsLeft = 60;
         let currentTheme = 'dark';
+        let currentMarket = 'real';
 
-        // Ініціалізація додатку
         document.addEventListener("DOMContentLoaded", function() {
             if (window.Telegram && Telegram.WebApp) {
                 Telegram.WebApp.ready();
                 Telegram.WebApp.expand();
             }
+            // Рендеримо активи для початкового стану (Реальний ринок)
+            renderAssetOptions('real');
             loadTelegramUserData();
             calculateMartingale();
         });
 
-        // ПЕРЕВІРКА АВТЕНТИФІКАЦІЇ СЕРВЕРОМ
+        // Функція оновлення списку option всередині селектора
+        function renderAssetOptions(marketType) {
+            const selectEl = document.getElementById('assetSelect');
+            selectEl.innerHTML = "";
+            
+            marketAssets[marketType].forEach(asset => {
+                const opt = document.createElement('option');
+                opt.value = asset.value;
+                opt.innerText = asset.name;
+                selectEl.appendChild(opt);
+            });
+        }
+
+        // Зміна вкладки ринку (Реальний / OTC / Crypto)
+        function changeMarketType(type) {
+            currentMarket = type;
+            
+            // Візуальний апдейт активного таба
+            document.querySelectorAll('.market-tab').forEach(t => t.classList.remove('active'));
+            if(type === 'real') document.getElementById('tabReal').classList.add('active');
+            if(type === 'otc') document.getElementById('tabOtc').classList.add('active');
+            if(type === 'crypto') document.getElementById('tabCrypto').classList.add('active');
+            
+            // Перемальовуємо селектор пар
+            renderAssetOptions(type);
+            // Оновлюємо графік
+            updateTradingPairsAndGraph();
+        }
+
         function loadTelegramUserData() {
             document.getElementById('loadingScreen').classList.remove('hidden');
             
@@ -667,7 +757,6 @@
                             document.getElementById('profileAccessValue').innerText = languages[currentLang].accNormal;
                         }
                         
-                        // Завантажуємо графік перший раз
                         updateTradingPairsAndGraph();
                     } else {
                         showLockScreen();
@@ -678,7 +767,6 @@
                     showLockScreen();
                 });
             } else {
-                // Браузерний режим для тестів
                 setTimeout(() => {
                     document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('brandLine').classList.remove('hidden');
@@ -694,21 +782,19 @@
             document.getElementById('lockScreen').classList.remove('hidden');
         }
 
-        // КЛЮЧОВА ФУНКЦІЯ: Зчитує значення селекторів та миттєво оновлює віджет
         function updateTradingPairsAndGraph() {
             const asset = document.getElementById('assetSelect').value;
             const timeframe = document.getElementById('timeframeSelect').value;
             
-            // Оновлюємо віджет TradingView
             initTradingViewWidget(currentTheme, asset, timeframe);
 
-            // Якщо картка результатів відкрита, міняємо назву пари прямо в картці сигналу в реальному часі!
             const assetSelectEl = document.getElementById('assetSelect');
-            const selectedText = assetSelectEl.options[assetSelectEl.selectedIndex].text;
-            document.getElementById('signalPair').innerText = selectedText;
+            if (assetSelectEl.options[assetSelectEl.selectedIndex]) {
+                const selectedText = assetSelectEl.options[assetSelectEl.selectedIndex].text;
+                document.getElementById('signalPair').innerText = selectedText;
+            }
         }
 
-        // Перемикання екранів нижнього меню
         function switchScreen(screenName) {
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -735,7 +821,6 @@
             return val + " min";
         }
 
-        // ГЕНЕРАЦІЯ СИГНАЛУ
         function handleSignalAction() {
             const actionBtn = document.getElementById('signalActionButton');
             
@@ -770,7 +855,6 @@
                     
                     document.getElementById('resultScreen').classList.remove('hidden');
                     
-                    // Запуск таймера з урахуванням обраного таймфрейму
                     const minutes = parseInt(tfValue);
                     startCountdown(minutes * 60, isUp);
                 }, 1200);
@@ -816,7 +900,6 @@
             actionBtn.innerText = languages[currentLang].btnNew;
         }
 
-        // Калькулятор Мартингейла
         function calculateMartingale() {
             const startBet = parseFloat(document.getElementById('startBet').value) || 1;
             const multiplier = parseFloat(document.getElementById('multiplier').value) || 2.2;
@@ -844,14 +927,12 @@
             }
         }
 
-        // Зміна кольорової теми
         function changeTheme(themeName) {
             currentTheme = themeName;
             document.documentElement.setAttribute('data-theme', themeName);
             updateTradingPairsAndGraph();
         }
 
-        // Переклад інтерфейсу мови
         function changeLanguage(lang) {
             currentLang = lang;
             const textData = languages[lang];
@@ -884,9 +965,7 @@
             calculateMartingale();
         }
 
-        // ГЕНЕРАЦІЯ ВІДЖЕТА З ДИНАМІЧНИМИ ПАРАМЕТРАМИ
         function initTradingViewWidget(theme, asset, timeframe) {
-            // Очищуємо контейнер перед кожним новим створенням віджета, щоб він стабільно перезавантажувався
             document.getElementById('tradingview_widget').innerHTML = "";
             
             if (typeof TradingView !== 'undefined') {
