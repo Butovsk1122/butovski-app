@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App</title>
+    <title>Butovski App v2.1</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -17,8 +17,6 @@
             --text-main: #ffffff;
             --text-muted: #64748b;
             --border-color: #232a3d;
-            --dropdown-bg: #151a26;
-            --select-option-text: #0d0f14; /* Темний колір тексту для опцій, щоб було видно на будь-якому пристрої */
             --nav-bg: #0a0c10;
             --tv-theme: dark;
             --red-signal: #ef4444;
@@ -32,8 +30,6 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --dropdown-bg: #ffffff;
-            --select-option-text: #0f172a;
             --nav-bg: #f1f5f9;
             --tv-theme: light;
             --red-signal: #dc2626;
@@ -135,32 +131,34 @@
             box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
         }
 
-        /* Перемикач типів ринку (Tabs) */
-        .market-tabs {
+        /* ПЕРЕМИКАЧ ТИПІВ РИНКУ (ОКРЕМІ КНОПКИ) */
+        .market-switcher-container {
             display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .market-btn {
+            flex: 1;
+            padding: 12px 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
             background-color: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 14px;
-        }
-
-        .market-tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px 0;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
+            text-align: center;
         }
 
-        .market-tab.active {
+        .market-btn.active {
             background: var(--accent-gradient);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+            color: #ffffff !important;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
         /* Грід для селекторів вибору активів */
@@ -181,30 +179,28 @@
             letter-spacing: 0.3px;
         }
 
-        /* Виправлені стилі для випадаючого списку (чіткий колір фону та тексту всередині option) */
+        /* ЖОРСТКЕ ВИПРАВЛЕННЯ ДЛЯ КОЛЬОРУ СЕЛЕКТОРІВ (Текст завжди буде видно) */
         .interactive-select {
             width: 100%;
-            background-color: var(--dropdown-bg);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            border: 2px solid #6366f1 !important;
             padding: 12px;
             border-radius: 10px;
             outline: none;
             font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: border-color 0.2s;
+            -webkit-appearance: select; /* Примусовий стандартний вигляд */
+            appearance: select;
         }
 
-        .interactive-select:focus {
-            border-color: #6366f1;
-        }
-
-        /* Явне виправлення відображення тексту всередині списку на Android/iOS/PC */
+        /* Примусовий стиль для випадаючих елементів option всередині */
         .interactive-select option {
-            background-color: #ffffff !important; 
+            background-color: #ffffff !important;
             color: #000000 !important;
-            padding: 10px;
+            font-weight: 600 !important;
+            padding: 14px !important;
         }
 
         /* Нижня навігація */
@@ -380,6 +376,7 @@
             padding: 6px 12px;
             border-radius: 8px;
             outline: none;
+            font-weight: 600;
         }
         .select-custom option { background-color: #ffffff; color: #000000; }
 
@@ -424,11 +421,13 @@
 </head>
 <body>
 
+    <!-- Екран завантаження -->
     <div id="loadingScreen" class="full-screen-center">
         <div class="spinner"></div>
         <p id="loadingText" style="font-size: 14px; color: var(--text-muted);">Перевірка доступу...</p>
     </div>
 
+    <!-- Екран блокування -->
     <div id="lockScreen" class="full-screen-center hidden">
         <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
         <h2 id="lockTitle" style="font-size: 20px; margin-bottom: 10px;">Доступ обмежено</h2>
@@ -437,26 +436,30 @@
         </p>
     </div>
 
+    <!-- Шапка бренду -->
     <div id="brandLine" class="brand-header hidden">
         <div class="brand-logo">BUTOVSKI SIGNAL</div>
         <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
     </div>
 
+    <!-- ЕКРАН 1: СИГНАЛИ -->
     <div id="screenSignals" class="screen hidden">
         
-        <div class="card" style="padding: 14px; margin-bottom: 12px;">
-            
-            <div class="market-tabs">
-                <div id="tabReal" class="market-tab active" onclick="changeMarketType('real')">Реальний</div>
-                <div id="tabOtc" class="market-tab" onclick="changeMarketType('otc')">OTC ринок</div>
-                <div id="tabCrypto" class="market-tab" onclick="changeMarketType('crypto')">Crypto</div>
-            </div>
+        <!-- КНОПКИ ЗМІНИ ТИПУ РИНКУ -->
+        <div class="market-switcher-container">
+            <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
+            <button id="btnOtcMarket" class="market-btn" onclick="changeMarketType('otc')">OTC Ринок</button>
+            <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
+        </div>
 
+        <!-- ІНТЕРАКТИВНА ПАНЕЛЬ НАЛАШТУВАННЯ АКТИВУ -->
+        <div class="card" style="padding: 14px; margin-bottom: 12px;">
             <div class="signal-selectors-container">
                 <div class="selector-box">
                     <label id="lblSelectAsset">Актив</label>
                     <select id="assetSelect" class="interactive-select" onchange="updateTradingPairsAndGraph()">
-                        </select>
+                        <!-- Генерирується з JS -->
+                    </select>
                 </div>
                 <div class="selector-box">
                     <label id="lblSelectTimeframe">Час (ТФ)</label>
@@ -473,6 +476,7 @@
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
+        <!-- Результат сигналу -->
         <div id="resultScreen" class="card hidden">
             <div class="signal-header">
                 <div class="pair-title" id="signalPair">EUR/USD</div>
@@ -496,11 +500,13 @@
             <div class="timer-text" id="timerDigits">00:00/00:00</div>
         </div>
 
+        <!-- Компактний графік TradingView (Висота 250px) -->
         <div class="card" style="padding:0; height: 250px; overflow: hidden; border-radius:16px;">
             <div id="tradingview_widget" style="height:100%; width:100%;"></div>
         </div>
     </div>
 
+    <!-- ЕКРАН 2: КАЛЬКУЛЯТОР -->
     <div id="screenCalc" class="screen hidden">
         <div class="card">
             <div class="calc-input-group">
@@ -525,11 +531,13 @@
                     </tr>
                 </thead>
                 <tbody id="martingaleResultBody">
-                    </tbody>
+                    <!-- Заповнюється через JS -->
+                </tbody>
             </table>
         </div>
     </div>
 
+    <!-- ЕКРАН 3: ПРОФІЛЬ -->
     <div id="screenProfile" class="screen hidden">
         <div class="card">
             <div class="profile-user">
@@ -560,6 +568,7 @@
         </div>
     </div>
 
+    <!-- Нижня навігаційна панель -->
     <div id="mainNavigation" class="nav-bar hidden">
         <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')">
             <i class="fa-solid fa-chart-line"></i>
@@ -680,13 +689,11 @@
                 Telegram.WebApp.ready();
                 Telegram.WebApp.expand();
             }
-            // Рендеримо активи для початкового стану (Реальний ринок)
             renderAssetOptions('real');
             loadTelegramUserData();
             calculateMartingale();
         });
 
-        // Функція оновлення списку option всередині селектора
         function renderAssetOptions(marketType) {
             const selectEl = document.getElementById('assetSelect');
             selectEl.innerHTML = "";
@@ -699,19 +706,20 @@
             });
         }
 
-        // Зміна вкладки ринку (Реальний / OTC / Crypto)
+        // КЕРУВАННЯ КНОПКАМИ ЗМІНИ РИНКУ
         function changeMarketType(type) {
             currentMarket = type;
             
-            // Візуальний апдейт активного таба
-            document.querySelectorAll('.market-tab').forEach(t => t.classList.remove('active'));
-            if(type === 'real') document.getElementById('tabReal').classList.add('active');
-            if(type === 'otc') document.getElementById('tabOtc').classList.add('active');
-            if(type === 'crypto') document.getElementById('tabCrypto').classList.add('active');
+            // Зміна активного стану кнопок
+            document.getElementById('btnRealMarket').classList.remove('active');
+            document.getElementById('btnOtcMarket').classList.remove('active');
+            document.getElementById('btnCryptoMarket').classList.remove('active');
             
-            // Перемальовуємо селектор пар
+            if(type === 'real') document.getElementById('btnRealMarket').classList.add('active');
+            if(type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
+            if(type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
+            
             renderAssetOptions(type);
-            // Оновлюємо графік
             updateTradingPairsAndGraph();
         }
 
