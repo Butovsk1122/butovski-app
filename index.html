@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.1</title>
+    <title>Butovski App v2.2</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -21,6 +21,8 @@
             --tv-theme: dark;
             --red-signal: #ef4444;
             --green-signal: #10b981;
+            --dropdown-bg: #1a1f2c;
+            --dropdown-hover: #242b3d;
         }
 
         [data-theme="light"] {
@@ -34,6 +36,8 @@
             --tv-theme: light;
             --red-signal: #dc2626;
             --green-signal: #16a34a;
+            --dropdown-bg: #ffffff;
+            --dropdown-hover: #f1f5f9;
         }
 
         * {
@@ -131,7 +135,7 @@
             box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
         }
 
-        /* ПЕРЕМИКАЧ ТИПІВ РИНКУ (ОКРЕМІ КНОПКИ) */
+        /* Перемикач ринків */
         .market-switcher-container {
             display: flex;
             gap: 8px;
@@ -179,28 +183,100 @@
             letter-spacing: 0.3px;
         }
 
-        /* ЖОРСТКЕ ВИПРАВЛЕННЯ ДЛЯ КОЛЬОРУ СЕЛЕКТОРІВ (Текст завжди буде видно) */
-        .interactive-select {
+        /* КРАСИВІ КАСТОМНІ ВИПАДАЮЧІ СПИСКИ (ЗАМІСТЬ СИСТЕМНИХ) */
+        .custom-select-wrapper {
+            position: relative;
             width: 100%;
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            border: 2px solid #6366f1 !important;
-            padding: 12px;
-            border-radius: 10px;
-            outline: none;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            -webkit-appearance: select; /* Примусовий стандартний вигляд */
-            appearance: select;
         }
 
-        /* Примусовий стиль для випадаючих елементів option всередині */
-        .interactive-select option {
-            background-color: #ffffff !important;
-            color: #000000 !important;
-            font-weight: 600 !important;
-            padding: 14px !important;
+        .custom-select-trigger {
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .custom-select-wrapper.open .custom-select-trigger {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .custom-select-trigger i {
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .custom-select-wrapper.open .custom-select-trigger i {
+            transform: rotate(180deg);
+            color: #6366f1;
+        }
+
+        .custom-options-dropdown {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            max-height: 220px;
+            overflow-y: auto;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+        }
+
+        .custom-select-wrapper.open .custom-options-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .custom-option {
+            padding: 12px 14px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.15s;
+        }
+
+        .custom-option:hover, .custom-option.selected {
+            background-color: var(--dropdown-hover);
+            font-weight: 600;
+        }
+
+        .custom-option.selected::after {
+            content: "\f00c";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: #6366f1;
+            font-size: 12px;
+        }
+
+        /* Стилізація скроллбару для меню */
+        .custom-options-dropdown::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-options-dropdown::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 4px;
         }
 
         /* Нижня навігація */
@@ -370,15 +446,14 @@
         .settings-row:last-child { border-bottom: none; }
 
         .select-custom {
-            background-color: #ffffff;
-            color: #000000;
+            background-color: var(--card-bg);
+            color: var(--text-main);
             border: 1px solid var(--border-color);
             padding: 6px 12px;
             border-radius: 8px;
             outline: none;
             font-weight: 600;
         }
-        .select-custom option { background-color: #ffffff; color: #000000; }
 
         /* Калькулятор Мартингейла */
         .calc-input-group {
@@ -453,25 +528,42 @@
         </div>
 
         <!-- ІНТЕРАКТИВНА ПАНЕЛЬ НАЛАШТУВАННЯ АКТИВУ -->
-        <div class="card" style="padding: 14px; margin-bottom: 12px;">
+        <div class="card" style="padding: 14px; margin-bottom: 12px; overflow: visible;">
             <div class="signal-selectors-container">
+                
+                <!-- Кастомний селектор Активу -->
                 <div class="selector-box">
                     <label id="lblSelectAsset">Актив</label>
-                    <select id="assetSelect" class="interactive-select" onchange="updateTradingPairsAndGraph()">
-                        <!-- Генерирується з JS -->
-                    </select>
+                    <div class="custom-select-wrapper" id="assetDropdownWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('assetDropdownWrapper')">
+                            <span id="assetSelectedValue">Завантаження...</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="custom-options-dropdown" id="assetCustomOptions">
+                            <!-- Сюди генеруються красиві опції -->
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Кастомний селектор Таймфрейму -->
                 <div class="selector-box">
                     <label id="lblSelectTimeframe">Час (ТФ)</label>
-                    <select id="timeframeSelect" class="interactive-select" onchange="updateTradingPairsAndGraph()">
-                        <option value="1">1 хв</option>
-                        <option value="5">5 хв</option>
-                        <option value="10">10 хв</option>
-                        <option value="15">15 хв</option>
-                        <option value="30">30 хв</option>
-                        <option value="60">1 год</option>
-                    </select>
+                    <div class="custom-select-wrapper" id="timeframeDropdownWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('timeframeDropdownWrapper')">
+                            <span id="timeframeSelectedValue" data-value="1">1 хв</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="custom-options-dropdown">
+                            <div class="custom-option selected" data-value="1" onclick="selectTimeframeOption('1', '1 хв')">1 хв</div>
+                            <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5', '5 хв')">5 хв</div>
+                            <div class="custom-option" data-value="10" onclick="selectTimeframeOption('10', '10 хв')">10 хв</div>
+                            <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15', '15 хв')">15 хв</div>
+                            <div class="custom-option" data-value="30" onclick="selectTimeframeOption('30', '30 хв')">30 хв</div>
+                            <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60', '1 год')">1 год</div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
@@ -683,6 +775,9 @@
         let secondsLeft = 60;
         let currentTheme = 'dark';
         let currentMarket = 'real';
+        
+        let selectedAssetValue = "";
+        let selectedAssetText = "";
 
         document.addEventListener("DOMContentLoaded", function() {
             if (window.Telegram && Telegram.WebApp) {
@@ -692,25 +787,83 @@
             renderAssetOptions('real');
             loadTelegramUserData();
             calculateMartingale();
+
+            // Закриття списків при кліку в будь-яке інше місце екрану
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-select-wrapper')) {
+                    document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+                }
+            });
         });
 
-        function renderAssetOptions(marketType) {
-            const selectEl = document.getElementById('assetSelect');
-            selectEl.innerHTML = "";
+        // Керування відкриттям/закриттям кастомних списків
+        function toggleCustomDropdown(wrapperId) {
+            const wrapper = document.getElementById(wrapperId);
+            const isOpen = wrapper.classList.contains('open');
             
-            marketAssets[marketType].forEach(asset => {
-                const opt = document.createElement('option');
-                opt.value = asset.value;
+            // Спочатку закриваємо всі інші відкриті списки
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            
+            if (!isOpen) {
+                wrapper.classList.add('open');
+            }
+        }
+
+        // Рендеринг кастомних опцій активів
+        function renderAssetOptions(marketType) {
+            const container = document.getElementById('assetCustomOptions');
+            container.innerHTML = "";
+            
+            const assets = marketAssets[marketType];
+            
+            assets.forEach((asset, index) => {
+                const opt = document.createElement('div');
+                opt.className = "custom-option";
+                if (index === 0) {
+                    opt.classList.add('selected');
+                    selectedAssetValue = asset.value;
+                    selectedAssetText = asset.name;
+                    document.getElementById('assetSelectedValue').innerText = asset.name;
+                }
                 opt.innerText = asset.name;
-                selectEl.appendChild(opt);
+                opt.setAttribute('data-value', asset.value);
+                
+                opt.onclick = function(e) {
+                    e.stopPropagation();
+                    container.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                    
+                    selectedAssetValue = asset.value;
+                    selectedAssetText = asset.name;
+                    document.getElementById('assetSelectedValue').innerText = asset.name;
+                    document.getElementById('assetDropdownWrapper').classList.remove('open');
+                    
+                    updateTradingPairsAndGraph();
+                };
+                
+                container.appendChild(opt);
             });
         }
 
-        // КЕРУВАННЯ КНОПКАМИ ЗМІНИ РИНКУ
+        // Вибір таймфрейму
+        function selectTimeframeOption(val, text) {
+            const wrapper = document.getElementById('timeframeDropdownWrapper');
+            const triggerText = document.getElementById('timeframeSelectedValue');
+            
+            wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+            event.target.classList.add('selected');
+            
+            triggerText.innerText = text;
+            triggerText.setAttribute('data-value', val);
+            wrapper.classList.remove('open');
+            
+            updateTradingPairsAndGraph();
+        }
+
+        // Зміна типу ринку
         function changeMarketType(type) {
             currentMarket = type;
             
-            // Зміна активного стану кнопок
             document.getElementById('btnRealMarket').classList.remove('active');
             document.getElementById('btnOtcMarket').classList.remove('active');
             document.getElementById('btnCryptoMarket').classList.remove('active');
@@ -791,16 +944,11 @@
         }
 
         function updateTradingPairsAndGraph() {
-            const asset = document.getElementById('assetSelect').value;
-            const timeframe = document.getElementById('timeframeSelect').value;
+            const asset = selectedAssetValue;
+            const timeframe = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
             
             initTradingViewWidget(currentTheme, asset, timeframe);
-
-            const assetSelectEl = document.getElementById('assetSelect');
-            if (assetSelectEl.options[assetSelectEl.selectedIndex]) {
-                const selectedText = assetSelectEl.options[assetSelectEl.selectedIndex].text;
-                document.getElementById('signalPair').innerText = selectedText;
-            }
+            document.getElementById('signalPair').innerText = selectedAssetText;
         }
 
         function switchScreen(screenName) {
@@ -840,14 +988,12 @@
                     actionBtn.disabled = false;
                     actionBtn.innerText = languages[currentLang].btnNew;
                     
-                    const assetSelectEl = document.getElementById('assetSelect');
-                    const selectedPairText = assetSelectEl.options[assetSelectEl.selectedIndex].text;
-                    const tfValue = document.getElementById('timeframeSelect').value;
+                    const tfValue = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
                     
                     const isUp = Math.random() > 0.47;
                     const proba = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
 
-                    document.getElementById('signalPair').innerText = selectedPairText;
+                    document.getElementById('signalPair').innerText = selectedAssetText;
                     const dirBadge = document.getElementById('signalDirection');
                     
                     if (isUp) {
