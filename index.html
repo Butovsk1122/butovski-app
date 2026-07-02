@@ -526,13 +526,11 @@
 </head>
 <body>
 
-    <!-- Екран завантаження -->
     <div id="loadingScreen" class="full-screen-center">
         <div class="spinner"></div>
         <p id="loadingText" style="font-size: 14px; color: var(--text-muted);">Перевірка доступу...</p>
     </div>
 
-    <!-- Екран блокування -->
     <div id="lockScreen" class="full-screen-center hidden">
         <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
         <h2 id="lockTitle" style="font-size: 20px; margin-bottom: 10px;">Доступ обмежено</h2>
@@ -541,27 +539,22 @@
         </p>
     </div>
 
-    <!-- Шапка бренду -->
     <div id="brandLine" class="brand-header hidden">
         <div class="brand-logo">BUTOVSKI SIGNAL</div>
         <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
     </div>
 
-    <!-- ЕКРАН 1: СИГНАЛИ -->
     <div id="screenSignals" class="screen hidden">
         
-        <!-- КНОПКИ ЗМІНИ ТИПУ РИНКУ -->
         <div class="market-switcher-container">
             <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
             <button id="btnOtcMarket" class="market-btn" onclick="changeMarketType('otc')">OTC Ринок</button>
             <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
         </div>
 
-        <!-- ІНТЕРАКТИВНА ПАНЕЛЬ НАЛАШТУВАННЯ АКТИВУ -->
         <div class="card" style="padding: 14px; margin-bottom: 12px; overflow: visible;">
             <div class="signal-selectors-container">
-                
-                <!-- Кастомний селектор Активу -->
+                 
                 <div class="selector-box">
                     <label id="lblSelectAsset">Актив</label>
                     <div class="custom-select-wrapper" id="assetDropdownWrapper">
@@ -570,12 +563,10 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="custom-options-dropdown" id="assetCustomOptions">
-                            <!-- Сюди генеруються красиві опції -->
-                        </div>
+                            </div>
                     </div>
                 </div>
 
-                <!-- Кастомний селектор Таймфрейму -->
                 <div class="selector-box">
                     <label id="lblSelectTimeframe">Час (ТФ)</label>
                     <div class="custom-select-wrapper" id="timeframeDropdownWrapper">
@@ -593,12 +584,10 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
-        <!-- Результат сигналу -->
         <div id="resultScreen" class="card hidden">
             <div class="signal-header">
                 <div class="pair-title" id="signalPair">EUR/USD</div>
@@ -622,13 +611,11 @@
             <div class="timer-text" id="timerDigits">00:00/00:00</div>
         </div>
 
-        <!-- Компактний графік TradingView -->
         <div class="card" style="padding:0; height: 250px; overflow: hidden; border-radius:16px;">
             <div id="tradingview_widget" style="height:100%; width:100%;"></div>
         </div>
     </div>
 
-    <!-- ЕКРАН 2: КАЛЬКУЛЯТОР -->
     <div id="screenCalc" class="screen hidden">
         <div class="card">
             <div class="calc-input-group">
@@ -653,13 +640,11 @@
                     </tr>
                 </thead>
                 <tbody id="martingaleResultBody">
-                    <!-- Заповнюється через JS -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
 
-    <!-- ЕКРАН 3: ПРОФІЛЬ -->
     <div id="screenProfile" class="screen hidden" style="overflow: visible;">
         <div class="card" style="overflow: visible;">
             <div class="profile-user">
@@ -674,7 +659,6 @@
                 <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
             </div>
             
-            <!-- КАСТОМНИЙ ВИБІР ТЕМИ -->
             <div class="settings-row" style="overflow: visible; z-index: 200;">
                 <span id="setTheme">Тема додатка</span>
                 <div class="custom-select-wrapper" id="themeDropdownWrapper">
@@ -691,7 +675,6 @@
                 </div>
             </div>
             
-            <!-- КАСТОМНИЙ ВИБІР МОВИ -->
             <div class="settings-row" style="overflow: visible; z-index: 100;">
                 <span>Мова / Language</span>
                 <div class="custom-select-wrapper" id="langDropdownWrapper">
@@ -702,13 +685,16 @@
                     <div class="custom-options-dropdown">
                         <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk', 'Українська')">Українська</div>
                         <div class="custom-option" data-value="en" onclick="selectLangOption('en', 'English')">English</div>
+                        <div class="custom-option" data-value="ru" onclick="selectLangOption('ru', 'Русский')">Русский</div>
+                        <div class="custom-option" data-value="fr" onclick="selectLangOption('fr', 'Français')">Français</div>
+                        <div class="custom-option" data-value="de" onclick="selectLangOption('de', 'Deutsch')">Deutsch</div>
+                        <div class="custom-option" data-value="it" onclick="selectLangOption('it', 'Italiano')">Italiano</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Нижня навігаційна панель -->
     <div id="mainNavigation" class="nav-bar hidden">
         <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')">
             <i class="fa-solid fa-chart-line"></i>
@@ -823,6 +809,138 @@
                 m15: "15 MINUTES",
                 m30: "30 MINUTES",
                 h1: "1 HOUR"
+            },
+            ru: {
+                loading: "Проверка доступа...",
+                lockTitle: "Доступ ограничен",
+                lockDesc: "У вас нет активной лицензии. Обратитесь к администратору бота для получения доступа.",
+                menuSignals: "Сигналы",
+                menuCalc: "Калькулятор",
+                menuProfile: "Профиль",
+                btnGet: "ПОЛУЧИТЬ СИГНАЛ",
+                btnAnalyse: "АНАЛИЗ РЫНКА...",
+                btnNew: "НОВЫЙ СИГНАЛ",
+                lblSelectAsset: "Актив",
+                lblSelectTimeframe: "Время (ТФ)",
+                lblTimeframe: "ВРЕМЯ СИГНАЛА",
+                lblProba: "ВЕРОЯТНОСТЬ",
+                lblStartBet: "Начальная ставка ($)",
+                lblMultiplier: "Коэффициент (обычно 2.2 или 2.5)",
+                lblSteps: "Количество шагов (колен)",
+                thStep: "Шаг",
+                thBet: "Ставка",
+                thTotal: "Всего",
+                setAccessType: "Тип доступа:",
+                setTheme: "Тема приложения",
+                accNormal: "Обычный",
+                accVip: "VIP Доступ",
+                up: "ВВЕРХ",
+                down: "ВНИЗ",
+                m1: "1 МИНУТА",
+                m5: "5 МИНУТ",
+                m10: "10 МИНУТ",
+                m15: "15 МИНУТ",
+                m30: "30 МИНУТ",
+                h1: "1 ЧАС"
+            },
+            fr: {
+                loading: "Vérification de l'accès...",
+                lockTitle: "Accès Refusé",
+                lockDesc: "Vous n'avez pas de licence active. Veuillez contacter l'administrateur du bot pour y accéder.",
+                menuSignals: "Signaux",
+                menuCalc: "Calculateur",
+                menuProfile: "Profil",
+                btnGet: "OBTENIR LE SIGNAL",
+                btnAnalyse: "ANALYSE EN COURS...",
+                btnNew: "NOUVEAU SIGNAL",
+                lblSelectAsset: "Actif",
+                lblSelectTimeframe: "Timeframe",
+                lblTimeframe: "DURÉE DU SIGNAL",
+                lblProba: "PROBABILITÉ",
+                lblStartBet: "Mise Initiale ($)",
+                lblMultiplier: "Multiplicateur (souvent 2.2 ou 2.5)",
+                lblSteps: "Nombre d'étapes (paliers)",
+                thStep: "Étape",
+                thBet: "Mise",
+                thTotal: "Total",
+                setAccessType: "Niveau d'accès:",
+                setTheme: "Thème de l'application",
+                accNormal: "Standard",
+                accVip: "Accès VIP",
+                up: "HAUSSE (UP)",
+                down: "BAISSE (DOWN)",
+                m1: "1 MINUTE",
+                m5: "5 MINUTES",
+                m10: "10 MINUTES",
+                m15: "15 MINUTES",
+                m30: "30 MINUTES",
+                h1: "1 HEURE"
+            },
+            de: {
+                loading: "Zugriff wird geprüft...",
+                lockTitle: "Zugriff Verweigert",
+                lockDesc: "Sie haben keine aktive Lizenz. Bitte kontaktieren Sie den Bot-Administrator, um Zugriff zu erhalten.",
+                menuSignals: "Signale",
+                menuCalc: "Rechner",
+                menuProfile: "Profil",
+                btnGet: "SIGNAL ABRUFEN",
+                btnAnalyse: "MARKTANALYSE...",
+                btnNew: "NEUES SIGNAL",
+                lblSelectAsset: "Asset",
+                lblSelectTimeframe: "Timeframe",
+                lblTimeframe: "SIGNALZEIT",
+                lblProba: "WAHRSCHEINLICHKEIT",
+                lblStartBet: "Starteinsatz ($)",
+                lblMultiplier: "Multiplikator (meist 2.2 oder 2.5)",
+                lblSteps: "Anzahl der Schritte",
+                thStep: "Schritt",
+                thBet: "Einsatz",
+                thTotal: "Gesamt",
+                setAccessType: "Zugriffsstufe:",
+                setTheme: "App-Design",
+                accNormal: "Standard",
+                accVip: "VIP-Zugang",
+                up: "HOCH (UP)",
+                down: "RUNTER (DOWN)",
+                m1: "1 MINUTE",
+                m5: "5 MINUTEN",
+                m10: "10 MINUTEN",
+                m15: "15 MINUTEN",
+                m30: "30 MINUTEN",
+                h1: "1 STUNDE"
+            },
+            it: {
+                loading: "Verifica dell'accesso...",
+                lockTitle: "Accesso Negato",
+                lockDesc: "Non hai una licenza attiva. Contatta l'amministratore del bot per ottenere l'accesso.",
+                menuSignals: "Segnali",
+                menuCalc: "Calcolatore",
+                menuProfile: "Profilo",
+                btnGet: "OTTIENI SEGNALE",
+                btnAnalyse: "ANALISI DI MERCATO...",
+                btnNew: "NUOVO SEGNALE",
+                lblSelectAsset: "Asset",
+                lblSelectTimeframe: "Timeframe",
+                lblTimeframe: "TEMPO DEL SEGNALE",
+                lblProba: "PROBABILITÀ",
+                lblStartBet: "Puntata Iniziale ($)",
+                lblMultiplier: "Moltiplicatore (di solito 2.2 o 2.5)",
+                lblSteps: "Numero di passaggi",
+                thStep: "Passo",
+                thBet: "Puntata",
+                thTotal: "Totale",
+                setAccessType: "Livello di accesso:",
+                setTheme: "Tema dell'app",
+                accNormal: "Standard",
+                accVip: "Accesso VIP",
+                up: "SU (UP)",
+                down: "GIÙ (DOWN)",
+                m1: "1 MINUTO",
+                m5: "5 MINUTI",
+                m10: "10 MINUTI",
+                m15: "15 MINUTI",
+                m30: "30 MINUTI",
+                h1: "1 ORA"
             }
         };
 
@@ -907,7 +1025,6 @@
             updateTradingPairsAndGraph();
         }
 
-        // НОВИЙ КАСТОМНИЙ СЕЛЕКТОР ТЕМИ
         function selectThemeOption(val, text) {
             const wrapper = document.getElementById('themeDropdownWrapper');
             const triggerText = document.getElementById('themeSelectedValue');
@@ -922,7 +1039,6 @@
             changeTheme(val);
         }
 
-        // НОВИЙ КАСТОМНИЙ СЕЛЕКТОР МОВИ
         function selectLangOption(val, text) {
             const wrapper = document.getElementById('langDropdownWrapper');
             const triggerText = document.getElementById('langSelectedValue');
@@ -1089,7 +1205,6 @@
             secondsLeft = seconds;
             const progressFill = document.getElementById('progressFill');
             progressFill.className = "progress-bar " + (isUp ? 'bg-green' : 'bg-red');
-
             updateTimerUI();
             countdownInterval = setInterval(() => {
                 secondsLeft--;
@@ -1108,7 +1223,6 @@
             const currentSecs = secondsLeft % 60;
             const totalMins = Math.floor(totalSeconds / 60);
             const totalSecs = totalSeconds % 60;
-
             document.getElementById('timerDigits').innerText = 
                 `${currentMins < 10 ? '0'+currentMins : currentMins}:${currentSecs < 10 ? '0'+currentSecs : currentSecs}/${totalMins < 10 ? '0'+totalMins : totalMins}:${totalSecs < 10 ? '0'+totalSecs : totalSecs}`;
         }
@@ -1124,7 +1238,6 @@
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
             const tbody = document.getElementById('martingaleResultBody');
             tbody.innerHTML = '';
-
             let accumulatedTotal = 0;
             let currentBet = startBet;
 
@@ -1162,8 +1275,8 @@
             document.getElementById('lblSelectTimeframe').innerText = textData.lblSelectTimeframe;
 
             const actionBtn = document.getElementById('signalActionButton');
-            if(actionBtn.innerText.includes("ОТРИМАТИ") || actionBtn.innerText.includes("GET")) actionBtn.innerText = textData.btnGet;
-            if(actionBtn.innerText.includes("НОВИЙ") || actionBtn.innerText.includes("NEW")) actionBtn.innerText = textData.btnNew;
+            if(actionBtn.innerText.includes("ОТРИМАТИ") || actionBtn.innerText.includes("GET") || actionBtn.innerText.includes("ПОЛУЧИТЬ") || actionBtn.innerText.includes("OBTENIR") || actionBtn.innerText.includes("ABRUFEN") || actionBtn.innerText.includes("OTTIENI")) actionBtn.innerText = textData.btnGet;
+            if(actionBtn.innerText.includes("НОВИЙ") || actionBtn.innerText.includes("NEW") || actionBtn.innerText.includes("НОВЫЙ") || actionBtn.innerText.includes("NOUVEAU") || actionBtn.innerText.includes("NEUES") || actionBtn.innerText.includes("NUOVO")) actionBtn.innerText = textData.btnNew;
             
             document.getElementById('lblTimeframe').innerText = textData.lblTimeframe;
             document.getElementById('lblProba').innerText = textData.lblProba;
