@@ -664,11 +664,11 @@
                         <span id="themeSelectedValue" data-value="cyberpunk">Cyberpunk</span>
                         <i class="fa-solid fa-chevron-down"></i>
                     </div>
-                    <div class="custom-options-dropdown">
-                        <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk', 'Cyberpunk')">Cyberpunk</div>
-                        <div class="custom-option" data-value="emerald" onclick="selectThemeOption('emerald', 'Emerald')">Emerald</div>
-                        <div class="custom-option" data-value="nordic" onclick="selectThemeOption('nordic', 'Nordic')">Nordic</div>
-                        <div class="custom-option" data-value="light" onclick="selectThemeOption('light', 'Light')">Light</div>
+                    <div class="custom-options-dropdown" id="themeCustomOptions">
+                        <div class="custom-option selected" data-theme-id="cyberpunk" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk')">Cyberpunk</div>
+                        <div class="custom-option" data-theme-id="emerald" data-value="emerald" onclick="selectThemeOption('emerald')">Emerald</div>
+                        <div class="custom-option" data-theme-id="nordic" data-value="nordic" onclick="selectThemeOption('nordic')">Nordic</div>
+                        <div class="custom-option" data-theme-id="light" data-value="light" onclick="selectThemeOption('light')">Light</div>
                     </div>
                 </div>
             </div>
@@ -769,7 +769,8 @@
                 down: "ВНИЗ",
                 m1: "1 ХВИЛИНА", m5: "5 ХВИЛИН", m10: "10 ХВИЛИН", m15: "15 ХВИЛИН", m30: "30 ХВИЛИН", h1: "1 ГОДИНА",
                 btnRealMarket: "Реальний ринок", btnOtcMarket: "OTC Ринок",
-                tf1: "1 хв", tf5: "5 хв", tf10: "10 хв", tf15: "15 хв", tf30: "30 хв", tf60: "1 год"
+                tf1: "1 хв", tf5: "5 хв", tf10: "10 хв", tf15: "15 хв", tf30: "30 хв", tf60: "1 год",
+                theme_cyberpunk: "Кіберпанк", theme_emerald: "Смарагд", theme_nordic: "Нордік", theme_light: "Світла"
             },
             en: {
                 loading: "Checking access...",
@@ -799,7 +800,8 @@
                 down: "PUT (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTES", m10: "10 MINUTES", m15: "15 MINUTES", m30: "30 MINUTES", h1: "1 HOUR",
                 btnRealMarket: "Real Market", btnOtcMarket: "OTC Market",
-                tf1: "1 m", tf5: "5 m", tf10: "10 m", tf15: "15 m", tf30: "30 m", tf60: "1 h"
+                tf1: "1 m", tf5: "5 m", tf10: "10 m", tf15: "15 m", tf30: "30 m", tf60: "1 h",
+                theme_cyberpunk: "Cyberpunk", theme_emerald: "Emerald", theme_nordic: "Nordic", theme_light: "Light"
             },
             ru: {
                 loading: "Проверка доступа...",
@@ -829,7 +831,8 @@
                 down: "ВНИЗ",
                 m1: "1 МИНУТА", m5: "5 МИНУТ", m10: "10 МИНУТ", m15: "15 МИНУТ", m30: "30 МИНУТ", h1: "1 ЧАС",
                 btnRealMarket: "Реальный рынок", btnOtcMarket: "OTC Рынок",
-                tf1: "1 мин", tf5: "5 мин", tf10: "10 мин", tf15: "15 мин", tf30: "30 мин", tf60: "1 ч"
+                tf1: "1 мин", tf5: "5 мин", tf10: "10 мин", tf15: "15 мин", tf30: "30 мин", tf60: "1 ч",
+                theme_cyberpunk: "Киберпанк", theme_emerald: "Изумруд", theme_nordic: "Нордик", theme_light: "Светлая"
             },
             fr: {
                 loading: "Vérification de l'accès...",
@@ -859,7 +862,8 @@
                 down: "BAISSE (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTES", m10: "10 MINUTES", m15: "15 MINUTES", m30: "30 MINUTES", h1: "1 HEURE",
                 btnRealMarket: "Marché Réel", btnOtcMarket: "Marché OTC",
-                tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 h"
+                tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 h",
+                theme_cyberpunk: "Cyberpunk", theme_emerald: "Émeraude", theme_nordic: "Nordique", theme_light: "Clair"
             },
             de: {
                 loading: "Zugriff wird geprüft...",
@@ -889,7 +893,8 @@
                 down: "RUNTER (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTEN", m10: "10 MINUTEN", m15: "15 MINUTEN", m30: "30 MINUTEN", h1: "1 STUNDE",
                 btnRealMarket: "Realer Markt", btnOtcMarket: "OTC-Markt",
-                tf1: "1 Min", tf5: "5 Min", tf10: "10 Min", tf15: "15 Min", tf30: "30 Min", tf60: "1 Std"
+                tf1: "1 Min", tf5: "5 Min", tf10: "10 Min", tf15: "15 Min", tf30: "30 Min", tf60: "1 Std",
+                theme_cyberpunk: "Cyberpunk", theme_emerald: "Smaragd", theme_nordic: "Nordisch", theme_light: "Hell"
             },
             it: {
                 loading: "Verifica dell'accesso...",
@@ -919,7 +924,8 @@
                 down: "GIÙ (DOWN)",
                 m1: "1 MINUTO", m5: "5 MINUTI", m10: "10 MINUTI", m15: "15 MINUTI", m30: "30 MINUTI", h1: "1 ORA",
                 btnRealMarket: "Mercato Reale", btnOtcMarket: "Mercato OTC",
-                tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 o"
+                tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 o",
+                theme_cyberpunk: "Cyberpunk", theme_emerald: "Smeraldo", theme_nordic: "Nordico", theme_light: "Chiaro"
             }
         };
 
@@ -999,15 +1005,16 @@
             updateTradingPairsAndGraph();
         }
 
-        function selectThemeOption(val, text) {
+        function selectThemeOption(val) {
             const wrapper = document.getElementById('themeDropdownWrapper');
             const triggerText = document.getElementById('themeSelectedValue');
             wrapper.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
-            if (event && event.target) {
-                event.target.classList.add('selected');
-            }
-            triggerText.innerText = text;
+            
+            const targetOpt = wrapper.querySelector(`.custom-option[data-value="${val}"]`);
+            if (targetOpt) targetOpt.classList.add('selected');
+            
             triggerText.setAttribute('data-value', val);
+            triggerText.innerText = languages[currentLang]["theme_" + val];
             wrapper.classList.remove('open');
             changeTheme(val);
         }
@@ -1062,7 +1069,6 @@
         function updateLanguageInterface() {
             const langData = languages[currentLang];
             
-            // ПРАВИЛЬНЕ ОНОВЛЕННЯ: Тепер ID елементів повністю відповідають об'єкту перекладів
             document.getElementById('btnRealMarket').innerText = langData.btnRealMarket;
             document.getElementById('btnOtcMarket').innerText = langData.btnOtcMarket;
 
@@ -1097,6 +1103,17 @@
 
             document.getElementById('setAccessType').innerText = langData.setAccessType;
             document.getElementById('setTheme').innerText = langData.setTheme;
+
+            // ОНОВЛЕННЯ ТЕКСТУ ТРИГЕРА ТЕМИ ТА ЕЛЕМЕНТІВ СПИСКУ
+            const themeTrigger = document.getElementById('themeSelectedValue');
+            const activeThemeVal = themeTrigger.getAttribute('data-value');
+            themeTrigger.innerText = langData["theme_" + activeThemeVal];
+
+            const themeDropdown = document.getElementById('themeCustomOptions');
+            themeDropdown.querySelectorAll('.custom-option').forEach(opt => {
+                const themeVal = opt.getAttribute('data-value');
+                opt.innerText = langData["theme_" + themeVal];
+            });
 
             const profileAccessVal = document.getElementById('profileAccessValue');
             if (userAccessType === 'vip') {
@@ -1260,7 +1277,6 @@
                     }
                 }
                 
-                // Для демонстрації VIP статусу:
                 userAccessType = "vip"; 
                 if(userAccessType === "vip") {
                     document.getElementById('vipBadge').classList.remove('hidden');
