@@ -768,7 +768,7 @@
                 up: "ВВЕРХ",
                 down: "ВНИЗ",
                 m1: "1 ХВИЛИНА", m5: "5 ХВИЛИН", m10: "10 ХВИЛИН", m15: "15 ХВИЛИН", m30: "30 ХВИЛИН", h1: "1 ГОДИНА",
-                btnReal: "Реальний ринок", btnOtc: "OTC Ринок",
+                btnRealMarket: "Реальний ринок", btnOtcMarket: "OTC Ринок",
                 tf1: "1 хв", tf5: "5 хв", tf10: "10 хв", tf15: "15 хв", tf30: "30 хв", tf60: "1 год"
             },
             en: {
@@ -798,7 +798,7 @@
                 up: "CALL (UP)",
                 down: "PUT (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTES", m10: "10 MINUTES", m15: "15 MINUTES", m30: "30 MINUTES", h1: "1 HOUR",
-                btnReal: "Real Market", btnOtc: "OTC Market",
+                btnRealMarket: "Real Market", btnOtcMarket: "OTC Market",
                 tf1: "1 m", tf5: "5 m", tf10: "10 m", tf15: "15 m", tf30: "30 m", tf60: "1 h"
             },
             ru: {
@@ -828,7 +828,7 @@
                 up: "ВВЕРХ",
                 down: "ВНИЗ",
                 m1: "1 МИНУТА", m5: "5 МИНУТ", m10: "10 МИНУТ", m15: "15 МИНУТ", m30: "30 МИНУТ", h1: "1 ЧАС",
-                btnReal: "Реальный рынок", btnOtc: "OTC Рынок",
+                btnRealMarket: "Реальный рынок", btnOtcMarket: "OTC Рынок",
                 tf1: "1 мин", tf5: "5 мин", tf10: "10 мин", tf15: "15 мин", tf30: "30 мин", tf60: "1 ч"
             },
             fr: {
@@ -858,7 +858,7 @@
                 up: "HAUSSE (UP)",
                 down: "BAISSE (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTES", m10: "10 MINUTES", m15: "15 MINUTES", m30: "30 MINUTES", h1: "1 HEURE",
-                btnReal: "Marché Réel", btnOtc: "Marché OTC",
+                btnRealMarket: "Marché Réel", btnOtcMarket: "Marché OTC",
                 tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 h"
             },
             de: {
@@ -888,7 +888,7 @@
                 up: "HOCH (UP)",
                 down: "RUNTER (DOWN)",
                 m1: "1 MINUTE", m5: "5 MINUTEN", m10: "10 MINUTEN", m15: "15 MINUTEN", m30: "30 MINUTEN", h1: "1 STUNDE",
-                btnReal: "Realer Markt", btnOtc: "OTC-Markt",
+                btnRealMarket: "Realer Markt", btnOtcMarket: "OTC-Markt",
                 tf1: "1 Min", tf5: "5 Min", tf10: "10 Min", tf15: "15 Min", tf30: "30 Min", tf60: "1 Std"
             },
             it: {
@@ -918,7 +918,7 @@
                 up: "SU (UP)",
                 down: "GIÙ (DOWN)",
                 m1: "1 MINUTO", m5: "5 MINUTI", m10: "10 MINUTI", m15: "15 MINUTI", m30: "30 MINUTI", h1: "1 ORA",
-                btnReal: "Mercato Reale", btnOtc: "Mercato OTC",
+                btnRealMarket: "Mercato Reale", btnOtcMarket: "Mercato OTC",
                 tf1: "1 min", tf5: "5 min", tf10: "10 min", tf15: "15 min", tf30: "30 min", tf60: "1 o"
             }
         };
@@ -1062,9 +1062,9 @@
         function updateLanguageInterface() {
             const langData = languages[currentLang];
             
-            // Виправлено: оновлення мови для кнопок перемикання ринків
-            document.getElementById('btnRealMarket').innerText = langData.btnReal;
-            document.getElementById('btnOtcMarket').innerText = langData.btnOtc;
+            // ПРАВИЛЬНЕ ОНОВЛЕННЯ: Тепер ID елементів повністю відповідають об'єкту перекладів
+            document.getElementById('btnRealMarket').innerText = langData.btnRealMarket;
+            document.getElementById('btnOtcMarket').innerText = langData.btnOtcMarket;
 
             document.getElementById('loadingText').innerText = langData.loading;
             document.getElementById('lockTitle').innerText = langData.lockTitle;
@@ -1261,7 +1261,7 @@
                 }
                 
                 // Для демонстрації VIP статусу:
-                userAccessType = "vip"; // Спробуйте змінити на "normal" для перевірки
+                userAccessType = "vip"; 
                 if(userAccessType === "vip") {
                     document.getElementById('vipBadge').classList.remove('hidden');
                 }
