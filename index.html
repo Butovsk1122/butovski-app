@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.2</title>
+    <title>Butovski App v2.5</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,6 +23,36 @@
             --green-signal: #10b981;
             --dropdown-bg: #1a1f2c;
             --dropdown-hover: #242b3d;
+        }
+
+        [data-theme="emerald"] {
+            --bg-color: #061712;
+            --card-bg: #0b241e;
+            --accent-gradient: linear-gradient(135deg, #10b981, #059669);
+            --text-main: #ecfdf5;
+            --text-muted: #64748b;
+            --border-color: #123a30;
+            --nav-bg: #04100c;
+            --tv-theme: dark;
+            --red-signal: #f43f5e;
+            --green-signal: #34d399;
+            --dropdown-bg: #0f3128;
+            --dropdown-hover: #16483b;
+        }
+
+        [data-theme="nordic"] {
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --accent-gradient: linear-gradient(135deg, #3182ce, #4299e1);
+            --text-main: #f7fafc;
+            --text-muted: #a0aec0;
+            --border-color: #4a5568;
+            --nav-bg: #171923;
+            --tv-theme: dark;
+            --red-signal: #e53e3e;
+            --green-signal: #38a169;
+            --dropdown-bg: #2d3748;
+            --dropdown-hover: #4a5568;
         }
 
         [data-theme="light"] {
@@ -183,7 +213,7 @@
             letter-spacing: 0.3px;
         }
 
-        /* КРАСИВІ КАСТОМНІ ВИПАДАЮЧІ СПИСКИ (ЗАМІСТЬ СИСТЕМНИХ) */
+        /* КРАСИВІ КАСТОМНІ ВИПАДАЮЧІ СПИСКИ */
         .custom-select-wrapper {
             position: relative;
             width: 100%;
@@ -270,7 +300,6 @@
             font-size: 12px;
         }
 
-        /* Стилізація скроллбару для меню */
         .custom-options-dropdown::-webkit-scrollbar {
             width: 4px;
         }
@@ -592,7 +621,7 @@
             <div class="timer-text" id="timerDigits">00:00/00:00</div>
         </div>
 
-        <!-- Компактний графік TradingView (Висота 250px) -->
+        <!-- Компактний графік TradingView -->
         <div class="card" style="padding:0; height: 250px; overflow: hidden; border-radius:16px;">
             <div id="tradingview_widget" style="height:100%; width:100%;"></div>
         </div>
@@ -647,6 +676,8 @@
                 <span id="setTheme">Тема додатка</span>
                 <select id="themeSelect" class="select-custom" onchange="changeTheme(this.value)">
                     <option value="cyberpunk">Cyberpunk</option>
+                    <option value="emerald">Emerald</option>
+                    <option value="nordic">Nordic</option>
                     <option value="light">Light</option>
                 </select>
             </div>
@@ -677,26 +708,35 @@
     </div>
 
     <script>
-        // Списки активів під кожен тип ринку
+        // РОЗШИРЕНИЙ СПИСОК ВАЛЮТНИХ ПАР
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: "EUR/USD" },
                 { value: "FX:GBPUSD", name: "GBP/USD" },
                 { value: "FX:USDJPY", name: "USD/JPY" },
                 { value: "FX:AUDUSD", name: "AUD/USD" },
-                { value: "FX:EURJPY", name: "EUR/JPY" }
+                { value: "FX:USDCAD", name: "USD/CAD" },
+                { value: "FX:EURGBP", name: "EUR/GBP" },
+                { value: "FX:EURJPY", name: "EUR/JPY" },
+                { value: "FX_IDC:XAUUSD", name: "Gold (XAU/USD)" },
+                { value: "FX_IDC:XAGUSD", name: "Silver (XAG/USD)" }
             ],
             otc: [
                 { value: "OANDA:EURUSD", name: "EUR/USD (OTC)" },
                 { value: "OANDA:GBPUSD", name: "GBP/USD (OTC)" },
                 { value: "OANDA:USDJPY", name: "USD/JPY (OTC)" },
-                { value: "OANDA:AUDUSD", name: "AUD/USD (OTC)" }
+                { value: "OANDA:AUDUSD", name: "AUD/USD (OTC)" },
+                { value: "OANDA:USDCAD", name: "USD/CAD (OTC)" },
+                { value: "OANDA:EURJPY", name: "EUR/JPY (OTC)" }
             ],
             crypto: [
                 { value: "BINANCE:BTCUSDT", name: "BTC/USD" },
                 { value: "BINANCE:ETHUSDT", name: "ETH/USD" },
                 { value: "BINANCE:SOLUSDT", name: "SOL/USD" },
-                { value: "BINANCE:TONUSDT", name: "TON/USD" }
+                { value: "BINANCE:TONUSDT", name: "TON/USD" },
+                { value: "BINANCE:BNBUSDT", name: "BNB/USD" },
+                { value: "BINANCE:XRPUSDT", name: "XRP/USD" },
+                { value: "BINANCE:DOGEUSDT", name: "DOGE/USD" }
             ]
         };
 
@@ -773,7 +813,7 @@
         let countdownInterval;
         let totalSeconds = 60;
         let secondsLeft = 60;
-        let currentTheme = 'dark';
+        let currentTheme = 'cyberpunk';
         let currentMarket = 'real';
         
         let selectedAssetValue = "";
@@ -788,7 +828,6 @@
             loadTelegramUserData();
             calculateMartingale();
 
-            // Закриття списків при кліку в будь-яке інше місце екрану
             document.addEventListener('click', function(e) {
                 if (!e.target.closest('.custom-select-wrapper')) {
                     document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
@@ -796,24 +835,16 @@
             });
         });
 
-        // Керування відкриттям/закриттям кастомних списків
         function toggleCustomDropdown(wrapperId) {
             const wrapper = document.getElementById(wrapperId);
             const isOpen = wrapper.classList.contains('open');
-            
-            // Спочатку закриваємо всі інші відкриті списки
             document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-            
-            if (!isOpen) {
-                wrapper.classList.add('open');
-            }
+            if (!isOpen) wrapper.classList.add('open');
         }
 
-        // Рендеринг кастомних опцій активів
         function renderAssetOptions(marketType) {
             const container = document.getElementById('assetCustomOptions');
             container.innerHTML = "";
-            
             const assets = marketAssets[marketType];
             
             assets.forEach((asset, index) => {
@@ -840,12 +871,10 @@
                     
                     updateTradingPairsAndGraph();
                 };
-                
                 container.appendChild(opt);
             });
         }
 
-        // Вибір таймфрейму
         function selectTimeframeOption(val, text) {
             const wrapper = document.getElementById('timeframeDropdownWrapper');
             const triggerText = document.getElementById('timeframeSelectedValue');
@@ -860,10 +889,8 @@
             updateTradingPairsAndGraph();
         }
 
-        // Зміна типу ринку
         function changeMarketType(type) {
             currentMarket = type;
-            
             document.getElementById('btnRealMarket').classList.remove('active');
             document.getElementById('btnOtcMarket').classList.remove('active');
             document.getElementById('btnCryptoMarket').classList.remove('active');
@@ -878,7 +905,6 @@
 
         function loadTelegramUserData() {
             document.getElementById('loadingScreen').classList.remove('hidden');
-            
             if (window.Telegram && Telegram.WebApp && Telegram.WebApp.initData) {
                 const initData = window.Telegram.WebApp.initData;
                 const tgUser = Telegram.WebApp.initDataUnsafe?.user || {};
@@ -917,7 +943,6 @@
                             document.getElementById('vipBadge').classList.add('hidden');
                             document.getElementById('profileAccessValue').innerText = languages[currentLang].accNormal;
                         }
-                        
                         updateTradingPairsAndGraph();
                     } else {
                         showLockScreen();
@@ -946,7 +971,6 @@
         function updateTradingPairsAndGraph() {
             const asset = selectedAssetValue;
             const timeframe = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-            
             initTradingViewWidget(currentTheme, asset, timeframe);
             document.getElementById('signalPair').innerText = selectedAssetText;
         }
@@ -979,7 +1003,6 @@
 
         function handleSignalAction() {
             const actionBtn = document.getElementById('signalActionButton');
-            
             if (actionBtn.innerText === languages[currentLang].btnNew || actionBtn.innerText === languages[currentLang].btnGet) {
                 actionBtn.innerText = languages[currentLang].btnAnalyse;
                 actionBtn.disabled = true;
@@ -987,9 +1010,7 @@
                 setTimeout(() => {
                     actionBtn.disabled = false;
                     actionBtn.innerText = languages[currentLang].btnNew;
-                    
                     const tfValue = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-                    
                     const isUp = Math.random() > 0.47;
                     const proba = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
 
@@ -1006,7 +1027,6 @@
 
                     document.getElementById('signalTimeframe').innerText = getLocalizedTimeframeText(tfValue);
                     document.getElementById('signalProbability').innerText = proba + '%';
-                    
                     document.getElementById('resultScreen').classList.remove('hidden');
                     
                     const minutes = parseInt(tfValue);
@@ -1019,16 +1039,13 @@
             clearInterval(countdownInterval);
             totalSeconds = seconds;
             secondsLeft = seconds;
-            
             const progressFill = document.getElementById('progressFill');
             progressFill.className = "progress-bar " + (isUp ? 'bg-green' : 'bg-red');
 
             updateTimerUI();
-
             countdownInterval = setInterval(() => {
                 secondsLeft--;
                 updateTimerUI();
-
                 if (secondsLeft <= 0) {
                     clearInterval(countdownInterval);
                     timerFinished();
@@ -1039,7 +1056,6 @@
         function updateTimerUI() {
             const percentage = (secondsLeft / totalSeconds) * 100;
             document.getElementById('progressFill').style.width = percentage + '%';
-
             const currentMins = Math.floor(secondsLeft / 60);
             const currentSecs = secondsLeft % 60;
             const totalMins = Math.floor(totalSeconds / 60);
@@ -1058,7 +1074,6 @@
             const startBet = parseFloat(document.getElementById('startBet').value) || 1;
             const multiplier = parseFloat(document.getElementById('multiplier').value) || 2.2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
-
             const tbody = document.getElementById('martingaleResultBody');
             tbody.innerHTML = '';
 
@@ -1066,9 +1081,7 @@
             let currentBet = startBet;
 
             for (let i = 1; i <= steps; i++) {
-                if (i > 1) {
-                    currentBet = currentBet * multiplier;
-                }
+                if (i > 1) currentBet = currentBet * multiplier;
                 accumulatedTotal += currentBet;
 
                 const row = document.createElement('tr');
@@ -1097,7 +1110,6 @@
             document.getElementById('menuSignals').innerText = textData.menuSignals;
             document.getElementById('menuCalc').innerText = textData.menuCalc;
             document.getElementById('menuProfile').innerText = textData.menuProfile;
-            
             document.getElementById('lblSelectAsset').innerText = textData.lblSelectAsset;
             document.getElementById('lblSelectTimeframe').innerText = textData.lblSelectTimeframe;
 
@@ -1121,14 +1133,13 @@
 
         function initTradingViewWidget(theme, asset, timeframe) {
             document.getElementById('tradingview_widget').innerHTML = "";
-            
             if (typeof TradingView !== 'undefined') {
                 new TradingView.widget({
                     "autosize": true,
                     "symbol": asset,
                     "interval": timeframe,
                     "timezone": "Etc/UTC",
-                    "theme": theme === 'light' ? 'light' : 'dark',
+                    "theme": (theme === 'light') ? 'light' : 'dark',
                     "style": "1",
                     "locale": currentLang,
                     "toolbar_bg": "#f1f3f6",
