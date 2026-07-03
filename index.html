@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.6</title>
+    <title>Butovski App v2.7</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -546,6 +546,9 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="custom-options-dropdown" id="timeframeCustomOptions">
+                            <div class="custom-option" data-value="0.05" onclick="selectTimeframeOption('0.05')">3 сек</div>
+                            <div class="custom-option" data-value="0.25" onclick="selectTimeframeOption('0.25')">15 сек</div>
+                            <div class="custom-option" data-value="0.5" onclick="selectTimeframeOption('0.5')">30 сек</div>
                             <div class="custom-option selected" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
                             <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
                             <div class="custom-option" data-value="10" onclick="selectTimeframeOption('10')">10 хв</div>
@@ -559,9 +562,10 @@
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
+        <!-- КАРТКА ПОШУКУ СИГНАЛУ (ПРЕЛОАДЕР) -->
         <div id="searchSignalScreen" class="card search-signal-box hidden">
             <div class="mini-spinner"></div>
-            <p id="lblSearching" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Пошук найкращого сигналу...</p>
+            <p id="lblSearching" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Пошук найкращего сигналу...</p>
         </div>
 
         <div id="resultScreen" class="card hidden">
@@ -689,6 +693,9 @@
                 { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD", fr: "GBP/USD", de: "GBP/USD", it: "GBP/USD" } },
                 { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY", fr: "USD/JPY", de: "USD/JPY", it: "USD/JPY" } },
                 { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD", fr: "AUD/USD", de: "AUD/USD", it: "AUD/USD" } },
+                { value: "FX:AUDJPY", name: { uk: "AUD/JPY", en: "AUD/JPY", ru: "AUD/JPY", fr: "AUD/JPY", de: "AUD/JPY", it: "AUD/JPY" } },
+                { value: "FX:AUDCAD", name: { uk: "AUD/CAD", en: "AUD/CAD", ru: "AUD/CAD", fr: "AUD/CAD", de: "AUD/CAD", it: "AUD/CAD" } },
+                { value: "FX:AUDCHF", name: { uk: "AUD/CHF", en: "AUD/CHF", ru: "AUD/CHF", fr: "AUD/CHF", de: "AUD/CHF", it: "AUD/CHF" } },
                 { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD", fr: "USD/CAD", de: "USD/CAD", it: "USD/CAD" } },
                 { value: "FX:EURGBP", name: { uk: "EUR/GBP", en: "EUR/GBP", ru: "EUR/GBP", fr: "EUR/GBP", de: "EUR/GBP", it: "EUR/GBP" } },
                 { value: "FX:EURJPY", name: { uk: "EUR/JPY", en: "EUR/JPY", ru: "EUR/JPY", fr: "EUR/JPY", de: "EUR/JPY", it: "EUR/JPY" } },
@@ -701,7 +708,9 @@
                 { value: "OANDA:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)", fr: "USD/JPY (OTC)", de: "USD/JPY (OTC)", it: "USD/JPY (OTC)" } },
                 { value: "OANDA:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)", fr: "AUD/USD (OTC)", de: "AUD/USD (OTC)", it: "AUD/USD (OTC)" } },
                 { value: "OANDA:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)", fr: "USD/CAD (OTC)", de: "USD/CAD (OTC)", it: "USD/CAD (OTC)" } },
-                { value: "OANDA:EURJPY", name: { uk: "EUR/JPY (OTC)", en: "EUR/JPY (OTC)", ru: "EUR/JPY (OTC)", fr: "EUR/JPY (OTC)", de: "EUR/JPY (OTC)", it: "EUR/JPY (OTC)" } }
+                { value: "OANDA:EURJPY", name: { uk: "EUR/JPY (OTC)", en: "EUR/JPY (OTC)", ru: "EUR/JPY (OTC)", fr: "EUR/JPY (OTC)", de: "EUR/JPY (OTC)", it: "EUR/JPY (OTC)" } },
+                { value: "COINBASE:BTCUSD", name: { uk: "BTC ETF (OTC)", en: "BTC ETF (OTC)", ru: "BTC ETF (OTC)", fr: "BTC ETF (OTC)", de: "BTC ETF (OTC)", it: "BTC ETF (OTC)" } },
+                { value: "BINANCE:BNBUSDT", name: { uk: "BNB (OTC)", en: "BNB (OTC)", ru: "BNB (OTC)", fr: "BNB (OTC)", de: "BNB (OTC)", it: "BNB (OTC)" } }
             ],
             crypto: [
                 { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USD", en: "BTC/USD", ru: "BTC/USD", fr: "BTC/USD", de: "BTC/USD", it: "BTC/USD" } },
@@ -727,7 +736,7 @@
         let selectedAsset = "";
         let isSignalActive = false;
         let signalTimerInterval = null;
-        let searchTimeout = null; // Для керування таймаутом пошуку
+        let searchTimeout = null;
         const tg = window.Telegram?.WebApp;
 
         function checkAccess() {
@@ -830,7 +839,8 @@
                 o.classList.toggle('selected', o.getAttribute('data-value') === val);
             });
 
-            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            let tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            if (parseFloat(tf) < 1) tf = "1"; // TradingView fallback
             
             if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
                 initTradingViewWidget(currentTheme, selectedAsset, tf);
@@ -842,7 +852,10 @@
             const triggerText = wrapper.querySelector('.custom-select-trigger span');
             
             let tfText = tfVal + " хв";
-            if(tfVal === "60") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "1 год" : "1h";
+            if (tfVal === "0.05") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "3 сек" : "3s";
+            else if (tfVal === "0.25") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "15 сек" : "15s";
+            else if (tfVal === "0.5") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "30 сек" : "30s";
+            else if (tfVal === "60") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "1 год" : "1h";
             else tfText = tfVal + ((currentLang === 'uk' || currentLang === 'ru') ? " хв" : " m");
 
             triggerText.innerText = tfText;
@@ -852,8 +865,11 @@
                 o.classList.toggle('selected', o.getAttribute('data-value') === tfVal);
             });
 
+            let widgetTf = tfVal;
+            if (parseFloat(tfVal) < 1) widgetTf = "1"; // ТФ менше 1 хв у віджеті показуємо як 1 хв
+
             if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
-                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
+                initTradingViewWidget(currentTheme, selectedAsset, widgetTf);
             }
         }
 
@@ -868,7 +884,8 @@
             buildAssetDropdown();
             
             if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
-                const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+                let tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+                if (parseFloat(tf) < 1) tf = "1";
                 setTimeout(() => {
                     initTradingViewWidget(currentTheme, selectedAsset, tf);
                 }, 50);
@@ -876,35 +893,26 @@
         }
 
         function handleSignalAction() {
-            // Зупиняємо попередні таймери, якщо користувач натиснув кнопку повторно
             if (signalTimerInterval) clearInterval(signalTimerInterval);
             if (searchTimeout) clearTimeout(searchTimeout);
 
-            // 1. Спочатку ХОВАЄМО графік та старий результат
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('tradingviewCard').classList.add('hidden');
-
-            // 2. ПОКАЗУЄМО прелоадер "Пошук сигналу"
             document.getElementById('searchSignalScreen').classList.remove('hidden');
 
-            // Змінюємо напис на кнопці
             const btn = document.getElementById('signalActionButton');
             btn.innerText = translations[currentLang].signalActionButtonNew || "НОВИЙ СИГНАЛ";
             isSignalActive = true;
 
-            // 3. Запускаємо затримку симуляції пошуку (3 секунди)
             searchTimeout = setTimeout(() => {
-                // Ховаємо прелоадер пошуку
                 document.getElementById('searchSignalScreen').classList.add('hidden');
-
-                // Показуємо картку результату та графік TradingView
                 document.getElementById('resultScreen').classList.remove('hidden');
                 document.getElementById('tradingviewCard').classList.remove('hidden');
 
                 const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
-                initTradingViewWidget(currentTheme, selectedAsset, tf);
+                let widgetTf = parseFloat(tf) < 1 ? "1" : tf;
+                initTradingViewWidget(currentTheme, selectedAsset, widgetTf);
 
-                // Генерація випадкових даних для сигналу
                 const assets = marketAssets[currentMarket];
                 const currentAssetObj = assets.find(a => a.value === selectedAsset);
                 document.getElementById('signalPair').innerText = currentAssetObj ? currentAssetObj.name[currentLang] : "ASSET";
@@ -919,16 +927,30 @@
                     badge.className = "direction-badge bg-red";
                 }
 
-                let tfMinutes = parseInt(tf);
-                document.getElementById('signalTimeframe').innerText = tfMinutes + ((currentLang === 'uk' || currentLang === 'ru') ? " ХВ" : " MIN");
+                let displayTfText = "";
+                let totalSeconds = 60;
+
+                if (tf === "0.05") {
+                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "3 СЕКУНДИ" : "3 SECONDS";
+                    totalSeconds = 3;
+                } else if (tf === "0.25") {
+                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "15 СЕКУНД" : "15 SECONDS";
+                    totalSeconds = 15;
+                } else if (tf === "0.5") {
+                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "30 СЕКУНД" : "30 SECONDS";
+                    totalSeconds = 30;
+                } else {
+                    let tfMinutes = parseInt(tf);
+                    displayTfText = tfMinutes + ((currentLang === 'uk' || currentLang === 'ru') ? " ХВ" : " MIN");
+                    totalSeconds = tfMinutes * 60;
+                }
+
+                document.getElementById('signalTimeframe').innerText = displayTfText;
                 document.getElementById('signalProbability').innerText = Math.floor(Math.random() * (98 - 86 + 1) + 86) + "%";
 
-                let totalSeconds = tfMinutes * 60;
                 let currentSeconds = totalSeconds;
-
                 updateTimerUI(currentSeconds, totalSeconds);
 
-                // Запуск таймера зворотного відліку сигналу
                 signalTimerInterval = setInterval(() => {
                     currentSeconds--;
                     if (currentSeconds <= 0) {
@@ -940,7 +962,7 @@
                     updateTimerUI(currentSeconds, totalSeconds);
                 }, 1000);
 
-            }, 3000); // 3000 мілісекунд = 3 секунди триває анімація пошуку
+            }, 3000); 
         }
 
         function updateTimerUI(curr, total) {
@@ -1014,7 +1036,8 @@
                 o.classList.toggle('selected', o.getAttribute('data-value') === theme);
             });
 
-            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            let tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            if (parseFloat(tf) < 1) tf = "1";
             
             if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
                 initTradingViewWidget(currentTheme, selectedAsset, tf);
