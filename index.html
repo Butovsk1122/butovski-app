@@ -20,279 +20,296 @@
             --nav-bg: #0a0c10;
             --tv-theme: dark;
             --red-signal: #ef4444;
-            --green-signal: #22c55e;
-            --accent-glow: rgba(99, 102, 241, 0.15);
-            --font-family: 'Montserrat', sans-serif;
+            --green-signal: #10b981;
+            --dropdown-bg: #1a1f2c;
+            --dropdown-hover: #242b3d;
+        }
+
+        [data-theme="emerald"] {
+            --bg-color: #061712;
+            --card-bg: #0b241e;
+            --accent-gradient: linear-gradient(135deg, #10b981, #059669);
+            --text-main: #ecfdf5;
+            --text-muted: #64748b;
+            --border-color: #123a30;
+            --nav-bg: #04100c;
+            --tv-theme: dark;
+            --red-signal: #f43f5e;
+            --green-signal: #34d399;
+            --dropdown-bg: #0f3128;
+            --dropdown-hover: #16483b;
+        }
+
+        [data-theme="nordic"] {
+            --bg-color: #1a202c;
+            --card-bg: #2d3748;
+            --accent-gradient: linear-gradient(135deg, #3182ce, #4299e1);
+            --text-main: #f7fafc;
+            --text-muted: #a0aec0;
+            --border-color: #4a5568;
+            --nav-bg: #171923;
+            --tv-theme: dark;
+            --red-signal: #e53e3e;
+            --green-signal: #38a169;
+            --dropdown-bg: #2d3748;
+            --dropdown-hover: #4a5568;
         }
 
         [data-theme="light"] {
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --accent-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            --accent-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
             --text-main: #0f172a;
             --text-muted: #64748b;
             --border-color: #e2e8f0;
-            --nav-bg: #ffffff;
+            --nav-bg: #f1f5f9;
             --tv-theme: light;
             --red-signal: #dc2626;
             --green-signal: #16a34a;
-            --accent-glow: rgba(59, 130, 246, 0.1);
-        }
-
-        [data-theme="gold"] {
-            --bg-color: #0d0d0d;
-            --card-bg: #171717;
-            --accent-gradient: linear-gradient(135deg, #fbbf24, #d97706);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-color: #2d2d2d;
-            --nav-bg: #080808;
-            --tv-theme: dark;
-            --red-signal: #f87171;
-            --green-signal: #4ade80;
-            --accent-glow: rgba(251, 191, 36, 0.1);
+            --dropdown-bg: #ffffff;
+            --dropdown-hover: #f1f5f9;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: var(--font-family);
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 16px 16px 80px 16px;
-            transition: background-color 0.3s, color 0.3s;
             overflow-x: hidden;
+            padding-bottom: 75px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Утиліти */
         .hidden { display: none !important; }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+        /* Екрани */
+        .screen {
             padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 20px var(--accent-glow);
-            transition: background 0.3s, border-color 0.3s;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        .screen-title {
-            font-size: 18px;
-            font-weight: 700;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Завантаження та Блокування */
+        .full-screen-center {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top: 5px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
             margin-bottom: 16px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .lock-icon {
+            font-size: 64px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        /* Шапка бренду */
+        .brand-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .brand-logo {
+            font-weight: 700;
+            font-size: 20px;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Селектори та кастомні дропдауни */
-        .selector-label {
-            font-size: 12px;
+        .vip-badge {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Перемикач ринків */
+        .market-switcher-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .market-btn {
+            flex: 1;
+            padding: 12px 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .market-btn.active {
+            background: var(--accent-gradient);
+            color: #ffffff !important;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Грід для селекторів вибору активів */
+        .signal-selectors-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .selector-box label {
+            display: block;
+            font-size: 11px;
             color: var(--text-muted);
             margin-bottom: 6px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
 
-        .custom-select {
+        /* КАСТОМНІ ВИПАДАЮЧІ СПИСКИ */
+        .custom-select-wrapper {
             position: relative;
-            margin-bottom: 16px;
+            width: 100%;
         }
 
         .custom-select-trigger {
-            background: var(--card-bg);
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
             border: 1px solid var(--border-color);
-            padding: 12px 16px;
+            padding: 12px 14px;
             border-radius: 12px;
-            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .custom-select-trigger:after {
-            content: '\f107';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            transition: transform 0.2s;
+        .custom-select-wrapper.open .custom-select-trigger {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
         }
 
-        .custom-select.opened .custom-select-trigger:after {
+        .custom-select-trigger i {
+            font-size: 12px;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .custom-select-wrapper.open .custom-select-trigger i {
             transform: rotate(180deg);
+            color: #6366f1;
         }
 
-        .custom-options {
+        .custom-options-dropdown {
             position: absolute;
             top: calc(100% + 6px);
             left: 0;
             right: 0;
-            background: var(--card-bg);
+            background-color: var(--dropdown-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            z-index: 100;
-            max-height: 200px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            max-height: 220px;
             overflow-y: auto;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.2s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transform: translateY(-8px);
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
         }
 
-        .custom-select.opened .custom-options {
+        .custom-select-wrapper.open .custom-options-dropdown {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
 
         .custom-option {
-            padding: 12px 16px;
-            cursor: pointer;
+            padding: 12px 14px;
             font-size: 14px;
-            transition: background 0.2s;
+            font-weight: 500;
+            color: var(--text-main);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.15s;
         }
 
         .custom-option:hover, .custom-option.selected {
-            background: var(--accent-gradient);
-            color: #fff;
-        }
-
-        /* Перемикач типу ринку */
-        .market-toggle {
-            display: flex;
-            background: var(--border-color);
-            padding: 4px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .market-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 10px;
-            font-size: 13px;
+            background-color: var(--dropdown-hover);
             font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
         }
 
-        .market-btn.active {
-            background: var(--card-bg);
-            color: var(--text-main);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .custom-options-dropdown::-webkit-scrollbar {
+            width: 4px;
         }
-
-        /* Кнопка дії */
-        .action-btn {
-            width: 100%;
-            background: var(--accent-gradient);
-            color: #fff;
-            border: none;
-            padding: 14px;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
-            box-shadow: 0 4px 15px var(--accent-glow);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .action-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Результати аналізу / Екран сигналу */
-        .signal-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 14px;
-        }
-
-        .signal-item {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .signal-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            margin-bottom: 4px;
-            font-weight: 500;
-        }
-
-        .signal-value {
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .direction-badge {
-            align-self: flex-start;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #fff;
-            text-transform: uppercase;
-        }
-
-        .bg-green { background-color: var(--green-signal); }
-        .bg-red { background-color: var(--red-signal); }
-
-        .timer-container {
-            grid-column: span 2;
-            text-align: center;
-            padding: 8px;
-        }
-
-        .timer-text {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
-
-        .timer-countdown {
-            font-size: 22px;
-            font-weight: 700;
-            font-variant-numeric: tabular-nums;
+        .custom-options-dropdown::-webkit-scrollbar-thumb {
+            background-color: var(--border-color);
+            border-radius: 4px;
         }
 
         /* Нижня навігація */
-        .bottom-nav {
+        .nav-bar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background: var(--nav-bg);
+            bottom: 0; left: 0; right: 0;
+            background-color: var(--nav-bg);
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
-            align-items: center;
+            padding: 10px 0;
             z-index: 1000;
-            padding-bottom: env(safe-area-inset-bottom);
         }
 
         .nav-item {
@@ -300,418 +317,558 @@
             flex-direction: column;
             align-items: center;
             color: var(--text-muted);
-            cursor: pointer;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 500;
-            text-decoration: none;
+            cursor: pointer;
+            width: 33.3%;
             transition: color 0.2s;
-            flex: 1;
-            padding: 8px 0;
         }
 
         .nav-item i {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 4px;
         }
 
         .nav-item.active {
-            color: var(--text-main);
+            color: #6366f1;
         }
 
-        /* Екран налаштувань */
+        /* Картки та контейнери */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .btn-action-signal {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: transform 0.1s;
+        }
+
+        .btn-action-signal:active {
+            transform: scale(0.98);
+        }
+
+        /* Сигнали інтерфейс */
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .pair-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .direction-badge {
+            padding: 6px 16px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .bg-green { background-color: var(--green-signal); color: white; }
+        .bg-red { background-color: var(--red-signal); color: white; }
+
+        .signal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .grid-item {
+            background-color: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        .grid-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .grid-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        /* Таймер прогрес */
+        .progress-container {
+            background-color: var(--border-color);
+            border-radius: 10px;
+            height: 6px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 100%;
+            transition: width 1s linear;
+        }
+
+        .timer-text {
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Профіль та Налаштування */
+        .profile-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--accent-gradient);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            object-fit: cover;
+        }
+
+        .profile-info h2 { font-size: 18px; font-weight: 600; }
+        .profile-info p { font-size: 13px; color: var(--text-muted); }
+
         .settings-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding: 14px 0;
             border-bottom: 1px solid var(--border-color);
+            position: relative;
         }
 
-        .settings-row:last-child {
-            border-bottom: none;
-        }
+        .settings-row:last-child { border-bottom: none; }
+        .settings-row .custom-select-wrapper { width: 160px; }
+        .settings-row .custom-select-trigger { padding: 8px 12px; font-size: 13px; border-radius: 8px; }
 
-        .settings-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .settings-title {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .settings-desc {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        .mini-select {
-            width: 100px;
-            margin-bottom: 0;
-        }
-
-        .mini-select .custom-select-trigger {
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-        }
+        /* Калькулятор Мартингейла */
+        .calc-input-group { margin-bottom: 16px; }
+        .calc-input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .calc-input { width: 100%; background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 8px; font-size: 15px; outline: none; }
+        .calc-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .calc-table th { text-align: left; font-size: 11px; color: var(--text-muted); padding: 8px 4px; border-bottom: 1px solid var(--border-color); }
+        .calc-table td { padding: 10px 4px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.02); }
     </style>
 </head>
 <body>
 
-    <div id="screenAnalytics">
-        <div class="screen-title" id="titleAnalytics">Аналітика ринку</div>
+    <div id="loadingScreen" class="full-screen-center">
+        <div class="spinner"></div>
+        <p id="loadingText" style="font-size: 14px; color: var(--text-muted);">Перевірка доступу...</p>
+    </div>
 
-        <div class="market-toggle">
-            <button class="market-btn active" id="marketRealBtn" onclick="changeMarketType('real')">Реальний ринок</button>
-            <button class="market-btn" id="marketOtcBtn" onclick="changeMarketType('otc')">OTC ринок</button>
+    <div id="lockScreen" class="full-screen-center hidden">
+        <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+        <h2 id="lockTitle" style="font-size: 20px; margin-bottom: 10px;">Доступ обмежено</h2>
+        <p id="lockDesc" style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px; max-width: 280px;">
+            У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.
+        </p>
+    </div>
+
+    <div id="brandLine" class="brand-header hidden">
+        <div class="brand-logo">BUTOVSKI SIGNAL</div>
+        <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
+    </div>
+
+    <div id="screenSignals" class="screen hidden">
+        <div class="market-switcher-container">
+            <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
+            <button id="btnOtcMarket" class="market-btn" onclick="changeMarketType('otc')">OTC Ринок</button>
+            <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
         </div>
 
-        <div class="selector-label" id="labelAsset">Валютна пара</div>
-        <div class="custom-select" id="assetSelect">
-            <div class="custom-select-trigger" id="assetSelectedValue">Завантаження...</div>
-            <div class="custom-options" id="assetCustomOptions"></div>
-        </div>
+        <div class="card" style="padding: 14px; margin-bottom: 12px; overflow: visible;">
+            <div class="signal-selectors-container">
+                <div class="selector-box">
+                    <label id="lblSelectAsset">Актив</label>
+                    <div class="custom-select-wrapper" id="assetDropdownWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('assetDropdownWrapper')">
+                            <span id="assetSelectedValue">Завантаження...</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="custom-options-dropdown" id="assetCustomOptions"></div>
+                    </div>
+                </div>
 
-        <div class="selector-label" id="labelTimeframe">Час експірації</div>
-        <div class="custom-select" id="timeframeSelect">
-            <div class="custom-select-trigger" id="timeframeSelectedValue" data-value="1">1 ХВИЛИНА</div>
-            <div class="custom-options" id="timeframeCustomOptions">
-                <div class="custom-option selected" data-value="1" onclick="selectTimeframeOption('1')">1 ХВИЛИНА</div>
-                <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 ХВИЛИН</div>
-                <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 ХВИЛИН</div>
-                <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60')">1 ГОДИНА</div>
+                <div class="selector-box">
+                    <label id="lblSelectTimeframe">Час (ТФ)</label>
+                    <div class="custom-select-wrapper" id="timeframeDropdownWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('timeframeDropdownWrapper')">
+                            <span id="timeframeSelectedValue" data-value="1">1 хв</span>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </div>
+                        <div class="custom-options-dropdown" id="timeframeCustomOptions">
+                            <div class="custom-option selected" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
+                            <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
+                            <div class="custom-option" data-value="10" onclick="selectTimeframeOption('10')">10 хв</div>
+                            <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 хв</div>
+                            <div class="custom-option" data-value="30" onclick="selectTimeframeOption('30')">30 хв</div>
+                            <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60')">1 год</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
-        <button class="action-btn" id="signalActionButton" onclick="handleSignalAction()">Отримати сигнал</button>
+        <div id="resultScreen" class="card hidden">
+            <div class="signal-header">
+                <div class="pair-title" id="signalPair">EUR/USD</div>
+                <div class="direction-badge" id="signalDirection">ВВЕРХ</div>
+            </div>
+            <div class="signal-grid">
+                <div class="grid-item">
+                    <div class="grid-label" id="lblTimeframe">ЧАС СИГНАЛУ</div>
+                    <div class="grid-value" id="signalTimeframe">1 ХВИЛИНА</div>
+                </div>
+                <div class="grid-item">
+                    <div class="grid-label" id="lblProba">ЙМОВІРНІСТЬ</div>
+                    <div class="grid-value" id="signalProbability">94%</div>
+                </div>
+            </div>
+            <div class="progress-container">
+                <div id="progressFill" class="progress-bar"></div>
+            </div>
+            <div class="timer-text" id="timerDigits">00:00/00:00</div>
+        </div>
 
-        <div id="tradingviewCard" class="card hidden" style="padding:0; height: 250px; overflow: hidden; border-radius:16px; margin-top:16px;">
+        <div class="card" style="padding:0; height: 250px; overflow: hidden; border-radius:16px;">
             <div id="tradingview_widget" style="height:100%; width:100%;"></div>
         </div>
-
-        <div class="card hidden" id="resultScreen" style="margin-top: 16px;">
-            <div class="screen-title" id="titleSignalResult" style="font-size:14px; margin-bottom:10px;">Результат аналізу</div>
-            <div class="signal-grid">
-                <div class="signal-item">
-                    <span class="signal-label" id="resLabelPair">Актив</span>
-                    <span class="signal-value" id="signalPair">-</span>
-                </div>
-                <div class="signal-item">
-                    <span class="signal-label" id="resLabelDirection">Напрямок</span>
-                    <span class="direction-badge bg-green" id="signalDirection">ВВЕРХ</span>
-                </div>
-                <div class="signal-item">
-                    <span class="signal-label" id="resLabelTimeframe">Час</span>
-                    <span class="signal-value" id="signalTimeframe">-</span>
-                </div>
-                <div class="signal-item">
-                    <span class="signal-label" id="resLabelProbability">Прогноз</span>
-                    <span class="signal-value" id="signalProbability" style="color:var(--green-signal);">-</span>
-                </div>
-                <div class="timer-container">
-                    <div class="timer-text" id="resLabelTimer">Дія сигналу</div>
-                    <div class="timer-countdown" id="signalTimerDisplay">00:00</div>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <div id="screenSettings" class="hidden">
-        <div class="screen-title" id="titleSettings">Налаштування</div>
-
+    <div id="screenCalc" class="screen hidden">
         <div class="card">
-            <div class="settings-row">
-                <div class="settings-info">
-                    <span class="settings-title" id="setLangTitle">Мова інтерфейсу</span>
-                    <span class="settings-desc" id="setLangDesc">Зміна мови додатку</span>
-                </div>
-                <div class="custom-select mini-select" id="langSelect">
-                    <div class="custom-select-trigger" id="langSelectedValue">UA</div>
-                    <div class="custom-options" id="langCustomOptions">
-                        <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk')">UA</div>
-                        <div class="custom-option" data-value="en" onclick="selectLangOption('en')">EN</div>
-                        <div class="custom-option" data-value="ru" onclick="selectLangOption('ru')">RU</div>
-                    </div>
-                </div>
+            <div class="calc-input-group">
+                <label id="lblStartBet">Початкова ставка ($)</label>
+                <input type="number" id="startBet" class="calc-input" value="1" oninput="calculateMartingale()">
+            </div>
+            <div class="calc-input-group">
+                <label id="lblMultiplier">Коефіцієнт (зазвичай 2.2 або 2.5)</label>
+                <input type="number" id="multiplier" class="calc-input" value="2.2" step="0.1" oninput="calculateMartingale()">
+            </div>
+            <div class="calc-input-group">
+                <label id="lblSteps">Кількість кроків (колін)</label>
+                <input type="number" id="stepsCount" class="calc-input" value="5" min="1" max="10" oninput="calculateMartingale()">
             </div>
 
-            <div class="settings-row">
-                <div class="settings-info">
-                    <span class="settings-title" id="setThemeTitle">Колірна тема</span>
-                    <span class="settings-desc" id="setThemeDesc">Вибір стилю оформлення</span>
-                </div>
-                <div class="custom-select mini-select" id="themeSelect">
-                    <div class="custom-select-trigger" id="themeSelectedValue">Cyber</div>
-                    <div class="custom-options" id="themeCustomOptions">
-                        <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk')">Cyber</div>
-                        <div class="custom-option" data-value="light" onclick="selectThemeOption('light')">Light</div>
-                        <div class="custom-option" data-value="gold" onclick="selectThemeOption('gold')">Gold</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card" style="text-align: center; color: var(--text-muted); font-size: 11px;">
-            <p>Butovski App Premium v2.6</p>
-            <p style="margin-top:4px;">&copy; 2026 All Rights Reserved</p>
+            <table class="calc-table">
+                <thead>
+                    <tr>
+                        <th id="thStep">Крок</th>
+                        <th id="thBet">Ставка</th>
+                        <th id="thTotal">Всього</th>
+                    </tr>
+                </thead>
+                <tbody id="martingaleResultBody"></tbody>
+            </table>
         </div>
     </div>
 
-    <div class="bottom-nav">
-        <div class="nav-item active" id="navAnalytics" onclick="switchScreen('analytics')">
-            <i class="fas fa-chart-line"></i>
-            <span id="navTextAnalytics">Аналітика</span>
+    <div id="screenProfile" class="screen hidden" style="overflow: visible;">
+        <div class="card" style="overflow: visible;">
+            <div class="profile-user">
+                <div id="userAvatar" class="profile-avatar">B</div>
+                <div class="profile-info">
+                    <h2 id="profileName">Користувач</h2>
+                    <p id="profileUsername">@username</p>
+                </div>
+            </div>
+            <div class="settings-row">
+                <span id="setAccessType">Тип доступу:</span>
+                <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
+            </div>
+            <div class="settings-row" style="overflow: visible; z-index: 200;">
+                <span id="setTheme">Тема додатка</span>
+                <div class="custom-select-wrapper" id="themeDropdownWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
+                        <span id="themeSelectedValue" data-value="cyberpunk">Cyberpunk</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="custom-options-dropdown" id="themeCustomOptions">
+                        <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk')">Cyberpunk</div>
+                        <div class="custom-option" data-value="emerald" onclick="selectThemeOption('emerald')">Emerald</div>
+                        <div class="custom-option" data-value="nordic" onclick="selectThemeOption('nordic')">Nordic</div>
+                        <div class="custom-option" data-value="light" onclick="selectThemeOption('light')">Light</div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-row" style="overflow: visible; z-index: 100;">
+                <span>Мова / Language</span>
+                <div class="custom-select-wrapper" id="langDropdownWrapper">
+                    <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
+                        <span id="langSelectedValue" data-value="uk">Українська</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="custom-options-dropdown" id="langCustomOptions">
+                        <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk')">Українська</div>
+                        <div class="custom-option" data-value="en" onclick="selectLangOption('en')">English</div>
+                        <div class="custom-option" data-value="ru" onclick="selectLangOption('ru')">Русский</div>
+                        <div class="custom-option" data-value="fr" onclick="selectLangOption('fr')">Français</div>
+                        <div class="custom-option" data-value="de" onclick="selectLangOption('de')">Deutsch</div>
+                        <div class="custom-option" data-value="it" onclick="selectLangOption('it')">Italiano</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="nav-item" id="navSettings" onclick="switchScreen('settings')">
-            <i class="fas fa-sliders-h"></i>
-            <span id="navTextSettings">Налаштування</span>
+    </div>
+
+    <div id="mainNavigation" class="nav-bar hidden">
+        <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span id="menuSignals">Сигнали</span>
+        </div>
+        <div class="nav-item" id="navCalc" onclick="switchScreen('calc')">
+            <i class="fa-solid fa-calculator"></i>
+            <span id="menuCalc">Калькулятор</span>
+        </div>
+        <div class="nav-item" id="navProfile" onclick="switchScreen('profile')">
+            <i class="fa-solid fa-user"></i>
+            <span id="menuProfile">Профіль</span>
         </div>
     </div>
 
     <script>
-        // Ініціалізація Telegram WebApp
-        const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.expand();
-            tg.ready();
-        }
-
-        // Локалізація
-        const translations = {
-            uk: {
-                titleAnalytics: "Аналітика ринку",
-                marketRealBtn: "Реальний ринок",
-                marketOtcBtn: "OTC ринок",
-                labelAsset: "Валютна пара",
-                labelTimeframe: "Час експірації",
-                signalActionButton: "Отримати сигнал",
-                titleSignalResult: "Результат аналізу",
-                resLabelPair: "Актив",
-                resLabelDirection: "Напрямок",
-                resLabelTimeframe: "Час",
-                resLabelProbability: "Прогноз",
-                resLabelTimer: "Дія сигналу",
-                titleSettings: "Налаштування",
-                setLangTitle: "Мова інтерфейсу",
-                setLangDesc: "Зміна мови додатку",
-                setThemeTitle: "Колірна тема",
-                setThemeDesc: "Вибір стилю оформлення",
-                navTextAnalytics: "Аналітика",
-                navTextSettings: "Налаштування",
-                signalUp: "ВВЕРХ",
-                signalDown: "ВНИЗ"
-            },
-            en: {
-                titleAnalytics: "Market Analytics",
-                marketRealBtn: "Real Market",
-                marketOtcBtn: "OTC Market",
-                labelAsset: "Currency Pair",
-                labelTimeframe: "Expiration Time",
-                signalActionButton: "Get Signal",
-                titleSignalResult: "Analysis Result",
-                resLabelPair: "Asset",
-                resLabelDirection: "Direction",
-                resLabelTimeframe: "Time",
-                resLabelProbability: "Accuracy",
-                resLabelTimer: "Signal Active",
-                titleSettings: "Settings",
-                setLangTitle: "Interface Language",
-                setLangDesc: "Change app language",
-                setThemeTitle: "Color Theme",
-                setThemeDesc: "Select visual style",
-                navTextAnalytics: "Analytics",
-                navTextSettings: "Settings",
-                signalUp: "CALL / UP",
-                signalDown: "PUT / DOWN"
-            },
-            ru: {
-                titleAnalytics: "Аналитика рынка",
-                marketRealBtn: "Реальный рынок",
-                marketOtcBtn: "OTC рынок",
-                labelAsset: "Валютная пара",
-                labelTimeframe: "Время экспирации",
-                signalActionButton: "Получить сигнал",
-                titleSignalResult: "Результат анализа",
-                resLabelPair: "Актив",
-                resLabelDirection: "Направление",
-                resLabelTimeframe: "Время",
-                resLabelProbability: "Прогноз",
-                resLabelTimer: "Действие сигнала",
-                titleSettings: "Настройки",
-                setLangTitle: "Язык интерфейса",
-                setLangDesc: "Изменение языка приложения",
-                setThemeTitle: "Цветовая тема",
-                setThemeDesc: "Выбор стиля оформления",
-                navTextAnalytics: "Аналитика",
-                navTextSettings: "Настройки",
-                signalUp: "ВВЕРХ",
-                signalDown: "ВНИЗ"
-            }
-        };
-
-        // Списки активів
         const marketAssets = {
             real: [
-                { value: "FX_IDC:EURUSD", name: { uk: "EUR/USD (Реал)", en: "EUR/USD (Real)", ru: "EUR/USD (Реал)" } },
-                { value: "FX_IDC:GBPUSD", name: { uk: "GBP/USD (Реал)", en: "GBP/USD (Real)", ru: "GBP/USD (Реал)" } },
-                { value: "FX_IDC:USDJPY", name: { uk: "USD/JPY (Реал)", en: "USD/JPY (Real)", ru: "USD/JPY (Реал)" } },
-                { value: "FX_IDC:AUDUSD", name: { uk: "AUD/USD (Реал)", en: "AUD/USD (Real)", ru: "AUD/USD (Реал)" } },
-                { value: "FX_IDC:USDCAD", name: { uk: "USD/CAD (Реал)", en: "USD/CAD (Real)", ru: "USD/CAD (Реал)" } }
+                { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD", fr: "EUR/USD", de: "EUR/USD", it: "EUR/USD" } },
+                { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD", fr: "GBP/USD", de: "GBP/USD", it: "GBP/USD" } },
+                { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY", fr: "USD/JPY", de: "USD/JPY", it: "USD/JPY" } },
+                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD", fr: "AUD/USD", de: "AUD/USD", it: "AUD/USD" } },
+                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD", fr: "USD/CAD", de: "USD/CAD", it: "USD/CAD" } },
+                { value: "FX:EURGBP", name: { uk: "EUR/GBP", en: "EUR/GBP", ru: "EUR/GBP", fr: "EUR/GBP", de: "EUR/GBP", it: "EUR/GBP" } },
+                { value: "FX:EURJPY", name: { uk: "EUR/JPY", en: "EUR/JPY", ru: "EUR/JPY", fr: "EUR/JPY", de: "EUR/JPY", it: "EUR/JPY" } },
+                { value: "FX_IDC:XAUUSD", name: { uk: "Золото (XAU/USD)", en: "Gold (XAU/USD)", ru: "Золото (XAU/USD)", fr: "Or (XAU/USD)", de: "Gold (XAU/USD)", it: "Oro (XAU/USD)" } },
+                { value: "FX_IDC:XAGUSD", name: { uk: "Срібло (XAG/USD)", en: "Silver (XAG/USD)", ru: "Серебро (XAG/USD)", fr: "Argent (XAG/USD)", de: "Silber (XAG/USD)", it: "Argento (XAG/USD)" } }
             ],
             otc: [
-                { value: "OANDA:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } },
-                { value: "OANDA:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } },
-                { value: "OANDA:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } },
-                { value: "OANDA:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)" } },
-                { value: "OANDA:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)" } }
+                { value: "OANDA:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)", fr: "EUR/USD (OTC)", de: "EUR/USD (OTC)", it: "EUR/USD (OTC)" } },
+                { value: "OANDA:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)", fr: "GBP/USD (OTC)", de: "GBP/USD (OTC)", it: "GBP/USD (OTC)" } },
+                { value: "OANDA:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)", fr: "USD/JPY (OTC)", de: "USD/JPY (OTC)", it: "USD/JPY (OTC)" } },
+                { value: "OANDA:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)", fr: "AUD/USD (OTC)", de: "AUD/USD (OTC)", it: "AUD/USD (OTC)" } },
+                { value: "OANDA:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)", fr: "USD/CAD (OTC)", de: "USD/CAD (OTC)", it: "USD/CAD (OTC)" } },
+                { value: "OANDA:EURJPY", name: { uk: "EUR/JPY (OTC)", en: "EUR/JPY (OTC)", ru: "EUR/JPY (OTC)", fr: "EUR/JPY (OTC)", de: "EUR/JPY (OTC)", it: "EUR/JPY (OTC)" } }
+            ],
+            crypto: [
+                { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USD", en: "BTC/USD", ru: "BTC/USD", fr: "BTC/USD", de: "BTC/USD", it: "BTC/USD" } },
+                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USD", en: "ETH/USD", ru: "ETH/USD", fr: "ETH/USD", de: "ETH/USD", it: "ETH/USD" } },
+                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USD", en: "SOL/USD", ru: "SOL/USD", fr: "SOL/USD", de: "SOL/USD", it: "SOL/USD" } },
+                { value: "BINANCE:TONUSDT", name: { uk: "TON/USD", en: "TON/USD", ru: "TON/USD", fr: "TON/USD", de: "TON/USD", it: "TON/USD" } },
+                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USD", en: "BNB/USD", ru: "BNB/USD", fr: "BNB/USD", de: "BNB/USD", it: "BNB/USD" } }
             ]
         };
 
-        // Стан додатку за замовчуванням
+        const translations = {
+            uk: { menuSignals: "Сигнали", menuCalc: "Калькулятор", menuProfile: "Профіль", lblSelectAsset: "Актив", lblSelectTimeframe: "Час (ТФ)", signalActionButton: "ОТРИМАТИ СИГНАЛ", lblTimeframe: "ЧАС СИГНАЛУ", lblProba: "ЙМОВІРНІСТЬ", lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт (зазвичай 2.2 або 2.5)", lblSteps: "Кількість кроків (колін)", thStep: "Крок", thBet: "Ставка", thTotal: "Всього", setAccessType: "Тип доступу:", setTheme: "Тема додатка", accessNormal: "Звичайний", accessVip: "VIP Доступ", btnRealMarket: "Реальний ринок", btnOtcMarket: "OTC Ринок", btnCryptoMarket: "Crypto", lockTitle: "Доступ обмежено", lockDesc: "У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.", loadingText: "Перевірка доступу...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
+            en: { menuSignals: "Signals", menuCalc: "Calculator", menuProfile: "Profile", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "GET SIGNAL", lblTimeframe: "SIGNAL TIME", lblProba: "PROBABILITY", lblStartBet: "Initial Bet ($)", lblMultiplier: "Multiplier (2.2 or 2.5)", lblSteps: "Number of steps", thStep: "Step", thBet: "Bet", thTotal: "Total", setAccessType: "Access Type:", setTheme: "App Theme", accessNormal: "Standard", accessVip: "VIP Access", btnRealMarket: "Real Market", btnOtcMarket: "OTC Market", btnCryptoMarket: "Crypto", lockTitle: "Access Denied", lockDesc: "You don't have an active license. Please contact the bot administrator.", loadingText: "Checking access...", signalUp: "CALL", signalDown: "PUT" },
+            ru: { menuSignals: "Сигналы", menuCalc: "Калькулятор", menuProfile: "Профиль", lblSelectAsset: "Актив", lblSelectTimeframe: "Время (ТФ)", signalActionButton: "ПОЛУЧИТЬ СИГНАЛ", lblTimeframe: "ВРЕМЯ СИГНАЛА", lblProba: "ВЕРОЯТНОСТЬ", lblStartBet: "Начальная ставка ($)", lblMultiplier: "Коэффициент (2.2 или 2.5)", lblSteps: "Количество шагов", thStep: "Шаг", thBet: "Ставка", thTotal: "Всего", setAccessType: "Тип доступа:", setTheme: "Тема приложения", accessNormal: "Обычный", accessVip: "VIP Доступ", btnRealMarket: "Реальный рынок", btnOtcMarket: "OTC Рынок", btnCryptoMarket: "Crypto", lockTitle: "Доступ ограничен", lockDesc: "У вас нет активной лицензии. Обратитесь к администратору бота для получения доступа.", loadingText: "Проверка доступа...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
+            fr: { menuSignals: "Signaux", menuCalc: "Calculateur", menuProfile: "Profil", lblSelectAsset: "Actif", lblSelectTimeframe: "Timeframe", signalActionButton: "OBTENIR SIGNAL", lblTimeframe: "TEMPS DU SIGNAL", lblProba: "PROBABILITÉ", lblStartBet: "Mise Initiale ($)", lblMultiplier: "Multiplicateur", lblSteps: "Étapes", thStep: "Étape", thBet: "Mise", thTotal: "Total", setAccessType: "Type d'accès:", setTheme: "Thème", accessNormal: "Standard", accessVip: "Accès VIP", btnRealMarket: "Marché Réel", btnOtcMarket: "Marché OTC", btnCryptoMarket: "Crypto", lockTitle: "Accès Limité", lockDesc: "Pas de licence active. Contactez l'administrateur.", loadingText: "Vérification...", signalUp: "HAUT", signalDown: "BAS" },
+            de: { menuSignals: "Signale", menuCalc: "Rechner", menuProfile: "Profil", lblSelectAsset: "Asset", lblSelectTimeframe: "Zeitrahm", signalActionButton: "SIGNAL ANFORDERN", lblTimeframe: "SIGNALZEIT", lblProba: "WAHRSCHEINLICHKEIT", lblStartBet: "Startwette ($)", lblMultiplier: "Multiplikator", lblSteps: "Schritte", thStep: "Schritt", thBet: "Wette", thTotal: "Gesamt", setAccessType: "Zugriffstyp:", setTheme: "App-Design", accessNormal: "Standard", accessVip: "VIP-Zugriff", btnRealMarket: "Realer Markt", btnOtcMarket: "OTC-Markt", btnCryptoMarket: "Crypto", lockTitle: "Zugriff verweigert", lockDesc: "Keine aktive Lizenz. Admin kontaktieren.", loadingText: "Überprüfung...", signalUp: "HOCH", signalDown: "RUNTER" },
+            it: { menuSignals: "Segnali", menuCalc: "Calcolatore", menuProfile: "Profilo", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "OTTIENI SEGNALE", lblTimeframe: "TEMPO SEGNALE", lblProba: "PROBABILITÀ", lblStartBet: "Puntata Iniziale ($)", lblMultiplier: "Moltiplicatore", lblSteps: "Passaggi", thStep: "Passo", thBet: "Puntata", thTotal: "Totale", setAccessType: "Tipo di accesso:", setTheme: "Tema dell'app", accessNormal: "Standard", accessVip: "Accesso VIP", btnRealMarket: "Mercato Reale", btnOtcMarket: "Mercato OTC", btnCryptoMarket: "Crypto", lockTitle: "Accesso Limitato", lockDesc: "Nessuna licenza attiva. Contatta l'amministratore.", loadingText: "Verifica...", signalUp: "SU", signalDown: "GIÙ" }
+        };
+
+        let currentMarket = 'real';
         let currentLang = 'uk';
         let currentTheme = 'cyberpunk';
-        let currentMarket = 'real';
-        let selectedAsset = marketAssets.real[0].value;
+        let selectedAsset = "";
         let isSignalActive = false;
         let signalTimerInterval = null;
 
-        // Налаштування роботи кастомних дропдаунів
-        function setupDropdowns() {
-            document.querySelectorAll('.custom-select-trigger').forEach(trigger => {
-                trigger.onclick = function(e) {
-                    e.stopPropagation();
-                    const parent = this.parentElement;
-                    document.querySelectorAll('.custom-select').forEach(s => {
-                        if(s !== parent) s.classList.remove('opened');
-                    });
-                    parent.classList.toggle('opened');
-                };
-            });
-
-            document.addEventListener('click', () => {
-                document.querySelectorAll('.custom-select').forEach(s => s.classList.remove('opened'));
-            });
-        }
-
-        window.onload = function() {
-            setupDropdowns();
-            checkAccess();
-        };
-
+        const tg = window.Telegram?.WebApp;
+        
+        // СУРОВА АВТЕНТИФІКАЦІЯ ЧЕРЕЗ БЕКЕНД
         function checkAccess() {
-            buildAssetDropdown();
-            // Запуск графіка при старті додатка повністю вилучено
+            if (tg) {
+                tg.expand();
+                tg.ready();
+            }
+
+            const initData = tg?.initData || "";
+            // Вкажіть тут актуальну URL вашого сервера на Render!
+            const BACKEND_URL = "https://butovski-signal-bot.onrender.com"; 
+
+            fetch(`${BACKEND_URL}/api/check-user`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ initData: initData })
+            })
+            .then(response => {
+                if (response.status === 203 || response.status === 403) {
+                    throw new Error("Forbidden");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.has_access) {
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                    document.getElementById('brandLine').classList.remove('hidden');
+                    document.getElementById('screenSignals').classList.remove('hidden');
+                    document.getElementById('mainNavigation').classList.remove('hidden');
+                    
+                    if(data.is_vip) {
+                        document.getElementById('vipBadge').classList.remove('hidden');
+                        document.getElementById('profileAccessValue').innerText = translations[currentLang].accessVip;
+                    } else {
+                        document.getElementById('vipBadge').classList.add('hidden');
+                        document.getElementById('profileAccessValue').innerText = translations[currentLang].accessNormal;
+                    }
+
+                    if (data.name) {
+                        document.getElementById('profileName').innerText = data.name;
+                        document.getElementById('profileUsername').innerText = data.username || "";
+                        document.getElementById('userAvatar').innerText = data.name.charAt(0).toUpperCase();
+                    }
+                    
+                    buildAssetDropdown();
+                    calculateMartingale();
+                    initTradingViewWidget(currentTheme, selectedAsset, "1");
+                } else {
+                    showLockScreen();
+                }
+            })
+            .catch(error => {
+                console.error("Auth error:", error);
+                showLockScreen();
+            });
         }
 
-        // Побудова списку валютних пар
+        function showLockScreen() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('lockScreen').classList.remove('hidden');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // Закриваємо меню при кліку в будь-яке інше місце
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.custom-select-wrapper')) {
+                    document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+                }
+            });
+            checkAccess();
+        });
+
+        function toggleCustomDropdown(wrapperId) {
+            const wrapper = document.getElementById(wrapperId);
+            const isOpen = wrapper.classList.contains('open');
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            if (!isOpen) wrapper.classList.add('open');
+        }
+
         function buildAssetDropdown() {
             const container = document.getElementById('assetCustomOptions');
             container.innerHTML = "";
-            const list = marketAssets[currentMarket];
-
-            if(!list.some(a => a.value === selectedAsset)) {
-                selectedAsset = list[0].value;
-            }
-
-            list.forEach(asset => {
-                const isSelected = asset.value === selectedAsset;
-                const opt = document.createElement('div');
-                opt.className = `custom-option ${isSelected ? 'selected' : ''}`;
-                opt.setAttribute('data-value', asset.value);
-                opt.innerText = asset.name[currentLang];
-                
-                opt.onclick = function() {
-                    selectAssetOption(asset.value);
-                };
-                container.appendChild(opt);
-
-                if(isSelected) {
-                    document.getElementById('assetSelectedValue').innerText = asset.name[currentLang];
-                }
-            });
-        }
-
-        function selectAssetOption(val) {
-            selectedAsset = val;
-            buildAssetDropdown();
-            document.getElementById('assetSelect').classList.remove('opened');
+            const assets = marketAssets[currentMarket];
             
-            // Якщо графік вже відкритий, ми оновлюємо його під нову пару на льоту
-            if(isSignalActive) {
-                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
-            }
+            assets.forEach((asset, idx) => {
+                const opt = document.createElement('div');
+                opt.className = "custom-option" + (idx === 0 ? " selected" : "");
+                opt.innerText = asset.name[currentLang] || asset.name['en'];
+                opt.setAttribute('data-value', asset.value);
+                opt.onclick = () => selectAssetOption(asset.value, asset.name[currentLang]);
+                container.appendChild(opt);
+            });
+
+            selectedAsset = assets[0].value;
+            document.getElementById('assetSelectedValue').innerText = assets[0].name[currentLang];
         }
 
-        function selectTimeframeOption(val) {
-            const container = document.getElementById('timeframeCustomOptions');
+        function selectAssetOption(val, text) {
+            selectedAsset = val;
+            document.getElementById('assetSelectedValue').innerText = text;
+            const container = document.getElementById('assetCustomOptions');
             container.querySelectorAll('.custom-option').forEach(o => {
                 o.classList.toggle('selected', o.getAttribute('data-value') === val);
             });
-            
-            const trigger = document.getElementById('timeframeSelectedValue');
-            trigger.setAttribute('data-value', val);
-            
-            let txt = val + " ХВИЛИНА";
-            if(currentLang === 'en') txt = val + " MINUTE";
-            if(currentLang === 'ru') txt = val + " МИНУТА";
-            if(val === "60") txt = currentLang === 'uk' ? "1 ГОДИНА" : (currentLang === 'en' ? "1 HOUR" : "1 ЧАС");
-            trigger.innerText = txt;
-            
-            document.getElementById('timeframeSelect').classList.remove('opened');
+            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            initTradingViewWidget(currentTheme, selectedAsset, tf);
+        }
 
-            // Якщо графік активний, оновлюємо таймфрейм на ньому
-            if(isSignalActive) {
-                initTradingViewWidget(currentTheme, selectedAsset, val);
-            }
+        function selectTimeframeOption(val) {
+            const wrapper = document.getElementById('timeframeDropdownWrapper');
+            const triggerText = wrapper.querySelector('.custom-select-trigger span');
+            triggerText.setAttribute('data-value', val);
+            
+            let label = val + " хв";
+            if(val === "60") label = currentLang === 'uk' ? "1 год" : (currentLang === 'ru' ? "1 час" : "1h");
+            triggerText.innerText = label;
+
+            wrapper.querySelectorAll('.custom-option').forEach(o => {
+                o.classList.toggle('selected', o.getAttribute('data-value') === val);
+            });
+            initTradingViewWidget(currentTheme, selectedAsset, val);
         }
 
         function changeMarketType(type) {
-            if(currentMarket === type) return;
+            if(isSignalActive) return;
             currentMarket = type;
-            
-            document.getElementById('marketRealBtn').classList.toggle('active', type === 'real');
-            document.getElementById('marketOtcBtn').classList.toggle('active', type === 'otc');
-            
+            document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
+            if(type === 'real') document.getElementById('btnRealMarket').classList.add('active');
+            if(type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
+            if(type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
             buildAssetDropdown();
-
-            // Якщо графік активний, оновлюємо його під нову пару обраного ринку
-            if(isSignalActive) {
-                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
-            }
+            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            initTradingViewWidget(currentTheme, selectedAsset, tf);
         }
 
-        // Перемикання екранів меню
         function switchScreen(screen) {
-            if(screen === 'analytics') {
-                document.getElementById('screenAnalytics').classList.remove('hidden');
-                document.getElementById('screenSettings').classList.add('hidden');
-                document.getElementById('navAnalytics').classList.add('active');
-                document.getElementById('navSettings').classList.remove('active');
-            } else {
-                document.getElementById('screenAnalytics').classList.add('hidden');
-                document.getElementById('screenSettings').classList.remove('hidden');
-                document.getElementById('navAnalytics').classList.remove('active');
-                document.getElementById('navSettings').classList.add('active');
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            if(screen === 'signals') {
+                document.getElementById('screenSignals').classList.remove('hidden');
+                document.getElementById('navSignals').classList.add('active');
+            } else if(screen === 'calc') {
+                document.getElementById('screenCalc').classList.remove('hidden');
+                document.getElementById('navCalc').classList.add('active');
+            } else if(screen === 'profile') {
+                document.getElementById('screenProfile').classList.remove('hidden');
+                document.getElementById('navProfile').classList.add('active');
             }
         }
 
-        // ОБРОБКА КНОПКИ "ОТРИМАТИ СИГНАЛ"
         function handleSignalAction() {
-            // Кнопка та селектори НЕ блокуються, користувач може вільно тикати їх далі
+            if (isSignalActive) return;
             isSignalActive = true;
+            
+            const btn = document.getElementById('signalActionButton');
+            btn.disabled = true;
+            btn.style.opacity = "0.6";
 
             const resultScreen = document.getElementById('resultScreen');
             resultScreen.classList.add('hidden');
-            
+
             const currentAssets = marketAssets[currentMarket];
             const assetObj = currentAssets.find(a => a.value === selectedAsset) || currentAssets[0];
             document.getElementById('signalPair').innerText = assetObj.name[currentLang];
-            
+
             const directions = [translations[currentLang].signalUp, translations[currentLang].signalDown];
             const randomDir = directions[Math.floor(Math.random() * directions.length)];
             const badge = document.getElementById('signalDirection');
@@ -729,77 +886,96 @@
             if(currentLang === 'uk') tfText = tfVal + " ХВИЛИНА";
             if(tfVal === "60") tfText = currentLang === 'uk' ? "1 ГОДИНА" : (currentLang === 'en' ? "1 HOUR" : "1 ЧАС");
             document.getElementById('signalTimeframe').innerText = tfText;
-            
-            document.getElementById('signalProbability').innerText = Math.floor(Math.random() * (97 - 86 + 1) + 86) + "%";
-            
-            // Показуємо картку графіка та оновлюємо віджет під актуальні налаштування
-            document.getElementById('tradingviewCard').classList.remove('hidden');
-            initTradingViewWidget(currentTheme, selectedAsset, tfVal);
 
-            resultScreen.classList.remove('hidden');
-            startSignalTimer(parseInt(tfVal) * 60);
+            document.getElementById('signalProbability').innerText = Math.floor(Math.random() * (97 - 86 + 1) + 86) + "%";
+
+            setTimeout(() => {
+                resultScreen.classList.remove('hidden');
+                startSignalTimer(parseInt(tfVal) * 60);
+            }, 500);
         }
 
-        // ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ СИГНАЛУ
-        function startSignalTimer(durationSeconds) {
+        function startSignalTimer(totalSeconds) {
+            let remaining = totalSeconds;
+            const fill = document.getElementById('progressFill');
+            const digits = document.getElementById('timerDigits');
+            
             if(signalTimerInterval) clearInterval(signalTimerInterval);
-            let remaining = durationSeconds;
-            
-            const display = document.getElementById('signalTimerDisplay');
-            
-            function updateDisplay() {
-                const mins = Math.floor(remaining / 60);
-                const secs = remaining % 60;
-                display.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+            badgeColor = (document.getElementById('signalDirection').innerText === translations[currentLang].signalUp) ? "var(--green-signal)" : "var(--red-signal)";
+            fill.style.backgroundColor = badgeColor;
+
+            function updateUI() {
+                const curM = Math.floor(remaining / 60).toString().padStart(2, '0');
+                const curS = (remaining % 60).toString().padStart(2, '0');
+                const totM = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+                const totS = (totalSeconds % 60).toString().padStart(2, '0');
+                
+                digits.innerText = `${curM}:${curS} / ${totM}:${totS}`;
+                const pct = (remaining / totalSeconds) * 100;
+                fill.style.width = pct + "%";
             }
-            
-            updateDisplay();
-            
+
+            updateUI();
+
             signalTimerInterval = setInterval(() => {
                 remaining--;
                 if(remaining <= 0) {
                     clearInterval(signalTimerInterval);
                     isSignalActive = false;
-                    
+                    const btn = document.getElementById('signalActionButton');
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
                     document.getElementById('resultScreen').classList.add('hidden');
-                    
-                    // Після завершення таймера ховаємо картку графіка назад
-                    document.getElementById('tradingviewCard').classList.add('hidden');
                 } else {
-                    updateDisplay();
+                    updateUI();
                 }
             }, 1000);
         }
 
-        // НАЛАШТУВАННЯ: ВИБІР ТЕМИ ОФОРМЛЕННЯ
+        function calculateMartingale() {
+            const startBet = parseFloat(document.getElementById('startBet').value) || 1;
+            const multiplier = parseFloat(document.getElementById('multiplier').value) || 2;
+            const steps = parseInt(document.getElementById('stepsCount').value) || 5;
+            const tbody = document.getElementById('martingaleResultBody');
+            
+            tbody.innerHTML = "";
+            let total = 0;
+            let currentBet = startBet;
+
+            for (let i = 1; i <= steps; i++) {
+                total += currentBet;
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${i}</td>
+                    <td>$${currentBet.toFixed(2)}</td>
+                    <td>$${total.toFixed(2)}</td>
+                `;
+                tbody.appendChild(row);
+                currentBet = currentBet * multiplier;
+            }
+        }
+
         function selectThemeOption(theme) {
             currentTheme = theme;
             document.documentElement.setAttribute('data-theme', theme);
-            
-            let label = "Cyber";
-            if(theme === 'light') label = "Light";
-            if(theme === 'gold') label = "Gold";
-            document.getElementById('themeSelectedValue').innerText = label;
+            document.getElementById('themeSelectedValue').innerText = theme.charAt(0).toUpperCase() + theme.slice(1);
+            document.getElementById('themeSelectedValue').setAttribute('data-value', theme);
             
             document.getElementById('themeCustomOptions').querySelectorAll('.custom-option').forEach(o => {
                 o.classList.toggle('selected', o.getAttribute('data-value') === theme);
             });
-            
-            document.getElementById('themeSelect').classList.remove('opened');
-            
-            // Оновлюємо тему графіка, якщо він зараз відкритий
-            if(isSignalActive) {
-                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
-            }
+            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+            initTradingViewWidget(theme, selectedAsset, tf);
         }
 
-        // НАЛАШТУВАННЯ: ВИБІР МОВИ INTERFACE
         function selectLangOption(lang) {
             currentLang = lang;
-            document.getElementById('langSelectedValue').innerText = lang.toUpperCase();
-            document.getElementById('langSelect').classList.remove('opened');
+            document.getElementById('langSelectedValue').setAttribute('data-value', lang);
             
+            const labels = { uk: "Українська", en: "English", ru: "Русский", fr: "Français", de: "Deutsch", it: "Italiano" };
+            document.getElementById('langSelectedValue').innerText = labels[lang];
+
             document.getElementById('langCustomOptions').querySelectorAll('.custom-option').forEach(o => {
                 o.classList.toggle('selected', o.getAttribute('data-value') === lang);
             });
@@ -814,12 +990,8 @@
                 if (el) el.innerText = t[key];
             }
             buildAssetDropdown();
-            
-            const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-            selectTimeframeOption(tfVal);
         }
 
-        // ІНІЦІАЛІЗАЦІЯ ВІДЖЕТА TRADINGVIEW
         function initTradingViewWidget(theme, asset, timeframe) {
             document.getElementById('tradingview_widget').innerHTML = "";
             if (typeof TradingView !== 'undefined') {
