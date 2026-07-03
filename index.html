@@ -603,6 +603,7 @@
 
         function checkAccess() {
             buildAssetDropdown();
+            // Запуск графіка при старті додатка повністю вилучено
         }
 
         // Побудова списку валютних пар
@@ -638,7 +639,7 @@
             buildAssetDropdown();
             document.getElementById('assetSelect').classList.remove('opened');
             
-            // Якщо сигнал активний і користувач змінив пару, одразу переініціалізуємо графік під нову пару
+            // Якщо графік вже відкритий, ми оновлюємо його під нову пару на льоту
             if(isSignalActive) {
                 const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
                 initTradingViewWidget(currentTheme, selectedAsset, tfVal);
@@ -662,7 +663,7 @@
             
             document.getElementById('timeframeSelect').classList.remove('opened');
 
-            // Якщо сигнал активний і користувач змінив таймфрейм, оновлюємо графік
+            // Якщо графік активний, оновлюємо таймфрейм на ньому
             if(isSignalActive) {
                 initTradingViewWidget(currentTheme, selectedAsset, val);
             }
@@ -677,7 +678,7 @@
             
             buildAssetDropdown();
 
-            // Якщо сигнал активний і користувач змінив ринок, оновлюємо графік під першу доступну пару нового ринку
+            // Якщо графік активний, оновлюємо його під нову пару обраного ринку
             if(isSignalActive) {
                 const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
                 initTradingViewWidget(currentTheme, selectedAsset, tfVal);
@@ -701,15 +702,12 @@
 
         // ОБРОБКА КНОПКИ "ОТРИМАТИ СИГНАЛ"
         function handleSignalAction() {
-            // Кнопка тепер НЕ блокується повністю, вона завжди клікабельна
+            // Кнопка та селектори НЕ блокуються, користувач може вільно тикати їх далі
             isSignalActive = true;
 
             const resultScreen = document.getElementById('resultScreen');
             resultScreen.classList.add('hidden');
             
-            // Тимчасово ховаємо віджет, щоб красиво перезавантажити його під нові параметри
-            document.getElementById('tradingviewCard').classList.add('hidden');
-
             const currentAssets = marketAssets[currentMarket];
             const assetObj = currentAssets.find(a => a.value === selectedAsset) || currentAssets[0];
             document.getElementById('signalPair').innerText = assetObj.name[currentLang];
@@ -734,15 +732,12 @@
             
             document.getElementById('signalProbability').innerText = Math.floor(Math.random() * (97 - 86 + 1) + 86) + "%";
             
-            setTimeout(() => {
-                resultScreen.classList.remove('hidden');
-                
-                // Вмикаємо відображення графіка і створюємо віджет під актуальні обрані налаштування
-                document.getElementById('tradingviewCard').classList.remove('hidden');
-                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
+            // Показуємо картку графіка та оновлюємо віджет під актуальні налаштування
+            document.getElementById('tradingviewCard').classList.remove('hidden');
+            initTradingViewWidget(currentTheme, selectedAsset, tfVal);
 
-                startSignalTimer(parseInt(tfVal) * 60);
-            }, 300);
+            resultScreen.classList.remove('hidden');
+            startSignalTimer(parseInt(tfVal) * 60);
         }
 
         // ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ СИГНАЛУ
@@ -768,7 +763,7 @@
                     
                     document.getElementById('resultScreen').classList.add('hidden');
                     
-                    // Ховаємо графік назад після завершення дії сигналу
+                    // Після завершення таймера ховаємо картку графіка назад
                     document.getElementById('tradingviewCard').classList.add('hidden');
                 } else {
                     updateDisplay();
@@ -792,7 +787,7 @@
             
             document.getElementById('themeSelect').classList.remove('opened');
             
-            // Якщо графік зараз відкритий, оновлюємо його тему відображення
+            // Оновлюємо тему графіка, якщо він зараз відкритий
             if(isSignalActive) {
                 const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
                 initTradingViewWidget(currentTheme, selectedAsset, tfVal);
