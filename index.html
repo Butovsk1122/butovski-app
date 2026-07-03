@@ -129,6 +129,26 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* Стилі для вікна пошуку сигналу всередині екрану */
+        .search-signal-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 16px;
+            text-align: center;
+        }
+        
+        .mini-spinner {
+            width: 36px;
+            height: 36px;
+            border: 4px solid var(--border-color);
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
         .lock-icon {
             font-size: 64px;
             background: var(--accent-gradient);
@@ -539,6 +559,11 @@
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
+        <div id="searchSignalScreen" class="card search-signal-box hidden">
+            <div class="mini-spinner"></div>
+            <p id="lblSearching" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Пошук найкращого сигналу...</p>
+        </div>
+
         <div id="resultScreen" class="card hidden">
             <div class="signal-header">
                 <div class="pair-title" id="signalPair">EUR/USD</div>
@@ -688,12 +713,12 @@
         };
 
         const translations = {
-            uk: { menuSignals: "Сигнали", menuCalc: "Калькулятор", menuProfile: "Профіль", lblSelectAsset: "Актив", lblSelectTimeframe: "Час (ТФ)", signalActionButton: "ОТРИМАТИ СИГНАЛ", signalActionButtonNew: "НОВИЙ СИГНАЛ", lblTimeframe: "ЧАС СИГНАЛУ", lblProba: "ЙМОВІРНІСТЬ", lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт (зазвичай 2.2 або 2.5)", lblSteps: "Кількість кроків (колін)", thStep: "Крок", thBet: "Ставка", thTotal: "Всього", setAccessType: "Тип доступу:", setTheme: "Тема додатка", accessNormal: "Звичайний", accessVip: "VIP Доступ", btnRealMarket: "Реальний ринок", btnOtcMarket: "OTC Ринок", btnCryptoMarket: "Crypto", lockTitle: "Доступ обмежено", lockDesc: "У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.", loadingText: "Перевірка доступу...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
-            en: { menuSignals: "Signals", menuCalc: "Calculator", menuProfile: "Profile", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "GET SIGNAL", signalActionButtonNew: "NEW SIGNAL", lblTimeframe: "SIGNAL TIME", lblProba: "PROBABILITY", lblStartBet: "Initial Bet ($)", lblMultiplier: "Multiplier (2.2 or 2.5)", lblSteps: "Number of steps", thStep: "Step", thBet: "Bet", thTotal: "Total", setAccessType: "Access Type:", setTheme: "App Theme", accessNormal: "Standard", accessVip: "VIP Access", btnRealMarket: "Real Market", btnOtcMarket: "OTC Market", btnCryptoMarket: "Crypto", lockTitle: "Access Denied", lockDesc: "You don't have an active license. Please contact the bot administrator.", loadingText: "Checking access...", signalUp: "CALL", signalDown: "PUT" },
-            ru: { menuSignals: "Сигналы", menuCalc: "Калькулятор", menuProfile: "Профиль", lblSelectAsset: "Актив", lblSelectTimeframe: "Время (ТФ)", signalActionButton: "ПОЛУЧИТЬ СИГНАЛ", signalActionButtonNew: "НОВЫЙ СИГНАЛ", lblTimeframe: "ВРЕМЯ СИГНАЛА", lblProba: "ВЕРОЯТНОСТЬ", lblStartBet: "Начальная ставка ($)", lblMultiplier: "Коэффициент (2.2 или 2.5)", lblSteps: "Количество шагов", thStep: "Шаг", thBet: "Ставка", thTotal: "Всего", setAccessType: "Тип доступа:", setTheme: "Тема приложения", accessNormal: "Обычный", accessVip: "VIP Доступ", btnRealMarket: "Реальный рынок", btnOtcMarket: "OTC Рынок", btnCryptoMarket: "Crypto", lockTitle: "Доступ ограничен", lockDesc: "У вас нет активной лицензии. Обратитесь к администратору бота для получения доступа.", loadingText: "Проверка доступа...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
-            fr: { menuSignals: "Signaux", menuCalc: "Calculateur", menuProfile: "Profil", lblSelectAsset: "Actif", lblSelectTimeframe: "Timeframe", signalActionButton: "OBTENIR SIGNAL", signalActionButtonNew: "NOUVEAU SIGNAL", lblTimeframe: "TEMPS DU SIGNAL", lblProba: "PROBABILITÉ", lblStartBet: "Mise Initiale ($)", lblMultiplier: "Multiplicateur", lblSteps: "Étapes", thStep: "Étape", thBet: "Mise", thTotal: "Total", setAccessType: "Type d'accès:", setTheme: "Thème", accessNormal: "Standard", accessVip: "Accès VIP", btnRealMarket: "Marché Réel", btnOtcMarket: "Marché OTC", btnCryptoMarket: "Crypto", lockTitle: "Accès Limité", lockDesc: "Pas de licence active. Contactez l'administrateur.", loadingText: "Vérification...", signalUp: "HAUT", signalDown: "BAS" },
-            de: { menuSignals: "Signale", menuCalc: "Rechner", menuProfile: "Profil", lblSelectAsset: "Asset", lblSelectTimeframe: "Zeitrahm", signalActionButton: "SIGNAL ANFORDERN", signalActionButtonNew: "NEUES SIGNAL", lblTimeframe: "SIGNALZEIT", lblProba: "WAHRSCHEINLICHKEIT", lblStartBet: "Startwette ($)", lblMultiplier: "Multiplikator", lblSteps: "Schritte", thStep: "Schritt", thBet: "Wette", thTotal: "Gesamt", setAccessType: "Zugriffstyp:", setTheme: "App-Design", accessNormal: "Standard", accessVip: "VIP-Zugriff", btnRealMarket: "Realer Markt", btnOtcMarket: "OTC-Markt", btnCryptoMarket: "Crypto", lockTitle: "Zugriff verweigert", lockDesc: "Keine aktive Lizenz. Admin kontaktieren.", loadingText: "Überprüfung...", signalUp: "HOCH", signalDown: "RUNTER" },
-            it: { menuSignals: "Segnali", menuCalc: "Calcolatore", menuProfile: "Profilo", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "OTTIENI SEGNALE", signalActionButtonNew: "NUOVO SEGNALE", lblTimeframe: "TEMPO SEGNALE", lblProba: "PROBABILITÀ", lblStartBet: "Puntata Iniziale ($)", lblMultiplier: "Moltiplicatore", lblSteps: "Passaggi", thStep: "Passo", thBet: "Puntata", thTotal: "Totale", setAccessType: "Tema dell'app", accessNormal: "Standard", accessVip: "Accesso VIP", btnRealMarket: "Mercato Reale", btnOtcMarket: "Mercato OTC", btnCryptoMarket: "Crypto", lockTitle: "Accesso Limitato", lockDesc: "Nessuna licenza attiva. Contatta l'amministrateur.", loadingText: "Verifica...", signalUp: "SU", signalDown: "GIÙ" }
+            uk: { menuSignals: "Сигнали", menuCalc: "Калькулятор", menuProfile: "Профіль", lblSelectAsset: "Актив", lblSelectTimeframe: "Час (ТФ)", signalActionButton: "ОТРИМАТИ СИГНАЛ", signalActionButtonNew: "НОВИЙ СИГНАЛ", lblSearching: "Пошук найкращого сигналу...", lblTimeframe: "ЧАС СИГНАЛУ", lblProba: "ЙМОВІРНІСТЬ", lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт (зазвичай 2.2 або 2.5)", lblSteps: "Кількість кроків (колін)", thStep: "Крок", thBet: "Ставка", thTotal: "Всього", setAccessType: "Тип доступу:", setTheme: "Тема додатка", accessNormal: "Звичайний", accessVip: "VIP Доступ", btnRealMarket: "Реальний ринок", btnOtcMarket: "OTC Ринок", btnCryptoMarket: "Crypto", lockTitle: "Доступ обмежено", lockDesc: "У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.", loadingText: "Перевірка доступу...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
+            en: { menuSignals: "Signals", menuCalc: "Calculator", menuProfile: "Profile", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "GET SIGNAL", signalActionButtonNew: "NEW SIGNAL", lblSearching: "Searching for the best signal...", lblTimeframe: "SIGNAL TIME", lblProba: "PROBABILITY", lblStartBet: "Initial Bet ($)", lblMultiplier: "Multiplier (2.2 or 2.5)", lblSteps: "Number of steps", thStep: "Step", thBet: "Bet", thTotal: "Total", setAccessType: "Access Type:", setTheme: "App Theme", accessNormal: "Standard", accessVip: "VIP Access", btnRealMarket: "Real Market", btnOtcMarket: "OTC Market", btnCryptoMarket: "Crypto", lockTitle: "Access Denied", lockDesc: "You don't have an active license. Please contact the bot administrator.", loadingText: "Checking access...", signalUp: "CALL", signalDown: "PUT" },
+            ru: { menuSignals: "Сигналы", menuCalc: "Калькулятор", menuProfile: "Профиль", lblSelectAsset: "Актив", lblSelectTimeframe: "Время (ТФ)", signalActionButton: "ПОЛУЧИТЬ СИГНАЛ", signalActionButtonNew: "НОВЫЙ СИГНАЛ", lblSearching: "Поиск лучшего сигнала...", lblTimeframe: "ВРЕМЯ СИГНАЛА", lblProba: "ВЕРОЯТНОСТЬ", lblStartBet: "Начальная ставка ($)", lblMultiplier: "Коэффициент (2.2 или 2.5)", lblSteps: "Количество шагов", thStep: "Шаг", thBet: "Ставка", thTotal: "Всего", setAccessType: "Тип доступа:", setTheme: "Тема приложения", accessNormal: "Обычный", accessVip: "VIP Доступ", btnRealMarket: "Реальный рынок", btnOtcMarket: "OTC Рынок", btnCryptoMarket: "Crypto", lockTitle: "Доступ ограничен", lockDesc: "У вас нет активной лицензии. Обратитесь к администратору бота для получения доступа.", loadingText: "Проверка доступа...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
+            fr: { menuSignals: "Signaux", menuCalc: "Calculateur", menuProfile: "Profil", lblSelectAsset: "Actif", lblSelectTimeframe: "Timeframe", signalActionButton: "OBTENIR SIGNAL", signalActionButtonNew: "NOUVEAU SIGNAL", lblSearching: "Recherche du meilleur signal...", lblTimeframe: "TEMPS DU SIGNAL", lblProba: "PROBABILITÉ", lblStartBet: "Mise Initiale ($)", lblMultiplier: "Multiplicateur", lblSteps: "Étapes", thStep: "Étape", thBet: "Mise", thTotal: "Total", setAccessType: "Type d'accès:", setTheme: "Thème", accessNormal: "Standard", accessVip: "Accès VIP", btnRealMarket: "Marché Réel", btnOtcMarket: "Marché OTC", btnCryptoMarket: "Crypto", lockTitle: "Accès Limité", lockDesc: "Pas de licence active. Contactez l'administrateur.", loadingText: "Vérification...", signalUp: "HAUT", signalDown: "BAS" },
+            de: { menuSignals: "Signale", menuCalc: "Rechner", menuProfile: "Profil", lblSelectAsset: "Asset", lblSelectTimeframe: "Zeitrahm", signalActionButton: "SIGNAL ANFORDERN", signalActionButtonNew: "NEUES SIGNAL", lblSearching: "Suche nach dem besten Signal...", lblTimeframe: "SIGNALZEIT", lblProba: "WAHRSCHEINLICHKEIT", lblStartBet: "Startwette ($)", lblMultiplier: "Multiplikator", lblSteps: "Schritte", thStep: "Schritt", thBet: "Wette", thTotal: "Gesamt", setAccessType: "Zugriffstyp:", setTheme: "App-Design", accessNormal: "Standard", accessVip: "VIP-Zugriff", btnRealMarket: "Realer Markt", btnOtcMarket: "OTC-Market", btnCryptoMarket: "Crypto", lockTitle: "Zugriff verweigert", lockDesc: "Keine aktive Lizenz. Admin kontaktieren.", loadingText: "Überprüfung...", signalUp: "HOCH", signalDown: "RUNTER" },
+            it: { menuSignals: "Segnali", menuCalc: "Calcolatore", menuProfile: "Profilo", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "OTTIENI SEGNALE", signalActionButtonNew: "NUOVO SEGNALE", lblSearching: "Ricerca del miglior segnale...", lblTimeframe: "TEMPO SEGNALE", lblProba: "PROBABILITÀ", lblStartBet: "Puntata Iniziale ($)", lblMultiplier: "Moltiplicatore", lblSteps: "Passaggi", thStep: "Passo", thBet: "Puntata", thTotal: "Totale", setAccessType: "Tema dell'app", accessNormal: "Standard", accessVip: "Accesso VIP", btnRealMarket: "Mercato Reale", btnOtcMarket: "Mercato OTC", btnCryptoMarket: "Crypto", lockTitle: "Accesso Limitato", lockDesc: "Nessuna licenza attiva. Contatta l'amministrateur.", loadingText: "Verifica...", signalUp: "SU", signalDown: "GIÙ" }
         };
 
         let currentMarket = 'real';
@@ -702,6 +727,7 @@
         let selectedAsset = "";
         let isSignalActive = false;
         let signalTimerInterval = null;
+        let searchTimeout = null; // Для керування таймаутом пошуку
         const tg = window.Telegram?.WebApp;
 
         function checkAccess() {
@@ -832,7 +858,6 @@
         }
 
         function changeMarketType(type) {
-            // ВИДАЛЕНО БЛОКУВАННЯ, тепер ринок можна змінювати під час активного сигналу
             currentMarket = type;
             document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
             
@@ -842,7 +867,6 @@
 
             buildAssetDropdown();
             
-            // Якщо графік уже відкритий, оновлюємо його під новий перший актив цього ринку
             if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
                 const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
                 setTimeout(() => {
@@ -852,57 +876,71 @@
         }
 
         function handleSignalAction() {
-            // ВИДАЛЕНО БЛОКУВАННЯ `if (isSignalActive) return;`
+            // Зупиняємо попередні таймери, якщо користувач натиснув кнопку повторно
+            if (signalTimerInterval) clearInterval(signalTimerInterval);
+            if (searchTimeout) clearTimeout(searchTimeout);
 
-            // 1. Показуємо блок результату сигналу
-            document.getElementById('resultScreen').classList.remove('hidden');
-            
-            // 2. Показуємо картку з графіком та ініціалізуємо/оновлюємо віджет
-            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
-            document.getElementById('tradingviewCard').classList.remove('hidden');
-            initTradingViewWidget(currentTheme, selectedAsset, tf);
+            // 1. Спочатку ХОВАЄМО графік та старий результат
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('tradingviewCard').classList.add('hidden');
 
-            // 3. Зміна тексту кнопки на "НОВИЙ СИГНАЛ"
+            // 2. ПОКАЗУЄМО прелоадер "Пошук сигналу"
+            document.getElementById('searchSignalScreen').classList.remove('hidden');
+
+            // Змінюємо напис на кнопці
             const btn = document.getElementById('signalActionButton');
             btn.innerText = translations[currentLang].signalActionButtonNew || "НОВИЙ СИГНАЛ";
-
             isSignalActive = true;
 
-            const assets = marketAssets[currentMarket];
-            const currentAssetObj = assets.find(a => a.value === selectedAsset);
-            document.getElementById('signalPair').innerText = currentAssetObj ? currentAssetObj.name[currentLang] : "ASSET";
+            // 3. Запускаємо затримку симуляції пошуку (3 секунди)
+            searchTimeout = setTimeout(() => {
+                // Ховаємо прелоадер пошуку
+                document.getElementById('searchSignalScreen').classList.add('hidden');
 
-            const side = Math.random() > 0.5 ? 'UP' : 'DOWN';
-            const badge = document.getElementById('signalDirection');
-            if (side === 'UP') {
-                badge.innerText = translations[currentLang].signalUp;
-                badge.className = "direction-badge bg-green";
-            } else {
-                badge.innerText = translations[currentLang].signalDown;
-                badge.className = "direction-badge bg-red";
-            }
+                // Показуємо картку результату та графік TradingView
+                document.getElementById('resultScreen').classList.remove('hidden');
+                document.getElementById('tradingviewCard').classList.remove('hidden');
 
-            let tfMinutes = parseInt(tf);
-            document.getElementById('signalTimeframe').innerText = tfMinutes + ((currentLang === 'uk' || currentLang === 'ru') ? " ХВ" : " MIN");
-            document.getElementById('signalProbability').innerText = Math.floor(Math.random() * (98 - 86 + 1) + 86) + "%";
+                const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
+                initTradingViewWidget(currentTheme, selectedAsset, tf);
 
-            let totalSeconds = tfMinutes * 60;
-            let currentSeconds = totalSeconds;
+                // Генерація випадкових даних для сигналу
+                const assets = marketAssets[currentMarket];
+                const currentAssetObj = assets.find(a => a.value === selectedAsset);
+                document.getElementById('signalPair').innerText = currentAssetObj ? currentAssetObj.name[currentLang] : "ASSET";
 
-            updateTimerUI(currentSeconds, totalSeconds);
-
-            if (signalTimerInterval) clearInterval(signalTimerInterval);
-            signalTimerInterval = setInterval(() => {
-                currentSeconds--;
-                if (currentSeconds <= 0) {
-                    clearInterval(signalTimerInterval);
-                    isSignalActive = false;
-                    document.getElementById('resultScreen').classList.add('hidden');
-                    // Повертаємо початковий текст кнопки після завершення таймера
-                    btn.innerText = translations[currentLang].signalActionButton;
+                const side = Math.random() > 0.5 ? 'UP' : 'DOWN';
+                const badge = document.getElementById('signalDirection');
+                if (side === 'UP') {
+                    badge.innerText = translations[currentLang].signalUp;
+                    badge.className = "direction-badge bg-green";
+                } else {
+                    badge.innerText = translations[currentLang].signalDown;
+                    badge.className = "direction-badge bg-red";
                 }
+
+                let tfMinutes = parseInt(tf);
+                document.getElementById('signalTimeframe').innerText = tfMinutes + ((currentLang === 'uk' || currentLang === 'ru') ? " ХВ" : " MIN");
+                document.getElementById('signalProbability').innerText = Math.floor(Math.random() * (98 - 86 + 1) + 86) + "%";
+
+                let totalSeconds = tfMinutes * 60;
+                let currentSeconds = totalSeconds;
+
                 updateTimerUI(currentSeconds, totalSeconds);
-            }, 1000);
+
+                // Запуск таймера зворотного відліку сигналу
+                signalTimerInterval = setInterval(() => {
+                    currentSeconds--;
+                    if (currentSeconds <= 0) {
+                        clearInterval(signalTimerInterval);
+                        isSignalActive = false;
+                        document.getElementById('resultScreen').classList.add('hidden');
+                        btn.innerText = translations[currentLang].signalActionButton;
+                    }
+                    updateTimerUI(currentSeconds, totalSeconds);
+                }, 1000);
+
+            }, 3000); // 3000 мілісекунд = 3 секунди триває анімація пошуку
         }
 
         function updateTimerUI(curr, total) {
@@ -1011,7 +1049,6 @@
                 if (el) el.innerText = t[key];
             }
             
-            // Якщо кнопка зараз в активному стані генерації сигналу, перекладаємо її як "НОВИЙ СИГНАЛ"
             const btn = document.getElementById('signalActionButton');
             if (isSignalActive) {
                 btn.innerText = t.signalActionButtonNew || "НОВИЙ СИГНАЛ";
