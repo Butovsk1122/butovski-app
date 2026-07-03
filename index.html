@@ -603,7 +603,6 @@
 
         function checkAccess() {
             buildAssetDropdown();
-            // Графік більше не викликається при запуску додатка
         }
 
         // Побудова списку валютних пар
@@ -612,7 +611,6 @@
             container.innerHTML = "";
             const list = marketAssets[currentMarket];
 
-            // Перевірка поточного вибору
             if(!list.some(a => a.value === selectedAsset)) {
                 selectedAsset = list[0].value;
             }
@@ -639,7 +637,12 @@
             selectedAsset = val;
             buildAssetDropdown();
             document.getElementById('assetSelect').classList.remove('opened');
-            // Графік тут більше не викликається, щоб не завантажуватися раніше часу
+            
+            // Якщо сигнал активний і користувач змінив пару, одразу переініціалізуємо графік під нову пару
+            if(isSignalActive) {
+                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
+                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
+            }
         }
 
         function selectTimeframeOption(val) {
@@ -658,7 +661,11 @@
             trigger.innerText = txt;
             
             document.getElementById('timeframeSelect').classList.remove('opened');
-            // Графік тут більше не викликається
+
+            // Якщо сигнал активний і користувач змінив таймфрейм, оновлюємо графік
+            if(isSignalActive) {
+                initTradingViewWidget(currentTheme, selectedAsset, val);
+            }
         }
 
         function changeMarketType(type) {
@@ -669,7 +676,12 @@
             document.getElementById('marketOtcBtn').classList.toggle('active', type === 'otc');
             
             buildAssetDropdown();
-            // Графік тут більше не викликається
+
+            // Якщо сигнал активний і користувач змінив ринок, оновлюємо графік під першу доступну пару нового ринку
+            if(isSignalActive) {
+                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
+                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
+            }
         }
 
         // Перемикання екранів меню
@@ -689,17 +701,13 @@
 
         // ОБРОБКА КНОПКИ "ОТРИМАТИ СИГНАЛ"
         function handleSignalAction() {
-            if (isSignalActive) return;
+            // Кнопка тепер НЕ блокується повністю, вона завжди клікабельна
             isSignalActive = true;
-            
-            const btn = document.getElementById('signalActionButton');
-            btn.disabled = true;
-            btn.style.opacity = "0.6";
 
             const resultScreen = document.getElementById('resultScreen');
             resultScreen.classList.add('hidden');
             
-            // Ховаємо картку з графіком перед генерацією нового сигналу
+            // Тимчасово ховаємо віджет, щоб красиво перезавантажити його під нові параметри
             document.getElementById('tradingviewCard').classList.add('hidden');
 
             const currentAssets = marketAssets[currentMarket];
@@ -729,12 +737,12 @@
             setTimeout(() => {
                 resultScreen.classList.remove('hidden');
                 
-                // Вмикаємо відображення графіка і створюємо віджет тільки зараз
+                // Вмикаємо відображення графіка і створюємо віджет під актуальні обрані налаштування
                 document.getElementById('tradingviewCard').classList.remove('hidden');
                 initTradingViewWidget(currentTheme, selectedAsset, tfVal);
 
                 startSignalTimer(parseInt(tfVal) * 60);
-            }, 500);
+            }, 300);
         }
 
         // ТАЙМЕР ЗВОРОТНОГО ВІДЛІКУ СИГНАЛУ
@@ -758,9 +766,6 @@
                     clearInterval(signalTimerInterval);
                     isSignalActive = false;
                     
-                    const btn = document.getElementById('signalActionButton');
-                    btn.disabled = false;
-                    btn.style.opacity = "1";
                     document.getElementById('resultScreen').classList.add('hidden');
                     
                     // Ховаємо графік назад після завершення дії сигналу
@@ -786,7 +791,12 @@
             });
             
             document.getElementById('themeSelect').classList.remove('opened');
-            // Перемальовування графіка видалено звідси
+            
+            // Якщо графік зараз відкритий, оновлюємо його тему відображення
+            if(isSignalActive) {
+                const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
+                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
+            }
         }
 
         // НАЛАШТУВАННЯ: ВИБІР МОВИ INTERFACE
@@ -810,7 +820,6 @@
             }
             buildAssetDropdown();
             
-            // Оновлення тексту в селекторі таймфрейму відповідно до мови
             const tfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
             selectTimeframeOption(tfVal);
         }
