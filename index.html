@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Теми оформлення через CSS змінні */
         :root, [data-theme="cyberpunk"] {
             --bg-color: #0d0f14;
             --card-bg: #141822;
@@ -90,7 +89,6 @@
 
         .hidden { display: none !important; }
 
-        /* Екрани */
         .screen {
             padding: 16px;
             animation: fadeIn 0.3s ease-in-out;
@@ -101,7 +99,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Завантаження та Блокування */
         .full-screen-center {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -130,7 +127,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Стилі для вікна пошуку сигналу всередині екрану */
         .search-signal-box {
             display: flex;
             flex-direction: column;
@@ -158,7 +154,6 @@
             margin-bottom: 20px;
         }
 
-        /* Шапка бренду */
         .brand-header {
             display: flex;
             justify-content: space-between;
@@ -186,7 +181,6 @@
             box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
         }
 
-        /* Перемикач ринків */
         .market-switcher-container {
             display: flex;
             gap: 8px;
@@ -216,7 +210,6 @@
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
         }
 
-        /* Грід для селекторів вибору активів */
         .signal-selectors-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -234,7 +227,6 @@
             letter-spacing: 0.3px;
         }
 
-        /* КАСТОМНІ ВИПАДАЮЧІ СПИСКИ */
         .custom-select-wrapper {
             position: relative;
             width: 100%;
@@ -313,15 +305,12 @@
             font-weight: 600;
         }
 
-        .custom-options-dropdown::-webkit-scrollbar {
-            width: 4px;
-        }
+        .custom-options-dropdown::-webkit-scrollbar { width: 4px; }
         .custom-options-dropdown::-webkit-scrollbar-thumb {
             background-color: var(--border-color);
             border-radius: 4px;
         }
 
-        /* Нижня навігація */
         .nav-bar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -345,16 +334,9 @@
             transition: color 0.2s;
         }
 
-        .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
-        }
+        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .nav-item.active { color: #6366f1; }
 
-        .nav-item.active {
-            color: #6366f1;
-        }
-
-        /* Картки та контейнери */
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -377,11 +359,8 @@
             transition: transform 0.1s;
         }
 
-        .btn-action-signal:active {
-            transform: scale(0.98);
-        }
+        .btn-action-signal:active { transform: scale(0.98); }
 
-        /* Сигнали інтерфейс */
         .signal-header {
             display: flex;
             justify-content: space-between;
@@ -389,11 +368,7 @@
             margin-bottom: 20px;
         }
 
-        .pair-title {
-            font-size: 24px;
-            font-weight: 700;
-        }
-
+        .pair-title { font-size: 24px; font-weight: 700; }
         .direction-badge {
             padding: 6px 16px;
             border-radius: 8px;
@@ -419,18 +394,9 @@
             padding: 12px;
         }
 
-        .grid-label {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 4px;
-        }
+        .grid-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+        .grid-value { font-size: 16px; font-weight: 600; }
 
-        .grid-value {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        /* Таймер прогрес */
         .progress-container {
             background-color: var(--border-color);
             border-radius: 10px;
@@ -440,20 +406,9 @@
             margin-bottom: 10px;
         }
 
-        .progress-bar {
-            height: 100%;
-            width: 100%;
-            transition: width 1s linear;
-        }
+        .progress-bar { height: 100%; width: 100%; transition: width 1s linear; }
+        .timer-text { text-align: center; font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-        .timer-text {
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* Профіль та Налаштування */
         .profile-user {
             display: flex;
             align-items: center;
@@ -490,7 +445,6 @@
         .settings-row .custom-select-wrapper { width: 160px; }
         .settings-row .custom-select-trigger { padding: 8px 12px; font-size: 13px; border-radius: 8px; }
 
-        /* Калькулятор Мартингейла */
         .calc-input-group { margin-bottom: 16px; }
         .calc-input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
         .calc-input { width: 100%; background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 8px; font-size: 15px; outline: none; }
@@ -503,15 +457,13 @@
 
     <div id="loadingScreen" class="full-screen-center">
         <div class="spinner"></div>
-        <p id="loadingText" style="font-size: 14px; color: var(--text-muted);">Перевірка доступу...</p>
+        <p id="loadingText">Перевірка доступу...</p>
     </div>
 
     <div id="lockScreen" class="full-screen-center hidden">
         <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
-        <h2 id="lockTitle" style="font-size: 20px; margin-bottom: 10px;">Доступ обмежено</h2>
-        <p id="lockDesc" style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px; max-width: 280px;">
-            У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.
-        </p>
+        <h2 id="lockTitle">Доступ обмежено</h2>
+        <p id="lockDesc">У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.</p>
     </div>
 
     <div id="brandLine" class="brand-header hidden">
@@ -547,11 +499,7 @@
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
                         <div class="custom-options-dropdown" id="timeframeCustomOptions">
-                            <div class="custom-option" data-value="0.05" onclick="selectTimeframeOption('0.05')">3 сек</div>
-                            <div class="custom-option" data-value="0.25" onclick="selectTimeframeOption('0.25')">15 сек</div>
-                            <div class="custom-option" data-value="0.5" onclick="selectTimeframeOption('0.5')">30 сек</div>
-                            <div class="custom-option" data-value="0.75" onclick="selectTimeframeOption('0.75')">45 сек</div>
-                            <div class="custom-option selected" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
+                            <div class="custom-option" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
                             <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
                             <div class="custom-option" data-value="10" onclick="selectTimeframeOption('10')">10 хв</div>
                             <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 хв</div>
@@ -566,7 +514,7 @@
 
         <div id="searchSignalScreen" class="card search-signal-box hidden">
             <div class="mini-spinner"></div>
-            <p id="lblSearching" style="font-size: 14px; font-weight: 500; color: var(--text-muted);">Пошук найкращого сигналу...</p>
+            <p id="lblSearching">Пошук найкращого сигналу...</p>
         </div>
 
         <div id="resultScreen" class="card hidden">
@@ -602,14 +550,13 @@
                 <input type="number" id="startBet" class="calc-input" value="1" oninput="calculateMartingale()">
             </div>
             <div class="calc-input-group">
-                <label id="lblMultiplier">Коефіцієнт (зазвичай 2.2 або 2.5)</label>
+                <label id="lblMultiplier">Коефіцієнт</label>
                 <input type="number" id="multiplier" class="calc-input" value="2.2" step="0.1" oninput="calculateMartingale()">
             </div>
             <div class="calc-input-group">
-                <label id="lblSteps">Кількість кроків (колін)</label>
+                <label id="lblSteps">Кількість кроків</label>
                 <input type="number" id="stepsCount" class="calc-input" value="5" min="1" max="10" oninput="calculateMartingale()">
             </div>
-
             <table class="calc-table">
                 <thead>
                     <tr>
@@ -623,10 +570,10 @@
         </div>
     </div>
 
-    <div id="screenProfile" class="screen hidden" style="overflow: visible;">
-        <div class="card" style="overflow: visible;">
+    <div id="screenProfile" class="screen hidden">
+        <div class="card">
             <div class="profile-user">
-                <div id="userAvatar" class="profile-avatar">B</div>
+                <div id="userAvatar" class="profile-avatar">U</div>
                 <div class="profile-info">
                     <h2 id="profileName">Користувач</h2>
                     <p id="profileUsername">@username</p>
@@ -636,7 +583,7 @@
                 <span id="setAccessType">Тип доступу:</span>
                 <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
             </div>
-            <div class="settings-row" style="overflow: visible; z-index: 200;">
+            <div class="settings-row" style="z-index: 200;">
                 <span id="setTheme">Тема додатка</span>
                 <div class="custom-select-wrapper" id="themeDropdownWrapper">
                     <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
@@ -651,7 +598,7 @@
                     </div>
                 </div>
             </div>
-            <div class="settings-row" style="overflow: visible; z-index: 100;">
+            <div class="settings-row" style="z-index: 100;">
                 <span>Мова / Language</span>
                 <div class="custom-select-wrapper" id="langDropdownWrapper">
                     <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
@@ -662,9 +609,6 @@
                         <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk')">Українська</div>
                         <div class="custom-option" data-value="en" onclick="selectLangOption('en')">English</div>
                         <div class="custom-option" data-value="ru" onclick="selectLangOption('ru')">Русский</div>
-                        <div class="custom-option" data-value="fr" onclick="selectLangOption('fr')">Français</div>
-                        <div class="custom-option" data-value="de" onclick="selectLangOption('de')">Deutsch</div>
-                        <div class="custom-option" data-value="it" onclick="selectLangOption('it')">Italiano</div>
                     </div>
                 </div>
             </div>
@@ -687,421 +631,345 @@
     </div>
 
     <script>
+        // ВСТАВТЕ СЮДИ ВАШУ РЕАЛЬНУ АДРЕСУ З RENDER ОБОВ'ЯЗКОВО З https://
+        const API_BASE_URL = "https://butovski-signal-bot.onrender.com/";
+
         const marketAssets = {
             real: [
-                { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD", fr: "EUR/USD", de: "EUR/USD", it: "EUR/USD" } },
-                { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD", fr: "GBP/USD", de: "GBP/USD", it: "GBP/USD" } },
-                { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY", fr: "USD/JPY", de: "USD/JPY", it: "USD/JPY" } },
-                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD", fr: "AUD/USD", de: "AUD/USD", it: "AUD/USD" } },
-                { value: "FX:AUDJPY", name: { uk: "AUD/JPY", en: "AUD/JPY", ru: "AUD/JPY", fr: "AUD/JPY", de: "AUD/JPY", it: "AUD/JPY" } },
-                { value: "FX:AUDCAD", name: { uk: "AUD/CAD", en: "AUD/CAD", ru: "AUD/CAD", fr: "AUD/CAD", de: "AUD/CAD", it: "AUD/CAD" } },
-                { value: "FX:AUDCHF", name: { uk: "AUD/CHF", en: "AUD/CHF", ru: "AUD/CHF", fr: "AUD/CHF", de: "AUD/CHF", it: "AUD/CHF" } },
-                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD", fr: "USD/CAD", de: "USD/CAD", it: "USD/CAD" } },
-                { value: "FX:EURGBP", name: { uk: "EUR/GBP", en: "EUR/GBP", ru: "EUR/GBP", fr: "EUR/GBP", de: "EUR/GBP", it: "EUR/GBP" } },
-                { value: "FX:EURJPY", name: { uk: "EUR/JPY", en: "EUR/JPY", ru: "EUR/JPY", fr: "EUR/JPY", de: "EUR/JPY", it: "EUR/JPY" } },
-                { value: "FX_IDC:XAUUSD", name: { uk: "Золото (XAU/USD)", en: "Gold (XAU/USD)", ru: "Золото (XAU/USD)", fr: "Or (XAU/USD)", de: "Gold (XAU/USD)", it: "Oro (XAU/USD)" } },
-                { value: "FX_IDC:XAGUSD", name: { uk: "Срібло (XAG/USD)", en: "Silver (XAG/USD)", ru: "Серебро (XAG/USD)", fr: "Argent (XAG/USD)", de: "Silber (XAG/USD)", it: "Argento (XAG/USD)" } }
+                { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
+                { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD" } },
+                { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } }
             ],
             otc: [
-                { value: "OANDA:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)", fr: "EUR/USD (OTC)", de: "EUR/USD (OTC)", it: "EUR/USD (OTC)" } },
-                { value: "OANDA:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)", fr: "GBP/USD (OTC)", de: "GBP/USD (OTC)", it: "GBP/USD (OTC)" } },
-                { value: "OANDA:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)", fr: "USD/JPY (OTC)", de: "USD/JPY (OTC)", it: "USD/JPY (OTC)" } },
-                { value: "OANDA:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)", fr: "AUD/USD (OTC)", de: "AUD/USD (OTC)", it: "AUD/USD (OTC)" } },
-                { value: "OANDA:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)", fr: "USD/CAD (OTC)", de: "USD/CAD (OTC)", it: "USD/CAD (OTC)" } },
-                { value: "OANDA:EURJPY", name: { uk: "EUR/JPY (OTC)", en: "EUR/JPY (OTC)", ru: "EUR/JPY (OTC)", fr: "EUR/JPY (OTC)", de: "EUR/JPY (OTC)", it: "EUR/JPY (OTC)" } },
-                { value: "COINBASE:BTCUSD", name: { uk: "BTC ETF (OTC)", en: "BTC ETF (OTC)", ru: "BTC ETF (OTC)", fr: "BTC ETF (OTC)", de: "BTC ETF (OTC)", it: "BTC ETF (OTC)" } }
+                { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } }
             ],
             crypto: [
-                { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USD", en: "BTC/USD", ru: "BTC/USD", fr: "BTC/USD", de: "BTC/USD", it: "BTC/USD" } },
-                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USD", en: "ETH/USD", ru: "ETH/USD", fr: "ETH/USD", de: "ETH/USD", it: "ETH/USD" } },
-                { value: "BINANCE:XRPUSDT", name: { uk: "XRP/USD", en: "XRP/USD", ru: "XRP/USD", fr: "XRP/USD", de: "XRP/USD", it: "XRP/USD" } },
-                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USD", en: "SOL/USD", ru: "SOL/USD", fr: "SOL/USD", de: "SOL/USD", it: "SOL/USD" } },
-                { value: "BINANCE:TONUSDT", name: { uk: "TON/USD", en: "TON/USD", ru: "TON/USD", fr: "TON/USD", de: "TON/USD", it: "TON/USD" } },
-                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USD", en: "BNB/USD", ru: "BNB/USD", fr: "BNB/USD", de: "BNB/USD", it: "BNB/USD" } }
+                { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USDT", en: "BTC/USDT", ru: "BTC/USDT" } },
+                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } }
             ]
         };
 
-        const translations = { 
-            uk: { menuSignals: "Сигнали", menuCalc: "Калькулятор", menuProfile: "Профіль", lblSelectAsset: "Актив", lblSelectTimeframe: "Час (ТФ)", signalActionButton: "ОТРИМАТИ СИГНАЛ", signalActionButtonNew: "НОВИЙ СИГНАЛ", lblSearching: "Пошук найкращого сигналу...", lblTimeframe: "ЧАС СИГНАЛУ", lblProba: "ЙМОВІРНІСТЬ", lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт (зазвичай 2.2 або 2.5)", lblSteps: "Кількість кроків (колін)", thStep: "Крок", thBet: "Ставка", thTotal: "Всього", setAccessType: "Тип доступу:", setTheme: "Тема додатка", accessNormal: "Звичайний", accessVip: "VIP Доступ", btnRealMarket: "Реальний ринок", btnOtcMarket: "OTC Ринок", btnCryptoMarket: "Crypto", lockTitle: "Доступ обмежено", lockDesc: "У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.", loadingText: "Перевірка доступу...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" }, 
-            en: { menuSignals: "Signals", menuCalc: "Calculator", menuProfile: "Profile", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "GET SIGNAL", signalActionButtonNew: "NEW SIGNAL", lblSearching: "Searching for the best signal...", lblTimeframe: "SIGNAL TIME", lblProba: "PROBABILITY", lblStartBet: "Initial Bet ($)", lblMultiplier: "Multiplier (2.2 or 2.5)", lblSteps: "Number of steps", thStep: "Step", thBet: "Bet", thTotal: "Total", setAccessType: "Access Type:", setTheme: "App Theme", accessNormal: "Standard", accessVip: "VIP Access", btnRealMarket: "Real Market", btnOtcMarket: "OTC Market", btnCryptoMarket: "Crypto", lockTitle: "Access Denied", lockDesc: "You don't have an active license. Please contact the bot administrator.", loadingText: "Checking access...", signalUp: "CALL", signalDown: "PUT" }, 
-            ru: { menuSignals: "Сигналы", menuCalc: "Калькулятор", menuProfile: "Профиль", lblSelectAsset: "Актив", lblSelectTimeframe: "Время (ТФ)", signalActionButton: "ПОЛУЧИТЬ СИГНАЛ", signalActionButtonNew: "НОВЫЙ СИГНАЛ", lblSearching: "Поиск лучшего сигнала...", lblTimeframe: "ВРЕМЯ СИГНАЛА", lblProba: "ВЕРОЯТНОСТЬ", lblStartBet: "Начальная ставка ($)", lblMultiplier: "Коэффициент (2.2 или 2.5)", lblSteps: "Количество шагов", thStep: "Шаг", thBet: "Ставка", thTotal: "Всего", setAccessType: "Тип доступа:", setTheme: "Тема приложения", accessNormal: "Обычный", accessVip: "VIP Доступ", btnRealMarket: "Реальный рынок", btnOtcMarket: "OTC Рынок", btnCryptoMarket: "Crypto", lockTitle: "Доступ ограничен", lockDesc: "У вас нет активной лицензии. Обратитесь к администратору бота для получения доступа.", loadingText: "Проверка доступа...", signalUp: "ВВЕРХ", signalDown: "ВНИЗ" },
-            fr: { menuSignals: "Signaux", menuCalc: "Calculateur", menuProfile: "Profil", lblSelectAsset: "Actif", lblSelectTimeframe: "Timeframe", signalActionButton: "OBTENIR SIGNAL", signalActionButtonNew: "NOUVEAU SIGNAL", lblSearching: "Recherche du meilleur signal...", lblTimeframe: "TEMPS SIGNAL", lblProba: "PROBABILITÉ", lblStartBet: "Mise Initiale ($)", lblMultiplier: "Multiplicateur", lblSteps: "Étapes", thStep: "Étape", thBet: "Mise", thTotal: "Total", setAccessType: "Type d'accès:", setTheme: "Thème", accessNormal: "Standard", accessVip: "Accès VIP", btnRealMarket: "Marché Réel", btnOtcMarket: "Marché OTC", btnCryptoMarket: "Crypto", lockTitle: "Accès Limité", lockDesc: "Pas de licence active. Contactez l'administrateur.", loadingText: "Vérification...", signalUp: "HAUT", signalDown: "BAS" }, 
-            de: { menuSignals: "Signale", menuCalc: "Rechner", menuProfile: "Profil", lblSelectAsset: "Asset", lblSelectTimeframe: "Zeitrahm", signalActionButton: "SIGNAL ANFORDERN", signalActionButtonNew: "NEUES SIGNAL", lblSearching: "Suche nach dem besten Signal...", lblTimeframe: "SIGNALZEIT", lblProba: "WAHRSCHEINLICHKEIT", lblStartBet: "Startwette ($)", lblMultiplier: "Multiplikator", lblSteps: "Schritte", thStep: "Schritt", thBet: "Wette", thTotal: "Gesamt", setAccessType: "Zugriffstyp:", setTheme: "App-Design", accessNormal: "Standard", accessVip: "VIP-Zugriff", btnRealMarket: "Realer Markt", btnOtcMarket: "OTC-Market", btnCryptoMarket: "Crypto", lockTitle: "Zugriff verweigert", lockDesc: "Keine aktive Lizenz. Admin kontaktieren.", loadingText: "Überprüfung...", signalUp: "HOCH", signalDown: "RUNTER" }, 
-            it: { menuSignals: "Segnali", menuCalc: "Calcolatore", menuProfile: "Profilo", lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "OTTIENI SEGNALE", signalActionButtonNew: "NUOVO SEGNALE", lblSearching: "Ricerca del miglior segnale...", lblTimeframe: "TEMPO SEGNALE", lblProba: "PROBABILITÀ", lblStartBet: "Puntata Iniziale ($)", lblMultiplier: "Moltiplicatore", lblSteps: "Passaggi", thStep: "Passo", thBet: "Puntata", thTotal: "Totale", setAccessType: "Tema dell'app", accessNormal: "Standard", accessVip: "Accesso VIP", btnRealMarket: "Mercato Reale", btnOtcMarket: "Mercato OTC", btnCryptoMarket: "Crypto", lockTitle: "Accesso Limitato", lockDesc: "Nessuna licenza attiva. Contatta l'amministrateur.", loadingText: "Verifica...", signalUp: "SU", signalDown: "GIÙ" } 
+        const translations = {
+            uk: {
+                loadingText: "Перевірка доступу...", lockTitle: "Доступ обмежено", lockDesc: "У вас немає активної ліцензії.",
+                lblSelectAsset: "Актив", lblSelectTimeframe: "Час (ТФ)", signalActionButton: "ОТРИМАТИ СИГНАЛ",
+                signalActionButtonNew: "НОВИЙ СИГНАЛ", lblSearching: "Пошук найкращого сигналу...", lblTimeframe: "ЧАС СИГНАЛУ",
+                lblProba: "ЙМОВІРНІСТЬ", lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт",
+                lblSteps: "Кількість кроків", thStep: "Крок", thBet: "Ставка", thTotal: "Всього",
+                setAccessType: "Тип доступу:", setTheme: "Тема додатка", menuSignals: "Сигнали", menuCalc: "Калькулятор", menuProfile: "Профіль",
+                accessVip: "VIP Доступ", accessRegular: "Звичайний", txtUp: "ВВЕРХ", txtDown: "ВНИЗ", txtMin: "ХВ"
+            },
+            en: {
+                loadingText: "Checking access...", lockTitle: "Access Denied", lockDesc: "You don't have an active license.",
+                lblSelectAsset: "Asset", lblSelectTimeframe: "Timeframe", signalActionButton: "GET SIGNAL",
+                signalActionButtonNew: "NEW SIGNAL", lblSearching: "Searching for the best signal...", lblTimeframe: "TIMEFRAME",
+                lblProba: "PROBABILITY", lblStartBet: "Start Bet ($)", lblMultiplier: "Multiplier",
+                lblSteps: "Steps Count", thStep: "Step", thBet: "Bet", thTotal: "Total",
+                setAccessType: "Access Type:", setTheme: "App Theme", menuSignals: "Signals", menuCalc: "Calculator", menuProfile: "Profile",
+                accessVip: "VIP Access", accessRegular: "Regular", txtUp: "BUY/UP", txtDown: "SELL/DOWN", txtMin: "MIN"
+            }
         };
 
-        let currentMarket = 'real';
+        let tg = window.Telegram ? window.Telegram.WebApp : null;
+        let currentMarketType = 'real';
         let currentLang = 'uk';
-        let currentTheme = 'cyberpunk';
-        let selectedAsset = "";
         let isSignalActive = false;
-        let signalTimerInterval = null;
-        let searchTimeout = null;
-        const tg = window.Telegram?.WebApp;
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com";
+        let signalTimer = null;
 
-        function checkAccess() {
-            if (tg) {
-                tg.expand();
-                tg.ready();
+        if (tg) {
+            tg.ready();
+            tg.expand();
+            if (tg.initDataUser && tg.initDataUser.language_code) {
+                if (['uk', 'en', 'ru'].includes(tg.initDataUser.language_code)) {
+                    currentLang = tg.initDataUser.language_code;
+                }
             }
-            const initData = tg?.initData || "";
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkUserAccess();
+            calculateMartingale();
             
-            fetch(`${BACKEND_URL}/api/check-user`, {
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.custom-select-wrapper')) {
+                    document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+                }
+            });
+        });
+
+        function checkUserAccess() {
+            const initData = tg ? tg.initData : "";
+            
+            fetch(`${API_BASE_URL}/api/check-user`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ initData: initData })
             })
-            .then(response => {
-                if (response.status === 203 || response.status === 403) {
-                    throw new Error("Forbidden");
-                }
-                return response.json();
+            .then(res => {
+                if (!res.ok) throw new Error("Forbidden");
+                return res.json();
             })
             .then(data => {
+                document.getElementById('loadingScreen').classList.add('hidden');
                 if (data.has_access) {
-                    document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('brandLine').classList.remove('hidden');
                     document.getElementById('screenSignals').classList.remove('hidden');
                     document.getElementById('mainNavigation').classList.remove('hidden');
                     
-                    if(data.is_vip) {
+                    if (data.is_vip) {
                         document.getElementById('vipBadge').classList.remove('hidden');
-                        document.getElementById('profileAccessValue').innerText = translations[currentLang].accessVip;
-                    } else {
-                        document.getElementById('vipBadge').classList.add('hidden');
-                        document.getElementById('profileAccessValue').innerText = translations[currentLang].accessNormal;
+                        document.getElementById('profileAccessValue').innerText = translations[currentLang].accessVip || "VIP";
                     }
                     
-                    if (data.name) {
-                        document.getElementById('profileName').innerText = data.name;
-                        document.getElementById('profileUsername').innerText = data.username || "";
-                        document.getElementById('userAvatar').innerText = data.name.charAt(0);
+                    if (data.name) document.getElementById('profileName').innerText = data.name;
+                    if (data.username) document.getElementById('profileUsername').innerText = data.username;
+                    if (data.photo_url) {
+                        const av = document.getElementById('userAvatar');
+                        av.innerHTML = `<img src="${data.photo_url}" style="width:100%;height:100%;border-radius:50%;">`;
                     }
-                    buildAssetDropdown();
-                    calculateMartingale();
+                    
+                    applyTheme(localStorage.getItem('butovski_theme') || 'cyberpunk');
+                    selectLangOption(currentLang);
                 } else {
-                    document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('lockScreen').classList.remove('hidden');
                 }
             })
-            .catch(err => {
-                console.error(err);
+            .catch(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
                 document.getElementById('lockScreen').classList.remove('hidden');
             });
         }
 
-        window.onload = () => {
-            checkAccess();
-            
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.custom-select-wrapper')) {
-                    document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-                }
-            });
-        };
-
-        function changeMarketType(type) {
-            if (isSignalActive) return;
-            currentMarket = type;
-            document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
-            if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
-            if (type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
-            if (type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
-            buildAssetDropdown();
-        }
-
-        function toggleCustomDropdown(wrapperId) {
-            const wrapper = document.getElementById(wrapperId);
-            const isOpen = wrapper.classList.contains('open');
+        function toggleCustomDropdown(id) {
+            const el = document.getElementById(id);
+            const isOpen = el.classList.contains('open');
             document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-            if (!isOpen) wrapper.classList.add('open');
+            if (!isOpen) el.classList.add('open');
         }
 
         function buildAssetDropdown() {
             const container = document.getElementById('assetCustomOptions');
             container.innerHTML = "";
-            const assets = marketAssets[currentMarket];
-            assets.forEach((asset, idx) => {
+            const list = marketAssets[currentMarketType];
+            
+            list.forEach((item, idx) => {
                 const opt = document.createElement('div');
-                opt.className = "custom-option" + (idx === 0 ? " selected" : "");
-                opt.innerText = asset.name[currentLang] || asset.name['en'];
-                opt.setAttribute('data-value', asset.value);
-                opt.onclick = () => selectAssetOption(asset.value, asset.name[currentLang]);
+                opt.className = "custom-option";
+                if (idx === 0 && !container.dataset.selected) {
+                    opt.classList.add('selected');
+                    document.getElementById('assetSelectedValue').innerText = item.name[currentLang] || item.name['en'];
+                    document.getElementById('assetSelectedValue').dataset.value = item.value;
+                }
+                opt.innerText = item.name[currentLang] || item.name['en'];
+                opt.onclick = () => {
+                    document.getElementById('assetSelectedValue').innerText = item.name[currentLang] || item.name['en'];
+                    document.getElementById('assetSelectedValue').dataset.value = item.value;
+                    container.dataset.selected = item.value;
+                    document.getElementById('assetDropdownWrapper').classList.remove('open');
+                    buildAssetDropdown();
+                };
                 container.appendChild(opt);
             });
-            selectedAsset = assets[0].value;
-            document.getElementById('assetSelectedValue').innerText = assets[0].name[currentLang];
         }
 
-        function selectAssetOption(val, text) {
-            selectedAsset = val;
-            document.getElementById('assetSelectedValue').innerText = text;
-            const container = document.getElementById('assetCustomOptions');
-            container.querySelectorAll('.custom-option').forEach(o => {
-                o.classList.toggle('selected', o.getAttribute('data-value') === val);
-            });
-            
-            let tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
-            if (parseFloat(tf) >= 1 && !document.getElementById('tradingviewCard').classList.contains('hidden')) {
-                initTradingViewWidget(currentTheme, selectedAsset, tf);
-            }
-        }
-
-        function selectTimeframeOption(tfVal) {
+        function selectTimeframeOption(val) {
             const wrapper = document.getElementById('timeframeDropdownWrapper');
-            const triggerText = wrapper.querySelector('.custom-select-trigger span');
+            const triggerText = document.getElementById('timeframeSelectedValue');
+            triggerText.dataset.value = val;
             
-            let tfText = tfVal + " хв";
-            if (tfVal === "0.05") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "3 сек" : "3s";
-            else if (tfVal === "0.25") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "15 сек" : "15s";
-            else if (tfVal === "0.5") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "30 сек" : "30s";
-            else if (tfVal === "0.75") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "45 сек" : "45s";
-            else if (tfVal === "60") tfText = (currentLang === 'uk' || currentLang === 'ru') ? "1 год" : "1h";
-            else tfText = tfVal + ((currentLang === 'uk' || currentLang === 'ru') ? " хв" : " m");
-
-            triggerText.innerText = tfText;
-            triggerText.setAttribute('data-value', tfVal);
-            wrapper.querySelectorAll('.custom-option').forEach(o => {
-                o.classList.toggle('selected', o.getAttribute('data-value') === tfVal);
+            let label = val + " " + (translations[currentLang].txtMin || "хв");
+            if (val == "60") label = currentLang === 'uk' ? "1 год" : "1 h";
+            triggerText.innerText = label;
+            
+            wrapper.classList.remove('open');
+            document.querySelectorAll('#timeframeCustomOptions .custom-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.value == val) opt.classList.add('selected');
             });
-
-            if (parseFloat(tfVal) < 1) {
-                document.getElementById('tradingviewCard').classList.add('hidden');
-            } else if (isSignalActive && !document.getElementById('resultScreen').classList.contains('hidden')) {
-                document.getElementById('tradingviewCard').classList.remove('hidden');
-                initTradingViewWidget(currentTheme, selectedAsset, tfVal);
-            }
         }
 
-        /* ОНОВЛЕНИЙ БЕЗПЕЧНИЙ МЕТОД ЗАПИТУ ДО ВЛАСНОГО БЕКЕНДУ БЕЗ CORS ПОМИЛОК */
-        async function fetchMarketAnalysis(symbol, interval) {
-            const initData = tg?.initData || "";
-            try {
-                // Направляємо запити безпосередньо до вашого бекенду на Python
-                const response = await fetch(`${BACKEND_URL}/api/get-market-signal`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        initData: initData,
-                        asset: symbol,
-                        tf: interval
-                    })
-                });
-                
-                if (!response.ok) throw new Error("Backend connection failure");
-                const data = await response.json();
-                
-                return { 
-                    direction: data.direction, 
-                    probability: data.probability 
-                };
-            } catch (e) {
-                console.log("Тимчасова затримка бекенду. Застосовано стійкий математичний мікросканер.");
-                const cryptoSeed = (new Date().getTime() + symbol.charCodeAt(0)) % 100;
-                const direction = cryptoSeed % 2 === 0 ? 'UP' : 'DOWN';
-                const probability = Math.floor(Math.random() * (96 - 88 + 1) + 88);
-                return { direction, probability };
-            }
+        function changeMarketType(type) {
+            currentMarketType = type;
+            document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
+            if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
+            if (type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
+            if (type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
+            
+            const options = document.getElementById('assetCustomOptions');
+            delete options.dataset.selected;
+            buildAssetDropdown();
         }
 
-        async function handleSignalAction() {
-            const btn = document.getElementById('signalActionButton');
+        function handleSignalAction() {
             if (isSignalActive) {
                 isSignalActive = false;
-                clearInterval(signalTimerInterval);
-                clearTimeout(searchTimeout);
+                clearInterval(signalTimer);
                 document.getElementById('resultScreen').classList.add('hidden');
                 document.getElementById('tradingviewCard').classList.add('hidden');
-                btn.innerText = translations[currentLang].signalActionButton;
+                document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButton;
                 return;
             }
 
+            document.getElementById('searchSignalScreen').classList.remove('hidden');
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('tradingviewCard').classList.add('hidden');
-            document.getElementById('searchSignalScreen').classList.remove('hidden');
-            btn.innerText = translations[currentLang].signalActionButtonNew || "НОВИЙ СИГНАЛ";
-            isSignalActive = true;
 
-            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
-            
-            // Запуск реального аналізу індикаторів ринку
-            const analysis = await fetchMarketAnalysis(selectedAsset, tf);
+            const asset = document.getElementById('assetSelectedValue').dataset.value;
+            const tf = document.getElementById('timeframeSelectedValue').dataset.value;
 
-            // Штучна затримка пошуку для кращого UX (імітація сканування)
-            searchTimeout = setTimeout(() => {
+            fetch(`${API_BASE_URL}/api/get-market-signal`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ initData: tg ? tg.initData : "", asset: asset, tf: tf })
+            })
+            .then(res => res.json())
+            .then(data => {
                 document.getElementById('searchSignalScreen').classList.add('hidden');
-                document.getElementById('resultScreen').classList.remove('hidden');
-                
-                const isShortTf = parseFloat(tf) < 1;
-                if (!isShortTf) {
-                    document.getElementById('tradingviewCard').classList.remove('hidden');
-                    initTradingViewWidget(currentTheme, selectedAsset, tf);
-                } else {
-                    document.getElementById('tradingviewCard').classList.add('hidden');
-                }
-
-                const assets = marketAssets[currentMarket];
-                const currentAssetObj = assets.find(a => a.value === selectedAsset);
-                document.getElementById('signalPair').innerText = currentAssetObj ? currentAssetObj.name[currentLang] : "ASSET";
-
-                // Встановлення напрямку з нашого технічного аналізу
-                const badge = document.getElementById('signalDirection');
-                if (analysis.direction === 'UP') {
-                    badge.innerText = translations[currentLang].signalUp;
-                    badge.className = "direction-badge bg-green";
-                } else {
-                    badge.innerText = translations[currentLang].signalDown;
-                    badge.className = "direction-badge bg-red";
-                }
-
-                let displayTfText = "";
-                let totalSeconds = 60;
-
-                if (tf === "0.05") {
-                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "3 СЕКУНДИ" : "3 SECONDS";
-                    totalSeconds = 3;
-                } else if (tf === "0.25") {
-                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "15 СЕКУНД" : "15 SECONDS";
-                    totalSeconds = 15;
-                } else if (tf === "0.5") {
-                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "30 СЕКУНД" : "30 SECONDS";
-                    totalSeconds = 30;
-                } else if (tf === "0.75") {
-                    displayTfText = (currentLang === 'uk' || currentLang === 'ru') ? "45 СЕКУНД" : "45 SECONDS";
-                    totalSeconds = 45;
-                } else {
-                    let tfMinutes = parseInt(tf);
-                    displayTfText = tfMinutes + ((currentLang === 'uk' || currentLang === 'ru') ? " ХВ" : " MIN");
-                    totalSeconds = tfMinutes * 60;
-                }
-
-                document.getElementById('signalTimeframe').innerText = displayTfText;
-                // Встановлення відсотка ймовірності з нашого технічного аналізу
-                document.getElementById('signalProbability').innerText = analysis.probability + "%";
-
-                let currentSeconds = totalSeconds;
-                updateTimerUI(currentSeconds, totalSeconds);
-
-                signalTimerInterval = setInterval(() => {
-                    currentSeconds--;
-                    if (currentSeconds <= 0) {
-                        clearInterval(signalTimerInterval);
-                        isSignalActive = false;
-                        document.getElementById('resultScreen').classList.add('hidden');
-                        document.getElementById('tradingviewCard').classList.add('hidden');
-                        btn.innerText = translations[currentLang].signalActionButton;
+                if (data.success) {
+                    isSignalActive = true;
+                    document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButtonNew;
+                    
+                    const pairText = document.getElementById('assetSelectedValue').innerText;
+                    document.getElementById('signalPair').innerText = pairText;
+                    
+                    const dirBadge = document.getElementById('signalDirection');
+                    if (data.direction === 'UP') {
+                        dirBadge.innerText = translations[currentLang].txtUp || "ВВЕРХ";
+                        dirBadge.className = "direction-badge bg-green";
+                    } else {
+                        dirBadge.innerText = translations[currentLang].txtDown || "ВНИЗ";
+                        dirBadge.className = "direction-badge bg-red";
                     }
-                    updateTimerUI(currentSeconds, totalSeconds);
-                }, 1000);
 
-            }, 1800); // 1.8 секунди візуального сканування
+                    document.getElementById('signalProbability').innerText = data.probability + "%";
+                    
+                    let tfMinutes = parseInt(tf);
+                    document.getElementById('signalTimeframe').innerText = tfMinutes + " " + (translations[currentLang].txtMin || "ХВ");
+                    
+                    document.getElementById('resultScreen').classList.remove('hidden');
+                    document.getElementById('tradingviewCard').classList.remove('hidden');
+                    
+                    const curTheme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
+                    initTradingViewWidget(curTheme, asset, tf);
+                    startSignalTimer(tfMinutes * 60);
+                }
+            })
+            .catch(() => {
+                document.getElementById('searchSignalScreen').classList.add('hidden');
+            });
         }
 
-        function updateTimerUI(curr, tot) {
-            const progressFill = document.getElementById('progressFill');
-            const timerDigits = document.getElementById('timerDigits');
-            if (!progressFill || !timerDigits) return;
-
-            const percentage = (curr / tot) * 100;
-            progressFill.style.width = percentage + "%";
-
-            const side = document.getElementById('signalDirection').className.includes('bg-green') ? 'UP' : 'DOWN';
-            progressFill.style.backgroundColor = (side === 'UP') ? 'var(--green-signal)' : 'var(--red-signal)';
-
-            let minCurr = Math.floor(curr / 60);
-            let secCurr = curr % 60;
-            let minTot = Math.floor(tot / 60);
-            let secTot = tot % 60;
-
-            let strCurr = (minCurr < 10 ? "0" : "") + minCurr + ":" + (secCurr < 10 ? "0" : "") + secCurr;
-            let strTot = (minTot < 10 ? "0" : "") + minTot + ":" + (secTot < 10 ? "0" : "") + secTot;
-            timerDigits.innerText = strCurr + " / " + strTot;
+        function startSignalTimer(durationSeconds) {
+            let timeLeft = durationSeconds;
+            const fill = document.getElementById('progressFill');
+            const digits = document.getElementById('timerDigits');
+            
+            function update() {
+                if (timeLeft <= 0) {
+                    clearInterval(signalTimer);
+                    isSignalActive = false;
+                    document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButton;
+                    digits.innerText = "00:00/00:00";
+                    fill.style.width = "0%";
+                    return;
+                }
+                timeLeft--;
+                let passed = durationSeconds - timeLeft;
+                let pct = (timeLeft / durationSeconds) * 100;
+                fill.style.width = pct + "%";
+                
+                let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+                let s = (timeLeft % 60).toString().padStart(2, '0');
+                let pm = Math.floor(passed / 60).toString().padStart(2, '0');
+                let ps = (passed % 60).toString().padStart(2, '0');
+                
+                digits.innerText = `${pm}:${ps} / ${m}:${s}`;
+            }
+            update();
+            clearInterval(signalTimer);
+            signalTimer = setInterval(update, 1000);
         }
 
-        function switchScreen(screenId) {
+        function switchScreen(name) {
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
-            if (screenId === 'signals') {
+            
+            if (name === 'signals') {
                 document.getElementById('screenSignals').classList.remove('hidden');
                 document.getElementById('navSignals').classList.add('active');
-            } else if (screenId === 'calc') {
+            } else if (name === 'calc') {
                 document.getElementById('screenCalc').classList.remove('hidden');
                 document.getElementById('navCalc').classList.add('active');
-            } else if (screenId === 'profile') {
+            } else if (name === 'profile') {
                 document.getElementById('screenProfile').classList.remove('hidden');
                 document.getElementById('navProfile').classList.add('active');
             }
         }
 
-        function calculateMartingale() {
-            const start = parseFloat(document.getElementById('startBet').value) || 1;
-            const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
-            const steps = parseInt(document.getElementById('stepsCount').value) || 5;
-            const tbody = document.getElementById('martingaleResultBody');
-            tbody.innerHTML = "";
-
-            let currentBet = start;
-            let totalInvestment = 0;
-            for (let i = 1; i <= steps; i++) {
-                totalInvestment += currentBet;
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td>${i}</td><td>$${currentBet.toFixed(2)}</td><td>$${totalInvestment.toFixed(2)}</td>`;
-                tbody.appendChild(tr);
-                currentBet = currentBet * mult;
-            }
-        }
-
-        function selectThemeOption(theme) {
-            currentTheme = theme;
-            document.documentElement.setAttribute('data-theme', theme);
+        function applyTheme(name) {
+            document.documentElement.setAttribute('data-theme', name);
+            localStorage.setItem('butovski_theme', name);
             
-            const wrapper = document.getElementById('themeDropdownWrapper');
-            const textEl = document.getElementById('themeSelectedValue');
-            const opt = wrapper.querySelector(`.custom-option[data-value="${theme}"]`);
-            if (opt) {
-                textEl.innerText = opt.innerText;
-                textEl.setAttribute('data-value', theme);
-                wrapper.querySelectorAll('.custom-options-dropdown .custom-option').forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-            }
+            document.querySelectorAll('#themeCustomOptions .custom-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.value === name) opt.classList.add('selected');
+            });
             
-            let tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value') || "1";
-            if (parseFloat(tf) >= 1 && !document.getElementById('tradingviewCard').classList.contains('hidden')) {
-                initTradingViewWidget(currentTheme, selectedAsset, tf);
+            const triggerText = document.getElementById('themeSelectedValue');
+            triggerText.innerText = name.charAt(0).toUpperCase() + name.slice(1);
+            
+            if (isSignalActive) {
+                const asset = document.getElementById('assetSelectedValue').dataset.value;
+                const tf = document.getElementById('timeframeSelectedValue').dataset.value;
+                initTradingViewWidget(name, asset, tf);
             }
         }
 
-        function selectLangOption(lang) {
-            currentLang = lang;
-            const wrapper = document.getElementById('langDropdownWrapper');
-            const textEl = document.getElementById('langSelectedValue');
-            const opt = wrapper.querySelector(`.custom-option[data-value="${lang}"]`);
-            if (opt) {
-                textEl.innerText = opt.innerText;
-                textEl.setAttribute('data-value', lang);
-                wrapper.querySelectorAll('.custom-options-dropdown .custom-option').forEach(o => o.classList.remove('selected'));
-                opt.classList.add('selected');
-            }
-
-            updateLanguageInterface();
+        function selectThemeOption(val) {
+            applyTheme(val);
+            document.getElementById('themeDropdownWrapper').classList.remove('open');
         }
 
-        function updateLanguageInterface() {
-            const t = translations[currentLang];
-            for (let key in t) {
-                const el = document.getElementById(key);
-                if (el) el.innerText = t[key];
+        function selectLangOption(val) {
+            currentLang = val;
+            document.getElementById('langDropdownWrapper').classList.remove('open');
+            
+            document.querySelectorAll('#langCustomOptions .custom-option').forEach(opt => {
+                opt.classList.remove('selected');
+                if (opt.dataset.value === val) opt.classList.add('selected');
+            });
+            
+            const triggerText = document.getElementById('langSelectedValue');
+            triggerText.innerText = val === 'uk' ? "Українська" : val === 'en' ? "English" : "Русский";
+            
+            const t = translations[currentLang] || translations['en'];
+            for (let id in t) {
+                const el = document.getElementById(id);
+                if (el) el.innerText = t[id];
             }
             
             const btn = document.getElementById('signalActionButton');
-            if (isSignalActive) {
-                btn.innerText = t.signalActionButtonNew || "НОВИЙ СИГНАЛ";
-            }
+            btn.innerText = isSignalActive ? (t.signalActionButtonNew || "НОВИЙ СИГНАЛ") : (t.signalActionButton || "ОТРИМАТИ СИГНАЛ");
             
             buildAssetDropdown();
+        }
+
+        function calculateMartingale() {
+            const bet = parseFloat(document.getElementById('startBet').value) || 1;
+            const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
+            const steps = parseInt(document.getElementById('stepsCount').value) || 5;
+            
+            const body = document.getElementById('martingaleResultBody');
+            body.innerHTML = "";
+            
+            let total = 0;
+            let currentBet = bet;
+            
+            for (let i = 1; i <= steps; i++) {
+                total += currentBet;
+                body.innerHTML += `<tr><td>${i}</td><td>$${currentBet.toFixed(2)}</td><td>$${total.toFixed(2)}</td></tr>`;
+                currentBet = currentBet * mult;
+            }
         }
 
         function initTradingViewWidget(theme, asset, timeframe) {
