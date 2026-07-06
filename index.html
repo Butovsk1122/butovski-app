@@ -2,8 +2,8 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.9</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Butovski App v3.0</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -279,9 +279,9 @@
     </div>
 
     <script>
-        const API_BASE_URL = "https://butovski-signal-bot.onrender.com"; // Заміни на свій лінк Render, якщо змінився
+        const API_BASE_URL = "https://butovski-signal-bot.onrender.com";
 
-        // Масштабно розширений масив пар
+        // Масштабно розширений масив пар, який ТОЧНО відобразиться
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
@@ -347,7 +347,7 @@
         let currentMarketType = 'real';
         let currentLang = 'uk';
         let isSignalActive = false;
-        let isRequestPending = false; // Змінна-запобіжник (антиспам)
+        let isRequestPending = false;
         let signalTimer = null;
 
         if (tg) {
@@ -357,6 +357,9 @@
                 if (['uk', 'en', 'ru'].includes(tg.initDataUser.language_code)) currentLang = tg.initDataUser.language_code;
             }
         }
+
+        // Примусовий попередній рендер пар для виключення багів порожнього списку
+        renderAssetOptions();
 
         document.addEventListener('DOMContentLoaded', () => {
             checkUserAccess();
@@ -448,9 +451,7 @@
         }
 
         function handleSignalAction() {
-            // АНТИСПАМ-БЛОКУВАННЯ
             if (isRequestPending) return;
-
             const btn = document.getElementById('signalActionButton');
             
             if (isSignalActive) {
@@ -483,12 +484,11 @@
                 setTimeout(() => {
                     document.getElementById('searchSignalScreen').classList.add('hidden');
                     btn.disabled = false;
-                    isRequestPending = false; // Знімаємо блокування
+                    isRequestPending = false;
 
                     if (data.success) {
                         isSignalActive = true;
                         btn.innerText = translations[currentLang].signalActionButtonNew;
-
                         document.getElementById('signalPair').innerText = document.getElementById('assetSelectedValue').innerText;
                         
                         const dirBadge = document.getElementById('signalDirection');
@@ -508,7 +508,6 @@
 
                         const currentTheme = localStorage.getItem('butovski_theme') || 'cyberpunk';
                         initTradingViewWidget(currentTheme, selectedAsset, selectedTf);
-                        
                         startSignalTimer(parseInt(selectedTf) * 60);
                     } else { alert("Не вдалося обробити технічний індикатор."); }
                 }, 3000);
@@ -608,9 +607,6 @@
 
         function initTradingViewWidget(theme, asset, timeframe) {
             document.getElementById('tradingview_widget').innerHTML = "";
-            
-            // Якщо для TradingView віджету ТФ 3хв не є стандартним (відобразить помилку), віджетові передаємо 1хв, 
-            // але логіка додатку працюватиме рівно 3 хв.
             let widgetTf = timeframe;
             if (widgetTf === "3") widgetTf = "1";
 
