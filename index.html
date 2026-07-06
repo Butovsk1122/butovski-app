@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.8</title>
+    <title>Butovski App v2.9</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -11,436 +11,100 @@
     
     <style>
         :root, [data-theme="cyberpunk"] {
-            --bg-color: #0d0f14;
-            --card-bg: #141822;
-            --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
-            --text-main: #ffffff;
-            --text-muted: #64748b;
-            --border-color: #232a3d;
-            --nav-bg: #0a0c10;
-            --tv-theme: dark;
-            --red-signal: #ef4444;
-            --green-signal: #10b981;
-            --dropdown-bg: #1a1f2c;
-            --dropdown-hover: #242b3d;
+            --bg-color: #0d0f14; --card-bg: #141822; --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
+            --text-main: #ffffff; --text-muted: #64748b; --border-color: #232a3d; --nav-bg: #0a0c10;
+            --tv-theme: dark; --red-signal: #ef4444; --green-signal: #10b981;
+            --dropdown-bg: #1a1f2c; --dropdown-hover: #242b3d;
         }
 
         [data-theme="emerald"] {
-            --bg-color: #061712;
-            --card-bg: #0b241e;
-            --accent-gradient: linear-gradient(135deg, #10b981, #059669);
-            --text-main: #ecfdf5;
-            --text-muted: #64748b;
-            --border-color: #123a30;
-            --nav-bg: #04100c;
-            --tv-theme: dark;
-            --red-signal: #f43f5e;
-            --green-signal: #34d399;
-            --dropdown-bg: #0f3128;
-            --dropdown-hover: #16483b;
+            --bg-color: #061712; --card-bg: #0b241e; --accent-gradient: linear-gradient(135deg, #10b981, #059669);
+            --text-main: #ecfdf5; --text-muted: #64748b; --border-color: #123a30; --nav-bg: #04100c;
+            --tv-theme: dark; --red-signal: #f43f5e; --green-signal: #34d399;
+            --dropdown-bg: #0f3128; --dropdown-hover: #16483b;
         }
 
         [data-theme="nordic"] {
-            --bg-color: #1a202c;
-            --card-bg: #2d3748;
-            --accent-gradient: linear-gradient(135deg, #3182ce, #4299e1);
-            --text-main: #f7fafc;
-            --text-muted: #a0aec0;
-            --border-color: #4a5568;
-            --nav-bg: #171923;
-            --tv-theme: dark;
-            --red-signal: #e53e3e;
-            --green-signal: #38a169;
-            --dropdown-bg: #2d3748;
-            --dropdown-hover: #4a5568;
+            --bg-color: #1a202c; --card-bg: #2d3748; --accent-gradient: linear-gradient(135deg, #3182ce, #4299e1);
+            --text-main: #f7fafc; --text-muted: #a0aec0; --border-color: #4a5568; --nav-bg: #171923;
+            --tv-theme: dark; --red-signal: #e53e3e; --green-signal: #38a169;
+            --dropdown-bg: #2d3748; --dropdown-hover: #4a5568;
         }
 
         [data-theme="light"] {
-            --bg-color: #f8fafc;
-            --card-bg: #ffffff;
-            --accent-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
-            --nav-bg: #f1f5f9;
-            --tv-theme: light;
-            --red-signal: #dc2626;
-            --green-signal: #16a34a;
-            --dropdown-bg: #ffffff;
-            --dropdown-hover: #f1f5f9;
+            --bg-color: #f8fafc; --card-bg: #ffffff; --accent-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+            --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0; --nav-bg: #f1f5f9;
+            --tv-theme: light; --red-signal: #dc2626; --green-signal: #16a34a;
+            --dropdown-bg: #ffffff; --dropdown-hover: #f1f5f9;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            overflow-x: hidden;
-            padding-bottom: 75px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; user-select: none; }
+        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; padding-bottom: 75px; transition: background-color 0.3s, color 0.3s; }
         .hidden { display: none !important; }
-
-        .screen {
-            padding: 16px;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .full-screen-center {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--bg-color);
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid var(--border-color);
-            border-top: 5px solid #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 16px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .search-signal-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 30px 16px;
-            text-align: center;
-        }
+        .screen { padding: 16px; animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .mini-spinner {
-            width: 36px;
-            height: 36px;
-            border: 4px solid var(--border-color);
-            border-top: 4px solid #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 12px;
-        }
+        .full-screen-center { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
+        .spinner { width: 50px; height: 50px; border: 5px solid var(--border-color); border-top: 5px solid #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .lock-icon {
-            font-size: 64px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
-        }
+        .search-signal-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 16px; text-align: center; }
+        .mini-spinner { width: 36px; height: 36px; border: 4px solid var(--border-color); border-top: 4px solid #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 12px; }
+        .lock-icon { font-size: 64px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
+        
+        .brand-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); }
+        .brand-logo { font-weight: 700; font-size: 20px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .vip-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); }
 
-        .brand-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid var(--border-color);
-        }
+        .market-switcher-container { display: flex; gap: 8px; margin-bottom: 16px; }
+        .market-btn { flex: 1; padding: 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); background-color: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 10px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+        .market-btn.active { background: var(--accent-gradient); color: #ffffff !important; border-color: transparent; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
 
-        .brand-logo {
-            font-weight: 700;
-            font-size: 20px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .vip-badge {
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
-        }
-
-        .market-switcher-container {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-
-        .market-btn {
-            flex: 1;
-            padding: 12px 4px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .market-btn.active {
-            background: var(--accent-gradient);
-            color: #ffffff !important;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-        }
-
-        .signal-selectors-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .selector-box label {
-            display: block;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .custom-select-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .custom-select-trigger {
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.02);
-            color: var(--text-main);
-            border: 1px solid var(--border-color);
-            padding: 12px 14px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .custom-select-wrapper.open .custom-select-trigger {
-            border-color: #6366f1;
-            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-        }
-
-        .custom-select-trigger i {
-            font-size: 12px;
-            color: var(--text-muted);
-            transition: transform 0.2s ease;
-        }
-
-        .custom-select-wrapper.open .custom-select-trigger i {
-            transform: rotate(180deg);
-            color: #6366f1;
-        }
-
-        .custom-options-dropdown {
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            right: 0;
-            background-color: var(--dropdown-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 2000;
-            max-height: 220px;
-            overflow-y: auto;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-8px);
-            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
-        }
-
-        .custom-select-wrapper.open .custom-options-dropdown {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .custom-option {
-            padding: 12px 14px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background-color 0.15s;
-        }
-
-        .custom-option:hover, .custom-option.selected {
-            background-color: var(--dropdown-hover);
-            font-weight: 600;
-        }
-
+        .signal-selectors-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+        .selector-box label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+        .custom-select-wrapper { position: relative; width: 100%; }
+        .custom-select-trigger { width: 100%; background-color: rgba(255, 255, 255, 0.02); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 14px; border-radius: 12px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s ease; }
+        .custom-select-wrapper.open .custom-select-trigger { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2); }
+        .custom-select-trigger i { font-size: 12px; color: var(--text-muted); transition: transform 0.2s ease; }
+        .custom-select-wrapper.open .custom-select-trigger i { transform: rotate(180deg); color: #6366f1; }
+        
+        .custom-options-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background-color: var(--dropdown-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); z-index: 2000; max-height: 220px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
+        .custom-select-wrapper.open .custom-options-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
+        .custom-option { padding: 12px 14px; font-size: 14px; font-weight: 500; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.15s; }
+        .custom-option:hover, .custom-option.selected { background-color: var(--dropdown-hover); font-weight: 600; }
         .custom-options-dropdown::-webkit-scrollbar { width: 4px; }
-        .custom-options-dropdown::-webkit-scrollbar-thumb {
-            background-color: var(--border-color);
-            border-radius: 4px;
-        }
+        .custom-options-dropdown::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 4px; }
 
-        .nav-bar {
-            position: fixed;
-            bottom: 0; left: 0; right: 0;
-            background-color: var(--nav-bg);
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            z-index: 1000;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 500;
-            cursor: pointer;
-            width: 33.3%;
-            transition: color 0.2s;
-        }
-
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; font-weight: 500; cursor: pointer; width: 33.3%; transition: color 0.2s; }
         .nav-item i { font-size: 20px; margin-bottom: 4px; }
         .nav-item.active { color: #6366f1; }
 
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-
-        .btn-action-signal {
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
-            border: none;
-            background: var(--accent-gradient);
-            color: white;
-            font-weight: 600;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-            transition: transform 0.1s;
-        }
-
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
+        .btn-action-signal { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); transition: transform 0.1s; opacity: 1; }
         .btn-action-signal:active { transform: scale(0.98); }
+        .btn-action-signal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        .signal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
+        .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .pair-title { font-size: 24px; font-weight: 700; }
-        .direction-badge {
-            padding: 6px 16px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 14px;
-            text-transform: uppercase;
-        }
-
+        .direction-badge { padding: 6px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; }
         .bg-green { background-color: var(--green-signal); color: white; }
         .bg-red { background-color: var(--red-signal); color: white; }
 
-        .signal-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .grid-item {
-            background-color: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px;
-        }
-
+        .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+        .grid-item { background-color: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; }
         .grid-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
         .grid-value { font-size: 16px; font-weight: 600; }
 
-        .progress-container {
-            background-color: var(--border-color);
-            border-radius: 10px;
-            height: 6px;
-            width: 100%;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-
+        .progress-container { background-color: var(--border-color); border-radius: 10px; height: 6px; width: 100%; overflow: hidden; margin-bottom: 10px; }
         .progress-bar { height: 100%; width: 100%; transition: width 1s linear; }
         .timer-text { text-align: center; font-size: 12px; color: var(--text-muted); font-weight: 500; }
 
-        .profile-user {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .profile-avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-            color: white;
-            object-fit: cover;
-        }
-
+        .profile-user { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+        .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); display: flex; justify-content: center; align-items: center; font-size: 24px; color: white; object-fit: cover; }
         .profile-info h2 { font-size: 18px; font-weight: 600; }
         .profile-info p { font-size: 13px; color: var(--text-muted); }
-
-        .settings-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border-color);
-            position: relative;
-        }
-
+        .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); position: relative; }
         .settings-row:last-child { border-bottom: none; }
         .settings-row .custom-select-wrapper { width: 160px; }
         .settings-row .custom-select-trigger { padding: 8px 12px; font-size: 13px; border-radius: 8px; }
@@ -463,7 +127,7 @@
     <div id="lockScreen" class="full-screen-center hidden">
         <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
         <h2 id="lockTitle">Доступ обмежено</h2>
-        <p id="lockDesc">У вас немає активної ліцензії. Зверніться до адміністратора бота для отримання доступу.</p>
+        <p id="lockDesc">У вас немає активної ліцензії. Зверніться до адміністратора бота.</p>
     </div>
 
     <div id="brandLine" class="brand-header hidden">
@@ -500,8 +164,8 @@
                         </div>
                         <div class="custom-options-dropdown" id="timeframeCustomOptions">
                             <div class="custom-option" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
+                            <div class="custom-option" data-value="3" onclick="selectTimeframeOption('3')">3 хв</div>
                             <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
-                            <div class="custom-option" data-value="10" onclick="selectTimeframeOption('10')">10 хв</div>
                             <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 хв</div>
                             <div class="custom-option" data-value="30" onclick="selectTimeframeOption('30')">30 хв</div>
                             <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60')">1 год</div>
@@ -559,11 +223,7 @@
             </div>
             <table class="calc-table">
                 <thead>
-                    <tr>
-                        <th id="thStep">Крок</th>
-                        <th id="thBet">Ставка</th>
-                        <th id="thTotal">Всього</th>
-                    </tr>
+                    <tr><th id="thStep">Крок</th><th id="thBet">Ставка</th><th id="thTotal">Всього</th></tr>
                 </thead>
                 <tbody id="martingaleResultBody"></tbody>
             </table>
@@ -574,10 +234,7 @@
         <div class="card">
             <div class="profile-user">
                 <div id="userAvatar" class="profile-avatar">U</div>
-                <div class="profile-info">
-                    <h2 id="profileName">Користувач</h2>
-                    <p id="profileUsername">@username</p>
-                </div>
+                <div class="profile-info"><h2 id="profileName">Користувач</h2><p id="profileUsername">@username</p></div>
             </div>
             <div class="settings-row">
                 <span id="setAccessType">Тип доступу:</span>
@@ -616,36 +273,46 @@
     </div>
 
     <div id="mainNavigation" class="nav-bar hidden">
-        <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')">
-            <i class="fa-solid fa-chart-line"></i>
-            <span id="menuSignals">Сигнали</span>
-        </div>
-        <div class="nav-item" id="navCalc" onclick="switchScreen('calc')">
-            <i class="fa-solid fa-calculator"></i>
-            <span id="menuCalc">Калькулятор</span>
-        </div>
-        <div class="nav-item" id="navProfile" onclick="switchScreen('profile')">
-            <i class="fa-solid fa-user"></i>
-            <span id="menuProfile">Профіль</span>
-        </div>
+        <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')"><i class="fa-solid fa-chart-line"></i><span id="menuSignals">Сигнали</span></div>
+        <div class="nav-item" id="navCalc" onclick="switchScreen('calc')"><i class="fa-solid fa-calculator"></i><span id="menuCalc">Калькулятор</span></div>
+        <div class="nav-item" id="navProfile" onclick="switchScreen('profile')"><i class="fa-solid fa-user"></i><span id="menuProfile">Профіль</span></div>
     </div>
 
     <script>
-        // ОБОВ'ЯЗКОВО Перевірте актуальність вашого лінку Render!
-        const API_BASE_URL = "https://butovski-signal-bot.onrender.com";
+        const API_BASE_URL = "https://butovski-signal-bot.onrender.com"; // Заміни на свій лінк Render, якщо змінився
 
+        // Масштабно розширений масив пар
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
                 { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD" } },
-                { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } }
+                { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } },
+                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } },
+                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD" } },
+                { value: "FX:USDCHF", name: { uk: "USD/CHF", en: "USD/CHF", ru: "USD/CHF" } },
+                { value: "FX:NZDUSD", name: { uk: "NZD/USD", en: "NZD/USD", ru: "NZD/USD" } }
             ],
             otc: [
-                { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } }
+                { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } },
+                { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } },
+                { value: "FX:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } }
             ],
             crypto: [
                 { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USDT", en: "BTC/USDT", ru: "BTC/USDT" } },
-                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } }
+                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } },
+                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USDT", en: "BNB/USDT", ru: "BNB/USDT" } },
+                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } },
+                { value: "BINANCE:XRPUSDT", name: { uk: "XRP/USDT", en: "XRP/USDT", ru: "XRP/USDT" } },
+                { value: "BINANCE:ADAUSDT", name: { uk: "ADA/USDT", en: "ADA/USDT", ru: "ADA/USDT" } },
+                { value: "BINANCE:DOGEUSDT", name: { uk: "DOGE/USDT", en: "DOGE/USDT", ru: "DOGE/USDT" } },
+                { value: "BINANCE:SHIBUSDT", name: { uk: "SHIB/USDT", en: "SHIB/USDT", ru: "SHIB/USDT" } },
+                { value: "BINANCE:PEPEUSDT", name: { uk: "PEPE/USDT", en: "PEPE/USDT", ru: "PEPE/USDT" } },
+                { value: "BINANCE:LINKUSDT", name: { uk: "LINK/USDT", en: "LINK/USDT", ru: "LINK/USDT" } },
+                { value: "BINANCE:MATICUSDT", name: { uk: "MATIC/USDT", en: "MATIC/USDT", ru: "MATIC/USDT" } },
+                { value: "BINANCE:AVAXUSDT", name: { uk: "AVAX/USDT", en: "AVAX/USDT", ru: "AVAX/USDT" } },
+                { value: "BINANCE:NEARUSDT", name: { uk: "NEAR/USDT", en: "NEAR/USDT", ru: "NEAR/USDT" } },
+                { value: "BINANCE:APTUSDT", name: { uk: "APT/USDT", en: "APT/USDT", ru: "APT/USDT" } },
+                { value: "BINANCE:SUIUSDT", name: { uk: "SUI/USDT", en: "SUI/USDT", ru: "SUI/USDT" } }
             ]
         };
 
@@ -653,7 +320,7 @@
             uk: {
                 loadingText: "Перевірка доступу...", lockTitle: "Доступ обмежено", lockDesc: "У вас немає активної ліцензії.",
                 lblSelectAsset: "Актив", lblSelectTimeframe: "Час (ТФ)", signalActionButton: "ОТРИМАТИ СИГНАЛ", signalActionButtonNew: "НОВИЙ СИГНАЛ",
-                lblSearching: "Пошук найкращего сигналу...", lblTimeframe: "ЧАС СИГНАЛУ", lblProba: "ЙМОВІРНІСТЬ",
+                lblSearching: "Пошук найкращого сигналу...", lblTimeframe: "ЧАС СИГНАЛУ", lblProba: "ЙМОВІРНІСТЬ",
                 lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт", lblSteps: "Кількість кроків", thStep: "Крок", thBet: "Ставка", thTotal: "Всього",
                 setAccessType: "Тип доступу:", setTheme: "Тема додатка", menuSignals: "Сигнали", menuCalc: "Калькулятор", menuProfile: "Профіль",
                 accessVip: "VIP Доступ", accessRegular: "Звичайний", txtUp: "ВВЕРХ", txtDown: "ВНИЗ", txtMin: "ХВ"
@@ -680,15 +347,14 @@
         let currentMarketType = 'real';
         let currentLang = 'uk';
         let isSignalActive = false;
+        let isRequestPending = false; // Змінна-запобіжник (антиспам)
         let signalTimer = null;
 
         if (tg) {
             tg.ready();
             tg.expand();
             if (tg.initDataUser && tg.initDataUser.language_code) {
-                if (['uk', 'en', 'ru'].includes(tg.initDataUser.language_code)) {
-                    currentLang = tg.initDataUser.language_code;
-                }
+                if (['uk', 'en', 'ru'].includes(tg.initDataUser.language_code)) currentLang = tg.initDataUser.language_code;
             }
         }
 
@@ -723,14 +389,11 @@
                     }
                     if (data.name) document.getElementById('profileName').innerText = data.name;
                     if (data.username) document.getElementById('profileUsername').innerText = "@" + data.username;
-                    if (data.photo_url) {
-                        document.getElementById('userAvatar').innerHTML = `<img src="${data.photo_url}" style="width:100%;height:100%;border-radius:50%;">`;
-                    }
+                    if (data.photo_url) document.getElementById('userAvatar').innerHTML = `<img src="${data.photo_url}" style="width:100%;height:100%;border-radius:50%;">`;
+                    
                     applyTheme(localStorage.getItem('butovski_theme') || 'cyberpunk');
                     selectLangOption(currentLang);
-                } else {
-                    document.getElementById('lockScreen').classList.remove('hidden');
-                }
+                } else { document.getElementById('lockScreen').classList.remove('hidden'); }
             })
             .catch(() => {
                 document.getElementById('loadingScreen').classList.add('hidden');
@@ -739,7 +402,7 @@
         }
 
         function changeMarketType(type) {
-            if (isSignalActive) return;
+            if (isSignalActive || isRequestPending) return;
             currentMarketType = type;
             document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
             if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
@@ -752,7 +415,6 @@
             const list = marketAssets[currentMarketType];
             const container = document.getElementById('assetCustomOptions');
             container.innerHTML = "";
-            
             list.forEach((item, index) => {
                 const nameText = item.name[currentLang] || item.name['en'];
                 const div = document.createElement('div');
@@ -760,9 +422,7 @@
                 div.innerText = nameText;
                 div.setAttribute('data-value', item.value);
                 div.onclick = () => selectAssetOption(item.value, nameText);
-                if(index === 0) {
-                    selectAssetOption(item.value, nameText);
-                }
+                if(index === 0) selectAssetOption(item.value, nameText);
                 container.appendChild(div);
             });
         }
@@ -782,18 +442,18 @@
         }
 
         function toggleCustomDropdown(id) {
-            if (isSignalActive) return;
-            document.querySelectorAll('.custom-select-wrapper').forEach(w => {
-                if (w.id !== id) w.classList.remove('open');
-            });
+            if (isSignalActive || isRequestPending) return;
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => { if (w.id !== id) w.classList.remove('open'); });
             document.getElementById(id).classList.toggle('open');
         }
 
         function handleSignalAction() {
+            // АНТИСПАМ-БЛОКУВАННЯ
+            if (isRequestPending) return;
+
             const btn = document.getElementById('signalActionButton');
             
             if (isSignalActive) {
-                // Скидання на новий пошук
                 isSignalActive = false;
                 clearInterval(signalTimer);
                 document.getElementById('resultScreen').classList.add('hidden');
@@ -802,40 +462,34 @@
                 return;
             }
 
-            // Активуємо екран пошуку сигналу
+            isRequestPending = true;
+            btn.disabled = true;
+
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('tradingviewCard').classList.add('hidden');
             document.getElementById('searchSignalScreen').classList.remove('hidden');
-            btn.disabled = true;
 
             const selectedAsset = document.getElementById('assetSelectedValue').getAttribute('data-value');
             const selectedTf = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
             const initData = tg ? tg.initData : "";
 
-            // Запит до реального TradingView API у фоні
             fetch(`${API_BASE_URL}/api/get-market-signal`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    initData: initData,
-                    asset: selectedAsset,
-                    tf: selectedTf
-                })
+                body: JSON.stringify({ initData: initData, asset: selectedAsset, tf: selectedTf })
             })
             .then(res => res.json())
             .then(data => {
-                // Виконуємо штучне утримання анімації аналізу до 3 секунд для солідності
                 setTimeout(() => {
                     document.getElementById('searchSignalScreen').classList.add('hidden');
                     btn.disabled = false;
+                    isRequestPending = false; // Знімаємо блокування
 
                     if (data.success) {
                         isSignalActive = true;
                         btn.innerText = translations[currentLang].signalActionButtonNew;
 
-                        // Відображення результату
-                        const pairTitle = document.getElementById('assetSelectedValue').innerText;
-                        document.getElementById('signalPair').innerText = pairTitle;
+                        document.getElementById('signalPair').innerText = document.getElementById('assetSelectedValue').innerText;
                         
                         const dirBadge = document.getElementById('signalDirection');
                         if (data.direction === "UP") {
@@ -846,28 +500,24 @@
                             dirBadge.className = "direction-badge bg-red";
                         }
 
-                        const currentTfText = document.getElementById('timeframeSelectedValue').innerText;
-                        document.getElementById('signalTimeframe').innerText = currentTfText.toUpperCase();
+                        document.getElementById('signalTimeframe').innerText = document.getElementById('timeframeSelectedValue').innerText.toUpperCase();
                         document.getElementById('signalProbability').innerText = data.probability + "%";
 
                         document.getElementById('resultScreen').classList.remove('hidden');
                         document.getElementById('tradingviewCard').classList.remove('hidden');
 
-                        // Ініціалізація інформера графіка TradingView
                         const currentTheme = localStorage.getItem('butovski_theme') || 'cyberpunk';
                         initTradingViewWidget(currentTheme, selectedAsset, selectedTf);
-
-                        // Запуск інтерактивного таймера
+                        
                         startSignalTimer(parseInt(selectedTf) * 60);
-                    } else {
-                        alert("Не вдалося обробити технічний індикатор.");
-                    }
-                }, 3000); // 3000 мілісекунд = 3 секунди аналізу
+                    } else { alert("Не вдалося обробити технічний індикатор."); }
+                }, 3000);
             })
             .catch(() => {
                 setTimeout(() => {
                     document.getElementById('searchSignalScreen').classList.add('hidden');
                     btn.disabled = false;
+                    isRequestPending = false;
                     alert("Помилка зв'язку з аналітичним сервером.");
                 }, 3000);
             });
@@ -882,19 +532,17 @@
             function updateProgress() {
                 minutes = parseInt(timer / 60, 10);
                 seconds = parseInt(timer % 60, 10);
-
                 minutes = minutes < 10 ? "0" + minutes : minutes;
                 seconds = seconds < 10 ? "0" + seconds : seconds;
 
                 digits.innerText = `${minutes}:${seconds} / ${parseInt(durationSeconds/60,10)}:00`;
-                
                 let pct = (timer / durationSeconds) * 100;
                 bar.style.width = pct + "%";
                 bar.style.backgroundColor = pct > 50 ? 'var(--green-signal)' : (pct > 20 ? '#f59e0b' : 'var(--red-signal)');
 
                 if (--timer < 0) {
                     clearInterval(signalTimer);
-                    handleSignalAction(); // Автоматичне скидання по завершенню
+                    handleSignalAction(); 
                 }
             }
             updateProgress();
@@ -902,28 +550,19 @@
         }
 
         function switchScreen(screenName) {
-            if (isSignalActive) return;
+            if (isSignalActive || isRequestPending) return;
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
-            if (screenName === 'signals') {
-                document.getElementById('screenSignals').classList.remove('hidden');
-                document.getElementById('navSignals').classList.add('active');
-            } else if (screenName === 'calc') {
-                document.getElementById('screenCalc').classList.remove('hidden');
-                document.getElementById('navCalc').classList.add('active');
-            } else if (screenName === 'profile') {
-                document.getElementById('screenProfile').classList.remove('hidden');
-                document.getElementById('navProfile').classList.add('active');
-            }
+            if (screenName === 'signals') { document.getElementById('screenSignals').classList.remove('hidden'); document.getElementById('navSignals').classList.add('active'); }
+            else if (screenName === 'calc') { document.getElementById('screenCalc').classList.remove('hidden'); document.getElementById('navCalc').classList.add('active'); }
+            else if (screenName === 'profile') { document.getElementById('screenProfile').classList.remove('hidden'); document.getElementById('navProfile').classList.add('active'); }
         }
 
         function applyTheme(themeName) {
             document.body.setAttribute('data-theme', themeName);
             localStorage.setItem('butovski_theme', themeName);
             document.getElementById('themeSelectedValue').innerText = themeName.charAt(0).toUpperCase() + themeName.slice(1);
-            
-            // Якщо активовано віджет TradingView, оновлюємо його тему
             if (isSignalActive) {
                 const selectedAsset = document.getElementById('assetSelectedValue').getAttribute('data-value');
                 const selectedTf = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
@@ -931,39 +570,23 @@
             }
         }
 
-        function selectThemeOption(theme) {
-            applyTheme(theme);
-            document.getElementById('themeDropdownWrapper').classList.remove('open');
-        }
+        function selectThemeOption(theme) { applyTheme(theme); document.getElementById('themeDropdownWrapper').classList.remove('open'); }
 
         function selectLangOption(lang) {
             currentLang = lang;
             document.getElementById('langSelectedValue').innerText = lang === 'uk' ? "Українська" : (lang === 'en' ? "English" : "Русский");
             document.getElementById('langDropdownWrapper').classList.remove('open');
-
-            // Застосування перекладів інтерфейсу
             const t = translations[lang];
-            document.getElementById('loadingText').innerText = t.loadingText;
-            document.getElementById('lockTitle').innerText = t.lockTitle;
-            document.getElementById('lockDesc').innerText = t.lockDesc;
-            document.getElementById('lblSelectAsset').innerText = t.lblSelectAsset;
-            document.getElementById('lblSelectTimeframe').innerText = t.lblSelectTimeframe;
-            if(!isSignalActive) document.getElementById('signalActionButton').innerText = t.signalActionButton;
-            document.getElementById('lblSearching').innerText = t.lblSearching;
-            document.getElementById('lblTimeframe').innerText = t.lblTimeframe;
-            document.getElementById('lblProba').innerText = t.lblProba;
-            document.getElementById('lblStartBet').innerText = t.lblStartBet;
-            document.getElementById('lblMultiplier').innerText = t.lblMultiplier;
-            document.getElementById('lblSteps').innerText = t.lblSteps;
-            document.getElementById('thStep').innerText = t.thStep;
-            document.getElementById('thBet').innerText = t.thBet;
-            document.getElementById('thTotal').innerText = t.thTotal;
-            document.getElementById('setAccessType').innerText = t.setAccessType;
-            document.getElementById('setTheme').innerText = t.setTheme;
-            document.getElementById('menuSignals').innerText = t.menuSignals;
-            document.getElementById('menuCalc').innerText = t.menuCalc;
-            document.getElementById('menuProfile').innerText = t.menuProfile;
-
+            
+            document.getElementById('loadingText').innerText = t.loadingText; document.getElementById('lockTitle').innerText = t.lockTitle; document.getElementById('lockDesc').innerText = t.lockDesc;
+            document.getElementById('lblSelectAsset').innerText = t.lblSelectAsset; document.getElementById('lblSelectTimeframe').innerText = t.lblSelectTimeframe;
+            if(!isSignalActive && !isRequestPending) document.getElementById('signalActionButton').innerText = t.signalActionButton;
+            document.getElementById('lblSearching').innerText = t.lblSearching; document.getElementById('lblTimeframe').innerText = t.lblTimeframe; document.getElementById('lblProba').innerText = t.lblProba;
+            document.getElementById('lblStartBet').innerText = t.lblStartBet; document.getElementById('lblMultiplier').innerText = t.lblMultiplier; document.getElementById('lblSteps').innerText = t.lblSteps;
+            document.getElementById('thStep').innerText = t.thStep; document.getElementById('thBet').innerText = t.thBet; document.getElementById('thTotal').innerText = t.thTotal;
+            document.getElementById('setAccessType').innerText = t.setAccessType; document.getElementById('setTheme').innerText = t.setTheme;
+            document.getElementById('menuSignals').innerText = t.menuSignals; document.getElementById('menuCalc').innerText = t.menuCalc; document.getElementById('menuProfile').innerText = t.menuProfile;
+            
             renderAssetOptions();
             const currentTfVal = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
             selectTimeframeOption(currentTfVal);
@@ -973,12 +596,8 @@
             const bet = parseFloat(document.getElementById('startBet').value) || 1;
             const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
-            
-            const body = document.getElementById('martingaleResultBody');
-            body.innerHTML = "";
-            
-            let total = 0;
-            let currentBet = bet;
+            const body = document.getElementById('martingaleResultBody'); body.innerHTML = "";
+            let total = 0, currentBet = bet;
             
             for (let i = 1; i <= steps; i++) {
                 total += currentBet;
@@ -989,19 +608,17 @@
 
         function initTradingViewWidget(theme, asset, timeframe) {
             document.getElementById('tradingview_widget').innerHTML = "";
+            
+            // Якщо для TradingView віджету ТФ 3хв не є стандартним (відобразить помилку), віджетові передаємо 1хв, 
+            // але логіка додатку працюватиме рівно 3 хв.
+            let widgetTf = timeframe;
+            if (widgetTf === "3") widgetTf = "1";
+
             if (typeof TradingView !== 'undefined') {
                 new TradingView.widget({
-                    "autosize": true,
-                    "symbol": asset,
-                    "interval": timeframe,
-                    "timezone": "Etc/UTC",
-                    "theme": (theme === 'light') ? 'light' : 'dark',
-                    "style": "1",
-                    "locale": currentLang,
-                    "toolbar_bg": "#f1f3f6",
-                    "enable_publishing": false,
-                    "hide_legend": true,
-                    "save_image": false,
+                    "autosize": true, "symbol": asset, "interval": widgetTf, "timezone": "Etc/UTC",
+                    "theme": (theme === 'light') ? 'light' : 'dark', "style": "1", "locale": currentLang,
+                    "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_legend": true, "save_image": false,
                     "container_id": "tradingview_widget"
                 });
             }
