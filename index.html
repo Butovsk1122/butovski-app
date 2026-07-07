@@ -406,6 +406,7 @@
             }
         };
 
+        // ПОВЕРНЕНО ОБОБОВ'ЯЗКОВУ АВТОРЕЄСТРАЦІЮ КОРИСТУВАЧА ЯК У ПОЧАТКОВОМУ КОДІ
         function initApp() {
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.custom-select-wrapper')) {
@@ -514,7 +515,6 @@
             if (screenId === 'profile') fetchAnalyticsStats();
         }
 
-        // КЛІЄНТСЬКА ФУНКЦІЯ: ЗАВАНТАЖЕННЯ АНАЛІТИКИ З БЕКЕНДУ
         function fetchAnalyticsStats() {
             const initData = tg ? tg.initData : "";
             fetch(`${API_BASE_URL}/api/get-analytics-stats`, {
