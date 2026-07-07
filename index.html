@@ -13,23 +13,31 @@
         :root, [data-theme="cyberpunk"] {
             --bg-color: #0d0f14; --card-bg: #141822; --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
             --text-main: #ffffff; --text-muted: #64748b; --border-color: #232a3d; --nav-bg: #0a0c10;
-            --tv-theme: dark; --red-signal: #ef4444; --green-signal: #10b981; --dropdown-bg: #1a1f2c; --dropdown-hover: #242b3d;
+            --tv-theme: dark; --red-signal: #ef4444; --green-signal: #10b981;
+            --dropdown-bg: #1a1f2c; --dropdown-hover: #242b3d;
         }
+
         [data-theme="emerald"] {
             --bg-color: #061712; --card-bg: #0b241e; --accent-gradient: linear-gradient(135deg, #10b981, #059669);
             --text-main: #ecfdf5; --text-muted: #64748b; --border-color: #123a30; --nav-bg: #04100c;
-            --tv-theme: dark; --red-signal: #f43f5e; --green-signal: #34d399; --dropdown-bg: #0f3128; --dropdown-hover: #16483b;
+            --tv-theme: dark; --red-signal: #f43f5e; --green-signal: #34d399;
+            --dropdown-bg: #0f3128; --dropdown-hover: #16483b;
         }
+
         [data-theme="nordic"] {
             --bg-color: #1a202c; --card-bg: #2d3748; --accent-gradient: linear-gradient(135deg, #3182ce, #4299e1);
             --text-main: #f7fafc; --text-muted: #a0aec0; --border-color: #4a5568; --nav-bg: #171923;
-            --tv-theme: dark; --red-signal: #e53e3e; --green-signal: #38a169; --dropdown-bg: #2d3748; --dropdown-hover: #4a5568;
+            --tv-theme: dark; --red-signal: #e53e3e; --green-signal: #38a169;
+            --dropdown-bg: #2d3748; --dropdown-hover: #4a5568;
         }
+
         [data-theme="light"] {
             --bg-color: #f8fafc; --card-bg: #ffffff; --accent-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
             --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0; --nav-bg: #f1f5f9;
-            --tv-theme: light; --red-signal: #dc2626; --green-signal: #16a34a; --dropdown-bg: #ffffff; --dropdown-hover: #f1f5f9;
+            --tv-theme: light; --red-signal: #dc2626; --green-signal: #16a34a;
+            --dropdown-bg: #ffffff; --dropdown-hover: #f1f5f9;
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; user-select: none; }
         body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; padding-bottom: 75px; transition: background-color 0.3s, color 0.3s; }
         .hidden { display: none !important; }
@@ -39,15 +47,19 @@
         .full-screen-center { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
         .spinner { width: 50px; height: 50px; border: 5px solid var(--border-color); border-top: 5px solid #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
         .search-signal-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 16px; text-align: center; }
         .mini-spinner { width: 36px; height: 36px; border: 4px solid var(--border-color); border-top: 4px solid #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 12px; }
+        .lock-icon { font-size: 64px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
         
         .brand-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); }
         .brand-logo { font-weight: 700; font-size: 20px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .vip-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); }
+
         .market-switcher-container { display: flex; gap: 8px; margin-bottom: 16px; }
         .market-btn { flex: 1; padding: 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); background-color: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 10px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
         .market-btn.active { background: var(--accent-gradient); color: #ffffff !important; border-color: transparent; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+
         .signal-selectors-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
         .selector-box label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
         .custom-select-wrapper { position: relative; width: 100%; }
@@ -55,42 +67,47 @@
         .custom-select-wrapper.open .custom-select-trigger { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2); }
         .custom-select-trigger i { font-size: 12px; color: var(--text-muted); transition: transform 0.2s ease; }
         .custom-select-wrapper.open .custom-select-trigger i { transform: rotate(180deg); color: #6366f1; }
+        
         .custom-options-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background-color: var(--dropdown-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); z-index: 2000; max-height: 220px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
         .custom-select-wrapper.open .custom-options-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
         .custom-option { padding: 12px 14px; font-size: 14px; font-weight: 500; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.15s; }
         .custom-option:hover, .custom-option.selected { background-color: var(--dropdown-hover); font-weight: 600; }
-        
+
         .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 500; cursor: pointer; width: 25%; transition: color 0.2s; text-align: center; }
         .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: #6366f1; }
+
         .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
         .btn-action-signal { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); transition: transform 0.1s; opacity: 1; }
         .btn-action-signal:active { transform: scale(0.98); }
         .btn-action-signal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-        
+
         .btn-screener-nav { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
         .btn-screener-nav:active { transform: scale(0.98); }
         .btn-screener-nav:disabled { opacity: 0.6; cursor: not-allowed; }
+        
         .screener-box { background-color: rgba(0,0,0,0.15); border: 1px dashed var(--border-color); border-radius: 12px; padding: 14px; margin-top: 14px; }
         .screener-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
         .screener-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
         .screener-row:last-child { border-bottom: none; }
-        
+
         .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .pair-title { font-size: 24px; font-weight: 700; }
         .direction-badge { padding: 6px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; }
         .bg-green { background-color: var(--green-signal); color: white; }
         .bg-red { background-color: var(--red-signal); color: white; }
+
         .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
         .grid-item { background-color: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; }
         .grid-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
         .grid-value { font-size: 16px; font-weight: 600; }
+
         .progress-container { background-color: var(--border-color); border-radius: 10px; height: 6px; width: 100%; overflow: hidden; margin-bottom: 10px; }
         .progress-bar { height: 100%; width: 100%; transition: width 1s linear; }
         .timer-text { text-align: center; font-size: 12px; color: var(--text-muted); font-weight: 500; }
         .warning-box { width: 100%; padding: 10px; margin-top: 14px; background-color: rgba(245, 158, 11, 0.1); border: 1px dashed #f59e0b; border-radius: 8px; text-align: center; color: #f59e0b; font-size: 11px; font-weight: 600; }
-        
+
         .profile-user { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
         .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); display: flex; justify-content: center; align-items: center; font-size: 24px; color: white; }
         .profile-info h2 { font-size: 18px; font-weight: 600; }
@@ -98,7 +115,7 @@
         .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
         .settings-row:last-child { border-bottom: none; }
         .settings-row .custom-select-wrapper { width: 160px; }
-        
+
         .calc-input-group { margin-bottom: 16px; }
         .calc-input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
         .calc-input { width: 100%; background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 8px; font-size: 15px; outline: none; }
@@ -114,217 +131,250 @@
         <p id="loadingText">Перевірка доступу...</p>
     </div>
 
-    <div id="brandLine" class="brand-header hidden">
-        <div class="brand-logo">BUTOVSKI SIGNAL</div>
-        <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
+    <div id="lockScreen" class="full-screen-center hidden">
+        <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
+        <h2 id="lockTitle">Доступ обмежено</h2>
+        <p id="lockDesc">У вас немає активної ліцензії.</p>
     </div>
 
-    <div id="screenSignals" class="screen hidden">
-        <div class="market-switcher-container">
-            <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
-            <button id="btnOtcMarket" class="market-btn" onclick="changeMarketType('otc')">OTC Ринок</button>
-            <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
+    <div id="appContainer" class="hidden">
+        <div id="brandLine" class="brand-header">
+            <div class="brand-logo">BUTOVSKI SIGNAL</div>
+            <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
         </div>
 
-        <div class="card" style="padding: 14px; margin-bottom: 12px;">
-            <div class="signal-selectors-container">
-                <div class="selector-box">
-                    <label id="lblSelectAsset">Актив</label>
-                    <div class="custom-select-wrapper" id="assetDropdownWrapper">
-                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('assetDropdownWrapper')">
-                            <span id="assetSelectedValue">Завантаження...</span>
+        <div id="screenSignals" class="screen hidden">
+            <div class="market-switcher-container">
+                <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
+                <button id="btnOtcMarket" class="market-btn" onclick="changeMarketType('otc')">OTC Ринок</button>
+                <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
+            </div>
+
+            <div class="card" style="padding: 14px; margin-bottom: 12px;">
+                <div class="signal-selectors-container">
+                    <div class="selector-box">
+                        <label id="lblSelectAsset">Актив</label>
+                        <div class="custom-select-wrapper" id="assetDropdownWrapper">
+                            <div class="custom-select-trigger" onclick="toggleCustomDropdown('assetDropdownWrapper')">
+                                <span id="assetSelectedValue">Завантаження...</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="custom-options-dropdown" id="assetCustomOptions"></div>
+                        </div>
+                    </div>
+
+                    <div class="selector-box">
+                        <label id="lblSelectTimeframe">Час (ТФ)</label>
+                        <div class="custom-select-wrapper" id="timeframeDropdownWrapper">
+                            <div class="custom-select-trigger" onclick="toggleCustomDropdown('timeframeDropdownWrapper')">
+                                <span id="timeframeSelectedValue" data-value="1">1 хв</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                            <div class="custom-options-dropdown" id="timeframeCustomOptions">
+                                <div class="custom-option" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
+                                <div class="custom-option" data-value="3" onclick="selectTimeframeOption('3')">3 хв</div>
+                                <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
+                                <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 хв</div>
+                                <div class="custom-option" data-value="30" onclick="selectTimeframeOption('30')">30 хв</div>
+                                <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60')">1 год</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
+            </div>
+
+            <div id="searchSignalScreen" class="card search-signal-box hidden">
+                <div class="mini-spinner"></div>
+                <p id="lblSearching">Пошук найкращого сигналу...</p>
+            </div>
+
+            <div id="resultScreen" class="card hidden">
+                <div class="signal-header">
+                    <div class="pair-title" id="signalPair">EUR/USD</div>
+                    <div class="direction-badge" id="signalDirection">ВВЕРХ</div>
+                </div>
+                <div class="signal-grid">
+                    <div class="grid-item">
+                        <div class="grid-label" id="lblTimeframe">ЧАС СИГНАЛУ</div>
+                        <div class="grid-value" id="signalTimeframe">1 ХВИЛИНА</div>
+                    </div>
+                    <div class="grid-item">
+                        <div class="grid-label" id="lblProba">ЙМОВІРНІСТЬ</div>
+                        <div class="grid-value" id="signalProbability">94%</div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div id="progressFill" class="progress-bar"></div>
+                </div>
+                <div class="timer-text" id="timerDigits">00:00/00:00</div>
+                <div id="signalWarning" class="warning-box hidden">⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)</div>
+            </div>
+
+            <div id="tradingviewCard" class="card hidden" style="padding:0; height: 250px; overflow: hidden;">
+                <div id="tradingview_widget" style="height:100%; width:100%;"></div>
+            </div>
+        </div>
+
+        <div id="screenScreener" class="screen hidden">
+            <div class="card">
+                <button id="btnScreener" class="btn-screener-nav" onclick="handleMarketScan()">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i> <span id="lblScreenerBtn">Знайти сприятливі пари</span>
+                </button>
+                <div id="screenerBox" class="screener-box hidden">
+                    <div class="screener-title" id="lblScreenerTitle">📊 Рекомендовані стабільні пари:</div>
+                    <div id="screenerList"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="screenCalc" class="screen hidden">
+            <div class="card">
+                <div class="calc-input-group">
+                    <label id="lblStartBet">Початкова ставка ($)</label>
+                    <input type="number" id="startBet" class="calc-input" value="1" oninput="calculateMartingale()">
+                </div>
+                <div class="calc-input-group">
+                    <label id="lblMultiplier">Коефіцієнт</label>
+                    <input type="number" id="multiplier" class="calc-input" value="2.2" step="0.1" oninput="calculateMartingale()">
+                </div>
+                <div class="calc-input-group">
+                    <label id="lblSteps">Кількість кроків</label>
+                    <input type="number" id="stepsCount" class="calc-input" value="5" min="1" max="10" oninput="calculateMartingale()">
+                </div>
+                <table class="calc-table">
+                    <thead>
+                        <tr><th id="thStep">Крок</th><th id="thBet">Ставка</th><th id="thTotal">Всього</th></tr>
+                    </thead>
+                    <tbody id="martingaleResultBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="screenProfile" class="screen hidden">
+            <div class="card">
+                <div class="profile-user">
+                    <div id="userAvatar" class="profile-avatar">U</div>
+                    <div class="profile-info"><h2 id="profileName">Користувач</h2><p id="profileUsername">@username</p></div>
+                </div>
+                <div class="settings-row">
+                    <span id="setAccessType">Тип доступу:</span>
+                    <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
+                </div>
+                <div class="settings-row">
+                    <span id="setTheme">Тема додатка</span>
+                    <div class="custom-select-wrapper" id="themeDropdownWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
+                            <span id="themeSelectedValue" data-value="cyberpunk">Cyberpunk</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
-                        <div class="custom-options-dropdown" id="assetCustomOptions"></div>
+                        <div class="custom-options-dropdown" id="themeCustomOptions">
+                            <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk')">Cyberpunk</div>
+                            <div class="custom-option" data-value="emerald" onclick="selectThemeOption('emerald')">Emerald</div>
+                            <div class="custom-option" data-value="nordic" onclick="selectThemeOption('nordic')">Nordic</div>
+                            <div class="custom-option" data-value="light" onclick="selectThemeOption('light')">Light</div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="selector-box">
-                    <label id="lblSelectTimeframe">Час (ТФ)</label>
-                    <div class="custom-select-wrapper" id="timeframeDropdownWrapper">
-                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('timeframeDropdownWrapper')">
-                            <span id="timeframeSelectedValue" data-value="1">1 хв</span>
+                <div class="settings-row">
+                    <span>Мова / Language</span>
+                    <div class="custom-select-wrapper" id="langDropdownWrapper">
+                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
+                            <span id="langSelectedValue" data-value="uk">Українська</span>
                             <i class="fa-solid fa-chevron-down"></i>
                         </div>
-                        <div class="custom-options-dropdown" id="timeframeCustomOptions">
-                            <div class="custom-option" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
-                            <div class="custom-option" data-value="3" onclick="selectTimeframeOption('3')">3 хв</div>
-                            <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
-                            <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 хв</div>
-                            <div class="custom-option" data-value="30" onclick="selectTimeframeOption('30')">30 хв</div>
-                            <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60')">1 год</div>
+                        <div class="custom-options-dropdown" id="langCustomOptions">
+                            <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk')">Українська</div>
+                            <div class="custom-option" data-value="en" onclick="selectLangOption('en')">English</div>
+                            <div class="custom-option" data-value="ru" onclick="selectLangOption('ru')">Русский</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
         </div>
 
-        <div id="searchSignalScreen" class="card search-signal-box hidden">
-            <div class="mini-spinner"></div>
-            <p id="lblSearching">Пошук найкращого сигналу...</p>
+        <div id="mainNavigation" class="nav-bar">
+            <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')"><i class="fa-solid fa-chart-line"></i><span id="menuSignals">Сигнали</span></div>
+            <div class="nav-item" id="navScreener" onclick="switchScreen('screener')"><i class="fa-solid fa-magnifying-glass-chart"></i><span id="menuScreener">Сканер</span></div>
+            <div class="nav-item" id="navCalc" onclick="switchScreen('calc')"><i class="fa-solid fa-calculator"></i><span id="menuCalc">Калькулятор</span></div>
+            <div class="nav-item" id="navProfile" onclick="switchScreen('profile')"><i class="fa-solid fa-user"></i><span id="menuProfile">Профіль</span></div>
         </div>
-
-        <div id="resultScreen" class="card hidden">
-            <div class="signal-header">
-                <div class="pair-title" id="signalPair">EUR/USD</div>
-                <div class="direction-badge" id="signalDirection">ВВЕРХ</div>
-            </div>
-            <div class="signal-grid">
-                <div class="grid-item">
-                    <div class="grid-label" id="lblTimeframe">ЧАС СИГНАЛУ</div>
-                    <div class="grid-value" id="signalTimeframe">1 ХВИЛИНА</div>
-                </div>
-                <div class="grid-item">
-                    <div class="grid-label" id="lblProba">ЙМОВІРНІСТЬ</div>
-                    <div class="grid-value" id="signalProbability">94%</div>
-                </div>
-            </div>
-            <div class="progress-container">
-                <div id="progressFill" class="progress-bar"></div>
-            </div>
-            <div class="timer-text" id="timerDigits">00:00/00:00</div>
-            <div id="signalWarning" class="warning-box hidden">⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)</div>
-        </div>
-
-        <div id="tradingviewCard" class="card hidden" style="padding:0; height: 250px; overflow: hidden;">
-            <div id="tradingview_widget" style="height:100%; width:100%;"></div>
-        </div>
-    </div>
-
-    <div id="screenScreener" class="screen hidden">
-        <div class="card">
-            <button id="btnScreener" class="btn-screener-nav" onclick="handleMarketScan()">
-                <i class="fa-solid fa-magnifying-glass-chart"></i> <span id="lblScreenerBtn">Знайти сприятливі пари</span>
-            </button>
-            <div id="screenerBox" class="screener-box hidden">
-                <div class="screener-title" id="lblScreenerTitle">📊 Рекомендовані стабільні пари:</div>
-                <div id="screenerList"></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="screenCalc" class="screen hidden">
-        <div class="card">
-            <div class="calc-input-group">
-                <label id="lblStartBet">Початкова ставка ($)</label>
-                <input type="number" id="startBet" class="calc-input" value="1" oninput="calculateMartingale()">
-            </div>
-            <div class="calc-input-group">
-                <label id="lblMultiplier">Коефіцієнт</label>
-                <input type="number" id="multiplier" class="calc-input" value="2.2" step="0.1" oninput="calculateMartingale()">
-            </div>
-            <div class="calc-input-group">
-                <label id="lblSteps">Кількість кроків</label>
-                <input type="number" id="stepsCount" class="calc-input" value="5" min="1" max="10" oninput="calculateMartingale()">
-            </div>
-            <table class="calc-table">
-                <thead>
-                    <tr><th id="thStep">Крок</th><th id="thBet">Ставка</th><th id="thTotal">Всього</th></tr>
-                </thead>
-                <tbody id="martingaleResultBody"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="screenProfile" class="screen hidden">
-        <div class="card">
-            <div class="profile-user">
-                <div id="userAvatar" class="profile-avatar">U</div>
-                <div class="profile-info"><h2 id="profileName">Користувач</h2><p id="profileUsername">@username</p></div>
-            </div>
-            <div class="settings-row">
-                <span id="setAccessType">Тип доступу:</span>
-                <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
-            </div>
-            <div class="settings-row">
-                <span id="setTheme">Тема додатка</span>
-                <div class="custom-select-wrapper" id="themeDropdownWrapper">
-                    <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
-                        <span id="themeSelectedValue" data-value="cyberpunk">Cyberpunk</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="custom-options-dropdown" id="themeCustomOptions">
-                        <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk')">Cyberpunk</div>
-                        <div class="custom-option" data-value="emerald" onclick="selectThemeOption('emerald')">Emerald</div>
-                        <div class="custom-option" data-value="nordic" onclick="selectThemeOption('nordic')">Nordic</div>
-                        <div class="custom-option" data-value="light" onclick="selectThemeOption('light')">Light</div>
-                    </div>
-                </div>
-            </div>
-            <div class="settings-row">
-                <span>Мова / Language</span>
-                <div class="custom-select-wrapper" id="langDropdownWrapper">
-                    <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
-                        <span id="langSelectedValue" data-value="uk">Українська</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="custom-options-dropdown" id="langCustomOptions">
-                        <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk')">Українська</div>
-                        <div class="custom-option" data-value="en" onclick="selectLangOption('en')">English</div>
-                        <div class="custom-option" data-value="ru" onclick="selectLangOption('ru')">Русский</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="mainNavigation" class="nav-bar hidden">
-        <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')"><i class="fa-solid fa-chart-line"></i><span id="menuSignals">Сигнали</span></div>
-        <div class="nav-item" id="navScreener" onclick="switchScreen('screener')"><i class="fa-solid fa-magnifying-glass-chart"></i><span id="menuScreener">Сканер</span></div>
-        <div class="nav-item" id="navCalc" onclick="switchScreen('calc')"><i class="fa-solid fa-calculator"></i><span id="menuCalc">Калькулятор</span></div>
-        <div class="nav-item" id="navProfile" onclick="switchScreen('profile')"><i class="fa-solid fa-user"></i><span id="menuProfile">Профіль</span></div>
     </div>
 
     <script>
-        const API_BASE_URL = "https://butovski-signal-bot.onrender.com"; // Вкажи свій актуальний лінк на Render
-        
+        const API_BASE_URL = "https://butovski-signal-bot.onrender.com";
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
                 { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD" } },
                 { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } },
                 { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } },
-                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD" } }
+                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD" } },
+                { value: "FX:USDCHF", name: { uk: "USD/CHF", en: "USD/CHF", ru: "USD/CHF" } },
+                { value: "FX:EURGBP", name: { uk: "EUR/GBP", en: "EUR/GBP", ru: "EUR/GBP" } },
+                { value: "FX:EURJPY", name: { uk: "EUR/JPY", en: "EUR/JPY", ru: "EUR/JPY" } },
+                { value: "FX:GBPJPY", name: { uk: "GBP/JPY", en: "GBP/JPY", ru: "GBP/JPY" } },
+                { value: "FX:AUDJPY", name: { uk: "AUD/JPY", en: "AUD/JPY", ru: "AUD/JPY" } }
             ],
             otc: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } },
                 { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } },
-                { value: "FX:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } }
+                { value: "FX:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } },
+                { value: "FX:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)" } },
+                { value: "FX:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)" } }
             ],
             crypto: [
                 { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USDT", en: "BTC/USDT", ru: "BTC/USDT" } },
                 { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } },
-                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } }
+                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } },
+                { value: "BINANCE:XRPUSDT", name: { uk: "XRP/USDT", en: "XRP/USDT", ru: "XRP/USDT" } },
+                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USDT", en: "BNB/USDT", ru: "BNB/USDT" } }
             ]
         };
 
-        let currentMarketType = "real";
-        let currentLang = "uk";
-        let isVipUser = false;
-        let signalTimer = null;
-
         const localization = {
             uk: {
-                loading: "Перевірка доступу...", search: "Пошук найкращого сигналу...",
-                tfLabel: "ЧАС СИГНАЛУ", probaLabel: "ЙМОВІРНІСТЬ", min: "хв", hour: "год",
-                getSignal: "ОТРИМАТИ СИГНАЛ", wait: "ЗАЧЕКАЙТЕ...", up: "ВВЕРХ ⬆️", down: "ВНИЗ ⬇️"
+                loading: "Перевірка доступу...", denied: "Доступ обмежено", deniedDesc: "У вашого Telegram-акаунта немає активної ліцензії для Butovski App.",
+                selectAsset: "Актив", selectTf: "Час (ТФ)", getSignal: "ОТРИМАТИ СИГНАЛ", searching: "Пошук найкращого сигналу...",
+                timeframe: "ЧАС СИГНАЛУ", probability: "ЙМОВІРНІСТЬ", realMarket: "Реальний ринок", otcMarket: "OTC Ринок",
+                cryptoMarket: "Crypto", findPairs: "Знайти сприятливі пари", stablePairs: "📊 Рекомендовані стабільні пари:",
+                startBet: "Початкова ставка ($)", multiplier: "Коефіцієнт", steps: "Кількість кроків", step: "Крок", bet: "Ставка", total: "Всього",
+                accessType: "Тип доступу:", theme: "Тема додатка", menuSignals: "Сигнали", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профіль"
             },
             en: {
-                loading: "Checking access...", search: "Searching for the best signal...",
-                tfLabel: "SIGNAL TIME", probaLabel: "PROBABILITY", min: "m", hour: "h",
-                getSignal: "GET SIGNAL", wait: "PLEASE WAIT...", up: "BUY ⬆️", down: "SELL ⬇️"
+                loading: "Checking access...", denied: "Access Denied", deniedDesc: "Your Telegram account does not have an active license for Butovski App.",
+                selectAsset: "Asset", selectTf: "Timeframe", getSignal: "GET SIGNAL", searching: "Searching for best signal...",
+                timeframe: "TIMEFRAME", probability: "PROBABILITY", realMarket: "Real Market", otcMarket: "OTC Market",
+                cryptoMarket: "Crypto", findPairs: "Find Stable Pairs", stablePairs: "📊 Recommended Stable Pairs:",
+                startBet: "Initial Bet ($)", multiplier: "Multiplier", steps: "Steps Count", step: "Step", bet: "Bet", total: "Total",
+                accessType: "Access Type:", theme: "App Theme", menuSignals: "Signals", menuScreener: "Screener", menuCalc: "Calculator", menuProfile: "Profile"
             },
             ru: {
-                loading: "Проверка доступа...", search: "Поиск лучшего сигнала...",
-                tfLabel: "ВРЕМЯ СИГНАЛА", probaLabel: "ВЕРОЯТНОСТЬ", min: "мин", hour: "ч",
-                getSignal: "ПОЛУЧИТЬ СИГНАЛ", wait: "ПОДОЖДИТЕ...", up: "ВВЕРХ ⬆️", down: "ВНИЗ ⬇️"
+                loading: "Проверка доступа...", denied: "Доступ ограничен", deniedDesc: "У вашего Telegram-аккаунта нет активной лицензии для Butovski App.",
+                selectAsset: "Актив", selectTf: "Время (ТФ)", getSignal: "ПОЛУЧИТЬ СИГНАЛ", searching: "Поиск лучшего сигнала...",
+                timeframe: "ВРЕМЯ СИГНАЛА", probability: "ВЕРОЯТНОСТЬ", realMarket: "Реальный рынок", otcMarket: "OTC Рынок",
+                cryptoMarket: "Crypto", findPairs: "Найти стабильные пары", stablePairs: "📊 Рекомендуемые стабильные пары:",
+                startBet: "Начальная ставка ($)", multiplier: "Коэффициент", steps: "Количество шагов", step: "Шаг", bet: "Ставка", total: "Всего",
+                accessType: "Тип доступа:", theme: "Тема приложения", menuSignals: "Сигналы", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профиль"
             }
         };
 
-        // КРИТИЧНЕ ОНОВЛЕННЯ: Повна перевірка доступу з жорстким блокуванням UI
+        let currentLang = "uk";
+        let currentMarketType = "real";
+        let activeAssetValue = "";
+        let activeTimeframeValue = "1";
+        let isVipUser = false;
+        let signalTimer = null;
+
+        // ЖОРСТКА АВТОРИЗАЦІЯ ПРИ ЗАВАНТАЖЕННІ
         async function checkUserAccess() {
             const initData = window.Telegram?.WebApp?.initData || "";
+            
+            if (!initData || initData.trim() === "") {
+                showHardLockScreen();
+                return;
+            }
+
             try {
                 const response = await fetch(`${API_BASE_URL}/api/check-user`, {
                     method: 'POST',
@@ -333,230 +383,297 @@
                 });
 
                 if (!response.ok) {
-                    showAccessDeniedScreen();
+                    showHardLockScreen();
                     return;
                 }
 
                 const result = await response.json();
-                if (result.has_access === true) {
-                    isVipUser = result.is_vip;
+
+                if (result && result.has_access === true) {
+                    isVipUser = !!result.is_vip;
+                    
+                    // ХОВАЄМО ЛОАДЕР ТА ОДНОЧАСНО ВМИКАЄМО КОНТЕЙНЕР ПРОГРАМИ
+                    document.getElementById('loadingScreen').classList.add('hidden');
+                    document.getElementById('appContainer').classList.remove('hidden');
+                    
                     initApp();
                 } else {
-                    showAccessDeniedScreen();
+                    showHardLockScreen();
                 }
-            } catch (error) {
-                console.error("Помилка авторизації:", error);
-                showAccessDeniedScreen();
+            } catch (e) {
+                console.error(e);
+                showHardLockScreen();
             }
         }
 
-        // Функція малювання екрана жорсткого блокування (Замість завантаження додатка)
-        function showAccessDeniedScreen() {
-            document.body.innerHTML = `
-                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #0d0f14; color: #ffffff; text-align: center; padding: 20px;">
-                    <i class="fas fa-lock" style="font-size: 60px; color: #ef4444; margin-bottom: 20px; background: linear-gradient(135deg, #ef4444, #b91c1c); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
-                    <h2 style="font-weight: 700; margin-bottom: 12px; letter-spacing: 0.5px;">Доступ обмежено</h2>
-                    <p style="color: #64748b; font-size: 14px; max-width: 290px; line-height: 1.6;">
-                        У вашого Telegram-акаунта немає активної ліцензії для <b>Butovski App</b>.<br><br>
-                        Перейдіть у головний бот та очікуйте активації від адміністратора.
-                    </p>
-                </div>
-            `;
-            if (window.Telegram?.WebApp) {
-                window.Telegram.WebApp.expand();
-            }
+        function showHardLockScreen() {
+            if (signalTimer) clearInterval(signalTimer);
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('appContainer').innerHTML = ""; // ПОВНІСТЮ ОЧИЩУЄМО ІНТЕРФЕЙС
+            document.getElementById('appContainer').classList.add('hidden');
+            document.getElementById('lockScreen').classList.remove('hidden');
         }
 
         function initApp() {
-            document.getElementById('loadingScreen').classList.add('hidden');
-            document.getElementById('brandLine').classList.remove('hidden');
-            document.getElementById('mainNavigation').classList.remove('hidden');
-            
-            if (isVipUser) {
-                document.getElementById('vipBadge').classList.remove('hidden');
-                document.getElementById('profileAccessValue').innerText = "VIP Access";
-                document.getElementById('profileAccessValue').style.color = "#f59e0b";
-            }
-
             if (window.Telegram?.WebApp) {
                 const tg = window.Telegram.WebApp;
                 tg.ready();
                 tg.expand();
-                document.getElementById('profileName').innerText = tg.initDataUnsafe?.user?.first_name || "User";
-                document.getElementById('profileUsername').innerText = tg.initDataUnsafe?.user?.username ? "@" + tg.initDataUnsafe?.user?.username : "ID: " + tg.initDataUnsafe?.user?.id;
-                if (tg.initDataUnsafe?.user?.first_name) {
-                    document.getElementById('userAvatar').innerText = tg.initDataUnsafe.user.first_name.charAt(0).toUpperCase();
+                
+                const user = tg.initDataUnsafe?.user;
+                if (user) {
+                    document.getElementById('profileName').innerText = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "Користувач";
+                    document.getElementById('profileUsername').innerText = user.username ? `@${user.username}` : `ID: ${user.id}`;
+                    document.getElementById('userAvatar').innerText = user.first_name ? user.first_name.charAt(0).toUpperCase() : "U";
                 }
             }
+            
+            if (isVipUser) {
+                document.getElementById('vipBadge').classList.remove('hidden');
+                document.getElementById('profileAccessValue').innerText = "VIP ACCESS";
+                document.getElementById('profileAccessValue').style.color = "#f59e0b";
+            }
 
-            loadSettings();
-            applyTheme(document.getElementById('themeSelectedValue').getAttribute('data-value'));
-            changeMarketType('real');
+            applySavedThemeAndLang();
+            buildAssetDropdown();
             calculateMartingale();
             switchScreen('signals');
         }
 
-        function switchScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        function applySavedThemeAndLang() {
+            const savedTheme = localStorage.getItem('butovski_theme') || 'cyberpunk';
+            selectThemeOption(savedTheme);
+            const savedLang = localStorage.getItem('butovski_lang') || 'uk';
+            selectLangOption(savedLang);
+        }
+
+        function toggleCustomDropdown(id) {
+            const wrapper = document.getElementById(id);
+            const isOpen = wrapper.classList.contains('open');
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            if (!isOpen) wrapper.classList.add('open');
+        }
+
+        function buildAssetDropdown() {
+            const container = document.getElementById('assetCustomOptions');
+            container.innerHTML = "";
+            const list = marketAssets[currentMarketType];
             
-            if (screenId === 'signals') {
-                document.getElementById('screenSignals').classList.remove('hidden');
-                document.getElementById('navSignals').classList.add('active');
-            } else if (screenId === 'screener') {
-                document.getElementById('screenScreener').classList.remove('hidden');
-                document.getElementById('navScreener').classList.add('active');
-            } else if (screenId === 'calc') {
-                document.getElementById('screenCalc').classList.remove('hidden');
-                document.getElementById('navCalc').classList.add('active');
-            } else if (screenId === 'profile') {
-                document.getElementById('screenProfile').classList.remove('hidden');
-                document.getElementById('navProfile').classList.add('active');
+            list.forEach((asset, idx) => {
+                const opt = document.createElement('div');
+                opt.className = "custom-option";
+                if (idx === 0) opt.className += " selected";
+                opt.setAttribute('data-value', asset.value);
+                opt.innerText = asset.name[currentLang] || asset.name['uk'];
+                opt.onclick = () => selectAssetOption(asset.value);
+                container.appendChild(opt);
+            });
+
+            if (list.length > 0) {
+                selectAssetOption(list[0].value);
             }
-            window.scrollTo(0,0);
+        }
+
+        function selectAssetOption(val) {
+            activeAssetValue = val;
+            const list = marketAssets[currentMarketType];
+            const found = list.find(a => a.value === val);
+            if (found) {
+                document.getElementById('assetSelectedValue').innerText = found.name[currentLang];
+            }
+            document.getElementById('assetDropdownWrapper').classList.remove('open');
+            document.querySelectorAll('#assetCustomOptions .custom-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.getAttribute('data-value') === val);
+            });
+        }
+
+        function selectTimeframeOption(val) {
+            activeTimeframeValue = val;
+            const tfNames = { "1": "1 хв", "3": "3 хв", "5": "5 хв", "15": "15 хв", "30": "30 хв", "60": "1 год" };
+            document.getElementById('timeframeSelectedValue').innerText = tfNames[val] || (val + " m");
+            document.getElementById('timeframeSelectedValue').setAttribute('data-value', val);
+            document.getElementById('timeframeDropdownWrapper').classList.remove('open');
+            document.querySelectorAll('#timeframeCustomOptions .custom-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.getAttribute('data-value') === val);
+            });
         }
 
         function changeMarketType(type) {
             currentMarketType = type;
             document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
-            if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
-            if (type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
-            if (type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
+            if (type === 'real') document.getElementById('btnRealMarket').className += " active";
+            if (type === 'otc') document.getElementById('btnOtcMarket').className += " active";
+            if (type === 'crypto') document.getElementById('btnCryptoMarket').className += " active";
             buildAssetDropdown();
         }
 
-        function buildAssetDropdown() {
-            const list = marketAssets[currentMarketType] || [];
-            const container = document.getElementById('assetCustomOptions');
-            container.innerHTML = "";
+        function switchScreen(screenName) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
-            if(list.length > 0) {
-                list.forEach((item, idx) => {
-                    const nameText = item.name[currentLang] || item.name['uk'];
-                    const div = document.createElement('div');
-                    div.className = "custom-option" + (idx === 0 ? " selected" : "");
-                    div.setAttribute('data-value', item.value);
-                    div.innerText = nameText;
-                    div.onclick = () => selectAssetOption(item.value, nameText);
-                    container.appendChild(div);
-                });
-                const firstText = list[0].name[currentLang] || list[0].name['uk'];
-                document.getElementById('assetSelectedValue').innerText = firstText;
-                document.getElementById('assetSelectedValue').setAttribute('data-value', list[0].value);
+            if (screenName === 'signals') {
+                document.getElementById('screenSignals').classList.remove('hidden');
+                document.getElementById('navSignals').classList.add('active');
+            } else if (screenName === 'screener') {
+                document.getElementById('screenScreener').classList.remove('hidden');
+                document.getElementById('navScreener').classList.add('active');
+            } else if (screenName === 'calc') {
+                document.getElementById('screenCalc').classList.remove('hidden');
+                document.getElementById('navCalc').classList.add('active');
+            } else if (screenName === 'profile') {
+                document.getElementById('screenProfile').classList.remove('hidden');
+                document.getElementById('navProfile').classList.add('active');
             }
-        }
-
-        function toggleCustomDropdown(wrapperId) {
-            const el = document.getElementById(wrapperId);
-            const isOpen = el.classList.contains('open');
-            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-            if (!isOpen) el.classList.add('open');
-        }
-
-        function selectAssetOption(val, text) {
-            document.getElementById('assetSelectedValue').innerText = text;
-            document.getElementById('assetSelectedValue').setAttribute('data-value', val);
-            document.getElementById('assetDropdownWrapper').classList.remove('open');
-        }
-
-        function selectTimeframeOption(val) {
-            const mapping = { "1":"1 хв", "3":"3 хв", "5":"5 хв", "15":"15 хв", "30":"30 хв", "60":"1 год" };
-            document.getElementById('timeframeSelectedValue').innerText = mapping[val];
-            document.getElementById('timeframeSelectedValue').setAttribute('data-value', val);
-            document.getElementById('timeframeDropdownWrapper').classList.remove('open');
         }
 
         async function handleSignalAction() {
             const btn = document.getElementById('signalActionButton');
-            const asset = document.getElementById('assetSelectedValue').getAttribute('data-value');
-            const tf = document.getElementById('timeframeSelectedValue').getAttribute('data-value');
-            const initData = window.Telegram?.WebApp?.initData || "";
-
             btn.disabled = true;
-            btn.innerText = localization[currentLang].wait;
-
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('tradingviewCard').classList.add('hidden');
             document.getElementById('searchSignalScreen').classList.remove('hidden');
+
+            const initData = window.Telegram?.WebApp?.initData || "";
 
             try {
                 const response = await fetch(`${API_BASE_URL}/api/get-market-signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData, asset: asset, tf: tf })
+                    body: JSON.stringify({ initData: initData, asset: activeAssetValue, tf: activeTimeframeValue })
                 });
 
-                const data = await response.json();
                 document.getElementById('searchSignalScreen').classList.add('hidden');
-
-                if (data.success) {
-                    document.getElementById('signalPair').innerText = document.getElementById('assetSelectedValue').innerText;
-                    
-                    const badge = document.getElementById('signalDirection');
-                    if (data.direction === "UP") {
-                        badge.innerText = localization[currentLang].up;
-                        badge.className = "direction-badge bg-green";
-                    } else {
-                        badge.innerText = localization[currentLang].down;
-                        badge.className = "direction-badge bg-red";
-                    }
-
-                    document.getElementById('signalTimeframe').innerText = tf + " " + (parseInt(tf) >= 60 ? localization[currentLang].hour : localization[currentLang].min);
-                    document.getElementById('signalProbability').innerText = data.probability + "%";
-
-                    if (data.is_unstable) {
-                        document.getElementById('signalWarning').classList.remove('hidden');
-                    } else {
-                        document.getElementById('signalWarning').classList.add('hidden');
-                    }
-
-                    document.getElementById('resultScreen').classList.remove('hidden');
-                    document.getElementById('tradingviewCard').classList.remove('hidden');
-
-                    const theme = document.getElementById('themeSelectedValue').getAttribute('data-value');
-                    initTradingViewWidget(theme, asset, tf);
-                    startSignalCountdown(parseInt(tf) * 60);
-
-                } else {
-                    alert("Помилка генерації: " + (data.error || "Спробуйте пізніше"));
-                }
-            } catch (err) {
-                console.error(err);
-                document.getElementById('searchSignalScreen').classList.add('hidden');
-                alert("Збій зв'язку з сервером.");
-            } finally {
                 btn.disabled = false;
-                btn.innerText = localization[currentLang].getSignal;
+
+                if (!response.ok) return;
+
+                const res = await response.json();
+                if (res && res.success) {
+                    showSignalResult(res);
+                }
+            } catch (e) {
+                console.error(e);
+                document.getElementById('searchSignalScreen').classList.add('hidden');
+                btn.disabled = false;
             }
         }
 
-        function startSignalCountdown(totalSeconds) {
+        function showSignalResult(data) {
+            const pairText = document.getElementById('assetSelectedValue').innerText;
+            document.getElementById('signalPair').innerText = pairText;
+            
+            const dirBadge = document.getElementById('signalDirection');
+            if (data.direction === "UP") {
+                dirBadge.innerText = currentLang === 'uk' ? "ВВЕРХ" : (currentLang === 'ru' ? "ВВЕРХ" : "CALL");
+                dirBadge.className = "direction-badge bg-green";
+            } else {
+                dirBadge.innerText = currentLang === 'uk' ? "ВНИЗ" : (currentLang === 'ru' ? "ВНИЗ" : "PUT");
+                dirBadge.className = "direction-badge bg-red";
+            }
+
+            const tfNames = { "1": "1 ХВИЛИНА", "3": "3 ХВИЛИНИ", "5": "5 ХВИЛИН", "15": "15 ХВИЛИН", "30": "30 ХВИЛИН", "60": "1 ГОДИНА" };
+            document.getElementById('signalTimeframe').innerText = tfNames[activeTimeframeValue] || (activeTimeframeValue + " M");
+            document.getElementById('signalProbability').innerText = data.probability + "%";
+
+            const warning = document.getElementById('signalWarning');
+            if (data.is_unstable) warning.classList.remove('hidden');
+            else warning.classList.add('hidden');
+
+            document.getElementById('resultScreen').classList.remove('hidden');
+            document.getElementById('tradingviewCard').classList.remove('hidden');
+
+            initTradingViewWidget(localStorage.getItem('butovski_theme') || 'cyberpunk', activeAssetValue, activeTimeframeValue);
+            startSignalTimer(parseInt(activeTimeframeValue) * 60);
+        }
+
+        function startSignalTimer(durationSeconds) {
             if (signalTimer) clearInterval(signalTimer);
-            let remaining = totalSeconds;
+            let left = durationSeconds;
             const fill = document.getElementById('progressFill');
             const digits = document.getElementById('timerDigits');
 
             function update() {
-                if (remaining <= 0) {
+                if (left <= 0) {
                     clearInterval(signalTimer);
                     digits.innerText = "00:00/00:00";
                     fill.style.width = "0%";
                     return;
                 }
-                remaining--;
-                const pass = totalSeconds - remaining;
-                const pct = (remaining / totalSeconds) * 100;
+                left--;
+                const passed = durationSeconds - left;
+                const pct = (left / durationSeconds) * 100;
                 fill.style.width = pct + "%";
-                
-                const mR = Math.floor(remaining / 60).toString().padStart(2, '0');
-                const sR = (remaining % 60).toString().padStart(2, '0');
-                const mT = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-                const sT = (totalSeconds % 60).toString().padStart(2, '0');
-                
-                digits.innerText = `${mR}:${sR} / ${mT}:${sT}`;
+                fill.style.backgroundColor = document.getElementById('signalDirection').classList.contains('bg-green') ? "var(--green-signal)" : "var(--red-signal)";
+
+                const mTotal = Math.floor(durationSeconds / 60).toString().padStart(2, '0');
+                const sTotal = (durationSeconds % 60).toString().padStart(2, '0');
+                const mPassed = Math.floor(passed / 60).toString().padStart(2, '0');
+                const sPassed = (passed % 60).toString().padStart(2, '0');
+
+                digits.innerText = `${mPassed}:${sPassed} / ${mTotal}:${sTotal}`;
             }
             update();
             signalTimer = setInterval(update, 1000);
+        }
+
+        async function handleMarketScan() {
+            const btn = document.getElementById('btnScreener');
+            btn.disabled = true;
+            document.getElementById('screenerBox').classList.add('hidden');
+
+            const initData = window.Telegram?.WebApp?.initData || "";
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/get-screener-data`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData: initData, market: currentMarketType })
+                });
+
+                btn.disabled = false;
+                if (!response.ok) return;
+
+                const res = await response.json();
+                if (res && res.success && res.data) {
+                    const listContainer = document.getElementById('screenerList');
+                    listContainer.innerHTML = "";
+                    
+                    res.data.forEach(item => {
+                        const row = document.createElement('div');
+                        row.className = "screener-row";
+                        
+                        const badgeClass = item.direction === 'UP' ? 'bg-green' : 'bg-red';
+                        const badgeText = item.direction === 'UP' ? (currentLang === 'uk' || currentLang === 'ru' ? 'ВВЕРХ' : 'CALL') : (currentLang === 'uk' || currentLang === 'ru' ? 'ВНИЗ' : 'PUT');
+                        
+                        row.innerHTML = `
+                            <span style="font-weight:600;">${item.symbol}</span>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span class="direction-badge ${badgeClass}" style="font-size:10px; padding:3px 8px; border-radius:4px;">${badgeText}</span>
+                                <span style="font-weight:700; color:#6366f1;">${item.probability}%</span>
+                            </div>
+                        `;
+                        listContainer.appendChild(row);
+                    });
+                    document.getElementById('screenerBox').classList.remove('hidden');
+                }
+            } catch (e) {
+                console.error(e);
+                btn.disabled = false;
+            }
+        }
+
+        function calculateMartingale() {
+            const bet = parseFloat(document.getElementById('startBet').value) || 1;
+            const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
+            const steps = parseInt(document.getElementById('stepsCount').value) || 5;
+            const body = document.getElementById('martingaleResultBody'); body.innerHTML = "";
+            let total = 0, currentBet = bet;
+            
+            for (let i = 1; i <= steps; i++) {
+                total += currentBet;
+                body.innerHTML += `<tr><td>${i}</td><td>$${currentBet.toFixed(2)}</td><td>$${total.toFixed(2)}</td></tr>`;
+                currentBet = currentBet * mult;
+            }
         }
 
         function initTradingViewWidget(theme, asset, timeframe) {
@@ -574,85 +691,67 @@
             }
         }
 
-        function calculateMartingale() {
-            const bet = parseFloat(document.getElementById('startBet').value) || 1;
-            const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
-            const steps = parseInt(document.getElementById('stepsCount').value) || 5;
-            const body = document.getElementById('martingaleResultBody');
-            body.innerHTML = "";
-            let total = 0, currentBet = bet;
-            
-            for (let i = 1; i <= steps; i++) {
-                total += currentBet;
-                body.innerHTML += `<tr><td>${i}</td><td>$${currentBet.toFixed(2)}</td><td>$${total.toFixed(2)}</td></tr>`;
-                currentBet = currentBet * mult;
+        function selectThemeOption(themeName) {
+            document.documentElement.setAttribute('data-theme', themeName);
+            localStorage.setItem('butovski_theme', themeName);
+            document.getElementById('themeSelectedValue').innerText = themeName.charAt(0).toUpperCase() + themeName.slice(1);
+            document.getElementById('themeDropdownWrapper').classList.remove('open');
+            document.querySelectorAll('#themeCustomOptions .custom-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.getAttribute('data-value') === themeName);
+            });
+            if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
+                initTradingViewWidget(themeName, activeAssetValue, activeTimeframeValue);
             }
         }
 
-        async function handleMarketScan() {
-            const listContainer = document.getElementById('screenerList');
-            listContainer.innerHTML = "<div class='mini-spinner' style='margin:10px auto;'></div>";
-            document.getElementById('screenerBox').classList.remove('hidden');
-
-            // Симуляція сканування топ-пар
-            setTimeout(() => {
-                listContainer.innerHTML = `
-                    <div class="screener-row"><span>EUR/USD</span><span style="color:var(--green-signal); font-weight:700;">92% Stability</span></div>
-                    <div class="screener-row"><span>GBP/USD</span><span style="color:var(--green-signal); font-weight:700;">89% Stability</span></div>
-                    <div class="screener-row"><span>BTC/USDT</span><span style="color:var(--green-signal); font-weight:700;">86% Stability</span></div>
-                `;
-            }, 1200);
-        }
-
-        function selectThemeOption(themeValue) {
-            const names = { cyberpunk: "Cyberpunk", emerald: "Emerald", nordic: "Nordic", light: "Light" };
-            document.getElementById('themeSelectedValue').innerText = names[themeValue];
-            document.getElementById('themeSelectedValue').setAttribute('data-value', themeValue);
-            document.getElementById('themeDropdownWrapper').classList.remove('open');
-            applyTheme(themeValue);
-            localStorage.setItem('butovski_theme', themeValue);
-        }
-
-        function applyTheme(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-        }
-
-        function selectLangOption(langValue) {
-            const names = { uk: "Українська", en: "English", ru: "Русский" };
-            document.getElementById('langSelectedValue').innerText = names[langValue];
-            document.getElementById('langSelectedValue').setAttribute('data-value', langValue);
+        function selectLangOption(lang) {
+            currentLang = lang;
+            localStorage.setItem('butovski_lang', lang);
+            const langNames = { uk: "Українська", en: "English", ru: "Русский" };
+            document.getElementById('langSelectedValue').innerText = langNames[lang];
             document.getElementById('langDropdownWrapper').classList.remove('open');
-            currentLang = langValue;
-            localStorage.setItem('butovski_lang', langValue);
-            translateUI();
+            document.querySelectorAll('#langCustomOptions .custom-option').forEach(opt => {
+                opt.classList.toggle('selected', opt.getAttribute('data-value') === lang);
+            });
+
+            const dict = localization[lang];
+            document.getElementById('loadingText').innerText = dict.loading;
+            document.getElementById('lockTitle').innerText = dict.denied;
+            document.getElementById('lockDesc').innerText = dict.deniedDesc;
+            document.getElementById('lblSelectAsset').innerText = dict.selectAsset;
+            document.getElementById('lblSelectTimeframe').innerText = dict.selectTf;
+            document.getElementById('signalActionButton').innerText = dict.getSignal;
+            document.getElementById('lblSearching').innerText = dict.searching;
+            document.getElementById('lblTimeframe').innerText = dict.timeframe;
+            document.getElementById('lblProba').innerText = dict.probability;
+            document.getElementById('btnRealMarket').innerText = dict.realMarket;
+            document.getElementById('btnOtcMarket').innerText = dict.otcMarket;
+            document.getElementById('btnCryptoMarket').innerText = dict.cryptoMarket;
+            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
+            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
+            document.getElementById('lblStartBet').innerText = dict.startBet;
+            document.getElementById('lblMultiplier').innerText = dict.multiplier;
+            document.getElementById('lblSteps').innerText = dict.steps;
+            document.getElementById('thStep').innerText = dict.step;
+            document.getElementById('thBet').innerText = dict.bet;
+            document.getElementById('thTotal').innerText = dict.total;
+            document.getElementById('setAccessType').innerText = dict.accessType;
+            document.getElementById('setTheme').innerText = dict.theme;
+            document.getElementById('menuSignals').innerText = dict.menuSignals;
+            document.getElementById('menuScreener').innerText = dict.menuScreener;
+            document.getElementById('menuCalc').innerText = dict.menuCalc;
+            document.getElementById('menuProfile').innerText = dict.menuProfile;
+
             buildAssetDropdown();
         }
 
-        function translateUI() {
-            const l = localization[currentLang];
-            document.getElementById('loadingText').innerText = l.loading;
-            document.getElementById('lblSearching').innerText = l.search;
-            document.getElementById('lblTimeframe').innerText = l.tfLabel;
-            document.getElementById('lblProba').innerText = l.probaLabel;
-            document.getElementById('signalActionButton').innerText = l.getSignal;
-        }
-
-        function loadSettings() {
-            const savedTheme = localStorage.getItem('butovski_theme') || "cyberpunk";
-            selectThemeOption(savedTheme);
-            const savedLang = localStorage.getItem('butovski_lang') || "uk";
-            selectLangOption(savedLang);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Закриття випадаючих списків при кліку в інше місце
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('.custom-select-wrapper')) {
-                    document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-                }
-            });
-            checkUserAccess();
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select-wrapper')) {
+                document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            }
         });
+
+        document.addEventListener('DOMContentLoaded', checkUserAccess);
     </script>
 </body>
 </html>
