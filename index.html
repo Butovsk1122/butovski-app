@@ -74,8 +74,8 @@
         .custom-option:hover, .custom-option.selected { background-color: var(--dropdown-hover); font-weight: 600; }
 
         .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; font-weight: 500; cursor: pointer; width: 33.3%; transition: color 0.2s; }
-        .nav-item i { font-size: 20px; margin-bottom: 4px; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 500; cursor: pointer; width: 25%; transition: color 0.2s; text-align: center; }
+        .nav-item i { font-size: 18px; margin-bottom: 4px; }
         .nav-item.active { color: #6366f1; }
 
         .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
@@ -83,11 +83,13 @@
         .btn-action-signal:active { transform: scale(0.98); }
         .btn-action-signal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        .btn-screener-market { width: 100%; margin-top: 12px; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.02); color: var(--text-main); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
-        .btn-screener-market:active { background-color: var(--border-color); }
+        .btn-screener-nav { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
+        .btn-screener-nav:active { transform: scale(0.98); }
+        .btn-screener-nav:disabled { opacity: 0.6; cursor: not-allowed; }
+        
         .screener-box { background-color: rgba(0,0,0,0.15); border: 1px dashed var(--border-color); border-radius: 12px; padding: 14px; margin-top: 14px; }
         .screener-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .screener-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
+        .screener-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
         .screener-row:last-child { border-bottom: none; }
 
         .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -140,6 +142,7 @@
         <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
     </div>
 
+    <!-- ЕКРАН 1: СИГНАЛИ -->
     <div id="screenSignals" class="screen hidden">
         <div class="market-switcher-container">
             <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
@@ -179,15 +182,6 @@
                 </div>
             </div>
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
-            
-            <button id="btnScreener" class="btn-screener-market" onclick="handleMarketScan()">
-                <i class="fa-solid fa-magnifying-glass-chart"></i> <span id="lblScreenerBtn">Знайти сприятливі пари</span>
-            </button>
-
-            <div id="screenerBox" class="screener-box hidden">
-                <div class="screener-title" id="lblScreenerTitle">📊 Рекомендовані стабільні пари:</div>
-                <div id="screenerList"></div>
-            </div>
         </div>
 
         <div id="searchSignalScreen" class="card search-signal-box hidden">
@@ -222,6 +216,21 @@
         </div>
     </div>
 
+    <!-- ЕКРАН 2: МАРКЕТ СКАHЕР (СПОКІЙНІ ПАРИ) -->
+    <div id="screenScreener" class="screen hidden">
+        <div class="card">
+            <button id="btnScreener" class="btn-screener-nav" onclick="handleMarketScan()">
+                <i class="fa-solid fa-magnifying-glass-chart"></i> <span id="lblScreenerBtn">Знайти сприятливі пари</span>
+            </button>
+
+            <div id="screenerBox" class="screener-box hidden">
+                <div class="screener-title" id="lblScreenerTitle">📊 Рекомендовані стабільні пари:</div>
+                <div id="screenerList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ЕКРАН 3: КАЛЬКУЛЯТОР -->
     <div id="screenCalc" class="screen hidden">
         <div class="card">
             <div class="calc-input-group">
@@ -245,6 +254,7 @@
         </div>
     </div>
 
+    <!-- ЕКРАН 4: ПРОФІЛЬ -->
     <div id="screenProfile" class="screen hidden">
         <div class="card">
             <div class="profile-user">
@@ -287,8 +297,10 @@
         </div>
     </div>
 
+    <!-- НИЖНЯ ПАНЕЛЬ НАВІГАЦІЇ (4 КНОПКИ) -->
     <div id="mainNavigation" class="nav-bar hidden">
         <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')"><i class="fa-solid fa-chart-line"></i><span id="menuSignals">Сигнали</span></div>
+        <div class="nav-item" id="navScreener" onclick="switchScreen('screener')"><i class="fa-solid fa-magnifying-glass-chart"></i><span id="menuScreener">Сканер</span></div>
         <div class="nav-item" id="navCalc" onclick="switchScreen('calc')"><i class="fa-solid fa-calculator"></i><span id="menuCalc">Калькулятор</span></div>
         <div class="nav-item" id="navProfile" onclick="switchScreen('profile')"><i class="fa-solid fa-user"></i><span id="menuProfile">Профіль</span></div>
     </div>
@@ -296,7 +308,6 @@
     <script>
         const API_BASE_URL = "https://butovski-signal-bot.onrender.com";
         
-        // Розширена конфігурація: рівно по 10 унікальних пар на ринок із локалізацією
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
@@ -344,7 +355,7 @@
                 lblProba: "ЙМОВІРНІСТЬ", lblStartBet: "Початкова ставка ($)", lblMultiplier: "Коефіцієнт",
                 lblSteps: "Кількість кроків", thStep: "Крок", thBet: "Ставка", thTotal: "Всього",
                 setAccessType: "Тип доступу:", setTheme: "Тема додатка", menuSignals: "Сигнали",
-                menuCalc: "Калькулятор", menuProfile: "Профіль", accessVip: "VIP Доступ",
+                menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профіль", accessVip: "VIP Доступ",
                 accessRegular: "Звичайний", txtUp: "ВВЕРХ", txtDown: "ВНИЗ", txtMin: "ХВ",
                 unstableWarning: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)",
                 lblScreenerBtn: "Знайти сприятливі пари", lblScreenerBtnLoading: "⏳ Аналізую активи...",
@@ -357,7 +368,7 @@
                 lblProba: "PROBABILITY", lblStartBet: "Start Bet ($)", lblMultiplier: "Multiplier",
                 lblSteps: "Steps Count", thStep: "Step", thBet: "Bet", thTotal: "Total",
                 setAccessType: "Access Type:", setTheme: "App Theme", menuSignals: "Signals",
-                menuCalc: "Calculator", menuProfile: "Profile", accessVip: "VIP Access",
+                menuScreener: "Scanner", menuCalc: "Calculator", menuProfile: "Profile", accessVip: "VIP Access",
                 accessRegular: "Regular", txtUp: "BUY/UP", txtDown: "SELL/DOWN", txtMin: "MIN",
                 unstableWarning: "⚠️ UNSTABLE MARKET (FLAT/TREND CONFLICT)",
                 lblScreenerBtn: "Find Calm Assets", lblScreenerBtnLoading: "⏳ Scanning assets...",
@@ -370,35 +381,27 @@
                 lblProba: "ВЕРОЯТНОСТЬ", lblStartBet: "Начальная ставка ($)", lblMultiplier: "Коэффициент",
                 lblSteps: "Количество шагов", thStep: "Шаг", thBet: "Ставка", thTotal: "Всего",
                 setAccessType: "Тип доступа:", setTheme: "Тема приложения", menuSignals: "Сигналы",
-                menuCalc: "Калькулятор", menuProfile: "Профиль", accessVip: "VIP Доступ",
+                menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профиль", accessVip: "VIP Доступ",
                 accessRegular: "Обычный", txtUp: "ВВЕРХ", txtDown: "ВНИЗ", txtMin: "МИН",
                 unstableWarning: "⚠️ РЫНОК НЕСТАБИЛЕН (ФЛЭТ/КОНФЛИКТ ТРЕНДОВ)",
                 lblScreenerBtn: "Найти спокойные пары", lblScreenerBtnLoading: "⏳ Анализирую пары...",
-                lblScreenerTitle: "📊 Рекомендуемые стабильные пары:", statusCalm: "Спокойно"
+                lblScreenerTitle: "📊 Recommended Stable Assets:", statusCalm: "Спокойно"
             }
         };
 
         let tg = window.Telegram ? window.Telegram.WebApp : null;
         let currentMarketType = 'real';
-        let currentLang = 'uk';
+        // Жорсткий старт з української мови за замовчуванням
+        let currentLang = 'uk'; 
         let isSignalActive = false;
         let isRequestPending = false;
         let signalTimer = null;
 
-        if (tg) {
-            tg.ready();
-            tg.expand();
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                const user = tg.initDataUnsafe.user;
-                if (user.language_code === 'ru') currentLang = 'ru';
-                else if (user.language_code !== 'uk') currentLang = 'en';
-            }
-        }
-
         document.addEventListener("DOMContentLoaded", () => {
             initTradingViewWidget('cyberpunk', 'FX:EURUSD', '1');
             checkUserAccess();
-            renderAssetOptions();
+            // Явно ініціалізуємо українські переклади при завантаженні
+            selectLangOption('uk');
             calculateMartingale();
             
             document.addEventListener('click', (e) => {
@@ -430,7 +433,8 @@
                     if (data.username) document.getElementById('profileUsername').innerText = "@" + data.username;
                     if (data.photo_url) document.getElementById('userAvatar').innerHTML = `<img src="${data.photo_url}" style="width:100%;height:100%;border-radius:50%;">`;
                     applyTheme(localStorage.getItem('butovski_theme') || 'cyberpunk');
-                    selectLangOption(currentLang);
+                    // Перестраховка: фіксуємо українську мову інтерфейсу після перевірки прав
+                    selectLangOption('uk');
                 } else {
                     document.getElementById('lockScreen').classList.remove('hidden');
                 }
@@ -456,7 +460,7 @@
             const container = document.getElementById('assetCustomOptions');
             container.innerHTML = "";
             list.forEach((item, index) => {
-                const nameText = item.name[currentLang] || item.name['en'];
+                const nameText = item.name[currentLang] || item.name['uk'];
                 const div = document.createElement('div');
                 div.className = "custom-option";
                 div.innerText = nameText;
@@ -558,7 +562,7 @@
                         initTradingViewWidget(currentTheme, selectedAsset, selectedTf);
                         startSignalTimer(parseInt(selectedTf) * 60);
                     } else {
-                        alert("Не вдалося обробити технічний індикатор.");
+                        alert(currentLang === 'uk' ? "Не вдалося обробити технічний індикатор." : "Failed to process indicator.");
                     }
                 }, 1500);
             })
@@ -566,7 +570,7 @@
                 document.getElementById('searchSignalScreen').classList.add('hidden');
                 btn.disabled = false;
                 isRequestPending = false;
-                alert("Помилка зв'язку з аналітичним сервером.");
+                alert(currentLang === 'uk' ? "Помилка зв'язку з аналітичним сервером." : "Server connection error.");
             });
         }
 
@@ -602,13 +606,13 @@
                     });
                     box.classList.remove('hidden');
                 } else {
-                    alert("Немає спокійних активів на ринку зараз.");
+                    alert(currentLang === 'uk' ? "Немає спокійних активів на ринку зараз." : "No calm assets found.");
                 }
             })
             .catch(() => {
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fa-solid fa-magnifying-glass-chart"></i> <span>${translations[currentLang].lblScreenerBtn}</span>`;
-                alert("Збій сканування.");
+                alert(currentLang === 'uk' ? "Збій сканування." : "Scan failed.");
             });
         }
 
@@ -646,6 +650,9 @@
             if (screenName === 'signals') {
                 document.getElementById('screenSignals').classList.remove('hidden');
                 document.getElementById('navSignals').classList.add('active');
+            } else if (screenName === 'screener') {
+                document.getElementById('screenScreener').classList.remove('hidden');
+                document.getElementById('navScreener').classList.add('active');
             } else if (screenName === 'calc') {
                 document.getElementById('screenCalc').classList.remove('hidden');
                 document.getElementById('navCalc').classList.add('active');
@@ -692,9 +699,11 @@
             }
 
             document.getElementById('menuSignals').innerText = translations[lang].menuSignals;
+            document.getElementById('menuScreener').innerText = translations[lang].menuScreener;
             document.getElementById('menuCalc').innerText = translations[lang].menuCalc;
             document.getElementById('menuProfile').innerText = translations[lang].menuProfile;
             document.getElementById('lblScreenerBtn').innerText = translations[lang].lblScreenerBtn;
+            document.getElementById('lblScreenerTitle').innerText = translations[lang].lblScreenerTitle;
 
             const tfTrigger = document.getElementById('timeframeSelectedValue');
             const currentTfVal = tfTrigger.getAttribute('data-value');
