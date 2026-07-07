@@ -72,8 +72,6 @@
         .custom-select-wrapper.open .custom-options-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
         .custom-option { padding: 12px 14px; font-size: 14px; font-weight: 500; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.15s; }
         .custom-option:hover, .custom-option.selected { background-color: var(--dropdown-hover); font-weight: 600; }
-        .custom-options-dropdown::-webkit-scrollbar { width: 4px; }
-        .custom-options-dropdown::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 4px; }
 
         .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 11px; font-weight: 500; cursor: pointer; width: 33.3%; transition: color 0.2s; }
@@ -84,6 +82,14 @@
         .btn-action-signal { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); transition: transform 0.1s; opacity: 1; }
         .btn-action-signal:active { transform: scale(0.98); }
         .btn-action-signal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        /* Стилі додаткової кнопки та скрінера */
+        .btn-screener-market { width: 100%; margin-top: 12px; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.02); color: var(--text-main); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
+        .btn-screener-market:active { background-color: var(--border-color); }
+        .screener-box { background-color: rgba(0,0,0,0.15); border: 1px dashed var(--border-color); border-radius: 12px; padding: 14px; margin-top: 14px; }
+        .screener-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+        .screener-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 13px; }
+        .screener-row:last-child { border-bottom: none; }
 
         .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .pair-title { font-size: 24px; font-weight: 700; }
@@ -99,17 +105,15 @@
         .progress-container { background-color: var(--border-color); border-radius: 10px; height: 6px; width: 100%; overflow: hidden; margin-bottom: 10px; }
         .progress-bar { height: 100%; width: 100%; transition: width 1s linear; }
         .timer-text { text-align: center; font-size: 12px; color: var(--text-muted); font-weight: 500; }
-
-        .warning-box { width: 100%; padding: 10px; margin-top: 14px; background-color: rgba(245, 158, 11, 0.1); border: 1px dashed #f59e0b; border-radius: 8px; text-align: center; color: #f59e0b; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; }
+        .warning-box { width: 100%; padding: 10px; margin-top: 14px; background-color: rgba(245, 158, 11, 0.1); border: 1px dashed #f59e0b; border-radius: 8px; text-align: center; color: #f59e0b; font-size: 11px; font-weight: 600; }
 
         .profile-user { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); display: flex; justify-content: center; align-items: center; font-size: 24px; color: white; object-fit: cover; }
+        .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); display: flex; justify-content: center; align-items: center; font-size: 24px; color: white; }
         .profile-info h2 { font-size: 18px; font-weight: 600; }
         .profile-info p { font-size: 13px; color: var(--text-muted); }
-        .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); position: relative; }
+        .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
         .settings-row:last-child { border-bottom: none; }
         .settings-row .custom-select-wrapper { width: 160px; }
-        .settings-row .custom-select-trigger { padding: 8px 12px; font-size: 13px; border-radius: 8px; }
 
         .calc-input-group { margin-bottom: 16px; }
         .calc-input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
@@ -129,7 +133,7 @@
     <div id="lockScreen" class="full-screen-center hidden">
         <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
         <h2 id="lockTitle">Доступ обмежено</h2>
-        <p id="lockDesc">У вас немає активної ліцензії. Зверніться до адміністратора бота.</p>
+        <p id="lockDesc">У вас немає активної ліцензії.</p>
     </div>
 
     <div id="brandLine" class="brand-header hidden">
@@ -144,7 +148,7 @@
             <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
         </div>
 
-        <div class="card" style="padding: 14px; margin-bottom: 12px; overflow: visible;">
+        <div class="card" style="padding: 14px; margin-bottom: 12px;">
             <div class="signal-selectors-container">
                 <div class="selector-box">
                     <label id="lblSelectAsset">Актив</label>
@@ -176,6 +180,15 @@
                 </div>
             </div>
             <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
+            
+            <button id="btnScreener" class="btn-screener-market" onclick="handleMarketScan()">
+                <i class="fa-solid fa-magnifying-glass-chart"></i> <span id="lblScreenerBtn">Знайти сприятливі пари</span>
+            </button>
+
+            <div id="screenerBox" class="screener-box hidden">
+                <div class="screener-title" id="lblScreenerTitle">📊 Рекомендовані стабільні пари:</div>
+                <div id="screenerList"></div>
+            </div>
         </div>
 
         <div id="searchSignalScreen" class="card search-signal-box hidden">
@@ -205,7 +218,7 @@
             <div id="signalWarning" class="warning-box hidden">⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)</div>
         </div>
 
-        <div id="tradingviewCard" class="card hidden" style="padding:0; height: 250px; overflow: hidden; border-radius:16px;">
+        <div id="tradingviewCard" class="card hidden" style="padding:0; height: 250px; overflow: hidden;">
             <div id="tradingview_widget" style="height:100%; width:100%;"></div>
         </div>
     </div>
@@ -243,7 +256,7 @@
                 <span id="setAccessType">Тип доступу:</span>
                 <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
             </div>
-            <div class="settings-row" style="z-index: 200;">
+            <div class="settings-row">
                 <span id="setTheme">Тема додатка</span>
                 <div class="custom-select-wrapper" id="themeDropdownWrapper">
                     <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
@@ -258,7 +271,7 @@
                     </div>
                 </div>
             </div>
-            <div class="settings-row" style="z-index: 100;">
+            <div class="settings-row">
                 <span>Мова / Language</span>
                 <div class="custom-select-wrapper" id="langDropdownWrapper">
                     <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
@@ -288,28 +301,16 @@
                 { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
                 { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD" } },
                 { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } },
-                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } },
-                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD" } },
-                { value: "FX:USDCHF", name: { uk: "USD/CHF", en: "USD/CHF", ru: "USD/CHF" } },
-                { value: "FX:NZDUSD", name: { uk: "NZD/USD", en: "NZD/USD", ru: "NZD/USD" } }
+                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } }
             ],
             otc: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } },
-                { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } },
-                { value: "FX:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } }
+                { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } }
             ],
             crypto: [
                 { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USDT", en: "BTC/USDT", ru: "BTC/USDT" } },
                 { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } },
-                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } },
-                { value: "BINANCE:XRPUSDT", name: { uk: "XRP/USDT", en: "XRP/USDT", ru: "XRP/USDT" } },
-                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USDT", en: "BNB/USDT", ru: "BNB/USDT" } },
-                { value: "BINANCE:ADAUSDT", name: { uk: "ADA/USDT", en: "ADA/USDT", ru: "ADA/USDT" } },
-                { value: "BINANCE:MATICUSDT", name: { uk: "MATIC/USDT", en: "MATIC/USDT", ru: "MATIC/USDT" } },
-                { value: "BINANCE:AVAXUSDT", name: { uk: "AVAX/USDT", en: "AVAX/USDT", ru: "AVAX/USDT" } },
-                { value: "BINANCE:NEARUSDT", name: { uk: "NEAR/USDT", en: "NEAR/USDT", ru: "NEAR/USDT" } },
-                { value: "BINANCE:APTUSDT", name: { uk: "APT/USDT", en: "APT/USDT", ru: "APT/USDT" } },
-                { value: "BINANCE:SUIUSDT", name: { uk: "SUI/USDT", en: "SUI/USDT", ru: "SUI/USDT" } }
+                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } }
             ]
         };
 
@@ -323,7 +324,9 @@
                 setAccessType: "Тип доступу:", setTheme: "Тема додатка", menuSignals: "Сигнали",
                 menuCalc: "Калькулятор", menuProfile: "Профіль", accessVip: "VIP Доступ",
                 accessRegular: "Звичайний", txtUp: "ВВЕРХ", txtDown: "ВНИЗ", txtMin: "ХВ",
-                unstableWarning: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)"
+                unstableWarning: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)",
+                lblScreenerBtn: "Знайти сприятливі пари", lblScreenerBtnLoading: "⏳ Аналізую активи...",
+                lblScreenerTitle: "📊 Рекомендовані стабільні пари:", statusCalm: "Спокійно"
             },
             en: {
                 loadingText: "Checking access...", lockTitle: "Access Denied", lockDesc: "You don't have an active license.",
@@ -334,7 +337,9 @@
                 setAccessType: "Access Type:", setTheme: "App Theme", menuSignals: "Signals",
                 menuCalc: "Calculator", menuProfile: "Profile", accessVip: "VIP Access",
                 accessRegular: "Regular", txtUp: "BUY/UP", txtDown: "SELL/DOWN", txtMin: "MIN",
-                unstableWarning: "⚠️ UNSTABLE MARKET (FLAT/TREND CONFLICT)"
+                unstableWarning: "⚠️ UNSTABLE MARKET (FLAT/TREND CONFLICT)",
+                lblScreenerBtn: "Find Calm Assets", lblScreenerBtnLoading: "⏳ Scanning assets...",
+                lblScreenerTitle: "📊 Recommended Stable Assets:", statusCalm: "Calm"
             },
             ru: {
                 loadingText: "Проверка доступа...", lockTitle: "Доступ ограничен", lockDesc: "У вас нет активной лицензии.",
@@ -345,7 +350,9 @@
                 setAccessType: "Тип доступа:", setTheme: "Тема приложения", menuSignals: "Сигналы",
                 menuCalc: "Калькулятор", menuProfile: "Профиль", accessVip: "VIP Доступ",
                 accessRegular: "Обычный", txtUp: "ВВЕРХ", txtDown: "ВНИЗ", txtMin: "МИН",
-                unstableWarning: "⚠️ РЫНОК НЕСТАБИЛЕН (ФЛЭТ/КОНФЛИКТ ТРЕНДОВ)"
+                unstableWarning: "⚠️ РЫНОК НЕСТАБИЛЕН (ФЛЭТ/КОНФЛИКТ ТРЕНДОВ)",
+                lblScreenerBtn: "Найти спокойные пары", lblScreenerBtnLoading: "⏳ Анализирую пары...",
+                lblScreenerTitle: "📊 Рекомендуемые стабильные пары:", statusCalm: "Спокойно"
             }
         };
 
@@ -509,13 +516,12 @@
 
                         document.getElementById('signalTimeframe').innerText = document.getElementById('timeframeSelectedValue').innerText.toUpperCase();
                         
-                        // Логіка підсвічування нестабільності ринку
                         const probaEl = document.getElementById('signalProbability');
                         const warningBox = document.getElementById('signalWarning');
                         probaEl.innerText = data.probability + "%";
                         
                         if (data.is_unstable) {
-                            probaEl.style.color = "#f59e0b"; // Помаранчевий
+                            probaEl.style.color = "#f59e0b";
                             warningBox.innerText = translations[currentLang].unstableWarning;
                             warningBox.classList.remove('hidden');
                         } else {
@@ -532,15 +538,56 @@
                     } else {
                         alert("Не вдалося обробити технічний індикатор.");
                     }
-                }, 3000);
+                }, 1500);
             })
             .catch(() => {
-                setTimeout(() => {
-                    document.getElementById('searchSignalScreen').classList.add('hidden');
-                    btn.disabled = false;
-                    isRequestPending = false;
-                    alert("Помилка зв'язку з аналітичним сервером.");
-                }, 3000);
+                document.getElementById('searchSignalScreen').classList.add('hidden');
+                btn.disabled = false;
+                isRequestPending = false;
+                alert("Помилка зв'язку з аналітичним сервером.");
+            });
+        }
+
+        // КЛІЄНТСЬКА ЛОГІКА СКРІНЕРА (МАРКЕТ СКАHЕРУ)
+        function handleMarketScan() {
+            const btn = document.getElementById('btnScreener');
+            const box = document.getElementById('screenerBox');
+            const list = document.getElementById('screenerList');
+            const initData = tg ? tg.initData : "";
+
+            btn.disabled = true;
+            btn.innerText = translations[currentLang].lblScreenerBreak || translations[currentLang].lblScreenerBtnLoading;
+
+            fetch(`${API_BASE_URL}/api/get-calm-assets`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ initData: initData })
+            })
+            .then(res => res.json())
+            .then(data => {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-magnifying-glass-chart"></i> <span>${translations[currentLang].lblScreenerBtn}</span>`;
+                
+                if (data.success && data.assets.length > 0) {
+                    list.innerHTML = "";
+                    data.assets.forEach(item => {
+                        list.innerHTML += `
+                            <div class="screener-row">
+                                <span style="font-weight: 700;">${item.name}</span>
+                                <span style="color: var(--text-muted);">RSI: ${item.rsi}</span>
+                                <span style="color: var(--green-signal); font-weight: 600;">${translations[currentLang].statusCalm} (${item.safety_score}%)</span>
+                            </div>
+                        `;
+                    });
+                    box.classList.remove('hidden');
+                } else {
+                    alert("Немає спокійних активів на ринку зараз.");
+                }
+            })
+            .catch(() => {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-magnifying-glass-chart"></i> <span>${translations[currentLang].lblScreenerBtn}</span>`;
+                alert("Збій сканування.");
             });
         }
 
@@ -620,15 +667,13 @@
 
             for (let key in translations[lang]) {
                 const el = document.getElementById(key);
-                if (el) {
-                    if (el.tagName === "INPUT" && el.type === "submit") el.value = translations[lang][key];
-                    else el.innerText = translations[lang][key];
-                }
+                if (el) el.innerText = translations[lang][key];
             }
 
             document.getElementById('menuSignals').innerText = translations[lang].menuSignals;
             document.getElementById('menuCalc').innerText = translations[lang].menuCalc;
             document.getElementById('menuProfile').innerText = translations[lang].menuProfile;
+            document.getElementById('lblScreenerBtn').innerText = translations[lang].lblScreenerBtn;
 
             const tfTrigger = document.getElementById('timeframeSelectedValue');
             const currentTfVal = tfTrigger.getAttribute('data-value');
