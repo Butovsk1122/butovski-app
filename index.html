@@ -83,7 +83,6 @@
         .btn-action-signal:active { transform: scale(0.98); }
         .btn-action-signal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        /* Стилі додаткової кнопки та скрінера */
         .btn-screener-market { width: 100%; margin-top: 12px; padding: 12px; border-radius: 10px; border: 1px solid var(--border-color); background-color: rgba(255,255,255,0.02); color: var(--text-main); font-weight: 600; font-size: 13px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
         .btn-screener-market:active { background-color: var(--border-color); }
         .screener-box { background-color: rgba(0,0,0,0.15); border: 1px dashed var(--border-color); border-radius: 12px; padding: 14px; margin-top: 14px; }
@@ -296,21 +295,44 @@
 
     <script>
         const API_BASE_URL = "https://butovski-signal-bot.onrender.com";
+        
+        // Розширена конфігурація: рівно по 10 унікальних пар на ринок із локалізацією
         const marketAssets = {
             real: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
                 { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD" } },
                 { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } },
-                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } }
+                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } },
+                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD" } },
+                { value: "FX:USDCHF", name: { uk: "USD/CHF", en: "USD/CHF", ru: "USD/CHF" } },
+                { value: "FX:EURGBP", name: { uk: "EUR/GBP", en: "EUR/GBP", ru: "EUR/GBP" } },
+                { value: "FX:EURJPY", name: { uk: "EUR/JPY", en: "EUR/JPY", ru: "EUR/JPY" } },
+                { value: "FX:GBPJPY", name: { uk: "GBP/JPY", en: "GBP/JPY", ru: "GBP/JPY" } },
+                { value: "FX:AUDJPY", name: { uk: "AUD/JPY", en: "AUD/JPY", ru: "AUD/JPY" } }
             ],
             otc: [
                 { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } },
-                { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } }
+                { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } },
+                { value: "FX:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } },
+                { value: "FX:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)" } },
+                { value: "FX:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)" } },
+                { value: "FX:EURGBP", name: { uk: "EUR/GBP (OTC)", en: "EUR/GBP (OTC)", ru: "EUR/GBP (OTC)" } },
+                { value: "FX:GBPJPY", name: { uk: "GBP/JPY (OTC)", en: "GBP/JPY (OTC)", ru: "GBP/JPY (OTC)" } },
+                { value: "FX:USDCHF", name: { uk: "USD/CHF (OTC)", en: "USD/CHF (OTC)", ru: "USD/CHF (OTC)" } },
+                { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USD (OTC)", en: "BTC/USD (OTC)", ru: "BTC/USD (OTC)" } },
+                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USD (OTC)", en: "ETH/USD (OTC)", ru: "ETH/USD (OTC)" } }
             ],
             crypto: [
                 { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USDT", en: "BTC/USDT", ru: "BTC/USDT" } },
                 { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } },
-                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } }
+                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USDT", en: "BNB/USDT", ru: "BNB/USDT" } },
+                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } },
+                { value: "BINANCE:XRPUSDT", name: { uk: "XRP/USDT", en: "XRP/USDT", ru: "XRP/USDT" } },
+                { value: "BINANCE:ADAUSDT", name: { uk: "ADA/USDT", en: "ADA/USDT", ru: "ADA/USDT" } },
+                { value: "BINANCE:DOGEUSDT", name: { uk: "DOGE/USDT", en: "DOGE/USDT", ru: "DOGE/USDT" } },
+                { value: "BINANCE:DOTUSDT", name: { uk: "DOT/USDT", en: "DOT/USDT", ru: "DOT/USDT" } },
+                { value: "BINANCE:MATICUSDT", name: { uk: "MATIC/USDT", en: "MATIC/USDT", ru: "MATIC/USDT" } },
+                { value: "BINANCE:LINKUSDT", name: { uk: "LINK/USDT", en: "LINK/USDT", ru: "LINK/USDT" } }
             ]
         };
 
@@ -548,7 +570,6 @@
             });
         }
 
-        // КЛІЄНТСЬКА ЛОГІКА СКРІНЕРА (МАРКЕТ СКАHЕРУ)
         function handleMarketScan() {
             const btn = document.getElementById('btnScreener');
             const box = document.getElementById('screenerBox');
@@ -556,7 +577,7 @@
             const initData = tg ? tg.initData : "";
 
             btn.disabled = true;
-            btn.innerText = translations[currentLang].lblScreenerBreak || translations[currentLang].lblScreenerBtnLoading;
+            btn.innerText = translations[currentLang].lblScreenerBtnLoading;
 
             fetch(`${API_BASE_URL}/api/get-calm-assets`, {
                 method: 'POST',
