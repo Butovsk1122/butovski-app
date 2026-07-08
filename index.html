@@ -11,240 +11,471 @@
     
     <style>
         :root, [data-theme="cyberpunk"] {
-            --bg-color: #0d0f14; --card-bg: #141822; --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
-            --text-main: #ffffff; --text-muted: #64748b; --border-color: #232a3d; --nav-bg: #0a0c10;
-            --tv-theme: dark; --red-signal: #ef4444; --green-signal: #10b981;
-            --dropdown-bg: #1a1f2c; --dropdown-hover: #242b3d;
+            --bg-color: #0d0f14;
+            --card-bg: #141822;
+            --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
+            --text-main: #ffffff;
+            --text-muted: #64748b;
+            --border-color: #232a3d;
+            --nav-bg: #0a0c10;
+            --tv-theme: dark;
+            --red-signal: #ef4444;
+            --green-signal: #10b981;
+            --dropdown-bg: #1a1f2c;
+            --dropdown-hover: #242b3d;
         }
-
-        [data-theme="emerald"] {
-            --bg-color: #061712; --card-bg: #0b241e; --accent-gradient: linear-gradient(135deg, #10b981, #059669);
-            --text-main: #ecfdf5; --text-muted: #64748b; --border-color: #123a30; --nav-bg: #04100c;
-            --tv-theme: dark; --red-signal: #f43f5e; --green-signal: #34d399;
-            --dropdown-bg: #0f3128; --dropdown-hover: #16483b;
-        }
-
-        [data-theme="nordic"] {
-            --bg-color: #1a202c; --card-bg: #2d3748; --accent-gradient: linear-gradient(135deg, #3182ce, #4299e1);
-            --text-main: #f7fafc; --text-muted: #a0aec0; --border-color: #4a5568; --nav-bg: #171923;
-            --tv-theme: dark; --red-signal: #e53e3e; --green-signal: #38a169;
-            --dropdown-bg: #2d3748; --dropdown-hover: #4a5568;
-        }
-
+        
         [data-theme="light"] {
-            --bg-color: #f8fafc; --card-bg: #ffffff; --accent-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
-            --text-main: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0; --nav-bg: #f1f5f9;
-            --tv-theme: light; --red-signal: #dc2626; --green-signal: #16a34a;
-            --dropdown-bg: #ffffff; --dropdown-hover: #f1f5f9;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --accent-gradient: linear-gradient(135deg, #4f46e5, #7c3aed);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --nav-bg: #ffffff;
+            --tv-theme: light;
+            --red-signal: #dc2626;
+            --green-signal: #16a34a;
+            --dropdown-bg: #ffffff;
+            --dropdown-hover: #f1f5f9;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; user-select: none; }
-        body { background-color: var(--bg-color); color: var(--text-main); overflow-x: hidden; padding-bottom: 75px; transition: background-color 0.3s, color 0.3s; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            padding-bottom: 75px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
         .hidden { display: none !important; }
-        .screen { padding: 16px; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .full-screen-center { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--bg-color); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; text-align: center; }
-        .spinner { width: 50px; height: 50px; border: 5px solid var(--border-color); border-top: 5px solid #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .search-signal-box { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 16px; text-align: center; }
-        .mini-spinner { width: 36px; height: 36px; border: 4px solid var(--border-color); border-top: 4px solid #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 12px; }
-        .lock-icon { font-size: 64px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 20px; }
-        
-        .brand-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border-color); }
-        .brand-logo { font-weight: 700; font-size: 20px; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .vip-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); color: #fff; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3); }
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--card-bg);
+        }
+        .brand-logo {
+            font-weight: 700;
+            font-size: 18px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
 
-        .market-switcher-container { display: flex; gap: 8px; margin-bottom: 16px; }
-        .market-btn { flex: 1; padding: 12px 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); background-color: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 10px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
-        .market-btn.active { background: var(--accent-gradient); color: #ffffff !important; border-color: transparent; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .screen {
+            padding: 16px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
 
-        .signal-selectors-container { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-        .selector-box label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
-        .custom-select-wrapper { position: relative; width: 100%; }
-        .custom-select-trigger { width: 100%; background-color: rgba(255, 255, 255, 0.02); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 14px; border-radius: 12px; font-size: 14px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; cursor: pointer; transition: all 0.2s ease; }
-        .custom-select-wrapper.open .custom-select-trigger { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2); }
-        .custom-select-trigger i { font-size: 12px; color: var(--text-muted); transition: transform 0.2s ease; }
-        .custom-select-wrapper.open .custom-select-trigger i { transform: rotate(180deg); color: #6366f1; }
-        
-        .custom-options-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background-color: var(--dropdown-bg); border: 1px solid var(--border-color); border-radius: 12px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); z-index: 2000; max-height: 220px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s; }
-        .custom-select-wrapper.open .custom-options-dropdown { opacity: 1; visibility: visible; transform: translateY(0); }
-        .custom-option { padding: 12px 14px; font-size: 14px; font-weight: 500; color: var(--text-main); cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background-color 0.15s; }
-        .custom-option:hover, .custom-option.selected { background-color: var(--dropdown-hover); font-weight: 600; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--nav-bg); border-top: 1px solid var(--border-color); display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-muted); font-size: 10px; font-weight: 500; cursor: pointer; width: 25%; transition: color 0.2s; text-align: center; }
-        .nav-item i { font-size: 18px; margin-bottom: 4px; }
-        .nav-item.active { color: #6366f1; }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
 
-        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
-        .btn-action-signal { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); transition: transform 0.1s; opacity: 1; }
+        .market-switcher-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .market-btn {
+            flex: 1;
+            padding: 12px 4px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .market-btn.active {
+            background: var(--accent-gradient);
+            color: #ffffff !important;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+
+        .custom-select-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+        }
+        .custom-select-trigger {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .custom-options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background-color: var(--dropdown-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-top: 6px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+            display: none;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+        }
+        .custom-select-wrapper.open .custom-options { display: block; }
+        .custom-option {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 14px;
+        }
+        .custom-option:hover { background-color: var(--dropdown-hover); }
+
+        .timeframe-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tf-btn {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.02);
+            color: var(--text-main);
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tf-btn.active {
+            border-color: #6366f1;
+            background-color: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .btn-action-signal {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            transition: transform 0.1s;
+        }
         .btn-action-signal:active { transform: scale(0.98); }
-        .btn-action-signal:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-        .btn-screener-nav { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--accent-gradient); color: white; font-weight: 600; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); display: flex; justify-content: center; align-items: center; gap: 8px; transition: all 0.2s; }
-        .btn-screener-nav:active { transform: scale(0.98); }
-        .btn-screener-nav:disabled { opacity: 0.6; cursor: not-allowed; }
+        .signal-display {
+            text-align: center;
+            padding: 10px 0;
+        }
+        .pair-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .direction-badge {
+            display: inline-block;
+            padding: 10px 32px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+        .bg-green { background-color: var(--green-signal); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); }
+        .bg-red { background-color: var(--red-signal); box-shadow: 0 4px 14px rgba(239, 68, 110, 0.4); }
         
-        .screener-box { background-color: rgba(0,0,0,0.15); border: 1px dashed var(--border-color); border-radius: 12px; padding: 14px; margin-top: 14px; }
-        .screener-title { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .screener-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 14px; }
-        .screener-row:last-child { border-bottom: none; }
+        .prob-container {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .prob-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 4px;
+        }
 
-        .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .pair-title { font-size: 24px; font-weight: 700; }
-        .direction-badge { padding: 6px 16px; border-radius: 8px; font-weight: 700; font-size: 14px; text-transform: uppercase; }
-        .bg-green { background-color: var(--green-signal); color: white; }
-        .bg-red { background-color: var(--red-signal); color: white; }
+        /* Нові блоки сповіщень безпеки */
+        .warning-box {
+            width: 100%;
+            padding: 10px;
+            margin-top: 14px;
+            background-color: rgba(245, 158, 11, 0.1);
+            border: 1px dashed #f59e0b;
+            border-radius: 8px;
+            text-align: center;
+            color: #f59e0b;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .news-box {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px dashed #ef4444;
+            border-radius: 8px;
+            text-align: center;
+            color: #ef4444;
+            font-size: 11px;
+            font-weight: 700;
+        }
 
-        .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-        .grid-item { background-color: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; }
-        .grid-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
-        .grid-value { font-size: 16px; font-weight: 600; }
+        .tv-widget-container {
+            width: 100%;
+            height: 240px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-top: 16px;
+        }
 
-        .progress-container { background-color: var(--border-color); border-radius: 10px; height: 6px; width: 100%; overflow: hidden; margin-bottom: 10px; }
-        .progress-bar { height: 100%; width: 100%; transition: width 1s linear; }
-        .timer-text { text-align: center; font-size: 12px; color: var(--text-muted); font-weight: 500; }
-        .warning-box { width: 100%; padding: 10px; margin-top: 14px; background-color: rgba(245, 158, 11, 0.1); border: 1px dashed #f59e0b; border-radius: 8px; text-align: center; color: #f59e0b; font-size: 11px; font-weight: 600; }
+        .screener-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .screener-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+        .row-pair { font-weight: 600; font-size: 14px; }
+        .row-badge { padding: 4px 12px; border-radius: 6px; font-weight: 700; font-size: 11px; color: #fff; }
+        .row-prob { font-weight: 700; font-size: 14px; }
 
-        .profile-user { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
-        .profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--accent-gradient); display: flex; justify-content: center; align-items: center; font-size: 24px; color: white; }
-        .profile-info h2 { font-size: 18px; font-weight: 600; }
-        .profile-info p { font-size: 13px; color: var(--text-muted); }
-        .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border-color); }
-        .settings-row:last-child { border-bottom: none; }
-        .settings-row .custom-select-wrapper { width: 160px; }
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .input-group label { font-size: 12px; font-weight: 600; color: var(--text-muted); }
+        .input-group input {
+            padding: 12px;
+            background-color: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-weight: 600;
+            outline: none;
+        }
+        .calc-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+            font-size: 13px;
+        }
+        .calc-table th, .calc-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .calc-table th { color: var(--text-muted); font-weight: 600; }
 
-        .calc-input-group { margin-bottom: 16px; }
-        .calc-input-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
-        .calc-input { width: 100%; background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 8px; font-size: 15px; outline: none; }
-        .calc-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-        .calc-table th { text-align: left; font-size: 11px; color: var(--text-muted); padding: 8px 4px; border-bottom: 1px solid var(--border-color); }
-        .calc-table td { padding: 10px 4px; font-size: 14px; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .profile-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+        .profile-row:last-child { border-bottom: none; }
+        .profile-label { color: var(--text-muted); }
+        .profile-value { font-weight: 600; }
+
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background-color: var(--nav-bg);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 500;
+            flex: 1;
+            padding: 10px 0;
+        }
+        .nav-item i { font-size: 18px; }
+        .nav-item.active { color: #6366f1; font-weight: 600; }
+
+        #loadingOverlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(99, 102, 241, 0.1);
+            border-left-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <div id="loadingScreen" class="full-screen-center">
+    <div id="loadingOverlay">
         <div class="spinner"></div>
-        <p id="loadingText">Перевірка доступу...</p>
+        <div style="font-weight:600; font-size:14px;" id="loadingText">Завантаження додатка...</div>
     </div>
 
-    <div id="lockScreen" class="full-screen-center hidden">
-        <div class="lock-icon"><i class="fa-solid fa-lock"></i></div>
-        <h2 id="lockTitle">Доступ обмежено</h2>
-        <p id="lockDesc">У вас немає активної ліцензії.</p>
+    <div id="noAccessScreen" class="screen hidden" style="text-align:center; padding-top:80px;">
+        <i class="fa-solid fa-lock" style="font-size:48px; color:var(--red-signal); margin-bottom:16px;"></i>
+        <h2 style="margin-bottom:8px;" id="noAccessTitle">Доступ обмежено</h2>
+        <p style="color:var(--text-muted); font-size:14px; padding:0 20px;" id="noAccessDesc">Зверніться до адміністратора для активації підписки.</p>
     </div>
 
     <div id="appContainer" class="hidden">
-        <div id="brandLine" class="brand-header">
-            <div class="brand-logo">BUTOVSKI SIGNAL</div>
-            <div id="vipBadge" class="vip-badge hidden">VIP ACCESS</div>
+        <div class="brand-header">
+            <div class="brand-logo">BUTOVSKI APP Pro</div>
         </div>
 
-        <div id="screenSignals" class="screen hidden">
+        <div id="screenSignals" class="screen">
             <div class="market-switcher-container">
-                <button id="btnRealMarket" class="market-btn active" onclick="changeMarketType('real')">Реальний ринок</button>
-                <button id="btnOtcMarket" class="market-btn" onclick="changeMarketType('otc')">OTC Ринок</button>
-                <button id="btnCryptoMarket" class="market-btn" onclick="changeMarketType('crypto')">Crypto</button>
+                <button id="btnRealMarket" class="market-btn active" onclick="setMarket('real')">Реальний ринок</button>
+                <button id="btnOtcMarket" class="market-btn" onclick="setMarket('otc')">OTC Ринок</button>
+                <button id="btnCryptoMarket" class="market-btn" onclick="setMarket('crypto')">Crypto</button>
             </div>
 
-            <div class="card" style="padding: 14px; margin-bottom: 12px;">
-                <div class="signal-selectors-container">
-                    <div class="selector-box">
-                        <label id="lblSelectAsset">Актив</label>
-                        <div class="custom-select-wrapper" id="assetDropdownWrapper">
-                            <div class="custom-select-trigger" onclick="toggleCustomDropdown('assetDropdownWrapper')">
-                                <span id="assetSelectedValue">Завантаження...</span>
-                                <i class="fa-solid fa-chevron-down"></i>
-                            </div>
-                            <div class="custom-options-dropdown" id="assetCustomOptions"></div>
-                        </div>
+            <div class="card">
+                <div class="custom-select-wrapper" id="assetSelectWrapper">
+                    <div class="custom-select-trigger" onclick="toggleDropdown('assetOptions')">
+                        <span id="selectedAssetLabel">EUR/USD (Валюти)</span>
+                        <i class="fa-solid fa-chevron-down"></i>
                     </div>
-
-                    <div class="selector-box">
-                        <label id="lblSelectTimeframe">Час (ТФ)</label>
-                        <div class="custom-select-wrapper" id="timeframeDropdownWrapper">
-                            <div class="custom-select-trigger" onclick="toggleCustomDropdown('timeframeDropdownWrapper')">
-                                <span id="timeframeSelectedValue" data-value="1">1 хв</span>
-                                <i class="fa-solid fa-chevron-down"></i>
-                            </div>
-                            <div class="custom-options-dropdown" id="timeframeCustomOptions">
-                                <div class="custom-option" data-value="1" onclick="selectTimeframeOption('1')">1 хв</div>
-                                <div class="custom-option" data-value="3" onclick="selectTimeframeOption('3')">3 хв</div>
-                                <div class="custom-option" data-value="5" onclick="selectTimeframeOption('5')">5 хв</div>
-                                <div class="custom-option" data-value="15" onclick="selectTimeframeOption('15')">15 хв</div>
-                                <div class="custom-option" data-value="30" onclick="selectTimeframeOption('30')">30 хв</div>
-                                <div class="custom-option" data-value="60" onclick="selectTimeframeOption('60')">1 год</div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="custom-options" id="assetOptions"></div>
                 </div>
-                <button id="signalActionButton" class="btn-action-signal" onclick="handleSignalAction()">ОТРИМАТИ СИГНАЛ</button>
-            </div>
 
-            <div id="searchSignalScreen" class="card search-signal-box hidden">
-                <div class="mini-spinner"></div>
-                <p id="lblSearching">Пошук найкращого сигналу...</p>
+                <div class="timeframe-grid">
+                    <button class="tf-btn active" onclick="setTimeframe(this, '1')">1м</button>
+                    <button class="tf-btn" onclick="setTimeframe(this, '3')">3м</button>
+                    <button class="tf-btn" onclick="setTimeframe(this, '5')">5м</button>
+                    <button class="tf-btn" onclick="setTimeframe(this, '15')">15м</button>
+                    <button class="tf-btn" onclick="setTimeframe(this, '30')">30м</button>
+                    <button class="tf-btn" onclick="setTimeframe(this, '60')">1г</button>
+                </div>
+
+                <button id="signalActionButton" class="btn-action-signal" onclick="getSignalFromServer()">ОТРИМАТИ СИГНАЛ</button>
             </div>
 
             <div id="resultScreen" class="card hidden">
-                <div class="signal-header">
+                <div class="signal-display">
                     <div class="pair-title" id="signalPair">EUR/USD</div>
-                    <div class="direction-badge" id="signalDirection">ВВЕРХ</div>
-                </div>
-                <div class="signal-grid">
-                    <div class="grid-item">
-                        <div class="grid-label" id="lblTimeframe">ЧАС СИГНАЛУ</div>
-                        <div class="grid-value" id="signalTimeframe">1 ХВИЛИНА</div>
-                    </div>
-                    <div class="grid-item">
-                        <div class="grid-label" id="lblProba">ЙМОВІРНІСТЬ</div>
-                        <div class="grid-value" id="signalProbability">94%</div>
+                    <div id="signalDirection" class="direction-badge bg-green">ВВЕРХ</div>
+                    <div class="prob-container">
+                        <div id="lblAlgorithmAccuracy">Точність алгоритму</div>
+                        <div class="prob-value" id="signalProbability">94%</div>
                     </div>
                 </div>
-                <div class="progress-container">
-                    <div id="progressFill" class="progress-bar"></div>
-                </div>
-                <div class="timer-text" id="timerDigits">00:00/00:00</div>
-                <div id="signalWarning" class="warning-box hidden">⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ/КОНФЛІКТ ТРЕНДІВ)</div>
-            </div>
+                
+                <div id="signalWarning" class="warning-box hidden">⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ АБО КОНФЛІКТ МУЛЬТИ-ТФ)</div>
+                <div id="newsWarning" class="news-box hidden">🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)</div>
 
-            <div id="tradingviewCard" class="card hidden" style="padding:0; height: 250px; overflow: hidden;">
-                <div id="tradingview_widget" style="height:100%; width:100%;"></div>
+                <div class="tv-widget-container" id="tradingview_widget"></div>
             </div>
         </div>
 
         <div id="screenScreener" class="screen hidden">
             <div class="card">
-                <button id="btnScreener" class="btn-screener-nav" onclick="handleMarketScan()">
-                    <i class="fa-solid fa-magnifying-glass-chart"></i> <span id="lblScreenerBtn">Знайти сприятливі пари</span>
-                </button>
-                <div id="screenerBox" class="screener-box hidden">
-                    <div class="screener-title" id="lblScreenerTitle">📊 Рекомендовані стабільні пари:</div>
-                    <div id="screenerList"></div>
-                </div>
+                <h3 style="margin-bottom:12px; font-size:16px;" id="lblScreenerTitle">Найстабільніші пари</h3>
+                <button class="btn-action-signal" style="padding:12px;" onclick="triggerMarketScan()" id="lblScreenerBtn">Знайти сприятливі пари</button>
+                <div class="screener-list" id="screenerContainer"></div>
             </div>
         </div>
 
         <div id="screenCalc" class="screen hidden">
             <div class="card">
-                <div class="calc-input-group">
-                    <label id="lblStartBet">Початкова ставка ($)</label>
-                    <input type="number" id="startBet" class="calc-input" value="1" oninput="calculateMartingale()">
+                <div class="calc-grid">
+                    <div class="input-group">
+                        <label id="lblStartBet">Початкова ставка ($)</label>
+                        <input type="number" id="startBet" value="1" oninput="calculateMartingale()">
+                    </div>
+                    <div class="input-group">
+                        <label id="lblMultiplier">Множник (Мартин)</label>
+                        <input type="number" id="multiplier" value="2.2" step="0.1" oninput="calculateMartingale()">
+                    </div>
                 </div>
-                <div class="calc-input-group">
-                    <label id="lblMultiplier">Коефіцієнт</label>
-                    <input type="number" id="multiplier" class="calc-input" value="2.2" step="0.1" oninput="calculateMartingale()">
+                <div class="input-group" style="margin-bottom:14px;">
+                    <label id="lblSteps">Кількість кроків (колін)</label>
+                    <input type="number" id="stepsCount" value="5" oninput="calculateMartingale()">
                 </div>
-                <div class="calc-input-group">
-                    <label id="lblSteps">Кількість кроків</label>
-                    <input type="number" id="stepsCount" class="calc-input" value="5" min="1" max="10" oninput="calculateMartingale()">
-                </div>
+
                 <table class="calc-table">
                     <thead>
-                        <tr><th id="thStep">Крок</th><th id="thBet">Ставка</th><th id="thTotal">Всього</th></tr>
+                        <tr>
+                            <th id="thStep">Крок</th>
+                            <th id="thBet">Ставка</th>
+                            <th id="thTotal">Загалом</th>
+                        </tr>
                     </thead>
                     <tbody id="martingaleResultBody"></tbody>
                 </table>
@@ -253,513 +484,280 @@
 
         <div id="screenProfile" class="screen hidden">
             <div class="card">
-                <div class="profile-user">
-                    <div id="userAvatar" class="profile-avatar">U</div>
-                    <div class="profile-info"><h2 id="profileName">Користувач</h2><p id="profileUsername">@username</p></div>
+                <div class="profile-row">
+                    <span class="profile-label">ID Користувача:</span>
+                    <span class="profile-value" id="profId">-</span>
                 </div>
-                <div class="settings-row">
-                    <span id="setAccessType">Тип доступу:</span>
-                    <span id="profileAccessValue" style="font-weight:600; color:#6366f1;">Звичайний</span>
+                <div class="profile-row">
+                    <span class="profile-label">Нікнейм:</span>
+                    <span class="profile-value" id="profUsername">-</span>
                 </div>
-                <div class="settings-row">
-                    <span id="setTheme">Тема додатка</span>
-                    <div class="custom-select-wrapper" id="themeDropdownWrapper">
-                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('themeDropdownWrapper')">
-                            <span id="themeSelectedValue" data-value="cyberpunk">Cyberpunk</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </div>
-                        <div class="custom-options-dropdown" id="themeCustomOptions">
-                            <div class="custom-option selected" data-value="cyberpunk" onclick="selectThemeOption('cyberpunk')">Cyberpunk</div>
-                            <div class="custom-option" data-value="emerald" onclick="selectThemeOption('emerald')">Emerald</div>
-                            <div class="custom-option" data-value="nordic" onclick="selectThemeOption('nordic')">Nordic</div>
-                            <div class="custom-option" data-value="light" onclick="selectThemeOption('light')">Light</div>
-                        </div>
-                    </div>
+                <div class="profile-row">
+                    <span class="profile-label" id="setAccessType">Тип доступу:</span>
+                    <span class="profile-value" id="profAccess" style="color:var(--green-signal);">VIP Доступ</span>
                 </div>
-                <div class="settings-row">
-                    <span>Мова / Language</span>
-                    <div class="custom-select-wrapper" id="langDropdownWrapper">
-                        <div class="custom-select-trigger" onclick="toggleCustomDropdown('langDropdownWrapper')">
-                            <span id="langSelectedValue" data-value="uk">Українська</span>
-                            <i class="fa-solid fa-chevron-down"></i>
-                        </div>
-                        <div class="custom-options-dropdown" id="langCustomOptions">
-                            <div class="custom-option selected" data-value="uk" onclick="selectLangOption('uk')">Українська</div>
-                            <div class="custom-option" data-value="en" onclick="selectLangOption('en')">English</div>
-                            <div class="custom-option" data-value="ru" onclick="selectLangOption('ru')">Русский</div>
-                        </div>
-                    </div>
-                </div>
+            </div>
+
+            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                <span id="setTheme">Тема додатка</span>
+                <button class="tf-btn" style="padding:8px 16px;" onclick="toggleAppTheme()" id="themeBtn">DARK</button>
+            </div>
+            
+            <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+                <span>Мова / Language</span>
+                <button class="tf-btn" style="padding:8px 16px; border-color:#a855f7; color:#a855f7;" onclick="toggleLanguage()" id="langBtn">UA</button>
             </div>
         </div>
 
-        <div id="mainNavigation" class="nav-bar">
-            <div class="nav-item active" id="navSignals" onclick="switchScreen('signals')"><i class="fa-solid fa-chart-line"></i><span id="menuSignals">Сигнали</span></div>
-            <div class="nav-item" id="navScreener" onclick="switchScreen('screener')"><i class="fa-solid fa-magnifying-glass-chart"></i><span id="menuScreener">Сканер</span></div>
-            <div class="nav-item" id="navCalc" onclick="switchScreen('calc')"><i class="fa-solid fa-calculator"></i><span id="menuCalc">Калькулятор</span></div>
-            <div class="nav-item" id="navProfile" onclick="switchScreen('profile')"><i class="fa-solid fa-user"></i><span id="menuProfile">Профіль</span></div>
+        <div class="nav-bar">
+            <div class="nav-item active" onclick="switchScreen('screenSignals', this)" id="menuSignals">
+                <i class="fa-solid fa-chart-line"></i>Сигнали
+            </div>
+            <div class="nav-item" onclick="switchScreen('screenScreener', this)" id="menuScreener">
+                <i class="fa-solid fa-radar"></i>Сканер
+            </div>
+            <div class="nav-item" onclick="switchScreen('screenCalc', this)" id="menuCalc">
+                <i class="fa-solid fa-calculator"></i>Калькулятор
+            </div>
+            <div class="nav-item" onclick="switchScreen('screenProfile', this)" id="menuProfile">
+                <i class="fa-solid fa-user"></i>Профіль
+            </div>
         </div>
     </div>
 
     <script>
-        const API_BASE_URL = "https://butovski-signal-bot.onrender.com";
-        const marketAssets = {
+        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+            ? 'http://127.0.0.1:5000' 
+            : window.location.origin;
+
+        let currentMarket = 'real';
+        let currentAsset = 'FX:EURUSD';
+        let currentTimeframe = '1';
+        let currentTheme = 'dark';
+        let currentLang = 'ua';
+
+        const assetsPool = {
             real: [
-                { value: "FX:EURUSD", name: { uk: "EUR/USD", en: "EUR/USD", ru: "EUR/USD" } },
-                { value: "FX:GBPUSD", name: { uk: "GBP/USD", en: "GBP/USD", ru: "GBP/USD" } },
-                { value: "FX:USDJPY", name: { uk: "USD/JPY", en: "USD/JPY", ru: "USD/JPY" } },
-                { value: "FX:AUDUSD", name: { uk: "AUD/USD", en: "AUD/USD", ru: "AUD/USD" } },
-                { value: "FX:USDCAD", name: { uk: "USD/CAD", en: "USD/CAD", ru: "USD/CAD" } },
-                { value: "FX:USDCHF", name: { uk: "USD/CHF", en: "USD/CHF", ru: "USD/CHF" } },
-                { value: "FX:EURGBP", name: { uk: "EUR/GBP", en: "EUR/GBP", ru: "EUR/GBP" } },
-                { value: "FX:EURJPY", name: { uk: "EUR/JPY", en: "EUR/JPY", ru: "EUR/JPY" } },
-                { value: "FX:GBPJPY", name: { uk: "GBP/JPY", en: "GBP/JPY", ru: "GBP/JPY" } },
-                { value: "FX:AUDJPY", name: { uk: "AUD/JPY", en: "AUD/JPY", ru: "AUD/JPY" } }
+                { val: "FX:EURUSD", name: "EUR/USD (Валюти)" },
+                { val: "FX:GBPUSD", name: "GBP/USD (Валюти)" },
+                { val: "FX:USDJPY", name: "USD/JPY (Валюти)" },
+                { val: "FX:AUDUSD", name: "AUD/USD (Валюти)" },
+                { val: "FX:USDCAD", name: "USD/CAD (Валюти)" }
             ],
             otc: [
-                { value: "FX:EURUSD", name: { uk: "EUR/USD (OTC)", en: "EUR/USD (OTC)", ru: "EUR/USD (OTC)" } },
-                { value: "FX:GBPUSD", name: { uk: "GBP/USD (OTC)", en: "GBP/USD (OTC)", ru: "GBP/USD (OTC)" } },
-                { value: "FX:USDJPY", name: { uk: "USD/JPY (OTC)", en: "USD/JPY (OTC)", ru: "USD/JPY (OTC)" } },
-                { value: "FX:AUDUSD", name: { uk: "AUD/USD (OTC)", en: "AUD/USD (OTC)", ru: "AUD/USD (OTC)" } },
-                { value: "FX:USDCAD", name: { uk: "USD/CAD (OTC)", en: "USD/CAD (OTC)", ru: "USD/CAD (OTC)" } }
+                { val: "FX:EURUSD", name: "EUR/USD (OTC)" },
+                { val: "FX:GBPUSD", name: "GBP/USD (OTC)" },
+                { val: "FX:USDJPY", name: "USD/JPY (OTC)" },
+                { val: "FX:AUDUSD", name: "AUD/USD (OTC)" },
+                { val: "FX:USDCAD", name: "USD/CAD (OTC)" }
             ],
             crypto: [
-                { value: "BINANCE:BTCUSDT", name: { uk: "BTC/USDT", en: "BTC/USDT", ru: "BTC/USDT" } },
-                { value: "BINANCE:ETHUSDT", name: { uk: "ETH/USDT", en: "ETH/USDT", ru: "ETH/USDT" } },
-                { value: "BINANCE:SOLUSDT", name: { uk: "SOL/USDT", en: "SOL/USDT", ru: "SOL/USDT" } },
-                { value: "BINANCE:XRPUSDT", name: { uk: "XRP/USDT", en: "XRP/USDT", ru: "XRP/USDT" } },
-                { value: "BINANCE:BNBUSDT", name: { uk: "BNB/USDT", en: "BNB/USDT", ru: "BNB/USDT" } }
+                { val: "BINANCE:BTCUSDT", name: "Bitcoin (BTC/USDT)" },
+                { val: "BINANCE:ETHUSDT", name: "Ethereum (ETH/USDT)" },
+                { val: "BINANCE:SOLUSDT", name: "Solana (SOL/USDT)" },
+                { val: "BINANCE:XRPUSDT", name: "Ripple (XRP/USDT)" },
+                { val: "BINANCE:BNBUSDT", name: "Binance Coin (BNB)" }
             ]
         };
 
         const localization = {
-            uk: { loading: "Перевірка доступу...", denied: "Доступ обмежено", deniedDesc: "У вашого Telegram-акаунта немає активної ліцензії для Butovski App.", selectAsset: "Актив", selectTf: "Час (ТФ)", getSignal: "ОТРИМАТИ СИГНАЛ", getNewSignal: "НОВИЙ СИГНАЛ", searching: "Пошук найкращого сигналу...", timeframe: "ЧАС СИГНАЛУ", probability: "ЙМОВІРНІСТЬ", realMarket: "Реальний ринок", otcMarket: "OTC Ринок", cryptoMarket: "Crypto", findPairs: "Знайти сприятливі пари", stablePairs: "📊 Рекомендовані стабільні пари:", startBet: "Початкова ставка ($)", multiplier: "Коефіцієнт", steps: "Кількість кроків", step: "Крок", bet: "Ставка", total: "Всього", accessType: "Тип доступу:", theme: "Тема додатка", menuSignals: "Сигнали", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профіль" },
-            en: { loading: "Checking access...", denied: "Access Denied", deniedDesc: "Your Telegram account does not have an active license for Butovski App.", selectAsset: "Asset", selectTf: "Timeframe", getSignal: "GET SIGNAL", getNewSignal: "NEW SIGNAL", searching: "Searching for best signal...", timeframe: "TIMEFRAME", probability: "PROBABILITY", realMarket: "Real Market", otcMarket: "OTC Market", cryptoMarket: "Crypto", findPairs: "Find Stable Pairs", stablePairs: "📊 Recommended Stable Pairs:", startBet: "Initial Bet ($)", multiplier: "Multiplier", steps: "Steps Count", step: "Step", bet: "Bet", total: "Total", accessType: "Access Type:", theme: "App Theme", menuSignals: "Signals", menuScreener: "Screener", menuCalc: "Calculator", menuProfile: "Profile" },
-            ru: { loading: "Проверка доступа...", denied: "Доступ ограничен", deniedDesc: "У вашего Telegram-аккаунта нет активной лицензии для Butovski App.", selectAsset: "Актив", selectTf: "Время (ТФ)", getSignal: "ПОЛУЧИТЬ СИГНАЛ", getNewSignal: "НОВЫЙ СИГНАЛ", searching: "Поиск лучшего сигнала...", timeframe: "ВРЕМЯ СИГНАЛА", probability: "ВЕРОЯТНОСТЬ", realMarket: "Реальный рынок", otcMarket: "OTC Рынок", cryptoMarket: "Crypto", findPairs: "Найти стабильные пары", stablePairs: "📊 Рекомендуемые стабильные пары:", startBet: "Начальная ставка ($)", multiplier: "Коэффициент", steps: "Количество шагов", step: "Шаг", bet: "Ставка", total: "Всего", accessType: "Тип доступа:", theme: "Тема приложения", menuSignals: "Сигналы", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профиль" }
+            ua: {
+                loading: "Завантаження додатка...", signals: "Сигнали", screener: "Сканер", calc: "Калькулятор", profile: "Профіль",
+                getSignal: "ОТРИМАТИ СИГНАЛ", findPairs: "Знайти сприятливі пари", stablePairs: "Найстабільніші пари",
+                startBet: "Початкова ставка ($)", multiplier: "Множник (Мартин)", steps: "Кількість кроків (колін)",
+                step: "Крок", bet: "Ставка", total: "Загалом", accessType: "Тип доступу:", theme: "Тема додатка",
+                noAccessTitle: "Доступ обмежено", noAccessDesc: "Зверніться до адміністратора для активації підписки.",
+                accuracy: "Точність алгоритму", warningUnstable: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ АБО КОНФЛІКТ МУЛЬТИ-ТФ)",
+                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)"
+            },
+            en: {
+                loading: "Loading application...", signals: "Signals", screener: "Scanner", calc: "Calculator", profile: "Profile",
+                getSignal: "GET SIGNAL", findPairs: "Find stable pairs", stablePairs: "Most Stable Pairs",
+                startBet: "Initial Bet ($)", multiplier: "Multiplier (Martingale)", steps: "Number of steps",
+                step: "Step", bet: "Bet", total: "Total", accessType: "Access Type:", theme: "App Theme",
+                noAccessTitle: "Access Denied", noAccessDesc: "Please contact administrator to activate your access.",
+                accuracy: "Algorithm Accuracy", warningUnstable: "⚠️ UNSTABLE MARKET (FLAT / MULTI-TF CONFLICT)",
+                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)"
+            }
         };
 
-        let currentLang = "uk";
-        let currentMarketType = "real";
-        let activeAssetValue = "";
-        let activeTimeframeValue = "1";
-        let isVipUser = false;
-        let signalTimer = null;
-        let isInterfaceLocked = false;
-
-        async function checkUserAccess() {
-            const initData = window.Telegram?.WebApp?.initData || "";
-            if (!initData || initData.trim() === "") { showHardLockScreen(); return; }
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/check-user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData })
-                });
-                if (!response.ok) { showHardLockScreen(); return; }
-                const result = await response.json();
-                if (result && result.has_access === true) {
-                    isVipUser = !!result.is_vip;
-                    document.getElementById('loadingScreen').classList.add('hidden');
-                    document.getElementById('appContainer').classList.remove('hidden');
-                    initApp();
-                } else {
-                    showHardLockScreen();
-                }
-            } catch (e) {
-                console.error(e);
-                showHardLockScreen();
-            }
-        }
-
-        function showHardLockScreen() {
-            if (signalTimer) clearInterval(signalTimer);
-            document.getElementById('loadingScreen').classList.add('hidden');
-            document.getElementById('appContainer').innerHTML = "";
-            document.getElementById('appContainer').classList.add('hidden');
-            document.getElementById('lockScreen').classList.remove('hidden');
-        }
-
-        function initApp() {
-            if (window.Telegram?.WebApp) {
-                const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
-                const user = tg.initDataUnsafe?.user;
-                if (user) {
-                    document.getElementById('profileName').innerText = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "Користувач";
-                    document.getElementById('profileUsername').innerText = user.username ? `@${user.username}` : `ID: ${user.id}`;
-                    document.getElementById('userAvatar').innerText = user.first_name ? user.first_name.charAt(0).toUpperCase() : "U";
-                }
-            }
-            if (isVipUser) {
-                document.getElementById('vipBadge').classList.remove('hidden');
-                document.getElementById('profileAccessValue').innerText = "VIP ACCESS";
-                document.getElementById('profileAccessValue').style.color = "#f59e0b";
-            }
-            applySavedThemeAndLang();
-            buildAssetDropdown();
-            calculateMartingale();
-            switchScreen('signals');
-        }
-
-        function applySavedThemeAndLang() {
-            const savedTheme = localStorage.getItem('butovski_theme') || 'cyberpunk';
-            selectThemeOption(savedTheme);
-            const savedLang = localStorage.getItem('butovski_lang') || 'uk';
-            selectLangOption(savedLang);
+        function toggleDropdown(id) {
+            document.getElementById(id).parentElement.classList.toggle('open');
         }
 
         function buildAssetDropdown() {
-            const list = marketAssets[currentMarketType] || [];
-            if (list.length === 0) return;
-            activeAssetValue = list[0].value;
-            document.getElementById('assetSelectedValue').innerText = list[0].name[currentLang];
-            const container = document.getElementById('assetCustomOptions');
+            const container = document.getElementById('assetOptions');
             container.innerHTML = "";
-            list.forEach((item, idx) => {
-                const row = document.createElement('div');
-                row.className = "custom-option" + (idx === 0 ? " selected" : "");
-                row.innerText = item.name[currentLang];
-                row.setAttribute('data-value', item.value);
-                row.onclick = () => { selectAssetOption(item.value, item.name[currentLang]); };
-                container.appendChild(row);
+            const currentList = assetsPool[currentMarket];
+            
+            currentList.forEach((item, index) => {
+                if (index === 0) {
+                    currentAsset = item.val;
+                    document.getElementById('selectedAssetLabel').innerText = item.name;
+                }
+                let opt = document.createElement('div');
+                opt.className = "custom-option";
+                opt.innerText = item.name;
+                opt.onclick = () => {
+                    currentAsset = item.val;
+                    document.getElementById('selectedAssetLabel').innerText = item.name;
+                    document.getElementById('assetSelectWrapper').classList.remove('open');
+                    if (!document.getElementById('resultScreen').classList.contains('hidden')) {
+                        initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
+                    }
+                };
+                container.appendChild(opt);
             });
         }
 
-        function toggleCustomDropdown(wrapperId) {
-            if (isInterfaceLocked && (wrapperId === 'assetDropdownWrapper' || wrapperId === 'timeframeDropdownWrapper' || wrapperId === 'themeDropdownWrapper' || wrapperId === 'langDropdownWrapper')) {
-                return;
-            }
-            const el = document.getElementById(wrapperId);
-            const isOpen = el.classList.contains('open');
-            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-            if (!isOpen) el.classList.add('open');
-        }
-
-        function selectAssetOption(val, label) {
-            if (isInterfaceLocked) return;
-            activeAssetValue = val;
-            document.getElementById('assetSelectedValue').innerText = label;
-            document.getElementById('assetDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#assetCustomOptions .custom-option').forEach(o => {
-                o.classList.remove('selected');
-                if (o.getAttribute('data-value') === val) o.classList.add('selected');
-            });
-        }
-
-        function selectTimeframeOption(val) {
-            if (isInterfaceLocked) return;
-            activeTimeframeValue = val;
-            const dict = localization[currentLang];
-            let text = val + " " + (parseInt(val) >= 60 ? "год" : "хв");
-            if (currentLang === 'en') text = val === "60" ? "1 h" : val + " m";
-            if (currentLang === 'ru') text = val === "60" ? "1 ч" : val + " мин";
-            document.getElementById('timeframeSelectedValue').innerText = text;
-            document.getElementById('timeframeSelectedValue').setAttribute('data-value', val);
-            document.getElementById('timeframeDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#timeframeCustomOptions .custom-option').forEach(o => {
-                o.classList.remove('selected');
-                if (o.getAttribute('data-value') === val) o.classList.add('selected');
-            });
-        }
-
-        function changeMarketType(type) {
-            if (isInterfaceLocked) return;
-            currentMarketType = type;
+        function setMarket(type) {
+            currentMarket = type;
             document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
-            if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
-            if (type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
-            if (type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
+            if(type === 'real') document.getElementById('btnRealMarket').classList.add('active');
+            if(type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
+            if(type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
             buildAssetDropdown();
         }
 
-        function setSignalInterfaceLock(isLocked) {
-            isInterfaceLocked = isLocked;
-
-            document.querySelectorAll('.market-btn').forEach(btn => {
-                btn.disabled = isLocked;
-                btn.style.opacity = isLocked ? "0.5" : "1";
-                btn.style.pointerEvents = isLocked ? "none" : "auto";
-            });
-
-            const assetTrigger = document.querySelector('#assetDropdownWrapper .custom-select-trigger');
-            const tfTrigger = document.querySelector('#timeframeDropdownWrapper .custom-select-trigger');
-            if (assetTrigger) {
-                assetTrigger.style.pointerEvents = isLocked ? "none" : "auto";
-                assetTrigger.style.opacity = isLocked ? "0.5" : "1";
+        function setTimeframe(btn, tf) {
+            currentTimeframe = tf;
+            document.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if (!document.getElementById('resultScreen').classList.contains('hidden')) {
+                initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
             }
-            if (tfTrigger) {
-                tfTrigger.style.pointerEvents = isLocked ? "none" : "auto";
-                tfTrigger.style.opacity = isLocked ? "0.5" : "1";
-            }
-
-            // ВИПРАВЛЕНО: navSignals прибрано звідси, щоб вкладка «Сигнали» працювала під час дії таймера.
-            const blockNavItems = ['navProfile'];
-            blockNavItems.forEach(id => {
-                const item = document.getElementById(id);
-                if (item) {
-                    if (isLocked) {
-                        item.style.pointerEvents = "none";
-                        item.style.opacity = "0.3";
-                    } else {
-                        item.style.pointerEvents = "auto";
-                        item.style.opacity = "1";
-                    }
-                }
-            });
         }
 
-        async function handleSignalAction() {
-            const actionBtn = document.getElementById('signalActionButton');
-            const dict = localization[currentLang];
-            
-            setSignalInterfaceLock(true);
-            actionBtn.innerText = dict.getNewSignal || "НОВИЙ СИГНАЛ";
+        function switchScreen(id, navItem) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById(id).classList.remove('hidden');
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            navItem.classList.add('active');
+        }
 
-            document.getElementById('searchSignalScreen').classList.remove('hidden');
-            document.getElementById('resultScreen').classList.add('hidden');
-            document.getElementById('tradingviewCard').classList.add('hidden');
-
+        async function checkUserAccess() {
             try {
-                const initData = window.Telegram?.WebApp?.initData || "";
-                const response = await fetch(`${API_BASE_URL}/api/get-market-signal`, {
+                let response = await fetch(`${API_BASE_URL}/api/check-user`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData: window.Telegram?.WebApp?.initData || "" })
+                });
+                let res = await response.json();
+                
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                if (res.has_access) {
+                    document.getElementById('appContainer').classList.remove('hidden');
+                    if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+                        const u = window.Telegram.WebApp.initDataUnsafe.user;
+                        document.getElementById('profId').innerText = u.id || '-';
+                        document.getElementById('profUsername').innerText = u.username ? `@${u.username}` : 'No Nickname';
+                    }
+                    buildAssetDropdown();
+                    calculateMartingale();
+                } else {
+                    document.getElementById('noAccessScreen').classList.remove('hidden');
+                }
+            } catch (e) {
+                document.getElementById('loadingOverlay').classList.add('hidden');
+                document.getElementById('appContainer').classList.remove('hidden');
+                buildAssetDropdown();
+                calculateMartingale();
+            }
+        }
+
+        async function getSignalFromServer() {
+            const btn = document.getElementById('signalActionButton');
+            const resultScreen = document.getElementById('resultScreen');
+            const warnBox = document.getElementById('signalWarning');
+            const newsBox = document.getElementById('newsWarning');
+            
+            btn.disabled = true;
+            btn.innerText = currentLang === 'ua' ? "АНАЛІЗ..." : "ANALYZING...";
+            
+            try {
+                let response = await fetch(`${API_BASE_URL}/api/get-market-signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        initData: initData,
-                        asset: activeAssetValue,
-                        timeframe: activeTimeframeValue,
-                        market: currentMarketType
+                        initData: window.Telegram?.WebApp?.initData || "",
+                        asset: currentAsset,
+                        tf: currentTimeframe,
+                        market_type: currentMarket
                     })
                 });
+                let res = await response.json();
                 
-                document.getElementById('searchSignalScreen').classList.add('hidden');
-
-                if (!response.ok) {
-                    alert("Помилка сервера при отриманні сигналу");
-                    setSignalInterfaceLock(false);
-                    actionBtn.innerText = dict.getSignal;
-                    return;
-                }
-
-                const data = await response.json();
-                if (data && data.success) {
-                    let dispSymbol = activeAssetValue;
-                    const list = marketAssets[currentMarketType] || [];
-                    const found = list.find(x => x.value === activeAssetValue);
-                    if (found) dispSymbol = found.name[currentLang];
-
-                    document.getElementById('signalPair').innerText = dispSymbol;
+                if (res.success) {
+                    resultScreen.classList.remove('hidden');
+                    const cleanPair = currentAsset.includes(":") ? currentAsset.split(":")[1] : currentAsset;
+                    document.getElementById('signalPair').innerText = cleanPair;
+                    document.getElementById('signalDirection').innerText = res.direction;
+                    document.getElementById('signalProbability').innerText = `${res.probability}%`;
                     
-                    let dirText = data.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
-                    if (currentLang === 'en') dirText = data.direction === "UP" ? "CALL" : "PUT";
-                    if (currentLang === 'ru') dirText = data.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
-                    
-                    document.getElementById('signalDirection').innerText = dirText;
-                    document.getElementById('signalDirection').className = "direction-badge " + (data.direction === "UP" ? "bg-green" : "bg-red");
-                    
-                    let tfLabel = activeTimeframeValue + " МИН";
-                    if (activeTimeframeValue === "60") tfLabel = currentLang === 'en' ? "1 HOUR" : (currentLang === 'ru' ? "1 ЧАС" : "1 ГОДИНА");
-                    else {
-                        if (currentLang === 'en') tfLabel = activeTimeframeValue + " MIN";
-                        if (currentLang === 'ru') tfLabel = activeTimeframeValue + " МИН";
+                    if (res.direction === "UP") {
+                        document.getElementById('signalDirection').className = "direction-badge bg-green";
+                    } else {
+                        document.getElementById('signalDirection').className = "direction-badge bg-red";
                     }
-                    document.getElementById('signalTimeframe').innerText = tfLabel;
-                    document.getElementById('signalProbability').innerText = data.probability + "%";
 
-                    if (data.is_unstable) document.getElementById('signalWarning').classList.remove('hidden');
-                    else document.getElementById('signalWarning').classList.add('hidden');
+                    // Обробка нових прапорців безпеки (Мульти-ТФ конфлікт та Новини)
+                    if (res.is_unstable) warnBox.classList.remove('hidden');
+                    else warnBox.classList.add('hidden');
 
-                    document.getElementById('resultScreen').classList.remove('hidden');
-                    document.getElementById('tradingviewCard').classList.remove('hidden');
+                    if (res.news_alert) newsBox.classList.remove('hidden');
+                    else newsBox.classList.add('hidden');
 
-                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
-                    const tvTheme = (currentTheme === 'light') ? 'light' : 'dark';
-                    initTradingViewWidget(tvTheme, activeAssetValue, activeTimeframeValue);
-
-                    startSignalTimer(parseInt(activeTimeframeValue) * 60);
-                } else {
-                    alert("Не вдалося сформувати сигнал. Спробуйте ще раз.");
-                    setSignalInterfaceLock(false);
-                    actionBtn.innerText = dict.getSignal;
+                    initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
                 }
-            } catch (err) {
-                console.error(err);
-                document.getElementById('searchSignalScreen').classList.add('hidden');
-                setSignalInterfaceLock(false);
-                actionBtn.innerText = dict.getSignal;
+            } catch(e) {
+                console.error(e);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = localization[currentLang].getSignal;
             }
         }
 
-        function startSignalTimer(totalSeconds) {
-            if (signalTimer) clearInterval(signalTimer);
-            let left = totalSeconds;
-            const fill = document.getElementById('progressFill');
-            const txt = document.getElementById('timerDigits');
+        async function triggerMarketScan() {
+            const container = document.getElementById('screenerContainer');
+            const btn = document.getElementById('lblScreenerBtn');
+            container.innerHTML = `<div style="text-align:center; padding:20px; font-weight:600; font-size:13px; color:var(--text-muted);">Сканування індикаторів TradingView...</div>`;
             
-            function update() {
-                if (left <= 0) {
-                    clearInterval(signalTimer);
-                    fill.style.width = "0%";
-                    txt.innerText = "00:00/00:00";
-                    
-                    setSignalInterfaceLock(false);
-                    document.getElementById('signalActionButton').innerText = localization[currentLang].getSignal;
-                    return;
-                }
-                const pct = (left / totalSeconds) * 100;
-                fill.style.width = pct + "%";
-                fill.style.backgroundColor = pct > 50 ? "var(--green-signal)" : (pct > 20 ? "#f59e0b" : "var(--red-signal)");
-                
-                let mStart = Math.floor(totalSeconds / 60);
-                let sStart = totalSeconds % 60;
-                let mLeft = Math.floor(left / 60);
-                let sLeft = left % 60;
-                
-                const strStart = (mStart < 10 ? "0" : "") + mStart + ":" + (sStart < 10 ? "0" : "") + sStart;
-                const strLeft = (mLeft < 10 ? "0" : "") + mLeft + ":" + (sLeft < 10 ? "0" : "") + sLeft;
-                txt.innerText = strLeft + " / " + strStart;
-                left--;
-            }
-            update();
-            signalTimer = setInterval(update, 1000);
-        }
-
-        async function handleMarketScan() {
-            const btn = document.getElementById('btnScreener');
-            btn.disabled = true;
             try {
-                const initData = window.Telegram?.WebApp?.initData || "";
-                const response = await fetch(`${API_BASE_URL}/api/get-market-scan`, {
+                let response = await fetch(`${API_BASE_URL}/api/get-market-scan`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData, market: currentMarketType })
+                    body: JSON.stringify({
+                        initData: window.Telegram?.WebApp?.initData || "",
+                        market: currentMarket
+                    })
                 });
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data && data.success && data.pairs) {
-                        const listCont = document.getElementById('screenerList');
-                        listCont.innerHTML = "";
-                        data.pairs.forEach(p => {
-                            let disp = p.symbol;
-                            const fullList = marketAssets[currentMarketType] || [];
-                            const found = fullList.find(x => x.value === p.symbol);
-                            if (found) disp = found.name[currentLang];
-                            
-                            let dTxt = p.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
-                            if (currentLang === 'en') dTxt = p.direction === "UP" ? "CALL" : "PUT";
-                            if (currentLang === 'ru') dTxt = p.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
-
-                            const row = document.createElement('div');
-                            row.className = "screener-row";
-                            row.innerHTML = `<strong>${disp}</strong> <span class="direction-badge ${p.direction === 'UP' ? 'bg-green' : 'bg-red'}" style="padding:3px 10px; font-size:11px;">${dTxt} ${p.probability}%</span>`;
-                            listCont.appendChild(row);
-                        });
-                        document.getElementById('screenerBox').classList.remove('hidden');
-                    }
+                let res = await response.json();
+                container.innerHTML = "";
+                
+                if (res.success && res.pairs) {
+                    res.pairs.forEach(p => {
+                        const dispName = p.symbol.includes(":") ? p.symbol.split(":")[1] : p.symbol;
+                        let row = document.createElement('div');
+                        row.className = "screener-row";
+                        row.innerHTML = `
+                            <span class="row-pair">${dispName}</span>
+                            <span class="row-badge ${p.direction === 'UP' ? 'bg-green' : 'bg-red'}">${p.direction}</span>
+                            <span class="row-prob">${p.probability}%</span>
+                        `;
+                        container.appendChild(row);
+                    });
                 }
-            } catch (e) { console.error(e); }
-            btn.disabled = false;
-        }
-
-        function switchScreen(screenName) {
-            if (isInterfaceLocked && screenName === 'profile') {
-                return;
+            } catch(e) {
+                container.innerHTML = `<div style="color:var(--red-signal); font-weight:600; text-align:center; padding:10px;">Помилка завантаження сканера</div>`;
             }
-
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.querySelectorAll('.nav-bar .nav-item').forEach(n => n.classList.remove('active'));
-            
-            if (screenName === 'signals') {
-                document.getElementById('screenSignals').classList.remove('hidden');
-                document.getElementById('navSignals').classList.add('active');
-            } else if (screenName === 'screener') {
-                document.getElementById('screenScreener').classList.remove('hidden');
-                document.getElementById('navScreener').classList.add('active');
-            } else if (screenName === 'calc') {
-                document.getElementById('screenCalc').classList.remove('hidden');
-                document.getElementById('navCalc').classList.add('active');
-            } else if (screenName === 'profile') {
-                document.getElementById('screenProfile').classList.remove('hidden');
-                document.getElementById('navProfile').classList.add('active');
-            }
-        }
-
-        function selectThemeOption(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('butovski_theme', theme);
-            let displayTheme = "Cyberpunk";
-            if (theme === 'emerald') displayTheme = "Emerald";
-            if (theme === 'nordic') displayTheme = "Nordic";
-            if (theme === 'light') displayTheme = "Light";
-            document.getElementById('themeSelectedValue').innerText = displayTheme;
-            document.getElementById('themeSelectedValue').setAttribute('data-value', theme);
-            document.getElementById('themeDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#themeCustomOptions .custom-option').forEach(o => {
-                o.classList.remove('selected');
-                if (o.getAttribute('data-value') === theme) o.classList.add('selected');
-            });
-            if (document.getElementById('tradingview_widget').innerHTML.trim() !== "") {
-                initTradingViewWidget((theme === 'light' ? 'light' : 'dark'), activeAssetValue, activeTimeframeValue);
-            }
-        }
-
-        function selectLangOption(lang) {
-            currentLang = lang;
-            localStorage.setItem('butovski_lang', lang);
-            const dict = localization[lang];
-            
-            let labelLang = "Українська";
-            if (lang === 'en') labelLang = "English";
-            if (lang === 'ru') labelLang = "Русский";
-            
-            document.getElementById('langSelectedValue').innerText = labelLang;
-            document.getElementById('langSelectedValue').setAttribute('data-value', lang);
-            document.getElementById('langDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#langCustomOptions .custom-option').forEach(o => {
-                o.classList.remove('selected');
-                if (o.getAttribute('data-value') === lang) o.classList.add('selected');
-            });
-
-            document.getElementById('loadingText').innerText = dict.loading;
-            document.getElementById('lockTitle').innerText = dict.denied;
-            document.getElementById('lockDesc').innerText = dict.deniedDesc;
-            document.getElementById('lblSelectAsset').innerText = dict.selectAsset;
-            document.getElementById('lblSelectTimeframe').innerText = dict.selectTf;
-            
-            const actionBtn = document.getElementById('signalActionButton');
-            actionBtn.innerText = isInterfaceLocked ? (dict.getNewSignal || "НОВИЙ СИГНАЛ") : dict.getSignal;
-
-            document.getElementById('lblSearching').innerText = dict.searching;
-            document.getElementById('lblTimeframe').innerText = dict.timeframe;
-            document.getElementById('lblProba').innerText = dict.probability;
-            document.getElementById('btnRealMarket').innerText = dict.realMarket;
-            document.getElementById('btnOtcMarket').innerText = dict.otcMarket;
-            document.getElementById('btnCryptoMarket').innerText = dict.cryptoMarket;
-            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
-            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
-            document.getElementById('lblStartBet').innerText = dict.startBet;
-            document.getElementById('lblMultiplier').innerText = dict.multiplier;
-            document.getElementById('lblSteps').innerText = dict.steps;
-            document.getElementById('thStep').innerText = dict.step;
-            document.getElementById('thBet').innerText = dict.bet;
-            document.getElementById('thTotal').innerText = dict.total;
-            document.getElementById('setAccessType').innerText = dict.accessType;
-            document.getElementById('setTheme').innerText = dict.theme;
-            document.getElementById('menuSignals').innerText = dict.menuSignals;
-            document.getElementById('menuScreener').innerText = dict.menuScreener;
-            document.getElementById('menuCalc').innerText = dict.menuCalc;
-            document.getElementById('menuProfile').innerText = dict.menuProfile;
-
-            buildAssetDropdown();
-            selectTimeframeOption(activeTimeframeValue);
         }
 
         function calculateMartingale() {
             const bet = parseFloat(document.getElementById('startBet').value) || 1;
             const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
-            const body = document.getElementById('martingaleResultBody'); body.innerHTML = "";
+            const body = document.getElementById('martingaleResultBody');
+            body.innerHTML = "";
             let total = 0, currentBet = bet;
             
             for (let i = 1; i <= steps; i++) {
@@ -776,12 +774,60 @@
 
             if (typeof TradingView !== 'undefined') {
                 new TradingView.widget({
-                    "autosize": true, "symbol": asset, "interval": widgetTf, "timezone": "Etc/UTC",
-                    "theme": (theme === 'light') ? 'light' : 'dark', "style": "1", "locale": currentLang,
-                    "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_legend": true, "save_image": false,
+                    "autosize": true,
+                    "symbol": asset,
+                    "interval": widgetTf,
+                    "timezone": "Etc/UTC",
+                    "theme": theme === 'light' ? 'light' : 'dark',
+                    "style": "1",
+                    "locale": currentLang,
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "hide_legend": true,
+                    "save_image": false,
                     "container_id": "tradingview_widget"
                 });
             }
+        }
+
+        function toggleAppTheme() {
+            currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.getElementById('themeBtn').innerText = currentTheme.toUpperCase();
+            if (!document.getElementById('resultScreen').classList.contains('hidden')) {
+                initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = (currentLang === 'ua') ? 'en' : 'ua';
+            document.getElementById('langBtn').innerText = currentLang.toUpperCase();
+            const dict = localization[currentLang];
+
+            document.getElementById('loadingText').innerText = dict.loading;
+            document.getElementById('signalActionButton').innerText = dict.getSignal;
+            document.getElementById('lblAlgorithmAccuracy').innerText = dict.accuracy;
+            document.getElementById('signalWarning').innerText = dict.warningUnstable;
+            document.getElementById('newsWarning').innerText = dict.warningNews;
+            document.getElementById('noAccessTitle').innerText = dict.noAccessTitle;
+            document.getElementById('noAccessDesc').innerText = dict.noAccessDesc;
+            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
+            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
+            document.getElementById('lblStartBet').innerText = dict.startBet;
+            document.getElementById('lblMultiplier').innerText = dict.multiplier;
+            document.getElementById('lblSteps').innerText = dict.steps;
+            document.getElementById('thStep').innerText = dict.step;
+            document.getElementById('thBet').innerText = dict.bet;
+            document.getElementById('thTotal').innerText = dict.total;
+            document.getElementById('setAccessType').innerText = dict.accessType;
+            document.getElementById('setTheme').innerText = dict.theme;
+
+            document.getElementById('menuSignals').innerHTML = `<i class="fa-solid fa-chart-line"></i>${dict.signals}`;
+            document.getElementById('menuScreener').innerHTML = `<i class="fa-solid fa-radar"></i>${dict.screener}`;
+            document.getElementById('menuCalc').innerHTML = `<i class="fa-solid fa-calculator"></i>${dict.calc}`;
+            document.getElementById('menuProfile').innerHTML = `<i class="fa-solid fa-user"></i>${dict.profile}`;
+
+            buildAssetDropdown();
         }
 
         document.addEventListener('click', (e) => {
