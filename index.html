@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" data-theme="cyberpunk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        :root, [data-theme="cyberpunk"] {
+        :root, [data-theme="cyberpunk"], [data-theme="dark"] {
             --bg-color: #0d0f14;
             --card-bg: #141822;
             --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7);
@@ -218,7 +218,7 @@
             color: #fff;
         }
         .bg-green { background-color: var(--green-signal); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); }
-        .bg-red { background-color: var(--red-signal); box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4); }
+        .bg-red { background-color: var(--red-signal); box-shadow: 0 4px 14px rgba(239, 68, 110, 0.4); }
         
         .prob-container {
             font-size: 15px;
@@ -332,9 +332,7 @@
 
         .nav-bar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             height: 65px;
             background-color: var(--nav-bg);
             border-top: 1px solid var(--border-color);
@@ -484,11 +482,11 @@
         <div id="screenProfile" class="screen hidden">
             <div class="card">
                 <div class="profile-row">
-                    <span class="profile-label">ID Користувача:</span>
+                    <span class="profile-label" id="lblProfId">ID Користувача:</span>
                     <span class="profile-value" id="profId">-</span>
                 </div>
                 <div class="profile-row">
-                    <span class="profile-label">Нікнейм:</span>
+                    <span class="profile-label" id="lblProfUser">Нікнейм:</span>
                     <span class="profile-value" id="profUsername">-</span>
                 </div>
                 <div class="profile-row">
@@ -503,23 +501,23 @@
             </div>
             
             <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                <span>Мова / Language</span>
+                <span id="lblLangSelect">Мова / Language</span>
                 <button class="tf-btn" style="padding:8px 16px; border-color:#a855f7; color:#a855f7;" onclick="toggleLanguage()" id="langBtn">UA</button>
             </div>
         </div>
 
         <div class="nav-bar">
             <div class="nav-item active" onclick="switchScreen('screenSignals', this)" id="menuSignals">
-                <i class="fa-solid fa-chart-line"></i>Сигнали
+                <i class="fa-solid fa-chart-line"></i><span>Сигнали</span>
             </div>
             <div class="nav-item" onclick="switchScreen('screenScreener', this)" id="menuScreener">
-                <i class="fa-solid fa-radar"></i>Сканер
+                <i class="fa-solid fa-radar"></i><span>Сканер</span>
             </div>
             <div class="nav-item" onclick="switchScreen('screenCalc', this)" id="menuCalc">
-                <i class="fa-solid fa-calculator"></i>Калькулятор
+                <i class="fa-solid fa-calculator"></i><span>Калькулятор</span>
             </div>
             <div class="nav-item" onclick="switchScreen('screenProfile', this)" id="menuProfile">
-                <i class="fa-solid fa-user"></i>Профіль
+                <i class="fa-solid fa-user"></i><span>Профіль</span>
             </div>
         </div>
     </div>
@@ -559,9 +557,13 @@
             ]
         };
 
+        // Розширена локалізація на 3 мови: UA, EN, PL
         const localization = {
             ua: {
                 loading: "Завантаження додатка...",
+                realMarket: "Реальний ринок",
+                otcMarket: "OTC Ринок",
+                cryptoMarket: "Crypto",
                 signals: "Сигнали",
                 screener: "Сканер",
                 calc: "Калькулятор",
@@ -581,10 +583,17 @@
                 noAccessDesc: "Зверніться до адміністратора для активації підписки.",
                 accuracy: "Точність алгоритму",
                 warningUnstable: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ АБО КОНФЛІКТ МУЛЬТИ-ТФ)",
-                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)"
+                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)",
+                profId: "ID Користувача:",
+                profUser: "Нікнейм:",
+                langSelect: "Мова / Language",
+                analyzing: "АНАЛІЗ..."
             },
             en: {
                 loading: "Loading application...",
+                realMarket: "Real Market",
+                otcMarket: "OTC Market",
+                cryptoMarket: "Crypto",
                 signals: "Signals",
                 screener: "Scanner",
                 calc: "Calculator",
@@ -604,19 +613,53 @@
                 noAccessDesc: "Please contact administrator to activate your access.",
                 accuracy: "Algorithm Accuracy",
                 warningUnstable: "⚠️ UNSTABLE MARKET (FLAT / MULTI-TF CONFLICT)",
-                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)"
+                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)",
+                profId: "User ID:",
+                profUser: "Username:",
+                langSelect: "Language / Мова",
+                analyzing: "ANALYZING..."
+            },
+            pl: {
+                loading: "Ładowanie aplikacji...",
+                realMarket: "Rynek Realny",
+                otcMarket: "Rynek OTC",
+                cryptoMarket: "Kryptowaluty",
+                signals: "Sygnały",
+                screener: "Skaner",
+                calc: "Kalkulator",
+                profile: "Profil",
+                getSignal: "POBIERZ SYGNAŁ",
+                findPairs: "Znajdź stabilne pary",
+                stablePairs: "Najbardziej stabilne pary",
+                startBet: "Stawka początkowa ($)",
+                multiplier: "Mnożnik (Martingale)",
+                steps: "Liczba kroków",
+                step: "Krok",
+                bet: "Stawka",
+                total: "Razem",
+                accessType: "Typ dostępu:",
+                theme: "Motyw aplikacji",
+                noAccessTitle: "Brak dostępu",
+                noAccessDesc: "Skontaktuj się z administratorem, aby aktywować subskrypcję.",
+                accuracy: "Dokładność algorytmu",
+                warningUnstable: "⚠️ RYNEK NIESTABILNY (KONSOLIDACJA / KONFLIKT TF)",
+                warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)",
+                profId: "ID Użytkownika:",
+                profUser: "Nazwa użytkownika:",
+                langSelect: "Język / Language",
+                analyzing: "ANALIZA..."
             }
         };
 
-        function toggleDropdown(id) { 
-            document.getElementById(id).parentElement.classList.toggle('open'); 
+        function toggleDropdown(id) {
+            document.getElementById(id).parentElement.classList.toggle('open');
         }
 
         function buildAssetDropdown() {
             const container = document.getElementById('assetOptions');
             container.innerHTML = "";
             const currentList = assetsPool[currentMarket];
-
+            
             currentList.forEach((item, index) => {
                 if (index === 0) {
                     currentAsset = item.val;
@@ -662,6 +705,73 @@
             navItem.classList.add('active');
         }
 
+        // --- ФУНКЦІЯ ПЕРЕКЛАДУ ІНТЕРФЕЙСУ ---
+        function updateInterfaceLanguage() {
+            const dict = localization[currentLang];
+            
+            // Оновлення тексту кнопок та завантажувача
+            document.getElementById('loadingText').innerText = dict.loading;
+            document.getElementById('btnRealMarket').innerText = dict.realMarket;
+            document.getElementById('btnOtcMarket').innerText = dict.otcMarket;
+            document.getElementById('btnCryptoMarket').innerText = dict.cryptoMarket;
+            document.getElementById('signalActionButton').innerText = dict.getSignal;
+            
+            // Екран обмеження доступу
+            document.getElementById('noAccessTitle').innerText = dict.noAccessTitle;
+            document.getElementById('noAccessDesc').innerText = dict.noAccessDesc;
+            
+            // Екран результатів
+            document.getElementById('lblAlgorithmAccuracy').innerText = dict.accuracy;
+            document.getElementById('signalWarning').innerText = dict.warningUnstable;
+            document.getElementById('newsWarning').innerText = dict.warningNews;
+            
+            // Сканер
+            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
+            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
+            
+            // Калькулятор
+            document.getElementById('lblStartBet').innerText = dict.startBet;
+            document.getElementById('lblMultiplier').innerText = dict.multiplier;
+            document.getElementById('lblSteps').innerText = dict.steps;
+            document.getElementById('thStep').innerText = dict.step;
+            document.getElementById('thBet').innerText = dict.bet;
+            document.getElementById('thTotal').innerText = dict.total;
+            
+            // Профіль
+            document.getElementById('lblProfId').innerText = dict.profId;
+            document.getElementById('lblProfUser').innerText = dict.profUser;
+            document.getElementById('setAccessType').innerText = dict.accessType;
+            document.getElementById('setTheme').innerText = dict.theme;
+            document.getElementById('lblLangSelect').innerText = dict.langSelect;
+            document.getElementById('langBtn').innerText = currentLang.toUpperCase();
+            
+            // Нижнє Навігаційне меню
+            document.querySelector('#menuSignals span').innerText = dict.signals;
+            document.querySelector('#menuScreener span').innerText = dict.screener;
+            document.querySelector('#menuCalc span').innerText = dict.calc;
+            document.querySelector('#menuProfile span').innerText = dict.profile;
+        }
+
+        // Клікер перемикання мов за колом: UA -> EN -> PL -> UA
+        function toggleLanguage() {
+            if (currentLang === 'ua') currentLang = 'en';
+            else if (currentLang === 'en') currentLang = 'pl';
+            else currentLang = 'ua';
+            
+            updateInterfaceLanguage();
+        }
+
+        // Виправлена робота зміни теми (dark / light)
+        function toggleAppTheme() {
+            currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            document.getElementById('themeBtn').innerText = currentTheme.toUpperCase();
+            
+            if (!document.getElementById('resultScreen').classList.contains('hidden')) {
+                initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
+            }
+        }
+
         async function checkUserAccess() {
             try {
                 let response = await fetch(`${API_BASE_URL}/api/check-user`, {
@@ -677,7 +787,7 @@
                     if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
                         const u = window.Telegram.WebApp.initDataUnsafe.user;
                         document.getElementById('profId').innerText = u.id || '-';
-                        document.getElementById('profUsername').innerText = u.username ? `@${u.username}` : 'No Nickname';
+                        document.getElementById('profUsername').innerText = u.username ? `@${u.username}` : 'User';
                     }
                     buildAssetDropdown();
                     calculateMartingale();
@@ -690,6 +800,7 @@
                 buildAssetDropdown();
                 calculateMartingale();
             }
+            updateInterfaceLanguage(); // Ініціалізація поточної мови при старті
         }
 
         async function getSignalFromServer() {
@@ -697,8 +808,9 @@
             const resultScreen = document.getElementById('resultScreen');
             const warnBox = document.getElementById('signalWarning');
             const newsBox = document.getElementById('newsWarning');
+            
             btn.disabled = true;
-            btn.innerText = currentLang === 'ua' ? "АНАЛІЗ..." : "ANALYZING...";
+            btn.innerText = localization[currentLang].analyzing;
             
             try {
                 let response = await fetch(`${API_BASE_URL}/api/get-market-signal`, {
@@ -743,38 +855,30 @@
 
         async function triggerMarketScan() {
             const container = document.getElementById('screenerContainer');
-            const btn = document.getElementById('lblScreenerBtn');
             container.innerHTML = `<div style="text-align:center; padding:20px; font-weight:600; font-size:13px; color:var(--text-muted);">Сканування індикаторів TradingView...</div>`;
-            
             try {
                 let response = await fetch(`${API_BASE_URL}/api/get-market-scan`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        initData: window.Telegram?.WebApp?.initData || "",
-                        market: currentMarket
-                    })
+                    body: JSON.stringify({ initData: window.Telegram?.WebApp?.initData || "", market: currentMarket })
                 });
                 let res = await response.json();
                 container.innerHTML = "";
-                
                 if (res.success && res.pairs) {
                     res.pairs.forEach(p => {
                         const dispName = p.symbol.includes(":") ? p.symbol.split(":")[1] : p.symbol;
                         let row = document.createElement('div');
                         row.className = "screener-row";
-                        
-                        let badgeClass = p.direction === "UP" ? "bg-green" : "bg-red";
                         row.innerHTML = `
                             <span class="row-pair">${dispName}</span>
-                            <span class="row-badge ${badgeClass}">${p.direction}</span>
+                            <span class="row-badge ${p.direction === 'UP' ? 'bg-green' : 'bg-red'}">${p.direction}</span>
                             <span class="row-prob">${p.probability}%</span>
                         `;
                         container.appendChild(row);
                     });
                 }
             } catch (e) {
-                container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--red-signal);">Помилка сканування</div>`;
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--red-signal);">Помилка сканування ринку</div>`;
             }
         }
 
@@ -783,6 +887,7 @@
             const mult = parseFloat(document.getElementById('multiplier').value) || 2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
             const body = document.getElementById('martingaleResultBody');
+            
             body.innerHTML = "";
             let total = 0, currentBet = bet;
             
@@ -814,46 +919,6 @@
                     "container_id": "tradingview_widget"
                 });
             }
-        }
-
-        function toggleAppTheme() {
-            currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', currentTheme);
-            document.getElementById('themeBtn').innerText = currentTheme.toUpperCase();
-            if (!document.getElementById('resultScreen').classList.contains('hidden')) {
-                initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
-            }
-        }
-
-        function toggleLanguage() {
-            currentLang = (currentLang === 'ua') ? 'en' : 'ua';
-            document.getElementById('langBtn').innerText = currentLang.toUpperCase();
-            
-            const dict = localization[currentLang];
-            document.getElementById('loadingText').innerText = dict.loading;
-            document.getElementById('noAccessTitle').innerText = dict.noAccessTitle;
-            document.getElementById('noAccessDesc').innerText = dict.noAccessDesc;
-            document.getElementById('signalActionButton').innerText = dict.getSignal;
-            document.getElementById('lblAlgorithmAccuracy').innerText = dict.accuracy;
-            document.getElementById('signalWarning').innerText = dict.warningUnstable;
-            document.getElementById('newsWarning').innerText = dict.warningNews;
-            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
-            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
-            document.getElementById('lblStartBet').innerText = dict.startBet;
-            document.getElementById('lblMultiplier').innerText = dict.multiplier;
-            document.getElementById('lblSteps').innerText = dict.steps;
-            document.getElementById('thStep').innerText = dict.step;
-            document.getElementById('thBet').innerText = dict.bet;
-            document.getElementById('thTotal').innerText = dict.total;
-            document.getElementById('setAccessType').innerText = dict.accessType;
-            document.getElementById('setTheme').innerText = dict.theme;
-
-            document.getElementById('menuSignals').innerHTML = `<i class="fa-solid fa-chart-line"></i>${dict.signals}`;
-            document.getElementById('menuScreener').innerHTML = `<i class="fa-solid fa-radar"></i>${dict.screener}`;
-            document.getElementById('menuCalc').innerHTML = `<i class="fa-solid fa-calculator"></i>${dict.calc}`;
-            document.getElementById('menuProfile').innerHTML = `<i class="fa-solid fa-user"></i>${dict.profile}`;
-
-            buildAssetDropdown();
         }
 
         document.addEventListener('click', (e) => {
