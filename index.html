@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App Pro v3.1</title>
+    <title>Butovski App Pro v3.5</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        /* Базові та кастомні теми оформлення */
         :root, [data-theme="cyberpunk"] {
             --bg-color: #0d0f14;
             --card-bg: #141822;
@@ -30,6 +31,39 @@
             --border-color: #e2e8f0;
             --nav-bg: #ffffff;
             --tv-theme: light;
+        }
+
+        [data-theme="emerald"] {
+            --bg-color: #060d0a;
+            --card-bg: #0b1812;
+            --accent-gradient: linear-gradient(135deg, #10b981, #059669);
+            --text-main: #ecfdf5;
+            --text-muted: #6ee7b7;
+            --border-color: #143024;
+            --nav-bg: #040806;
+            --tv-theme: dark;
+        }
+
+        [data-theme="ocean"] {
+            --bg-color: #020813;
+            --card-bg: #071329;
+            --accent-gradient: linear-gradient(135deg, #0ea5e9, #2563eb);
+            --text-main: #f0f9ff;
+            --text-muted: #38bdf8;
+            --border-color: #0f2954;
+            --nav-bg: #01040a;
+            --tv-theme: dark;
+        }
+
+        [data-theme="gold"] {
+            --bg-color: #0f0f0f;
+            --card-bg: #1a1a1a;
+            --accent-gradient: linear-gradient(135deg, #fbbf24, #d97706);
+            --text-main: #ffffff;
+            --text-muted: #fbbf24;
+            --border-color: #2e2e2e;
+            --nav-bg: #0a0a0a;
+            --tv-theme: dark;
         }
 
         * {
@@ -319,7 +353,7 @@
             gap: 8px;
         }
 
-        .news-card {
+        .news-card, .edu-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 16px;
@@ -331,7 +365,7 @@
             text-decoration: none;
             color: inherit;
         }
-        .news-card:hover {
+        .news-card:hover, .edu-card:hover {
             transform: translateY(-2px);
             border-color: #6366f1;
         }
@@ -353,7 +387,8 @@
         .news-impact.med { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 
         .news-title { font-size: 13px; font-weight: 600; line-height: 1.4; }
-        .news-link-hint {
+        
+        .link-hint {
             display: flex;
             align-items: center;
             gap: 4px;
@@ -363,16 +398,10 @@
             font-weight: 500;
         }
 
-        .edu-item {
+        .edu-flex-container {
             display: flex;
             align-items: center;
             gap: 14px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
         }
 
         .edu-icon {
@@ -385,6 +414,7 @@
             justify-content: center;
             color: #6366f1;
             font-size: 18px;
+            flex-shrink: 0;
         }
 
         .profile-card {
@@ -538,14 +568,13 @@
             </div>
         </div>
         <div class="header-actions">
-            <button class="circle-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
+            <button class="circle-btn" onclick="rotateTheme()"><i class="fas fa-bolt" id="themeIcon"></i></button>
             <button class="circle-btn" onclick="openLangModal()"><i class="fas fa-globe"></i></button>
         </div>
     </div>
 
     <div class="container">
         
-        <!-- ВКЛАДКА 1: СИГНАЛИ -->
         <div id="tab-signals" class="tab-content active">
             <div class="asset-selector" onclick="openAssetModal()">
                 <div class="asset-current">
@@ -604,7 +633,6 @@
             </div>
         </div>
 
-        <!-- ВКЛАДКА 2: АНАЛІТИКА & ХАБ -->
         <div id="tab-hub" class="tab-content">
             <div class="section-title">
                 <i class="fas fa-newspaper" style="color: #6366f1"></i>
@@ -619,7 +647,6 @@
             <div id="eduContainer"></div>
         </div>
 
-        <!-- ВКЛАДКА 3: КАБІНЕТ -->
         <div id="tab-profile" class="tab-content">
             <div class="profile-card">
                 <div class="profile-avatar" id="profileAvatarText">U</div>
@@ -638,7 +665,6 @@
 
     </div>
 
-    <!-- МОДАЛЬНЕ ВІКНО ВИБОРУ АКТИВІВ -->
     <div class="modal" id="assetModal" onclick="closeAssetModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -653,7 +679,6 @@
         </div>
     </div>
 
-    <!-- МЕНЮ ВИБОРУ МОВИ -->
     <div class="modal" id="langModal" onclick="closeLangModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -664,7 +689,6 @@
         </div>
     </div>
 
-    <!-- НИЖНЯ НАВІГАЦІЯ -->
     <div class="navbar">
         <div class="nav-item active" id="nav-signals-btn" onclick="switchTab('signals')">
             <i class="fas fa-chart-pie"></i>
@@ -672,7 +696,7 @@
         </div>
         <div class="nav-item" id="nav-hub-btn" onclick="switchTab('hub')">
             <i class="fas fa-brain"></i>
-            <span id="navHubText">Хаб</span>
+            <span id="navHubText">Аналітика</span>
         </div>
         <div class="nav-item" id="nav-profile-btn" onclick="switchTab('profile')">
             <i class="fas fa-user"></i>
@@ -681,10 +705,11 @@
     </div>
 
     <script>
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/"; // Перевірте, чи збігається посилання
+        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/";
         
         let currentLang = 'uk';
-        let currentTheme = 'cyberpunk';
+        const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold'];
+        let currentThemeIdx = 0;
         let isSignalActive = false;
         let localSignalsCount = 0;
 
@@ -761,6 +786,7 @@
                 buyText: "BUY / ВГОРУ",
                 sellText: "SELL / ВНИЗ",
                 readMore: "Читати деталі на джерелі",
+                openLesson: "Відкрити лекцію на джерелі",
                 errConnect: "Не вдалося з'єднатися з сервером. Перевірте роботу бекенду."
             },
             en: {
@@ -783,6 +809,7 @@
                 buyText: "BUY / UP",
                 sellText: "SELL / DOWN",
                 readMore: "Read breakdown on source",
+                openLesson: "Open reference class",
                 errConnect: "Failed to connect to server. Check your backend deployment."
             },
             pl: {
@@ -805,6 +832,7 @@
                 buyText: "BUY / W GÓRĘ",
                 sellText: "SELL / W DÓŁ",
                 readMore: "Przeczytaj szczegóły w źródle",
+                openLesson: "Otwórz lekcję źródłową",
                 errConnect: "Nie można połączyć się z serwerem. Sprawdź backend."
             },
             de: {
@@ -827,11 +855,12 @@
                 buyText: "BUY / NACH OBEN",
                 sellText: "SELL / NACH UNTEN",
                 readMore: "Details in der Quelle lesen",
+                openLesson: "Lektion im Original öffnen",
                 errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen."
             }
         };
 
-        // НАСТРОЙКА РЕАЛЬНИХ ПОСИЛАНЬ НА НОВИНИ INVESTING / BLOOMBERG
+        // НАСТРОЙКА РЕАЛЬНИХ ПОСИЛАНЬ НА НОВИНИ ТА АКАДЕМІЮ
         const hubContent = {
             news: [
                 {
@@ -860,17 +889,39 @@
             edu: [
                 {
                     icon: "fa-chart-line",
-                    title: { uk: "Як працює індикатор RSI?", en: "How does the RSI indicator work?", pl: "Jak działa wskaźnik RSI?", de: "Wie funktioniert der RSI-Indikator?" },
-                    desc: { uk: "Основи визначення зон перекупленості ринку.", en: "Basics of identifying market overbought zones.", pl: "Podstawy identyfikacji stref wykupienia rynku.", de: "Grundlagen zur Erkennung überkaufter Markzonen." }
+                    url: "https://www.tradingview.com/support/solutions/43000501844-relative-strength-index-rsi/",
+                    title: { 
+                        uk: "Як працює індикатор RSI?", 
+                        en: "How does the RSI indicator work?", 
+                        pl: "Jak działa wskaźnik RSI?", 
+                        de: "Wie funktioniert der RSI-Indikator?" 
+                    },
+                    desc: { 
+                        uk: "Основи визначення зон перекупленості та перепроданості ринку.", 
+                        en: "Basics of identifying market overbought and oversold zones.", 
+                        pl: "Podstawy identyfikacji stref wykupienia i wyprzedania rynku.", 
+                        de: "Grundlagen zur Erkennung überkaufter und überverkaufter Markzonen." 
+                    }
                 },
                 {
                     icon: "fa-bolt",
-                    title: { uk: "Стратегія швидкого скальпінгу", en: "Fast scalping strategy", pl: "Strategia szybkiego skalpowania", de: "Schnelle Scalping-Strategie" } ,
-                    desc: { uk: "Правила входу в угоди на секундних інтервалах.", en: "Rules for entering trades on short-second intervals.", pl: "Zasady wchodzenia w transakcje w krótkich interwałach.", de: "Regeln für den Einstieg in Trades auf kurzen Intervallen." }
+                    url: "https://www.binance.com/uk-UA/academy/articles/what-is-scalping-in-cryptocurrency-trading",
+                    title: { 
+                        uk: "Стратегія швидкого скальпінгу", 
+                        en: "Fast scalping strategy guide", 
+                        pl: "Strategia szybkiego skalpowania", 
+                        de: "Schnelle Scalping-Strategie" 
+                    } ,
+                    desc: { 
+                        uk: "Правила входу та суворого ризик-менеджменту в угоди на хвилинних інтервалах.", 
+                        en: "Rules for entering trades and risk management on short minute intervals.", 
+                        pl: "Zasady wchodzenia w transakcje i zarządzania ryzykiem na interwałach minutowych.", 
+                        de: "Regeln für den Einstieg in Trades und Risikomanagement auf Minutenintervallen." 
+                    }
                 }
             ],
             steps: {
-                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної модели...", "Генерація результату..."],
+                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної моделі...", "Генерація результату..."],
                 en: ["Connecting to TV server...", "Collecting technical indicators...", "Calculating mathematical model...", "Generating result..."],
                 pl: ["Łączenie z serwerem TV...", "Zbieranie wskaźników technicznych...", "Obliczanie modelu matematycznego...", "Generowanie wyniku..."],
                 de: ["Verbindung zum TV-Server...", "Technische Indikatoren sammeln...", "Berechnung des mathematischen Modells...", "Ergebnis wird generiert..."]
@@ -922,7 +973,7 @@
             if (isSignalActive) return;
             selectedTimeframe = tf;
             renderTimeframes();
-            initTradingViewWidget(currentTheme, selectedAsset.id, tf.tvWidget);
+            initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, tf.tvWidget);
         }
 
         function buildAssetDropdown() {
@@ -954,10 +1005,9 @@
             document.getElementById('currentAssetType').innerText = translations[currentLang][asset.type];
             closeAssetModal();
             buildAssetDropdown();
-            initTradingViewWidget(currentTheme, asset.id, selectedTimeframe.tvWidget);
+            initTradingViewWidget(themesList[currentThemeIdx], asset.id, selectedTimeframe.tvWidget);
         }
 
-        // ПОБУДОВА МЕНЮ ВИБОРУ МОВИ
         function buildLangDropdown() {
             const container = document.getElementById('langsListContainer');
             container.innerHTML = "";
@@ -982,7 +1032,6 @@
             closeLangModal();
             buildLangDropdown();
             
-            // Локалізація всього інтерфейсу
             document.getElementById('statusLabel').innerText = translations[currentLang].statusLabel;
             document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
             document.getElementById('probabilityLabel').innerText = translations[currentLang].probabilityLabel;
@@ -1000,25 +1049,25 @@
             
             buildAssetDropdown();
             renderHubContent();
-            initTradingViewWidget(currentTheme, selectedAsset.id, selectedTimeframe.tvWidget);
+            initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
         }
 
-        // РЕНДЕРИНГ КОНТЕНТУ НОВИН З РЕАЛЬНИМИ ПОСИЛАННЯМИ
         function renderHubContent() {
+            // Рендер новин
             const newsCont = document.getElementById('newsContainer');
             newsCont.innerHTML = "";
             hubContent.news.forEach(item => {
                 const card = document.createElement('a');
                 card.className = "news-card";
                 card.href = item.url;
-                card.target = "_blank"; // Відкриття в новому вікні браузера
+                card.target = "_blank";
                 card.innerHTML = `
                     <div class="news-header">
                         <span><i class="far fa-clock"></i> ${item.time}</span>
                         <span class="news-impact ${item.impact}">${item.impact.toUpperCase()}</span>
                     </div>
                     <div class="news-title">${item.title[currentLang]}</div>
-                    <div class="news-link-hint">
+                    <div class="link-hint">
                         <span>${translations[currentLang].readMore}</span>
                         <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
                     </div>
@@ -1026,20 +1075,28 @@
                 newsCont.appendChild(card);
             });
 
+            // Рендер Академії Трейдингу з клікабельними посиланнями
             const eduCont = document.getElementById('eduContainer');
             eduCont.innerHTML = "";
             hubContent.edu.forEach(item => {
-                const row = document.createElement('div');
-                row.className = "edu-item";
-                row.onclick = () => alert(item.title[currentLang] + "\n\n" + item.desc[currentLang]);
-                row.innerHTML = `
-                    <div class="edu-icon"><i class="fas ${item.icon}"></i></div>
-                    <div>
-                        <div style="font-size:13px; font-weight:600; margin-bottom:2px;">${item.title[currentLang]}</div>
-                        <div style="font-size:11px; color:var(--text-muted);">${item.desc[currentLang]}</div>
+                const card = document.createElement('a');
+                card.className = "edu-card";
+                card.href = item.url;
+                card.target = "_blank";
+                card.innerHTML = `
+                    <div class="edu-flex-container">
+                        <div class="edu-icon"><i class="fas ${item.icon}"></i></div>
+                        <div>
+                            <div style="font-size:13px; font-weight:600; margin-bottom:4px;">${item.title[currentLang]}</div>
+                            <div style="font-size:11px; color:var(--text-muted); line-height:1.4;">${item.desc[currentLang]}</div>
+                            <div class="link-hint">
+                                <span>${translations[currentLang].openLesson}</span>
+                                <i class="fas fa-graduation-cap" style="font-size:10px;"></i>
+                            </div>
+                        </div>
                     </div>
                 `;
-                eduCont.appendChild(row);
+                eduCont.appendChild(card);
             });
         }
 
@@ -1133,17 +1190,25 @@
 
             if(tabId === 'signals') {
                 setTimeout(() => {
-                    initTradingViewWidget(currentTheme, selectedAsset.id, selectedTimeframe.tvWidget);
+                    initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
                 }, 100);
             }
         }
 
-        function toggleTheme() {
-            currentTheme = (currentTheme === 'cyberpunk') ? 'light' : 'cyberpunk';
-            document.documentElement.setAttribute('data-theme', currentTheme);
+        // Циклічне перемикання між 5 різними темами
+        function rotateTheme() {
+            currentThemeIdx = (currentThemeIdx + 1) % themesList.length;
+            const newTheme = themesList[currentThemeIdx];
+            document.documentElement.setAttribute('data-theme', newTheme);
+            
             const icon = document.getElementById('themeIcon');
-            icon.className = (currentTheme === 'light') ? "fas fa-sun" : "fas fa-moon";
-            initTradingViewWidget(currentTheme, selectedAsset.id, selectedTimeframe.tvWidget);
+            if (newTheme === 'light') icon.className = "fas fa-sun";
+            else if (newTheme === 'emerald') icon.className = "fas fa-money-bill-wave";
+            else if (newTheme === 'ocean') icon.className = "fas fa-water";
+            else if (newTheme === 'gold') icon.className = "fas fa-crown";
+            else icon.className = "fas fa-bolt"; // для cyberpunk
+            
+            initTradingViewWidget(newTheme, selectedAsset.id, selectedTimeframe.tvWidget);
         }
 
         function openAssetModal() { document.getElementById('assetModal').classList.add('active'); }
@@ -1160,13 +1225,15 @@
 
         function initTradingViewWidget(theme, asset, timeframe) {
             document.getElementById('tradingview_widget').innerHTML = "";
+            let tvThemeValue = (theme === 'light') ? 'light' : 'dark';
+            
             if (typeof TradingView !== 'undefined') {
                 new TradingView.widget({
                     "autosize": true,
                     "symbol": asset,
                     "interval": timeframe,
                     "timezone": "Etc/UTC",
-                    "theme": (theme === 'light') ? 'light' : 'dark',
+                    "theme": tvThemeValue,
                     "style": "1",
                     "locale": currentLang,
                     "toolbar_bg": "#f1f3f6",
