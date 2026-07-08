@@ -493,7 +493,8 @@
                 tfTrigger.style.opacity = isLocked ? "0.5" : "1";
             }
 
-            const blockNavItems = ['navSignals', 'navProfile'];
+            // ВИПРАВЛЕНО: navSignals прибрано звідси, щоб вкладка «Сигнали» працювала під час дії таймера.
+            const blockNavItems = ['navProfile'];
             blockNavItems.forEach(id => {
                 const item = document.getElementById(id);
                 if (item) {
@@ -662,7 +663,7 @@
         }
 
         function switchScreen(screenName) {
-            if (isInterfaceLocked && (screenName === 'signals' || screenName === 'profile')) {
+            if (isInterfaceLocked && screenName === 'profile') {
                 return;
             }
 
