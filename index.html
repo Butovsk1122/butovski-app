@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App Pro v3.0</title>
+    <title>Butovski App Pro v3.1</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -310,7 +310,6 @@
             overflow: hidden;
         }
 
-        /* Стилі Нової вкладки Новин та Навчання */
         .section-title {
             font-size: 16px;
             font-weight: 700;
@@ -326,6 +325,15 @@
             border-radius: 16px;
             padding: 14px;
             margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .news-card:hover {
+            transform: translateY(-2px);
+            border-color: #6366f1;
         }
 
         .news-header {
@@ -345,6 +353,15 @@
         .news-impact.med { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
 
         .news-title { font-size: 13px; font-weight: 600; line-height: 1.4; }
+        .news-link-hint {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 11px;
+            color: #6366f1;
+            margin-top: 8px;
+            font-weight: 500;
+        }
 
         .edu-item {
             display: flex;
@@ -374,41 +391,36 @@
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 20px;
-            padding: 20px;
+            padding: 24px;
             text-align: center;
             margin-bottom: 16px;
         }
 
         .profile-avatar {
-            width: 70px;
-            height: 70px;
+            width: 76px;
+            height: 76px;
             border-radius: 50%;
             background: var(--accent-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 26px;
             color: white;
             margin: 0 auto 12px;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .stat-item {
+        .single-stat-container {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 16px;
             text-align: center;
+            max-width: 240px;
+            margin: 0 auto;
         }
 
-        .stat-value { font-size: 16px; font-weight: 700; margin-top: 4px; }
-        .stat-label { font-size: 11px; color: var(--text-muted); }
+        .stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; color: #6366f1; }
+        .stat-label { font-size: 12px; color: var(--text-muted); }
 
         .navbar {
             position: fixed;
@@ -489,7 +501,7 @@
             width: 100%;
         }
 
-        .asset-option {
+        .asset-option, .lang-option {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -498,8 +510,20 @@
             cursor: pointer;
             margin-bottom: 6px;
         }
-        .asset-option:hover, .asset-option.selected {
+        .asset-option:hover, .asset-option.selected,
+        .lang-option:hover, .lang-option.selected {
             background: rgba(99, 102, 241, 0.08);
+        }
+        
+        .lang-flag {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: #232a3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
         }
     </style>
 </head>
@@ -515,12 +539,13 @@
         </div>
         <div class="header-actions">
             <button class="circle-btn" onclick="toggleTheme()"><i class="fas fa-moon" id="themeIcon"></i></button>
-            <button class="circle-btn" onclick="toggleLanguage()"><i class="fas fa-globe"></i></button>
+            <button class="circle-btn" onclick="openLangModal()"><i class="fas fa-globe"></i></button>
         </div>
     </div>
 
     <div class="container">
         
+        <!-- ВКЛАДКА 1: СИГНАЛИ -->
         <div id="tab-signals" class="tab-content active">
             <div class="asset-selector" onclick="openAssetModal()">
                 <div class="asset-current">
@@ -579,6 +604,7 @@
             </div>
         </div>
 
+        <!-- ВКЛАДКА 2: АНАЛІТИКА & ХАБ -->
         <div id="tab-hub" class="tab-content">
             <div class="section-title">
                 <i class="fas fa-newspaper" style="color: #6366f1"></i>
@@ -593,32 +619,27 @@
             <div id="eduContainer"></div>
         </div>
 
+        <!-- ВКЛАДКА 3: КАБІНЕТ -->
         <div id="tab-profile" class="tab-content">
             <div class="profile-card">
                 <div class="profile-avatar" id="profileAvatarText">U</div>
                 <h3 id="profileName">Username</h3>
                 <p style="color: #22c55e; font-size: 12px; margin-top: 4px; font-weight: 500;" id="profileStatus">Premium Account</p>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <i class="fas fa-wallet" style="color: #6366f1"></i>
-                    <div class="stat-value" id="balanceValue">0.00 ₴</div>
-                    <div class="stat-label" id="balanceLabel">Мій Баланс</div>
-                </div>
-                <div class="stat-item">
-                    <i class="fas fa-chart-line" style="color: #a855f7"></i>
-                    <div class="stat-value" id="signalsCountValue">0</div>
-                    <div class="stat-label" id="signalsCountLabel">Запитів за добу</div>
+                
+                <div style="margin-top: 20px;">
+                    <div class="single-stat-container">
+                        <i class="fas fa-chart-line" style="color: #a855f7; font-size: 18px;"></i>
+                        <div class="stat-value" id="signalsCountValue">0</div>
+                        <div class="stat-label" id="signalsCountLabel">Запитів за добу</div>
+                    </div>
                 </div>
             </div>
-
-            <button class="action-btn" style="background: var(--card-bg); border: 1px solid var(--border-color); color: var(--text-main); box-shadow: none;" id="withdrButton" onclick="handleWithdraw()">ВИВЕСТИ КОШТИ</button>
         </div>
 
     </div>
 
-    <div class="modal" id="assetModal" onclick="closeAssetModal(event)">
+    <!-- МОДАЛЬНЕ ВІКНО ВИБОРУ АКТИВІВ -->
+    <div class="modal" id="assetModal" onclick="closeAssetModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <div class="modal-header">
                 <h3 id="modalSelectTitle">Оберіть актив</h3>
@@ -632,6 +653,18 @@
         </div>
     </div>
 
+    <!-- МЕНЮ ВИБОРУ МОВИ -->
+    <div class="modal" id="langModal" onclick="closeLangModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modalLangTitle">Виберіть мову / Language</h3>
+                <i class="fas fa-times" style="cursor: pointer; color: var(--text-muted)" onclick="closeLangModal()"></i>
+            </div>
+            <div id="langsListContainer"></div>
+        </div>
+    </div>
+
+    <!-- НИЖНЯ НАВІГАЦІЯ -->
     <div class="navbar">
         <div class="nav-item active" id="nav-signals-btn" onclick="switchTab('signals')">
             <i class="fas fa-chart-pie"></i>
@@ -648,17 +681,21 @@
     </div>
 
     <script>
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/"; // Вкажіть ваше актуальне посилання на Render
+        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/"; // Перевірте, чи збігається посилання
         
         let currentLang = 'uk';
-        const languagesList = ['uk', 'en', 'pl', 'de'];
         let currentTheme = 'cyberpunk';
         let isSignalActive = false;
         let localSignalsCount = 0;
 
-        // РОЗШИРЕНИЙ СПИСОК АКТИВІВ (28+ штук)
+        const languagesMap = [
+            { code: 'uk', name: 'Українська', flag: '🇺🇦' },
+            { code: 'en', name: 'English', flag: '🇬🇧' },
+            { code: 'pl', name: 'Polski', flag: '🇵🇱' },
+            { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
+        ];
+
         const assetsData = [
-            // Мажори
             { id: "FX:EURUSD", name: "EUR / USD", type: "forex", icon: "€" },
             { id: "FX:GBPUSD", name: "GBP / USD", type: "forex", icon: "£" },
             { id: "FX:USDJPY", name: "USD / JPY", type: "forex", icon: "¥" },
@@ -666,19 +703,16 @@
             { id: "FX:USDCAD", name: "USD / CAD", type: "forex", icon: "C$" },
             { id: "FX:USDCHF", name: "USD / CHF", type: "forex", icon: "₣" },
             { id: "FX:NZDUSD", name: "NZD / USD", type: "forex", icon: "N$" },
-            // Кроси
             { id: "FX:EURGBP", name: "EUR / GBP", type: "forex", icon: "₠" },
             { id: "FX:EURJPY", name: "EUR / JPY", type: "forex", icon: "₭" },
             { id: "FX:GBPJPY", name: "GBP / JPY", type: "forex", icon: "ℒ" },
             { id: "FX:AUDJPY", name: "AUD / JPY", type: "forex", icon: "ℳ" },
             { id: "FX:EURAUD", name: "EUR / AUD", type: "forex", icon: "₧" },
             { id: "FX:GBPCAD", name: "GBP / CAD", type: "forex", icon: "💱" },
-            // Екзотика
             { id: "OANDA:USDTRY", name: "USD / TRY", type: "forex", icon: "₺" },
             { id: "OANDA:USDZAR", name: "USD / ZAR", type: "forex", icon: "R" },
             { id: "OANDA:USDMXN", name: "USD / MXN", type: "forex", icon: "Mex" },
             { id: "OANDA:EURSEK", name: "EUR / SEK", type: "forex", icon: "kr" },
-            // Крипта
             { id: "BINANCE:BTCUSDT", name: "BTC / USDT", type: "crypto", icon: "₿" },
             { id: "BINANCE:ETHUSDT", name: "ETH / USDT", type: "crypto", icon: "Ξ" },
             { id: "BINANCE:SOLUSDT", name: "SOL / USDT", type: "crypto", icon: "☀️" },
@@ -687,7 +721,6 @@
             { id: "BINANCE:BNBUSDT", name: "BNB / USDT", type: "crypto", icon: "🔶" },
             { id: "BINANCE:ADAUSDT", name: "ADA / USDT", type: "crypto", icon: "₳" },
             { id: "BINANCE:DOGEUSDT", name: "DOGE / USDT", type: "crypto", icon: "Ð" },
-            // Метали та Сировина
             { id: "FOREXCOM:XAUUSD", name: "GOLD (XAU/USD)", type: "cfd", icon: "Au" },
             { id: "FOREXCOM:XAGUSD", name: "SILVER (XAG/USD)", type: "cfd", icon: "Ag" },
             { id: "FOREXCOM:USOIL", name: "Crude Oil WTI", type: "cfd", icon: "🛢️" }
@@ -707,7 +740,6 @@
         let selectedAsset = assetsData[0];
         let selectedTimeframe = timeframesData[3];
 
-        // 100% ПОВНІ СЛОВНИКИ ПЕРЕКЛАДІВ БЕЗ ПРОПУСКІВ
         const translations = {
             uk: {
                 statusLabel: "Преміум Активовано",
@@ -715,9 +747,7 @@
                 signalActionButton: "ОТРИМАТИ СИГНАЛ",
                 signalActionButtonNew: "НОВИЙ СИГНАЛ",
                 probabilityLabel: "СИЛА СИГНАЛУ",
-                balanceLabel: "Мій Баланс",
                 signalsCountLabel: "Запитів за добу",
-                withdrButton: "ВИВЕСТИ КОШТИ",
                 modalSelectTitle: "Оберіть актив",
                 navSignalsText: "Сигнали",
                 navHubText: "Аналітика",
@@ -728,9 +758,9 @@
                 newsSectionTitle: "Економічні події",
                 eduSectionTitle: "Академія трейдингу",
                 assetSearchPlaceholder: "Пошук активу...",
-                withdrawAlert: "Мінімальна сума для виведення становить 500 ₴",
                 buyText: "BUY / ВГОРУ",
                 sellText: "SELL / ВНИЗ",
+                readMore: "Читати деталі на джерелі",
                 errConnect: "Не вдалося з'єднатися з сервером. Перевірте роботу бекенду."
             },
             en: {
@@ -739,9 +769,7 @@
                 signalActionButton: "GET SIGNAL",
                 signalActionButtonNew: "NEW SIGNAL",
                 probabilityLabel: "SIGNAL STRENGTH",
-                balanceLabel: "My Balance",
                 signalsCountLabel: "Daily requests",
-                withdrButton: "WITHDRAW FUNDS",
                 modalSelectTitle: "Select asset",
                 navSignalsText: "Signals",
                 navHubText: "Analytics",
@@ -752,9 +780,9 @@
                 newsSectionTitle: "Economic Events",
                 eduSectionTitle: "Trading Academy",
                 assetSearchPlaceholder: "Search asset...",
-                withdrawAlert: "The minimum withdrawal amount is 500 ₴",
                 buyText: "BUY / UP",
                 sellText: "SELL / DOWN",
+                readMore: "Read breakdown on source",
                 errConnect: "Failed to connect to server. Check your backend deployment."
             },
             pl: {
@@ -763,9 +791,7 @@
                 signalActionButton: "POBIERZ SYGNAŁ",
                 signalActionButtonNew: "NOWY SYGNAŁ",
                 probabilityLabel: "SIŁA SYGNAŁU",
-                balanceLabel: "Moje Saldo",
                 signalsCountLabel: "Zgłoszenia na dobę",
-                withdrButton: "WYPŁAĆ ŚRODKI",
                 modalSelectTitle: "Wybierz aktywo",
                 navSignalsText: "Sygnały",
                 navHubText: "Analityka",
@@ -776,9 +802,9 @@
                 newsSectionTitle: "Wydarzenia gospodarcze",
                 eduSectionTitle: "Akademia Tradingu",
                 assetSearchPlaceholder: "Szukaj aktywów...",
-                withdrawAlert: "Minimalna kwota wypłaty wynosi 500 ₴",
                 buyText: "BUY / W GÓRĘ",
                 sellText: "SELL / W DÓŁ",
+                readMore: "Przeczytaj szczegóły w źródle",
                 errConnect: "Nie można połączyć się z serwerem. Sprawdź backend."
             },
             de: {
@@ -787,9 +813,7 @@
                 signalActionButton: "SIGNAL ANFORDERN",
                 signalActionButtonNew: "NEUES SIGNAL",
                 probabilityLabel: "SIGNALSTÄRKE",
-                balanceLabel: "Mein Kontostand",
                 signalsCountLabel: "Anfragen pro Tag",
-                withdrButton: "GELD ABHEBEN",
                 modalSelectTitle: "Asset auswählen",
                 navSignalsText: "Signale",
                 navHubText: "Analytik",
@@ -800,34 +824,36 @@
                 newsSectionTitle: "Wirtschaftsdaten",
                 eduSectionTitle: "Trading-Akademie",
                 assetSearchPlaceholder: "Asset suchen...",
-                withdrawAlert: "Der Mindestauszahlungsbetrag beträgt 500 ₴",
                 buyText: "BUY / NACH OBEN",
                 sellText: "SELL / NACH UNTEN",
+                readMore: "Details in der Quelle lesen",
                 errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen."
             }
         };
 
-        // ДАНІ ДЛЯ СТРІЧКИ НОВИН ТА АКАДЕМІЇ (З повним перекладом на всі 4 мови)
+        // НАСТРОЙКА РЕАЛЬНИХ ПОСИЛАНЬ НА НОВИНИ INVESTING / BLOOMBERG
         const hubContent = {
             news: [
                 {
                     impact: "high",
                     time: "15:30",
+                    url: "https://www.investing.com/economic-calendar/",
                     title: {
-                        uk: "Публікація індексу споживчих цін (CPI) США — очікується висока волатильність.",
-                        en: "US Consumer Price Index (CPI) publication — high volatility expected.",
-                        pl: "Publikacja wskaźnika cen towarów i usług konsumpcyjnych (CPI) w USA — oczekiwana wysoka zmienność.",
-                        de: "Veröffentlichung des US-Verbraucherpreisindex (CPI) — hohe Volatilität erwartet."
+                        uk: "Публікація індексу споживчих цін (CPI) США — очікується висока волатильність на ринках.",
+                        en: "US Consumer Price Index (CPI) publication — massive global market impact ahead.",
+                        pl: "Publikacja wskaźnika cen towarów i usług konsumpcyjnych (CPI) w USA — oczekiwana zmienność.",
+                        de: "Veröffentlichung des US-Verbraucherpreisindex (CPI) — extreme Schwankungen erwartet."
                     }
                 },
                 {
                     impact: "med",
                     time: "17:00",
+                    url: "https://www.bloomberg.com/markets",
                     title: {
-                        uk: "Виступ голови Європейського центрального банку (ЄЦБ) щодо монетарної політики.",
-                        en: "Speech by the President of the European Central Bank (ECB) on monetary policy.",
-                        pl: "Przemówienie Prezesa Europejskiego Banku Centralnego (EBC) na temat polityki pieniężnej.",
-                        de: "Rede der Präsidentin der Europäischen Zentralbank (EZB) zur Geldpolitik."
+                        uk: "Виступ голови Європейського центрального банку (ЄЦБ) щодо подальшої процентної ставки.",
+                        en: "Speech by the President of the European Central Bank (ECB) on interest rate trajectory.",
+                        pl: "Przemówienie Prezesa Europejskiego Banku Centralnego (EBC) o stopach procentowych.",
+                        de: "Rede der EZB-Präsidentin zur zukünftigen Zinspolitik und Inflation."
                     }
                 }
             ],
@@ -835,28 +861,22 @@
                 {
                     icon: "fa-chart-line",
                     title: { uk: "Як працює індикатор RSI?", en: "How does the RSI indicator work?", pl: "Jak działa wskaźnik RSI?", de: "Wie funktioniert der RSI-Indikator?" },
-                    desc: { uk: "Основи визначення зон перекупленості ринку.", en: "Basics of identifying market overbought zones.", pl: "Podstawy identyfikacji stref wykupienia rynku.", de: "Grundlagen zur Erkennung überkaufter Marktzonen." }
+                    desc: { uk: "Основи визначення зон перекупленості ринку.", en: "Basics of identifying market overbought zones.", pl: "Podstawy identyfikacji stref wykupienia rynku.", de: "Grundlagen zur Erkennung überkaufter Markzonen." }
                 },
                 {
                     icon: "fa-bolt",
                     title: { uk: "Стратегія швидкого скальпінгу", en: "Fast scalping strategy", pl: "Strategia szybkiego skalpowania", de: "Schnelle Scalping-Strategie" } ,
                     desc: { uk: "Правила входу в угоди на секундних інтервалах.", en: "Rules for entering trades on short-second intervals.", pl: "Zasady wchodzenia w transakcje w krótkich interwałach.", de: "Regeln für den Einstieg in Trades auf kurzen Intervallen." }
-                },
-                {
-                    icon: "fa-shield-halved",
-                    title: { uk: "Ризик-менеджмент 101", en: "Risk Management 101", pl: "Zarządzanie ryzykiem 101", de: "Risikomanagement 101" },
-                    desc: { uk: "Як не втратити депозит при перших угодах.", en: "How to avoid losing your deposit during first trades.", pl: "Jak uniknąć utraty depozytu podczas pierwszych transakcji.", de: "Wie Sie verhindern, Ihr Depot bei den ersten Trades zu verlieren." }
                 }
             ],
             steps: {
-                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної моделі...", "Генерація результату..."],
+                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної модели...", "Генерація результату..."],
                 en: ["Connecting to TV server...", "Collecting technical indicators...", "Calculating mathematical model...", "Generating result..."],
                 pl: ["Łączenie z serwerem TV...", "Zbieranie wskaźników technicznych...", "Obliczanie modelu matematycznego...", "Generowanie wyniku..."],
                 de: ["Verbindung zum TV-Server...", "Technische Indikatoren sammeln...", "Berechnung des mathematischen Modells...", "Ergebnis wird generiert..."]
             }
         };
 
-        // Telegram WebApp Ініціалізація
         let initData = "";
         try {
             if (window.Telegram && window.Telegram.WebApp) {
@@ -878,27 +898,12 @@
             }
         } catch(e) { console.error(e); }
 
-        async function syncUserWithDatabase() {
-            if (!initData) return;
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData })
-                });
-                const data = await res.json();
-                if (data.success && data.user) {
-                    document.getElementById('balanceValue').innerText = parseFloat(data.user.balance).toFixed(2) + " ₴";
-                }
-            } catch(err) { console.error(err); }
-        }
-
         window.addEventListener('DOMContentLoaded', () => {
             renderTimeframes();
             buildAssetDropdown();
+            buildLangDropdown();
             renderHubContent();
             switchTab('signals');
-            syncUserWithDatabase();
         });
 
         function renderTimeframes() {
@@ -952,19 +957,71 @@
             initTradingViewWidget(currentTheme, asset.id, selectedTimeframe.tvWidget);
         }
 
-        // РЕНДЕРИНГ КОНТЕНТУ НОВОЇ ВКЛАДКИ
+        // ПОБУДОВА МЕНЮ ВИБОРУ МОВИ
+        function buildLangDropdown() {
+            const container = document.getElementById('langsListContainer');
+            container.innerHTML = "";
+            languagesMap.forEach(lang => {
+                const isSel = lang.code === currentLang;
+                const div = document.createElement('div');
+                div.className = `lang-option ${isSel ? 'selected' : ''}`;
+                div.onclick = () => selectLanguage(lang.code);
+                div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="lang-flag">${lang.flag}</div>
+                        <div style="font-size:14px; font-weight:600; color: var(--text-main);">${lang.name}</div>
+                    </div>
+                    ${isSel ? '<i class="fas fa-check" style="color:#6366f1;"></i>' : ''}
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function selectLanguage(langCode) {
+            currentLang = langCode;
+            closeLangModal();
+            buildLangDropdown();
+            
+            // Локалізація всього інтерфейсу
+            document.getElementById('statusLabel').innerText = translations[currentLang].statusLabel;
+            document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
+            document.getElementById('probabilityLabel').innerText = translations[currentLang].probabilityLabel;
+            document.getElementById('signalsCountLabel').innerText = translations[currentLang].signalsCountLabel;
+            document.getElementById('modalSelectTitle').innerText = translations[currentLang].modalSelectTitle;
+            document.getElementById('navSignalsText').innerText = translations[currentLang].navSignalsText;
+            document.getElementById('navHubText').innerText = translations[currentLang].navHubText;
+            document.getElementById('navProfileText').innerText = translations[currentLang].navProfileText;
+            document.getElementById('newsSectionTitle').innerText = translations[currentLang].newsSectionTitle;
+            document.getElementById('eduSectionTitle').innerText = translations[currentLang].eduSectionTitle;
+            document.getElementById('assetSearchInput').placeholder = translations[currentLang].assetSearchPlaceholder;
+            
+            const btn = document.getElementById('signalActionButton');
+            btn.innerText = isSignalActive ? translations[currentLang].signalActionButtonNew : translations[currentLang].signalActionButton;
+            
+            buildAssetDropdown();
+            renderHubContent();
+            initTradingViewWidget(currentTheme, selectedAsset.id, selectedTimeframe.tvWidget);
+        }
+
+        // РЕНДЕРИНГ КОНТЕНТУ НОВИН З РЕАЛЬНИМИ ПОСИЛАННЯМИ
         function renderHubContent() {
             const newsCont = document.getElementById('newsContainer');
             newsCont.innerHTML = "";
             hubContent.news.forEach(item => {
-                const card = document.createElement('div');
+                const card = document.createElement('a');
                 card.className = "news-card";
+                card.href = item.url;
+                card.target = "_blank"; // Відкриття в новому вікні браузера
                 card.innerHTML = `
                     <div class="news-header">
                         <span><i class="far fa-clock"></i> ${item.time}</span>
                         <span class="news-impact ${item.impact}">${item.impact.toUpperCase()}</span>
                     </div>
                     <div class="news-title">${item.title[currentLang]}</div>
+                    <div class="news-link-hint">
+                        <span>${translations[currentLang].readMore}</span>
+                        <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
+                    </div>
                 `;
                 newsCont.appendChild(card);
             });
@@ -1025,7 +1082,6 @@
 
                 clearInterval(intervalTimer);
                 loader.style.display = 'none';
-
                 const data = await response.json();
 
                 if (data.success) {
@@ -1090,37 +1146,10 @@
             initTradingViewWidget(currentTheme, selectedAsset.id, selectedTimeframe.tvWidget);
         }
 
-        function toggleLanguage() {
-            let idx = languagesList.indexOf(currentLang);
-            idx = (idx + 1) % languagesList.length;
-            currentLang = languagesList[idx];
-            
-            // 100% Локалізація текстових блоків по ID
-            document.getElementById('statusLabel').innerText = translations[currentLang].statusLabel;
-            document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
-            document.getElementById('probabilityLabel').innerText = translations[currentLang].probabilityLabel;
-            document.getElementById('balanceLabel').innerText = translations[currentLang].balanceLabel;
-            document.getElementById('signalsCountLabel').innerText = translations[currentLang].signalsCountLabel;
-            document.getElementById('withdrButton').innerText = translations[currentLang].withdrButton;
-            document.getElementById('modalSelectTitle').innerText = translations[currentLang].modalSelectTitle;
-            document.getElementById('navSignalsText').innerText = translations[currentLang].navSignalsText;
-            document.getElementById('navHubText').innerText = translations[currentLang].navHubText;
-            document.getElementById('navProfileText').innerText = translations[currentLang].navProfileText;
-            document.getElementById('newsSectionTitle').innerText = translations[currentLang].newsSectionTitle;
-            document.getElementById('eduSectionTitle').innerText = translations[currentLang].eduSectionTitle;
-            document.getElementById('assetSearchInput').placeholder = translations[currentLang].assetSearchPlaceholder;
-            
-            const btn = document.getElementById('signalActionButton');
-            btn.innerText = isSignalActive ? translations[currentLang].signalActionButtonNew : translations[currentLang].signalActionButton;
-            
-            buildAssetDropdown();
-            renderHubContent();
-            selectAsset(selectedAsset);
-        }
-
-        function handleWithdraw() { alert(translations[currentLang].withdrawAlert); }
         function openAssetModal() { document.getElementById('assetModal').classList.add('active'); }
-        function closeAssetModal(e) { document.getElementById('assetModal').classList.remove('active'); }
+        function closeAssetModal() { document.getElementById('assetModal').classList.remove('active'); }
+        function openLangModal() { document.getElementById('langModal').classList.add('active'); }
+        function closeLangModal() { document.getElementById('langModal').classList.remove('active'); }
 
         function filterAssets() {
             const query = document.getElementById('assetSearchInput').value.toLowerCase();
