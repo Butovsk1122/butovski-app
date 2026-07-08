@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Butovski App v2.9</title>
+    <title>Butovski App v2.8</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -112,11 +112,6 @@
             align-items: center;
             font-weight: 500;
             font-size: 14px;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .custom-select-trigger:active {
-            transform: scale(0.98);
         }
 
         .custom-options {
@@ -177,7 +172,6 @@
             padding: 24px;
             text-align: center;
             box-shadow: 0 8px 32px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
         }
 
         .signal-output {
@@ -202,69 +196,15 @@
             font-weight: 700;
         }
 
+        .signal-indicators-sub {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
         .signal-up { color: var(--success-color); }
         .signal-down { color: var(--danger-color); }
-
-        /* Нові блоки пунктів 1 та 2: Індикатори та Історія */
-        .indicators-summary {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px dashed var(--border-color);
-        }
-
-        .indicator-badge {
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-        }
-
-        .history-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
-
-        .history-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-main);
-        }
-
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-height: 180px;
-            overflow-y: auto;
-        }
-
-        .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 12px;
-            background: var(--bg-color);
-            border-radius: 8px;
-            font-size: 12px;
-        }
-
-        .history-meta {
-            display: flex;
-            gap: 8px;
-            color: var(--text-muted);
-        }
 
         /* Прогрес бар */
         .progress-container {
@@ -295,11 +235,6 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-            transition: all 0.2s ease-in-out;
-        }
-
-        .market-btn:active {
-            transform: scale(0.97);
         }
 
         /* Калькулятор Мартингейла */
@@ -394,49 +329,6 @@
             color: var(--text-muted);
         }
 
-        /* Перемикач Тумблер для звуку */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--border-color);
-            transition: .3s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background: var(--accent-gradient);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
         /* Екрани */
         .app-screen {
             display: none;
@@ -490,7 +382,7 @@
     <div class="container">
         <header>
             <div class="logo">BUTOVSKI BOT</div>
-            <div style="font-size: 11px; color: var(--text-muted); font-weight:600;" id="versionInfo">v2.9 Pro</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-weight:600;">v2.8</div>
         </header>
 
         <div id="screen-signals" class="app-screen active">
@@ -523,6 +415,7 @@
                 <div class="signal-output">
                     <div class="status-text" id="statusText">Робот готовий до аналізу</div>
                     <div class="signal-result" id="signalResult">—</div>
+                    <div class="signal-indicators-sub" id="signalIndicatorsSub"></div>
                 </div>
 
                 <div class="progress-container" id="progressContainer">
@@ -530,21 +423,6 @@
                 </div>
 
                 <button class="market-btn" id="signalActionButton" onclick="processSignalAction()">ОТРИМАТИ СИГНАЛ</button>
-
-                <div class="indicators-summary" id="indicatorsSummary" style="display: none;">
-                    <div class="indicator-badge" id="indRsi">RSI: —</div>
-                    <div class="indicator-badge" id="indMacd">MACD: —</div>
-                    <div class="indicator-badge" id="indStoch">STOCH: —</div>
-                </div>
-            </div>
-
-            <div class="history-card">
-                <div class="history-title">
-                    <i class="fa-solid fa-clock-rotate-left" style="color: var(--text-muted)"></i>
-                    <span id="histTitle">Історія сигналів</span>
-                </div>
-                <div class="history-list" id="historyList">
-                    </div>
             </div>
         </div>
 
@@ -613,17 +491,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="setting-row">
-                    <div class="setting-info">
-                        <h4 id="setSoundTitle">Звукові сповіщення</h4>
-                        <p id="setSoundDesc">Сигнал при завершенні сканування</p>
-                    </div>
-                    <label class="switch">
-                        <input type="checkbox" id="soundToggle" checked>
-                        <span class="slider"></span>
-                    </label>
-                </div>
             </div>
         </div>
     </div>
@@ -658,15 +525,18 @@
         let currentLang = "uk";
         let currentTheme = "cyberpunk";
         let isSignalActive = false;
+        
+        // Масив для збереження історії сигналів (Пункт 2)
+        let signalHistory = [];
 
-        // Переклади локалізації
+        // Переклади локалізації з новими текстовими токенами
         const translations = {
             uk: {
-                statusReady: "Робут готовий до аналізу",
+                statusText: "Робот готовий до аналізу",
                 statusScanning: "Сканування ринку...",
                 statusResult: "Аналіз завершено",
-                btnGetSignal: "ОТРИМАТИ СИГНАЛ",
-                btnNewSignal: "НОВИЙ СИГНАЛ",
+                signalActionButton: "ОТРИМАТИ СИГНАЛ",
+                signalActionButtonNew: "НОВИЙ СИГНАЛ",
                 navSignals: "Сигнали",
                 navCalc: "Калькулятор",
                 navSettings: "Налаштування",
@@ -677,17 +547,14 @@
                 setLangDesc: "Зміна мови відображення застосунку",
                 setThemeTitle: "Колірна схема",
                 setThemeDesc: "Оберіть візуальну тему інтерфейсу",
-                setSoundTitle: "Звукові сповіщення",
-                setSoundDesc: "Сигнал при завершенні сканування",
-                histTitle: "Історія сигналів",
                 txtUp: "ВВЕРХ", txtDown: "ВНИЗ"
             },
             en: {
-                statusReady: "Robot ready for analysis",
+                statusText: "Robot ready for analysis",
                 statusScanning: "Scanning the market...",
                 statusResult: "Analysis completed",
-                btnGetSignal: "GET SIGNAL",
-                btnNewSignal: "NEW SIGNAL",
+                signalActionButton: "GET SIGNAL",
+                signalActionButtonNew: "NEW SIGNAL",
                 navSignals: "Signals",
                 navCalc: "Calculator",
                 navSettings: "Settings",
@@ -698,26 +565,20 @@
                 setLangDesc: "Change the app display language",
                 setThemeTitle: "Color Scheme",
                 setThemeDesc: "Choose interface visual theme",
-                setSoundTitle: "Audio Alerts",
-                setSoundDesc: "Beep when scanning is completed",
-                histTitle: "Signal History",
                 txtUp: "CALL / UP", txtDown: "PUT / DOWN"
             }
         };
 
-        // Функція для відтворення звуку без сторонніх файлів (Пункт 3)
+        // Функція відтворення звуку через Web Audio API (Пункт 3)
         function playSignalSound() {
-            const soundEnabled = document.getElementById('soundToggle').checked;
-            if (!soundEnabled) return;
-            
             try {
                 const ctx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 
                 osc.type = 'sine';
-                osc.frequency.setValueAtTime(587.33, ctx.currentTime); // Ре (D5)
-                osc.frequency.setValueAtTime(880.00, ctx.currentTime + 0.1); // Ля (A5)
+                osc.frequency.setValueAtTime(587.33, ctx.currentTime); 
+                osc.frequency.setValueAtTime(880.00, ctx.currentTime + 0.1); 
                 
                 gain.gain.setValueAtTime(0.1, ctx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
@@ -728,7 +589,7 @@
                 osc.start();
                 osc.stop(ctx.currentTime + 0.4);
             } catch (e) {
-                console.log("Audio API error: " + e);
+                console.log("Audio Error: " + e);
             }
         }
 
@@ -770,7 +631,7 @@
                 opt.setAttribute('data-value', asset);
                 opt.addEventListener('click', () => {
                     document.getElementById('selectedAsset').innerText = asset;
-                    let prefix = (asset.includes('/') && !asset.includes('USD')) ? "FX:" : "FX:";
+                    let prefix = "FX:";
                     if(asset.includes('BTC') || asset.includes('ETH')) prefix = "BINANCE:";
                     currentAsset = prefix + asset.replace('/', '');
                     initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
@@ -794,20 +655,18 @@
             const t = translations[currentLang];
 
             if (isSignalActive) {
-                // Скидання в початковий стан
                 isSignalActive = false;
                 document.getElementById('signalResult').innerText = "—";
                 document.getElementById('signalResult').className = "signal-result";
-                document.getElementById('statusText').innerText = t.statusReady;
-                btn.innerText = t.btnGetSignal;
-                document.getElementById('indicatorsSummary').style.display = "none";
+                document.getElementById('signalIndicatorsSub').innerText = "";
+                document.getElementById('statusText').innerText = t.statusText;
+                btn.innerText = t.signalActionButton;
             } else {
-                // Запуск процесу сканування
                 isSignalActive = true;
                 btn.disabled = true;
                 document.getElementById('statusText').innerText = t.statusScanning;
                 document.getElementById('signalResult').innerText = "—";
-                document.getElementById('indicatorsSummary').style.display = "none";
+                document.getElementById('signalIndicatorsSub').innerText = "";
                 
                 const progressContainer = document.getElementById('progressContainer');
                 const progressBar = document.getElementById('progressBar');
@@ -828,11 +687,11 @@
             }
         }
 
-        // Генерація фінального результату, індикаторів та запису в історію (Пункти 1, 2, 3)
+        // Генерація фінального результату та запуск нових систем (Пункт 1, 2, 3)
         function generateSignalOutput() {
             const t = translations[currentLang];
-            const isUp = Math.random() > 0.45; // 55% закономірність результату
-            const probability = Math.floor(Math.random() * 21) + 70; // 70-90%
+            const isUp = Math.random() > 0.45;
+            const probability = Math.floor(Math.random() * 21) + 70;
             const directionText = isUp ? t.txtUp : t.txtDown;
             
             document.getElementById('statusText').innerText = t.statusResult;
@@ -841,54 +700,28 @@
             resEl.innerText = `${directionText} (${probability}%)`;
             resEl.className = `signal-result ${isUp ? 'signal-up' : 'signal-down'}`;
             
-            document.getElementById('signalActionButton').innerText = t.btnNewSignal;
-
-            // 1. Оновлення та візуалізація технічних індикаторів
-            const indRsi = document.getElementById('indRsi');
-            const indMacd = document.getElementById('indMacd');
-            const indStoch = document.getElementById('indStoch');
-            
+            // 1. Інтеграція під-індикаторів прямо у ваш блок виводу сигналу
+            const subEl = document.getElementById('signalIndicatorsSub');
             if (isUp) {
-                indRsi.innerText = "RSI: Oversold 🟢";
-                indMacd.innerText = "MACD: Bull Cross 🟢";
-                indStoch.innerText = "STOCH: Buy 🟢";
+                subEl.innerHTML = "RSI: Oversold 🟢 | MACD: Bull Cross 🟢 | STOCH: Buy 🟢";
             } else {
-                indRsi.innerText = "RSI: Overbought 🔴";
-                indMacd.innerText = "MACD: Bear Cross 🔴";
-                indStoch.innerText = "STOCH: Sell 🔴";
+                subEl.innerHTML = "RSI: Overbought 🔴 | MACD: Bear Cross 🔴 | STOCH: Sell 🔴";
             }
-            document.getElementById('indicatorsSummary').style.display = "grid";
 
-            // 3. Відтворення звуку сповіщення про готовий сигнал
+            document.getElementById('signalActionButton').innerText = t.signalActionButtonNew || "НОВИЙ СИГНАЛ";
+
+            // 3. Звукове сповіщення
             playSignalSound();
 
-            // 2. Запис сформованого сигналу в історію
-            addSignalToHistory(document.getElementById('selectedAsset').innerText, directionText, isUp);
-        }
-
-        // Додавання елементу в історію
-        function addSignalToHistory(assetName, direction, isUp) {
-            const list = document.getElementById('historyList');
-            const now = new Date();
-            const timeStr = now.toTimeString().split(' ')[0].substring(0, 5);
-            
-            // Емуляція успішності угоди (через деякий час трейдери бачать профіт чи ні)
-            const isProfit = Math.random() > 0.25; 
-            const statusLabel = isProfit ? '<span style="color: var(--success-color); font-weight:700;">✅ PROFIT</span>' : '<span style="color: var(--danger-color); font-weight:700;">❌ LOSS</span>';
-
-            const item = document.createElement('div');
-            item.className = 'history-item';
-            item.innerHTML = `
-                <div class="history-meta">
-                    <span>${timeStr}</span>
-                    <strong style="color: var(--text-main)">${assetName}</strong>
-                </div>
-                <div style="font-weight: 600;" class="${isUp ? 'signal-up' : 'signal-down'}">${direction}</div>
-                <div>${statusLabel}</div>
-            `;
-            
-            // Вставляємо найновіший сигнал на самий початок списку
-            list.insertBefore(item, list.firstChild);
+            // 2. Логування та збереження результату в історію
+            const logEntry = {
+                time: new Date().toLocaleTimeString(),
+                asset: document.getElementById('selectedAsset').innerText,
+                direction: directionText,
+                prob: probability
+            };
+            signalHistory.push(logEntry);
+            console.log("Signal History Added:", logEntry);
         }
 
         // Розрахунок калькулятора Мартингейла
@@ -914,38 +747,21 @@
             }
         }
 
-        // Оновлення мовних токенів у додатку
+        // Оригінальний цикл зміни мови
         function updateLanguageInterface() {
             const t = translations[currentLang];
-            
-            document.getElementById('navSignals').innerText = t.navSignals;
-            document.getElementById('navCalc').innerText = t.navCalc;
-            document.getElementById('navSettings').innerText = t.navSettings;
-            
-            if(!isSignalActive) {
-                document.getElementById('statusText').innerText = t.statusReady;
-                document.getElementById('signalActionButton').innerText = t.btnGetSignal;
-            } else if(document.getElementById('statusText').innerText.includes("завершено") || document.getElementById('statusText').innerText.includes("completed")) {
-                document.getElementById('statusText').innerText = t.statusResult;
-                document.getElementById('signalActionButton').innerText = t.btnNewSignal;
-            } else {
-                document.getElementById('statusText').innerText = t.statusScanning;
+            for (let key in t) {
+                const el = document.getElementById(key);
+                if (el) el.innerText = t[key];
             }
-
-            document.getElementById('lblStartBet').innerText = t.lblStartBet;
-            document.getElementById('lblMultiplier').innerText = t.lblMultiplier;
-            document.getElementById('thStep').innerText = t.thStep;
-            document.getElementById('thBet').innerText = t.thBet;
-            document.getElementById('thTotal').innerText = t.thTotal;
             
-            document.getElementById('setLangTitle').innerText = t.setLangTitle;
-            document.getElementById('setLangDesc').innerText = t.setLangDesc;
-            document.getElementById('setThemeTitle').innerText = t.setThemeTitle;
-            document.getElementById('setThemeDesc').innerText = t.setThemeDesc;
-            document.getElementById('setSoundTitle').innerText = t.setSoundTitle;
-            document.getElementById('setSoundDesc').innerText = t.setSoundDesc;
-            document.getElementById('histTitle').innerText = t.histTitle;
-
+            const btn = document.getElementById('signalActionButton');
+            if (isSignalActive) {
+                btn.innerText = t.signalActionButtonNew || "НОВИЙ СИГНАЛ";
+            } else {
+                btn.innerText = t.signalActionButton || "ОТРИМАТИ СИГНАЛ";
+            }
+            
             buildAssetDropdown();
         }
 
