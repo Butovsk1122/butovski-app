@@ -218,7 +218,7 @@
             color: #fff;
         }
         .bg-green { background-color: var(--green-signal); box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4); }
-        .bg-red { background-color: var(--red-signal); box-shadow: 0 4px 14px rgba(239, 68, 110, 0.4); }
+        .bg-red { background-color: var(--red-signal); box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4); }
         
         .prob-container {
             font-size: 15px;
@@ -232,7 +232,6 @@
             margin-top: 4px;
         }
 
-        /* Нові блоки сповіщень безпеки */
         .warning-box {
             width: 100%;
             padding: 10px;
@@ -562,34 +561,62 @@
 
         const localization = {
             ua: {
-                loading: "Завантаження додатка...", signals: "Сигнали", screener: "Сканер", calc: "Калькулятор", profile: "Профіль",
-                getSignal: "ОТРИМАТИ СИГНАЛ", findPairs: "Знайти сприятливі пари", stablePairs: "Найстабільніші пари",
-                startBet: "Початкова ставка ($)", multiplier: "Множник (Мартин)", steps: "Кількість кроків (колін)",
-                step: "Крок", bet: "Ставка", total: "Загалом", accessType: "Тип доступу:", theme: "Тема додатка",
-                noAccessTitle: "Доступ обмежено", noAccessDesc: "Зверніться до адміністратора для активації підписки.",
-                accuracy: "Точність алгоритму", warningUnstable: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ АБО КОНФЛІКТ МУЛЬТИ-ТФ)",
+                loading: "Завантаження додатка...",
+                signals: "Сигнали",
+                screener: "Сканер",
+                calc: "Калькулятор",
+                profile: "Профіль",
+                getSignal: "ОТРИМАТИ СИГНАЛ",
+                findPairs: "Знайти сприятливі пари",
+                stablePairs: "Найстабільніші пари",
+                startBet: "Початкова ставка ($)",
+                multiplier: "Множник (Мартин)",
+                steps: "Кількість кроків (колін)",
+                step: "Крок",
+                bet: "Ставка",
+                total: "Загалом",
+                accessType: "Тип доступу:",
+                theme: "Тема додатка",
+                noAccessTitle: "Доступ обмежено",
+                noAccessDesc: "Зверніться до адміністратора для активації підписки.",
+                accuracy: "Точність алгоритму",
+                warningUnstable: "⚠️ РИНОК НЕСТАБІЛЬНИЙ (ФЛЕТ АБО КОНФЛІКТ МУЛЬТИ-ТФ)",
                 warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)"
             },
             en: {
-                loading: "Loading application...", signals: "Signals", screener: "Scanner", calc: "Calculator", profile: "Profile",
-                getSignal: "GET SIGNAL", findPairs: "Find stable pairs", stablePairs: "Most Stable Pairs",
-                startBet: "Initial Bet ($)", multiplier: "Multiplier (Martingale)", steps: "Number of steps",
-                step: "Step", bet: "Bet", total: "Total", accessType: "Access Type:", theme: "App Theme",
-                noAccessTitle: "Access Denied", noAccessDesc: "Please contact administrator to activate your access.",
-                accuracy: "Algorithm Accuracy", warningUnstable: "⚠️ UNSTABLE MARKET (FLAT / MULTI-TF CONFLICT)",
+                loading: "Loading application...",
+                signals: "Signals",
+                screener: "Scanner",
+                calc: "Calculator",
+                profile: "Profile",
+                getSignal: "GET SIGNAL",
+                findPairs: "Find stable pairs",
+                stablePairs: "Most Stable Pairs",
+                startBet: "Initial Bet ($)",
+                multiplier: "Multiplier (Martingale)",
+                steps: "Number of steps",
+                step: "Step",
+                bet: "Bet",
+                total: "Total",
+                accessType: "Access Type:",
+                theme: "App Theme",
+                noAccessTitle: "Access Denied",
+                noAccessDesc: "Please contact administrator to activate your access.",
+                accuracy: "Algorithm Accuracy",
+                warningUnstable: "⚠️ UNSTABLE MARKET (FLAT / MULTI-TF CONFLICT)",
                 warningNews: "🚨 HIGH IMPACT ECONOMIC NEWS AHEAD (HIGH VOLATILITY)"
             }
         };
 
-        function toggleDropdown(id) {
-            document.getElementById(id).parentElement.classList.toggle('open');
+        function toggleDropdown(id) { 
+            document.getElementById(id).parentElement.classList.toggle('open'); 
         }
 
         function buildAssetDropdown() {
             const container = document.getElementById('assetOptions');
             container.innerHTML = "";
             const currentList = assetsPool[currentMarket];
-            
+
             currentList.forEach((item, index) => {
                 if (index === 0) {
                     currentAsset = item.val;
@@ -643,8 +670,8 @@
                     body: JSON.stringify({ initData: window.Telegram?.WebApp?.initData || "" })
                 });
                 let res = await response.json();
-                
                 document.getElementById('loadingOverlay').classList.add('hidden');
+                
                 if (res.has_access) {
                     document.getElementById('appContainer').classList.remove('hidden');
                     if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
@@ -670,7 +697,6 @@
             const resultScreen = document.getElementById('resultScreen');
             const warnBox = document.getElementById('signalWarning');
             const newsBox = document.getElementById('newsWarning');
-            
             btn.disabled = true;
             btn.innerText = currentLang === 'ua' ? "АНАЛІЗ..." : "ANALYZING...";
             
@@ -679,14 +705,13 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        initData: window.Telegram?.WebApp?.initData || "",
+                        initData: window.Telegram?.WebApp?.initData || "" ,
                         asset: currentAsset,
                         tf: currentTimeframe,
                         market_type: currentMarket
                     })
                 });
                 let res = await response.json();
-                
                 if (res.success) {
                     resultScreen.classList.remove('hidden');
                     const cleanPair = currentAsset.includes(":") ? currentAsset.split(":")[1] : currentAsset;
@@ -699,14 +724,13 @@
                     } else {
                         document.getElementById('signalDirection').className = "direction-badge bg-red";
                     }
-
-                    // Обробка нових прапорців безпеки (Мульти-ТФ конфлікт та Новини)
+                    
                     if (res.is_unstable) warnBox.classList.remove('hidden');
                     else warnBox.classList.add('hidden');
-
+                    
                     if (res.news_alert) newsBox.classList.remove('hidden');
                     else newsBox.classList.add('hidden');
-
+                    
                     initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
                 }
             } catch(e) {
@@ -739,22 +763,24 @@
                         const dispName = p.symbol.includes(":") ? p.symbol.split(":")[1] : p.symbol;
                         let row = document.createElement('div');
                         row.className = "screener-row";
+                        
+                        let badgeClass = p.direction === "UP" ? "bg-green" : "bg-red";
                         row.innerHTML = `
                             <span class="row-pair">${dispName}</span>
-                            <span class="row-badge ${p.direction === 'UP' ? 'bg-green' : 'bg-red'}">${p.direction}</span>
+                            <span class="row-badge ${badgeClass}">${p.direction}</span>
                             <span class="row-prob">${p.probability}%</span>
                         `;
                         container.appendChild(row);
                     });
                 }
-            } catch(e) {
-                container.innerHTML = `<div style="color:var(--red-signal); font-weight:600; text-align:center; padding:10px;">Помилка завантаження сканера</div>`;
+            } catch (e) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:var(--red-signal);">Помилка сканування</div>`;
             }
         }
 
         function calculateMartingale() {
             const bet = parseFloat(document.getElementById('startBet').value) || 1;
-            const mult = parseFloat(document.getElementById('multiplier').value) || 2.2;
+            const mult = parseFloat(document.getElementById('multiplier').value) || 2;
             const steps = parseInt(document.getElementById('stepsCount').value) || 5;
             const body = document.getElementById('martingaleResultBody');
             body.innerHTML = "";
@@ -778,7 +804,7 @@
                     "symbol": asset,
                     "interval": widgetTf,
                     "timezone": "Etc/UTC",
-                    "theme": theme === 'light' ? 'light' : 'dark',
+                    "theme": (theme === 'light') ? 'light' : 'dark',
                     "style": "1",
                     "locale": currentLang,
                     "toolbar_bg": "#f1f3f6",
@@ -802,15 +828,15 @@
         function toggleLanguage() {
             currentLang = (currentLang === 'ua') ? 'en' : 'ua';
             document.getElementById('langBtn').innerText = currentLang.toUpperCase();
+            
             const dict = localization[currentLang];
-
             document.getElementById('loadingText').innerText = dict.loading;
+            document.getElementById('noAccessTitle').innerText = dict.noAccessTitle;
+            document.getElementById('noAccessDesc').innerText = dict.noAccessDesc;
             document.getElementById('signalActionButton').innerText = dict.getSignal;
             document.getElementById('lblAlgorithmAccuracy').innerText = dict.accuracy;
             document.getElementById('signalWarning').innerText = dict.warningUnstable;
             document.getElementById('newsWarning').innerText = dict.warningNews;
-            document.getElementById('noAccessTitle').innerText = dict.noAccessTitle;
-            document.getElementById('noAccessDesc').innerText = dict.noAccessDesc;
             document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
             document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
             document.getElementById('lblStartBet').innerText = dict.startBet;
