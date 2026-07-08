@@ -344,7 +344,7 @@
         let activeTimeframeValue = "1";
         let isVipUser = false;
         let signalTimer = null;
-        let isInterfaceLocked = false; // Змінна стану блокування
+        let isInterfaceLocked = false;
 
         async function checkUserAccess() {
             const initData = window.Telegram?.WebApp?.initData || "";
@@ -427,7 +427,6 @@
         }
 
         function toggleCustomDropdown(wrapperId) {
-            // Якщо інтерфейс заблоковано, не даємо відкривати селектори активів, ТФ чи теми
             if (isInterfaceLocked && (wrapperId === 'assetDropdownWrapper' || wrapperId === 'timeframeDropdownWrapper' || wrapperId === 'themeDropdownWrapper' || wrapperId === 'langDropdownWrapper')) {
                 return;
             }
@@ -474,18 +473,15 @@
             buildAssetDropdown();
         }
 
-        // КЛЮЧОВА ФУНКЦІЯ БЛОКУВАННЯ ІНТЕРФЕЙСУ
         function setSignalInterfaceLock(isLocked) {
             isInterfaceLocked = isLocked;
 
-            // 1. Блокуємо/розблоковуємо верхні кнопки ринків
             document.querySelectorAll('.market-btn').forEach(btn => {
                 btn.disabled = isLocked;
                 btn.style.opacity = isLocked ? "0.5" : "1";
                 btn.style.pointerEvents = isLocked ? "none" : "auto";
             });
 
-            // 2. Блокуємо/розблоковуємо випадаючі тригери (Актив та Таймфрейм)
             const assetTrigger = document.querySelector('#assetDropdownWrapper .custom-select-trigger');
             const tfTrigger = document.querySelector('#timeframeDropdownWrapper .custom-select-trigger');
             if (assetTrigger) {
@@ -497,7 +493,6 @@
                 tfTrigger.style.opacity = isLocked ? "0.5" : "1";
             }
 
-            // 3. Блокуємо вкладки нижнього меню (окрім Калькулятора 'navCalc' та Сканера 'navScreener')
             const blockNavItems = ['navSignals', 'navProfile'];
             blockNavItems.forEach(id => {
                 const item = document.getElementById(id);
@@ -517,10 +512,7 @@
             const actionBtn = document.getElementById('signalActionButton');
             const dict = localization[currentLang];
             
-            // Включаємо візуальне та логічне блокування елементів інтерфейсу
             setSignalInterfaceLock(true);
-            
-            // Змінюємо назву головної кнопки на "НОВИЙ СИГНАЛ"
             actionBtn.innerText = dict.getNewSignal || "НОВИЙ СИГНАЛ";
 
             document.getElementById('searchSignalScreen').classList.remove('hidden');
@@ -584,7 +576,6 @@
                     const tvTheme = (currentTheme === 'light') ? 'light' : 'dark';
                     initTradingViewWidget(tvTheme, activeAssetValue, activeTimeframeValue);
 
-                    // Розраховуємо таймер на основі таймфрейму (у хвилинах)
                     startSignalTimer(parseInt(activeTimeframeValue) * 60);
                 } else {
                     alert("Не вдалося сформувати сигнал. Спробуйте ще раз.");
@@ -611,7 +602,6 @@
                     fill.style.width = "0%";
                     txt.innerText = "00:00/00:00";
                     
-                    // По закінченню повного таймеру розблоковуємо інтерфейс і повертаємо базовий текст
                     setSignalInterfaceLock(false);
                     document.getElementById('signalActionButton').innerText = localization[currentLang].getSignal;
                     return;
@@ -672,8 +662,6 @@
         }
 
         function switchScreen(screenName) {
-            // Забороняємо навігацію на вкладки Signals чи Profile, якщо стоїть блок,
-            // проте дозволяємо перемикатися на Screener та Calc у нижньому меню
             if (isInterfaceLocked && (screenName === 'signals' || screenName === 'profile')) {
                 return;
             }
@@ -732,14 +720,12 @@
                 if (o.getAttribute('data-value') === lang) o.classList.add('selected');
             });
 
-            // Оновлюємо тексти локалізації
             document.getElementById('loadingText').innerText = dict.loading;
             document.getElementById('lockTitle').innerText = dict.denied;
             document.getElementById('lockDesc').innerText = dict.deniedDesc;
             document.getElementById('lblSelectAsset').innerText = dict.selectAsset;
             document.getElementById('lblSelectTimeframe').innerText = dict.selectTf;
             
-            // Якщо інтерфейс заблоковано, залишаємо напис "НОВИЙ СИГНАЛ" у відповідній локалізації
             const actionBtn = document.getElementById('signalActionButton');
             actionBtn.innerText = isInterfaceLocked ? (dict.getNewSignal || "НОВИЙ СИГНАЛ") : dict.getSignal;
 
@@ -791,7 +777,7 @@
                 new TradingView.widget({
                     "autosize": true, "symbol": asset, "interval": widgetTf, "timezone": "Etc/UTC",
                     "theme": (theme === 'light') ? 'light' : 'dark', "style": "1", "locale": currentLang,
-                    "toolbar_bg": #f1f3f6, "enable_publishing": false, "hide_legend": true, "save_image": false,
+                    "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_legend": true, "save_image": false,
                     "container_id": "tradingview_widget"
                 });
             }
