@@ -705,7 +705,7 @@
     </div>
 
     <script>
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/";
+        const BACKEND_URL = "https://butovski-signal-bot.onrender.com";
         
         let currentLang = 'uk';
         const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold'];
@@ -860,7 +860,6 @@
             }
         };
 
-        // НАСТРОЙКА РЕАЛЬНИХ ПОСИЛАНЬ НА НОВИНИ ТА АКАДЕМІЮ
         const hubContent = {
             news: [
                 {
@@ -1053,7 +1052,6 @@
         }
 
         function renderHubContent() {
-            // Рендер новин
             const newsCont = document.getElementById('newsContainer');
             newsCont.innerHTML = "";
             hubContent.news.forEach(item => {
@@ -1075,7 +1073,6 @@
                 newsCont.appendChild(card);
             });
 
-            // Рендер Академії Трейдингу з клікабельними посиланнями
             const eduCont = document.getElementById('eduContainer');
             eduCont.innerHTML = "";
             hubContent.edu.forEach(item => {
@@ -1195,7 +1192,6 @@
             }
         }
 
-        // Циклічне перемикання між 5 різними темами
         function rotateTheme() {
             currentThemeIdx = (currentThemeIdx + 1) % themesList.length;
             const newTheme = themesList[currentThemeIdx];
@@ -1206,7 +1202,7 @@
             else if (newTheme === 'emerald') icon.className = "fas fa-money-bill-wave";
             else if (newTheme === 'ocean') icon.className = "fas fa-water";
             else if (newTheme === 'gold') icon.className = "fas fa-crown";
-            else icon.className = "fas fa-bolt"; // для cyberpunk
+            else icon.className = "fas fa-bolt"; 
             
             initTradingViewWidget(newTheme, selectedAsset.id, selectedTimeframe.tvWidget);
         }
