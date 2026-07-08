@@ -333,30 +333,9 @@
         };
 
         const localization = {
-            uk: {
-                loading: "Перевірка доступу...", denied: "Доступ обмежено", deniedDesc: "У вашого Telegram-акаунта немає активної ліцензії для Butovski App.",
-                selectAsset: "Актив", selectTf: "Час (ТФ)", getSignal: "ОТРИМАТИ СИГНАЛ", searching: "Пошук найкращого сигналу...",
-                timeframe: "ЧАС СИГНАЛУ", probability: "ЙМОВІРНІСТЬ", realMarket: "Реальний ринок", otcMarket: "OTC Ринок",
-                cryptoMarket: "Crypto", findPairs: "Знайти сприятливі пари", stablePairs: "📊 Рекомендовані стабільні пари:",
-                startBet: "Початкова ставка ($)", multiplier: "Коефіцієнт", steps: "Кількість кроків", step: "Крок", bet: "Ставка", total: "Всього",
-                accessType: "Тип доступу:", theme: "Тема додатка", menuSignals: "Сигнали", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профіль"
-            },
-            en: {
-                loading: "Checking access...", denied: "Access Denied", deniedDesc: "Your Telegram account does not have an active license for Butovski App.",
-                selectAsset: "Asset", selectTf: "Timeframe", getSignal: "GET SIGNAL", searching: "Searching for best signal...",
-                timeframe: "TIMEFRAME", probability: "PROBABILITY", realMarket: "Real Market", otcMarket: "OTC Market",
-                cryptoMarket: "Crypto", findPairs: "Find Stable Pairs", stablePairs: "📊 Recommended Stable Pairs:",
-                startBet: "Initial Bet ($)", multiplier: "Multiplier", steps: "Steps Count", step: "Step", bet: "Bet", total: "Total",
-                accessType: "Access Type:", theme: "App Theme", menuSignals: "Signals", menuScreener: "Screener", menuCalc: "Calculator", menuProfile: "Profile"
-            },
-            ru: {
-                loading: "Проверка доступа...", denied: "Доступ ограничен", deniedDesc: "У вашего Telegram-аккаунта нет активной лицензии для Butovski App.",
-                selectAsset: "Актив", selectTf: "Время (ТФ)", getSignal: "ПОЛУЧИТЬ СИГНАЛ", searching: "Поиск лучшего сигнала...",
-                timeframe: "ВРЕМЯ СИГНАЛА", probability: "ВЕРОЯТНОСТЬ", realMarket: "Реальный рынок", otcMarket: "OTC Рынок",
-                cryptoMarket: "Crypto", findPairs: "Найти стабильные пары", stablePairs: "📊 Рекомендуемые стабильные пары:",
-                startBet: "Начальная ставка ($)", multiplier: "Коэффициент", steps: "Количество шагов", step: "Шаг", bet: "Ставка", total: "Всего",
-                accessType: "Тип доступа:", theme: "Тема приложения", menuSignals: "Сигналы", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профиль"
-            }
+            uk: { loading: "Перевірка доступу...", denied: "Доступ обмежено", deniedDesc: "У вашого Telegram-акаунта немає активної ліцензії для Butovski App.", selectAsset: "Актив", selectTf: "Час (ТФ)", getSignal: "ОТРИМАТИ СИГНАЛ", getNewSignal: "НОВИЙ СИГНАЛ", searching: "Пошук найкращого сигналу...", timeframe: "ЧАС СИГНАЛУ", probability: "ЙМОВІРНІСТЬ", realMarket: "Реальний ринок", otcMarket: "OTC Ринок", cryptoMarket: "Crypto", findPairs: "Знайти сприятливі пари", stablePairs: "📊 Рекомендовані стабільні пари:", startBet: "Початкова ставка ($)", multiplier: "Коефіцієнт", steps: "Кількість кроків", step: "Крок", bet: "Ставка", total: "Всього", accessType: "Тип доступу:", theme: "Тема додатка", menuSignals: "Сигнали", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профіль" },
+            en: { loading: "Checking access...", denied: "Access Denied", deniedDesc: "Your Telegram account does not have an active license for Butovski App.", selectAsset: "Asset", selectTf: "Timeframe", getSignal: "GET SIGNAL", getNewSignal: "NEW SIGNAL", searching: "Searching for best signal...", timeframe: "TIMEFRAME", probability: "PROBABILITY", realMarket: "Real Market", otcMarket: "OTC Market", cryptoMarket: "Crypto", findPairs: "Find Stable Pairs", stablePairs: "📊 Recommended Stable Pairs:", startBet: "Initial Bet ($)", multiplier: "Multiplier", steps: "Steps Count", step: "Step", bet: "Bet", total: "Total", accessType: "Access Type:", theme: "App Theme", menuSignals: "Signals", menuScreener: "Screener", menuCalc: "Calculator", menuProfile: "Profile" },
+            ru: { loading: "Проверка доступа...", denied: "Доступ ограничен", deniedDesc: "У вашего Telegram-аккаунта нет активной лицензии для Butovski App.", selectAsset: "Актив", selectTf: "Время (ТФ)", getSignal: "ПОЛУЧИТЬ СИГНАЛ", getNewSignal: "НОВЫЙ СИГНАЛ", searching: "Поиск лучшего сигнала...", timeframe: "ВРЕМЯ СИГНАЛА", probability: "ВЕРОЯТНОСТЬ", realMarket: "Реальный рынок", otcMarket: "OTC Рынок", cryptoMarket: "Crypto", findPairs: "Найти стабильные пары", stablePairs: "📊 Рекомендуемые стабильные пары:", startBet: "Начальная ставка ($)", multiplier: "Коэффициент", steps: "Количество шагов", step: "Шаг", bet: "Ставка", total: "Всего", accessType: "Тип доступа:", theme: "Тема приложения", menuSignals: "Сигналы", menuScreener: "Сканер", menuCalc: "Калькулятор", menuProfile: "Профиль" }
         };
 
         let currentLang = "uk";
@@ -365,37 +344,23 @@
         let activeTimeframeValue = "1";
         let isVipUser = false;
         let signalTimer = null;
+        let isInterfaceLocked = false; // Змінна стану блокування
 
-        // ЖОРСТКА АВТОРИЗАЦІЯ ПРИ ЗАВАНТАЖЕННІ
         async function checkUserAccess() {
             const initData = window.Telegram?.WebApp?.initData || "";
-            
-            if (!initData || initData.trim() === "") {
-                showHardLockScreen();
-                return;
-            }
-
+            if (!initData || initData.trim() === "") { showHardLockScreen(); return; }
             try {
                 const response = await fetch(`${API_BASE_URL}/api/check-user`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ initData: initData })
                 });
-
-                if (!response.ok) {
-                    showHardLockScreen();
-                    return;
-                }
-
+                if (!response.ok) { showHardLockScreen(); return; }
                 const result = await response.json();
-
                 if (result && result.has_access === true) {
                     isVipUser = !!result.is_vip;
-                    
-                    // ХОВАЄМО ЛОАДЕР ТА ОДНОЧАСНО ВМИКАЄМО КОНТЕЙНЕР ПРОГРАМИ
                     document.getElementById('loadingScreen').classList.add('hidden');
                     document.getElementById('appContainer').classList.remove('hidden');
-                    
                     initApp();
                 } else {
                     showHardLockScreen();
@@ -409,7 +374,7 @@
         function showHardLockScreen() {
             if (signalTimer) clearInterval(signalTimer);
             document.getElementById('loadingScreen').classList.add('hidden');
-            document.getElementById('appContainer').innerHTML = ""; // ПОВНІСТЮ ОЧИЩУЄМО ІНТЕРФЕЙС
+            document.getElementById('appContainer').innerHTML = "";
             document.getElementById('appContainer').classList.add('hidden');
             document.getElementById('lockScreen').classList.remove('hidden');
         }
@@ -419,7 +384,6 @@
                 const tg = window.Telegram.WebApp;
                 tg.ready();
                 tg.expand();
-                
                 const user = tg.initDataUnsafe?.user;
                 if (user) {
                     document.getElementById('profileName').innerText = `${user.first_name || ''} ${user.last_name || ''}`.trim() || "Користувач";
@@ -427,13 +391,11 @@
                     document.getElementById('userAvatar').innerText = user.first_name ? user.first_name.charAt(0).toUpperCase() : "U";
                 }
             }
-            
             if (isVipUser) {
                 document.getElementById('vipBadge').classList.remove('hidden');
                 document.getElementById('profileAccessValue').innerText = "VIP ACCESS";
                 document.getElementById('profileAccessValue').style.color = "#f59e0b";
             }
-
             applySavedThemeAndLang();
             buildAssetDropdown();
             calculateMartingale();
@@ -447,69 +409,277 @@
             selectLangOption(savedLang);
         }
 
-        function toggleCustomDropdown(id) {
-            const wrapper = document.getElementById(id);
-            const isOpen = wrapper.classList.contains('open');
-            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
-            if (!isOpen) wrapper.classList.add('open');
-        }
-
         function buildAssetDropdown() {
+            const list = marketAssets[currentMarketType] || [];
+            if (list.length === 0) return;
+            activeAssetValue = list[0].value;
+            document.getElementById('assetSelectedValue').innerText = list[0].name[currentLang];
             const container = document.getElementById('assetCustomOptions');
             container.innerHTML = "";
-            const list = marketAssets[currentMarketType];
-            
-            list.forEach((asset, idx) => {
-                const opt = document.createElement('div');
-                opt.className = "custom-option";
-                if (idx === 0) opt.className += " selected";
-                opt.setAttribute('data-value', asset.value);
-                opt.innerText = asset.name[currentLang] || asset.name['uk'];
-                opt.onclick = () => selectAssetOption(asset.value);
-                container.appendChild(opt);
+            list.forEach((item, idx) => {
+                const row = document.createElement('div');
+                row.className = "custom-option" + (idx === 0 ? " selected" : "");
+                row.innerText = item.name[currentLang];
+                row.setAttribute('data-value', item.value);
+                row.onclick = () => { selectAssetOption(item.value, item.name[currentLang]); };
+                container.appendChild(row);
             });
-
-            if (list.length > 0) {
-                selectAssetOption(list[0].value);
-            }
         }
 
-        function selectAssetOption(val) {
-            activeAssetValue = val;
-            const list = marketAssets[currentMarketType];
-            const found = list.find(a => a.value === val);
-            if (found) {
-                document.getElementById('assetSelectedValue').innerText = found.name[currentLang];
+        function toggleCustomDropdown(wrapperId) {
+            // Якщо інтерфейс заблоковано, не даємо відкривати селектори активів, ТФ чи теми
+            if (isInterfaceLocked && (wrapperId === 'assetDropdownWrapper' || wrapperId === 'timeframeDropdownWrapper' || wrapperId === 'themeDropdownWrapper' || wrapperId === 'langDropdownWrapper')) {
+                return;
             }
+            const el = document.getElementById(wrapperId);
+            const isOpen = el.classList.contains('open');
+            document.querySelectorAll('.custom-select-wrapper').forEach(w => w.classList.remove('open'));
+            if (!isOpen) el.classList.add('open');
+        }
+
+        function selectAssetOption(val, label) {
+            if (isInterfaceLocked) return;
+            activeAssetValue = val;
+            document.getElementById('assetSelectedValue').innerText = label;
             document.getElementById('assetDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#assetCustomOptions .custom-option').forEach(opt => {
-                opt.classList.toggle('selected', opt.getAttribute('data-value') === val);
+            document.querySelectorAll('#assetCustomOptions .custom-option').forEach(o => {
+                o.classList.remove('selected');
+                if (o.getAttribute('data-value') === val) o.classList.add('selected');
             });
         }
 
         function selectTimeframeOption(val) {
+            if (isInterfaceLocked) return;
             activeTimeframeValue = val;
-            const tfNames = { "1": "1 хв", "3": "3 хв", "5": "5 хв", "15": "15 хв", "30": "30 хв", "60": "1 год" };
-            document.getElementById('timeframeSelectedValue').innerText = tfNames[val] || (val + " m");
+            const dict = localization[currentLang];
+            let text = val + " " + (parseInt(val) >= 60 ? "год" : "хв");
+            if (currentLang === 'en') text = val === "60" ? "1 h" : val + " m";
+            if (currentLang === 'ru') text = val === "60" ? "1 ч" : val + " мин";
+            document.getElementById('timeframeSelectedValue').innerText = text;
             document.getElementById('timeframeSelectedValue').setAttribute('data-value', val);
             document.getElementById('timeframeDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#timeframeCustomOptions .custom-option').forEach(opt => {
-                opt.classList.toggle('selected', opt.getAttribute('data-value') === val);
+            document.querySelectorAll('#timeframeCustomOptions .custom-option').forEach(o => {
+                o.classList.remove('selected');
+                if (o.getAttribute('data-value') === val) o.classList.add('selected');
             });
         }
 
         function changeMarketType(type) {
+            if (isInterfaceLocked) return;
             currentMarketType = type;
             document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
-            if (type === 'real') document.getElementById('btnRealMarket').className += " active";
-            if (type === 'otc') document.getElementById('btnOtcMarket').className += " active";
-            if (type === 'crypto') document.getElementById('btnCryptoMarket').className += " active";
+            if (type === 'real') document.getElementById('btnRealMarket').classList.add('active');
+            if (type === 'otc') document.getElementById('btnOtcMarket').classList.add('active');
+            if (type === 'crypto') document.getElementById('btnCryptoMarket').classList.add('active');
             buildAssetDropdown();
         }
 
+        // КЛЮЧОВА ФУНКЦІЯ БЛОКУВАННЯ ІНТЕРФЕЙСУ
+        function setSignalInterfaceLock(isLocked) {
+            isInterfaceLocked = isLocked;
+
+            // 1. Блокуємо/розблоковуємо верхні кнопки ринків
+            document.querySelectorAll('.market-btn').forEach(btn => {
+                btn.disabled = isLocked;
+                btn.style.opacity = isLocked ? "0.5" : "1";
+                btn.style.pointerEvents = isLocked ? "none" : "auto";
+            });
+
+            // 2. Блокуємо/розблоковуємо випадаючі тригери (Актив та Таймфрейм)
+            const assetTrigger = document.querySelector('#assetDropdownWrapper .custom-select-trigger');
+            const tfTrigger = document.querySelector('#timeframeDropdownWrapper .custom-select-trigger');
+            if (assetTrigger) {
+                assetTrigger.style.pointerEvents = isLocked ? "none" : "auto";
+                assetTrigger.style.opacity = isLocked ? "0.5" : "1";
+            }
+            if (tfTrigger) {
+                tfTrigger.style.pointerEvents = isLocked ? "none" : "auto";
+                tfTrigger.style.opacity = isLocked ? "0.5" : "1";
+            }
+
+            // 3. Блокуємо вкладки нижнього меню (окрім Калькулятора 'navCalc' та Сканера 'navScreener')
+            const blockNavItems = ['navSignals', 'navProfile'];
+            blockNavItems.forEach(id => {
+                const item = document.getElementById(id);
+                if (item) {
+                    if (isLocked) {
+                        item.style.pointerEvents = "none";
+                        item.style.opacity = "0.3";
+                    } else {
+                        item.style.pointerEvents = "auto";
+                        item.style.opacity = "1";
+                    }
+                }
+            });
+        }
+
+        async function handleSignalAction() {
+            const actionBtn = document.getElementById('signalActionButton');
+            const dict = localization[currentLang];
+            
+            // Включаємо візуальне та логічне блокування елементів інтерфейсу
+            setSignalInterfaceLock(true);
+            
+            // Змінюємо назву головної кнопки на "НОВИЙ СИГНАЛ"
+            actionBtn.innerText = dict.getNewSignal || "НОВИЙ СИГНАЛ";
+
+            document.getElementById('searchSignalScreen').classList.remove('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('tradingviewCard').classList.add('hidden');
+
+            try {
+                const initData = window.Telegram?.WebApp?.initData || "";
+                const response = await fetch(`${API_BASE_URL}/api/get-market-signal`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        initData: initData,
+                        asset: activeAssetValue,
+                        timeframe: activeTimeframeValue,
+                        market: currentMarketType
+                    })
+                });
+                
+                document.getElementById('searchSignalScreen').classList.add('hidden');
+
+                if (!response.ok) {
+                    alert("Помилка сервера при отриманні сигналу");
+                    setSignalInterfaceLock(false);
+                    actionBtn.innerText = dict.getSignal;
+                    return;
+                }
+
+                const data = await response.json();
+                if (data && data.success) {
+                    let dispSymbol = activeAssetValue;
+                    const list = marketAssets[currentMarketType] || [];
+                    const found = list.find(x => x.value === activeAssetValue);
+                    if (found) dispSymbol = found.name[currentLang];
+
+                    document.getElementById('signalPair').innerText = dispSymbol;
+                    
+                    let dirText = data.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
+                    if (currentLang === 'en') dirText = data.direction === "UP" ? "CALL" : "PUT";
+                    if (currentLang === 'ru') dirText = data.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
+                    
+                    document.getElementById('signalDirection').innerText = dirText;
+                    document.getElementById('signalDirection').className = "direction-badge " + (data.direction === "UP" ? "bg-green" : "bg-red");
+                    
+                    let tfLabel = activeTimeframeValue + " МИН";
+                    if (activeTimeframeValue === "60") tfLabel = currentLang === 'en' ? "1 HOUR" : (currentLang === 'ru' ? "1 ЧАС" : "1 ГОДИНА");
+                    else {
+                        if (currentLang === 'en') tfLabel = activeTimeframeValue + " MIN";
+                        if (currentLang === 'ru') tfLabel = activeTimeframeValue + " МИН";
+                    }
+                    document.getElementById('signalTimeframe').innerText = tfLabel;
+                    document.getElementById('signalProbability').innerText = data.probability + "%";
+
+                    if (data.is_unstable) document.getElementById('signalWarning').classList.remove('hidden');
+                    else document.getElementById('signalWarning').classList.add('hidden');
+
+                    document.getElementById('resultScreen').classList.remove('hidden');
+                    document.getElementById('tradingviewCard').classList.remove('hidden');
+
+                    const currentTheme = document.documentElement.getAttribute('data-theme') || 'cyberpunk';
+                    const tvTheme = (currentTheme === 'light') ? 'light' : 'dark';
+                    initTradingViewWidget(tvTheme, activeAssetValue, activeTimeframeValue);
+
+                    // Розраховуємо таймер на основі таймфрейму (у хвилинах)
+                    startSignalTimer(parseInt(activeTimeframeValue) * 60);
+                } else {
+                    alert("Не вдалося сформувати сигнал. Спробуйте ще раз.");
+                    setSignalInterfaceLock(false);
+                    actionBtn.innerText = dict.getSignal;
+                }
+            } catch (err) {
+                console.error(err);
+                document.getElementById('searchSignalScreen').classList.add('hidden');
+                setSignalInterfaceLock(false);
+                actionBtn.innerText = dict.getSignal;
+            }
+        }
+
+        function startSignalTimer(totalSeconds) {
+            if (signalTimer) clearInterval(signalTimer);
+            let left = totalSeconds;
+            const fill = document.getElementById('progressFill');
+            const txt = document.getElementById('timerDigits');
+            
+            function update() {
+                if (left <= 0) {
+                    clearInterval(signalTimer);
+                    fill.style.width = "0%";
+                    txt.innerText = "00:00/00:00";
+                    
+                    // По закінченню повного таймеру розблоковуємо інтерфейс і повертаємо базовий текст
+                    setSignalInterfaceLock(false);
+                    document.getElementById('signalActionButton').innerText = localization[currentLang].getSignal;
+                    return;
+                }
+                const pct = (left / totalSeconds) * 100;
+                fill.style.width = pct + "%";
+                fill.style.backgroundColor = pct > 50 ? "var(--green-signal)" : (pct > 20 ? "#f59e0b" : "var(--red-signal)");
+                
+                let mStart = Math.floor(totalSeconds / 60);
+                let sStart = totalSeconds % 60;
+                let mLeft = Math.floor(left / 60);
+                let sLeft = left % 60;
+                
+                const strStart = (mStart < 10 ? "0" : "") + mStart + ":" + (sStart < 10 ? "0" : "") + sStart;
+                const strLeft = (mLeft < 10 ? "0" : "") + mLeft + ":" + (sLeft < 10 ? "0" : "") + sLeft;
+                txt.innerText = strLeft + " / " + strStart;
+                left--;
+            }
+            update();
+            signalTimer = setInterval(update, 1000);
+        }
+
+        async function handleMarketScan() {
+            const btn = document.getElementById('btnScreener');
+            btn.disabled = true;
+            try {
+                const initData = window.Telegram?.WebApp?.initData || "";
+                const response = await fetch(`${API_BASE_URL}/api/get-market-scan`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData: initData, market: currentMarketType })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.success && data.pairs) {
+                        const listCont = document.getElementById('screenerList');
+                        listCont.innerHTML = "";
+                        data.pairs.forEach(p => {
+                            let disp = p.symbol;
+                            const fullList = marketAssets[currentMarketType] || [];
+                            const found = fullList.find(x => x.value === p.symbol);
+                            if (found) disp = found.name[currentLang];
+                            
+                            let dTxt = p.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
+                            if (currentLang === 'en') dTxt = p.direction === "UP" ? "CALL" : "PUT";
+                            if (currentLang === 'ru') dTxt = p.direction === "UP" ? "ВВЕРХ" : "ВНИЗ";
+
+                            const row = document.createElement('div');
+                            row.className = "screener-row";
+                            row.innerHTML = `<strong>${disp}</strong> <span class="direction-badge ${p.direction === 'UP' ? 'bg-green' : 'bg-red'}" style="padding:3px 10px; font-size:11px;">${dTxt} ${p.probability}%</span>`;
+                            listCont.appendChild(row);
+                        });
+                        document.getElementById('screenerBox').classList.remove('hidden');
+                    }
+                }
+            } catch (e) { console.error(e); }
+            btn.disabled = false;
+        }
+
         function switchScreen(screenName) {
+            // Забороняємо навігацію на вкладки Signals чи Profile, якщо стоїть блок,
+            // проте дозволяємо перемикатися на Screener та Calc у нижньому меню
+            if (isInterfaceLocked && (screenName === 'signals' || screenName === 'profile')) {
+                return;
+            }
+
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.querySelectorAll('.nav-bar .nav-item').forEach(n => n.classList.remove('active'));
             
             if (screenName === 'signals') {
                 document.getElementById('screenSignals').classList.remove('hidden');
@@ -526,140 +696,76 @@
             }
         }
 
-        async function handleSignalAction() {
-            const btn = document.getElementById('signalActionButton');
-            btn.disabled = true;
-            document.getElementById('resultScreen').classList.add('hidden');
-            document.getElementById('tradingviewCard').classList.add('hidden');
-            document.getElementById('searchSignalScreen').classList.remove('hidden');
-
-            const initData = window.Telegram?.WebApp?.initData || "";
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/get-market-signal`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData, asset: activeAssetValue, tf: activeTimeframeValue })
-                });
-
-                document.getElementById('searchSignalScreen').classList.add('hidden');
-                btn.disabled = false;
-
-                if (!response.ok) return;
-
-                const res = await response.json();
-                if (res && res.success) {
-                    showSignalResult(res);
-                }
-            } catch (e) {
-                console.error(e);
-                document.getElementById('searchSignalScreen').classList.add('hidden');
-                btn.disabled = false;
+        function selectThemeOption(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('butovski_theme', theme);
+            let displayTheme = "Cyberpunk";
+            if (theme === 'emerald') displayTheme = "Emerald";
+            if (theme === 'nordic') displayTheme = "Nordic";
+            if (theme === 'light') displayTheme = "Light";
+            document.getElementById('themeSelectedValue').innerText = displayTheme;
+            document.getElementById('themeSelectedValue').setAttribute('data-value', theme);
+            document.getElementById('themeDropdownWrapper').classList.remove('open');
+            document.querySelectorAll('#themeCustomOptions .custom-option').forEach(o => {
+                o.classList.remove('selected');
+                if (o.getAttribute('data-value') === theme) o.classList.add('selected');
+            });
+            if (document.getElementById('tradingview_widget').innerHTML.trim() !== "") {
+                initTradingViewWidget((theme === 'light' ? 'light' : 'dark'), activeAssetValue, activeTimeframeValue);
             }
         }
 
-        function showSignalResult(data) {
-            const pairText = document.getElementById('assetSelectedValue').innerText;
-            document.getElementById('signalPair').innerText = pairText;
+        function selectLangOption(lang) {
+            currentLang = lang;
+            localStorage.setItem('butovski_lang', lang);
+            const dict = localization[lang];
             
-            const dirBadge = document.getElementById('signalDirection');
-            if (data.direction === "UP") {
-                dirBadge.innerText = currentLang === 'uk' ? "ВВЕРХ" : (currentLang === 'ru' ? "ВВЕРХ" : "CALL");
-                dirBadge.className = "direction-badge bg-green";
-            } else {
-                dirBadge.innerText = currentLang === 'uk' ? "ВНИЗ" : (currentLang === 'ru' ? "ВНИЗ" : "PUT");
-                dirBadge.className = "direction-badge bg-red";
-            }
+            let labelLang = "Українська";
+            if (lang === 'en') labelLang = "English";
+            if (lang === 'ru') labelLang = "Русский";
+            
+            document.getElementById('langSelectedValue').innerText = labelLang;
+            document.getElementById('langSelectedValue').setAttribute('data-value', lang);
+            document.getElementById('langDropdownWrapper').classList.remove('open');
+            document.querySelectorAll('#langCustomOptions .custom-option').forEach(o => {
+                o.classList.remove('selected');
+                if (o.getAttribute('data-value') === lang) o.classList.add('selected');
+            });
 
-            const tfNames = { "1": "1 ХВИЛИНА", "3": "3 ХВИЛИНИ", "5": "5 ХВИЛИН", "15": "15 ХВИЛИН", "30": "30 ХВИЛИН", "60": "1 ГОДИНА" };
-            document.getElementById('signalTimeframe').innerText = tfNames[activeTimeframeValue] || (activeTimeframeValue + " M");
-            document.getElementById('signalProbability').innerText = data.probability + "%";
+            // Оновлюємо тексти локалізації
+            document.getElementById('loadingText').innerText = dict.loading;
+            document.getElementById('lockTitle').innerText = dict.denied;
+            document.getElementById('lockDesc').innerText = dict.deniedDesc;
+            document.getElementById('lblSelectAsset').innerText = dict.selectAsset;
+            document.getElementById('lblSelectTimeframe').innerText = dict.selectTf;
+            
+            // Якщо інтерфейс заблоковано, залишаємо напис "НОВИЙ СИГНАЛ" у відповідній локалізації
+            const actionBtn = document.getElementById('signalActionButton');
+            actionBtn.innerText = isInterfaceLocked ? (dict.getNewSignal || "НОВИЙ СИГНАЛ") : dict.getSignal;
 
-            const warning = document.getElementById('signalWarning');
-            if (data.is_unstable) warning.classList.remove('hidden');
-            else warning.classList.add('hidden');
+            document.getElementById('lblSearching').innerText = dict.searching;
+            document.getElementById('lblTimeframe').innerText = dict.timeframe;
+            document.getElementById('lblProba').innerText = dict.probability;
+            document.getElementById('btnRealMarket').innerText = dict.realMarket;
+            document.getElementById('btnOtcMarket').innerText = dict.otcMarket;
+            document.getElementById('btnCryptoMarket').innerText = dict.cryptoMarket;
+            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
+            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
+            document.getElementById('lblStartBet').innerText = dict.startBet;
+            document.getElementById('lblMultiplier').innerText = dict.multiplier;
+            document.getElementById('lblSteps').innerText = dict.steps;
+            document.getElementById('thStep').innerText = dict.step;
+            document.getElementById('thBet').innerText = dict.bet;
+            document.getElementById('thTotal').innerText = dict.total;
+            document.getElementById('setAccessType').innerText = dict.accessType;
+            document.getElementById('setTheme').innerText = dict.theme;
+            document.getElementById('menuSignals').innerText = dict.menuSignals;
+            document.getElementById('menuScreener').innerText = dict.menuScreener;
+            document.getElementById('menuCalc').innerText = dict.menuCalc;
+            document.getElementById('menuProfile').innerText = dict.menuProfile;
 
-            document.getElementById('resultScreen').classList.remove('hidden');
-            document.getElementById('tradingviewCard').classList.remove('hidden');
-
-            initTradingViewWidget(localStorage.getItem('butovski_theme') || 'cyberpunk', activeAssetValue, activeTimeframeValue);
-            startSignalTimer(parseInt(activeTimeframeValue) * 60);
-        }
-
-        function startSignalTimer(durationSeconds) {
-            if (signalTimer) clearInterval(signalTimer);
-            let left = durationSeconds;
-            const fill = document.getElementById('progressFill');
-            const digits = document.getElementById('timerDigits');
-
-            function update() {
-                if (left <= 0) {
-                    clearInterval(signalTimer);
-                    digits.innerText = "00:00/00:00";
-                    fill.style.width = "0%";
-                    return;
-                }
-                left--;
-                const passed = durationSeconds - left;
-                const pct = (left / durationSeconds) * 100;
-                fill.style.width = pct + "%";
-                fill.style.backgroundColor = document.getElementById('signalDirection').classList.contains('bg-green') ? "var(--green-signal)" : "var(--red-signal)";
-
-                const mTotal = Math.floor(durationSeconds / 60).toString().padStart(2, '0');
-                const sTotal = (durationSeconds % 60).toString().padStart(2, '0');
-                const mPassed = Math.floor(passed / 60).toString().padStart(2, '0');
-                const sPassed = (passed % 60).toString().padStart(2, '0');
-
-                digits.innerText = `${mPassed}:${sPassed} / ${mTotal}:${sTotal}`;
-            }
-            update();
-            signalTimer = setInterval(update, 1000);
-        }
-
-        async function handleMarketScan() {
-            const btn = document.getElementById('btnScreener');
-            btn.disabled = true;
-            document.getElementById('screenerBox').classList.add('hidden');
-
-            const initData = window.Telegram?.WebApp?.initData || "";
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/get-screener-data`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData, market: currentMarketType })
-                });
-
-                btn.disabled = false;
-                if (!response.ok) return;
-
-                const res = await response.json();
-                if (res && res.success && res.data) {
-                    const listContainer = document.getElementById('screenerList');
-                    listContainer.innerHTML = "";
-                    
-                    res.data.forEach(item => {
-                        const row = document.createElement('div');
-                        row.className = "screener-row";
-                        
-                        const badgeClass = item.direction === 'UP' ? 'bg-green' : 'bg-red';
-                        const badgeText = item.direction === 'UP' ? (currentLang === 'uk' || currentLang === 'ru' ? 'ВВЕРХ' : 'CALL') : (currentLang === 'uk' || currentLang === 'ru' ? 'ВНИЗ' : 'PUT');
-                        
-                        row.innerHTML = `
-                            <span style="font-weight:600;">${item.symbol}</span>
-                            <div style="display:flex; align-items:center; gap:8px;">
-                                <span class="direction-badge ${badgeClass}" style="font-size:10px; padding:3px 8px; border-radius:4px;">${badgeText}</span>
-                                <span style="font-weight:700; color:#6366f1;">${item.probability}%</span>
-                            </div>
-                        `;
-                        listContainer.appendChild(row);
-                    });
-                    document.getElementById('screenerBox').classList.remove('hidden');
-                }
-            } catch (e) {
-                console.error(e);
-                btn.disabled = false;
-            }
+            buildAssetDropdown();
+            selectTimeframeOption(activeTimeframeValue);
         }
 
         function calculateMartingale() {
@@ -685,64 +791,10 @@
                 new TradingView.widget({
                     "autosize": true, "symbol": asset, "interval": widgetTf, "timezone": "Etc/UTC",
                     "theme": (theme === 'light') ? 'light' : 'dark', "style": "1", "locale": currentLang,
-                    "toolbar_bg": "#f1f3f6", "enable_publishing": false, "hide_legend": true, "save_image": false,
+                    "toolbar_bg": #f1f3f6, "enable_publishing": false, "hide_legend": true, "save_image": false,
                     "container_id": "tradingview_widget"
                 });
             }
-        }
-
-        function selectThemeOption(themeName) {
-            document.documentElement.setAttribute('data-theme', themeName);
-            localStorage.setItem('butovski_theme', themeName);
-            document.getElementById('themeSelectedValue').innerText = themeName.charAt(0).toUpperCase() + themeName.slice(1);
-            document.getElementById('themeDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#themeCustomOptions .custom-option').forEach(opt => {
-                opt.classList.toggle('selected', opt.getAttribute('data-value') === themeName);
-            });
-            if (!document.getElementById('tradingviewCard').classList.contains('hidden')) {
-                initTradingViewWidget(themeName, activeAssetValue, activeTimeframeValue);
-            }
-        }
-
-        function selectLangOption(lang) {
-            currentLang = lang;
-            localStorage.setItem('butovski_lang', lang);
-            const langNames = { uk: "Українська", en: "English", ru: "Русский" };
-            document.getElementById('langSelectedValue').innerText = langNames[lang];
-            document.getElementById('langDropdownWrapper').classList.remove('open');
-            document.querySelectorAll('#langCustomOptions .custom-option').forEach(opt => {
-                opt.classList.toggle('selected', opt.getAttribute('data-value') === lang);
-            });
-
-            const dict = localization[lang];
-            document.getElementById('loadingText').innerText = dict.loading;
-            document.getElementById('lockTitle').innerText = dict.denied;
-            document.getElementById('lockDesc').innerText = dict.deniedDesc;
-            document.getElementById('lblSelectAsset').innerText = dict.selectAsset;
-            document.getElementById('lblSelectTimeframe').innerText = dict.selectTf;
-            document.getElementById('signalActionButton').innerText = dict.getSignal;
-            document.getElementById('lblSearching').innerText = dict.searching;
-            document.getElementById('lblTimeframe').innerText = dict.timeframe;
-            document.getElementById('lblProba').innerText = dict.probability;
-            document.getElementById('btnRealMarket').innerText = dict.realMarket;
-            document.getElementById('btnOtcMarket').innerText = dict.otcMarket;
-            document.getElementById('btnCryptoMarket').innerText = dict.cryptoMarket;
-            document.getElementById('lblScreenerBtn').innerText = dict.findPairs;
-            document.getElementById('lblScreenerTitle').innerText = dict.stablePairs;
-            document.getElementById('lblStartBet').innerText = dict.startBet;
-            document.getElementById('lblMultiplier').innerText = dict.multiplier;
-            document.getElementById('lblSteps').innerText = dict.steps;
-            document.getElementById('thStep').innerText = dict.step;
-            document.getElementById('thBet').innerText = dict.bet;
-            document.getElementById('thTotal').innerText = dict.total;
-            document.getElementById('setAccessType').innerText = dict.accessType;
-            document.getElementById('setTheme').innerText = dict.theme;
-            document.getElementById('menuSignals').innerText = dict.menuSignals;
-            document.getElementById('menuScreener').innerText = dict.menuScreener;
-            document.getElementById('menuCalc').innerText = dict.menuCalc;
-            document.getElementById('menuProfile').innerText = dict.menuProfile;
-
-            buildAssetDropdown();
         }
 
         document.addEventListener('click', (e) => {
