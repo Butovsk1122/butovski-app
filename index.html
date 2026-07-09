@@ -887,7 +887,7 @@
             });
         }
 
-        // ТОЧКОВА ЗМІНА 1: АСИНХРОННЕ ЗАВАНТАЖЕННЯ НОВИН З СЕРВЕРА
+        // --- ТОЧКОВА ЗМІНА: ДИНАМІЧНИЙ FETCH ЗАПИТ НОВИН З СЕРВЕРА ---
         async function renderHubContent() {
             const newsCont = document.getElementById('newsContainer');
             newsCont.innerHTML = `<div style="padding:16px; text-align:center; color:var(--text-muted); font-weight:600;"><i class="fas fa-spinner fa-spin"></i> Loading...</div>`;
@@ -904,7 +904,6 @@
                         card.href = item.url;
                         card.target = "_blank";
                         
-                        // Локалізація заголовку новин за мовою інтерфейсу
                         const displayTitle = item.title[currentLang] || item.title['uk'] || item.title['en'];
 
                         card.innerHTML = `
@@ -1003,7 +1002,7 @@
             circle.style.strokeDashoffset = circumference - (prob / 100) * circumference;
         }
 
-        // TOCКOВА ЗМІНА 2: ВИПРАВЛЕННЯ ШЛЯХУ НА /api/generate_signal
+        // Повністю твій оригінальний метод запиту сигналу (без змін шляху)
         async function requestSignal() {
             let loc = localization[currentLang] || localization['uk'];
             let btn = document.getElementById('btnGetSignal');
@@ -1021,7 +1020,7 @@
                 let initDataStr = tg?.initData || "";
                 let cleanSymbol = currentAsset.split(":")[1] || currentAsset;
 
-                const response = await fetch(`${BACKEND_URL}/api/generate_signal`, {
+                const response = await fetch(`${BACKEND_URL}/api/get-market-signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1073,7 +1072,6 @@
         }
 
         function openAssetModal() { document.getElementById('assetModal').classList.add('active'); }
-        /* Закриття та фільтрація модалок без змін */
         function closeAssetModal() { document.getElementById('assetModal').classList.remove('active'); }
         function openThemeModal() { document.getElementById('themeModal').classList.add('active'); }
         function closeThemeModal() { document.getElementById('themeModal').classList.remove('active'); }
