@@ -705,7 +705,7 @@
     </div>
 
     <script>
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/";
+        const BACKEND_URL = "https://butovski-signal-bot.onrender.com"; // Виправлено URL (прибрано зайвий слеш)
         
         let currentLang = 'uk';
         const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold'];
@@ -861,28 +861,16 @@
         };
 
         const hubContent = {
-            // Ці новини є стартовими (резервними), вони оновлюватимуться автоматично при завантаженні
             news: [
                 {
                     impact: "high",
                     time: "15:30",
                     url: "https://www.investing.com/economic-calendar/",
                     title: {
-                        uk: "Публікація індексу споживчих цін (CPI) США — очікується висока волатильність на ринках.",
-                        en: "US Consumer Price Index (CPI) publication — massive global market impact ahead.",
-                        pl: "Publikacja wskaźnika cen towarów i usług konsumpcyjnych (CPI) w USA — oczekiwana zmienność.",
-                        de: "Veröffentlichung des US-Verbraucherpreisindex (CPI) — extreme Schwankungen erwartet."
-                    }
-                },
-                {
-                    impact: "med",
-                    time: "17:00",
-                    url: "https://www.bloomberg.com/markets",
-                    title: {
-                        uk: "Виступ голови Європейського центрального банку (ЄЦБ) щодо подальшої процентної ставки.",
-                        en: "Speech by the President of the European Central Bank (ECB) on interest rate trajectory.",
-                        pl: "Przemówienie Prezesa Europejskiego Banku Centralnego (EBC) o stopach procentowych.",
-                        de: "Rede der EZB-Präsidentin zur zukünftigen Zinspolitik und Inflation."
+                        uk: "⚠️ [РЕЗЕРВ] Публікація індексу споживчих цін (CPI) США — очікується висока волатильність.",
+                        en: "⚠️ [FALLBACK] US Consumer Price Index (CPI) publication — massive global market impact ahead.",
+                        pl: "⚠️ [REZERWA] Publikacja wskaźnika cen towarów i usług konsumpcyjnych (CPI) w USA.",
+                        de: "⚠️ [BACKUP] Veröffentlichung des US-Verbraucherpreisindex (CPI)."
                     }
                 }
             ],
@@ -953,18 +941,18 @@
             buildAssetDropdown();
             buildLangDropdown();
             renderHubContent();
-            fetchDailyNews(); // Запускаємо завантаження свіжих новин при старті
+            fetchDailyNews(); // <-- Додано функцію завантаження
             switchTab('signals');
         });
 
-        // Завантаження актуальних новин з бекенду
+        // <-- ДОДАНО ФУНКЦІЮ ЗАВАНТАЖЕННЯ НОВИН -->
         async function fetchDailyNews() {
             try {
-                const response = await fetch(`${BACKEND_URL}api/get_news`);
+                const response = await fetch(`${BACKEND_URL}/api/get_news`);
                 const data = await response.json();
                 if (data.success && data.news && data.news.length > 0) {
                     hubContent.news = data.news;
-                    renderHubContent(); // Оновлюємо відображення, якщо новини успішно отримано
+                    renderHubContent(); 
                 }
             } catch(e) {
                 console.error("Error loading dynamic news:", e);
@@ -1137,7 +1125,7 @@
                 }
             }, 650);
             try {
-                const response = await fetch(`${BACKEND_URL}api/get_signal`, {
+                const response = await fetch(`${BACKEND_URL}/api/get_signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
