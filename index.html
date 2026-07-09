@@ -19,9 +19,10 @@
             --text-muted: #64748b;
             --border-color: #232a3d;
             --nav-bg: #0a0c10;
-            --tv-theme: dark;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
-
         [data-theme="light"] {
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
@@ -30,74 +31,59 @@
             --text-muted: #64748b;
             --border-color: #e2e8f0;
             --nav-bg: #ffffff;
-            --tv-theme: light;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
-
         [data-theme="emerald"] {
-            --bg-color: #060d0a;
-            --card-bg: #0b1812;
-            --accent-gradient: linear-gradient(135deg, #10b981, #059669);
+            --bg-color: #061f14;
+            --card-bg: #0b3020;
+            --accent-gradient: linear-gradient(135deg, #059669, #10b981);
             --text-main: #ecfdf5;
             --text-muted: #6ee7b7;
-            --border-color: #143024;
-            --nav-bg: #040806;
-            --tv-theme: dark;
+            --border-color: #114d34;
+            --nav-bg: #04140d;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
-
-        [data-theme="ocean"] {
-            --bg-color: #020813;
-            --card-bg: #071329;
-            --accent-gradient: linear-gradient(135deg, #0ea5e9, #2563eb);
-            --text-main: #f0f9ff;
-            --text-muted: #38bdf8;
-            --border-color: #0f2954;
-            --nav-bg: #01040a;
-            --tv-theme: dark;
-        }
-
         [data-theme="gold"] {
-            --bg-color: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --accent-gradient: linear-gradient(135deg, #fbbf24, #d97706);
-            --text-main: #ffffff;
-            --text-muted: #fbbf24;
-            --border-color: #2e2e2e;
-            --nav-bg: #0a0a0a;
-            --tv-theme: dark;
+            --bg-color: #14110c;
+            --card-bg: #1f1b13;
+            --accent-gradient: linear-gradient(135deg, #d97706, #f59e0b);
+            --text-main: #fef3c7;
+            --text-muted: #f59e0b;
+            --border-color: #383022;
+            --nav-bg: #0d0b08;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
+            font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             overflow-x: hidden;
-            padding-bottom: 80px;
-            transition: background-color 0.3s, color 0.3s;
+            font-size: 14px;
+            transition: background 0.3s, color 0.3s;
         }
 
-        .header {
+        /* Компоненти навігації та шапки */
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 16px;
             border-bottom: 1px solid var(--border-color);
-            background-color: var(--card-bg);
+            background: rgba(13,15,20,0.5);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        .user-block { display: flex; align-items: center; gap: 10px; }
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -106,973 +92,654 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            color: white;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(99,102,241,0.3);
         }
-
-        .user-info .name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .user-info .status {
-            font-size: 11px;
-            color: #22c55e;
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .circle-btn {
+        .user-info .username { font-weight: 600; font-size: 13px; }
+        .user-info .status { font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+        .status.premium { color: var(--warning); font-weight: 600; }
+        .header-actions { display: flex; gap: 10px; }
+        .btn-circle {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            border: 1px solid var(--border-color);
             background: var(--card-bg);
+            border: 1px solid var(--border-color);
             color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            transition: transform 0.2s;
         }
+        .btn-circle:active { transform: scale(0.9); }
 
-        .container {
-            padding: 16px;
-        }
+        /* Контейнери вкладки */
+        .tab-content { display: none; padding: 16px; padding-bottom: 90px; min-height: calc(100vh - 130px); }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .asset-selector {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 12px 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            cursor: pointer;
-        }
-
-        .asset-current {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .asset-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: #232a3d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #f59e0b;
-            font-weight: bold;
-        }
-
-        .asset-details .title {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .asset-details .type {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-
-        .timeframe-container {
-            display: flex;
-            gap: 6px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 16px;
-            scrollbar-width: none;
-        }
-        .timeframe-container::-webkit-scrollbar { display: none; }
-
-        .tf-btn {
-            padding: 8px 14px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
+        /* Картки та інтерфейс */
+        .card {
             background: var(--card-bg);
-            color: var(--text-main);
-            font-size: 12px;
-            font-weight: 600;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-
-        .tf-btn.active {
-            background: var(--accent-gradient);
-            color: white;
-            border-color: transparent;
-        }
-
-        .signal-monitor {
-            background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 24px;
-            padding: 24px;
-            text-align: center;
-            margin-bottom: 16px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .monitor-placeholder i {
-            font-size: 48px;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-        }
-
-        .monitor-placeholder p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .signal-result {
-            display: none;
-        }
-
-        .direction-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-        }
-
-        .direction-badge.up { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-        .direction-badge.down { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-
-        .gauge-container {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 16px;
-        }
-
-        .gauge-svg {
-            transform: rotate(-90deg);
-            width: 140px;
-            height: 140px;
-        }
-
-        .gauge-bg { fill: none; stroke: var(--border-color); stroke-width: 10; }
-        .gauge-fill {
-            fill: none;
-            stroke: url(#gaugeGradient);
-            stroke-width: 10;
-            stroke-dasharray: 377;
-            stroke-dashoffset: 377;
-            stroke-linecap: round;
-            transition: stroke-dashoffset 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
-        }
-
-        .gauge-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .gauge-text .percent { font-size: 28px; font-weight: 700; }
-        .gauge-text .label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-
-        .loader-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px 0;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--border-color);
-            border-top: 4px solid #6366f1;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 16px;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .loader-steps {
-            font-size: 13px;
-            color: var(--text-muted);
-            height: 20px;
-        }
-
-        .action-btn {
-            width: 100%;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            padding: 16px;
             border-radius: 16px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            padding: 16px;
+            margin-bottom: 16px;
         }
-
-        .widget-card {
-            background-color: var(--card-bg);
+        .balance-title { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .balance-value { font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+        .grid-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-action {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
             padding: 12px;
-            margin-bottom: 16px;
-            height: 240px;
-            overflow: hidden;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 16px 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .news-card, .edu-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 14px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: transform 0.2s, border-color 0.2s;
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-        .news-card:hover, .edu-card:hover {
-            transform: translateY(-2px);
-            border-color: #6366f1;
-        }
-
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        .news-impact {
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-        .news-impact.high { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-        .news-impact.med { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-
-        .news-title { font-size: 13px; font-weight: 600; line-height: 1.4; }
-        
-        .link-hint {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: #6366f1;
-            margin-top: 8px;
-            font-weight: 500;
-        }
-
-        .edu-flex-container {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .edu-icon {
-            width: 40px;
-            height: 40px;
             border-radius: 12px;
-            background: rgba(99, 102, 241, 0.1);
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 13px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #6366f1;
-            font-size: 18px;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .btn-action.primary { background: var(--accent-gradient); border: none; color: #fff; font-weight: 600; }
+
+        /* Секція Трейдингу */
+        .asset-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+        .timeframe-selector { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+        .tf-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--text-main);
+            cursor: pointer;
             flex-shrink: 0;
         }
+        .tf-btn.active { background: var(--accent-gradient); color: #fff; border: none; font-weight: 600; }
+        .widget-container { width: 100%; height: 220px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-color); margin-bottom: 16px; }
 
-        .profile-card {
-            background-color: var(--card-bg);
+        /* Блок Сигналів */
+        .signal-box { text-align: center; padding: 24px 16px; position: relative; overflow: hidden; }
+        .signal-direction { font-size: 32px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; letter-spacing: 1px; }
+        .signal-direction.up { color: var(--success); }
+        .signal-direction.down { color: var(--danger); }
+        .signal-direction.none { color: var(--text-muted); }
+        .signal-prob { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+        .signal-prob span { font-weight: 700; color: var(--text-main); }
+        
+        /* Круговий Прогрес */
+        .progress-circle-wrap { position: relative; width: 120px; height: 120px; margin: 0 auto 20px; }
+        .progress-circle-svg { transform: rotate(-90deg); width: 120px; height: 120px; }
+        .progress-circle-bg { fill: none; stroke: var(--border-color); stroke-width: 8; }
+        .progress-circle-bar { fill: none; stroke: url(#accentGrad); stroke-width: 8; stroke-dasharray: 301.6; stroke-dashoffset: 301.6; transition: stroke-dashoffset 0.5s ease; stroke-linecap: round; }
+        .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 22px; font-weight: 700; }
+
+        /* Блок Хабу / Аналітики */
+        .section-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .news-card, .edu-card {
+            background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            margin-bottom: 16px;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+            color: var(--text-main);
         }
+        .news-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+        .news-impact { padding: 2px 6px; border-radius: 4px; font-weight: 600; font-size: 9px; }
+        .news-impact.high { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .news-impact.med { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .news-title { font-size: 13px; font-weight: 500; line-height: 1.4; }
+        .link-hint { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 6px; }
 
-        .profile-avatar {
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            color: white;
-            margin: 0 auto 12px;
-        }
+        .edu-flex-container { display: flex; gap: 12px; align-items: flex-start; }
+        .edu-icon { width: 36px; height: 36px; border-radius: 8px; background: rgba(99,102,241,0.1); color: #6366f1; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
 
-        .single-stat-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            max-width: 240px;
-            margin: 0 auto;
-        }
+        /* Таблиця Лідерів */
+        .leader-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+        .leader-item:last-child { border-bottom: none; }
+        .leader-left { display: flex; align-items: center; gap: 10px; }
+        .leader-rank { width: 24px; font-weight: 700; color: var(--text-muted); font-size: 12px; }
+        .leader-rank.top-1 { color: #fbbf24; }
+        .leader-rank.top-2 { color: #94a3b8; }
+        .leader-rank.top-3 { color: #b45309; }
+        .leader-name { font-weight: 500; font-size: 13px; }
+        .leader-profit { font-weight: 600; color: var(--success); font-size: 13px; }
 
-        .stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; color: #6366f1; }
-        .stat-label { font-size: 12px; color: var(--text-muted); }
-
-        .navbar {
+        /* Нижня Навігація */
+        nav {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 64px;
-            background-color: var(--nav-bg);
+            bottom: 0; left: 0; right: 0;
+            height: 68px;
+            background: var(--nav-bg);
             border-top: 1px solid var(--border-color);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 100;
+            padding-bottom: env(safe-area-inset-bottom);
         }
-
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: var(--text-muted);
-            font-size: 10px;
-            font-weight: 500;
-            text-decoration: none;
             gap: 4px;
+            color: var(--text-muted);
             cursor: pointer;
+            transition: color 0.2s;
+            flex: 1;
+            text-align: center;
         }
-
-        .nav-item i { font-size: 20px; }
+        .nav-item i { font-size: 18px; }
+        .nav-item span { font-size: 10px; font-weight: 500; }
         .nav-item.active { color: #6366f1; }
 
+        /* Модальні Вікна */
         .modal {
-            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.6);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
             z-index: 1000;
+            display: flex;
             align-items: flex-end;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s;
         }
-
-        .modal.active { display: flex; }
-
-        .modal-content {
-            background-color: var(--card-bg);
+        .modal.active { opacity: 1; pointer-events: auto; }
+        .modal-container {
             width: 100%;
+            background: var(--bg-color);
+            border-top: 1px solid var(--border-color);
             border-top-left-radius: 24px;
             border-top-right-radius: 24px;
-            max-height: 75vh;
-            overflow-y: auto;
             padding: 20px;
+            max-height: 80vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.1, 0.7, 0.1, 1);
         }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .search-box {
-            display: flex;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 10px;
-            width: 100%;
-            margin-bottom: 16px;
-            gap: 8px;
-        }
-
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            outline: none;
-            width: 100%;
-        }
-
-        .asset-option, .lang-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-bottom: 6px;
-        }
-        .asset-option:hover, .asset-option.selected,
-        .lang-option:hover, .lang-option.selected {
-            background: rgba(99, 102, 241, 0.08);
-        }
+        .modal.active .modal-container { transform: translateY(0); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .modal-title { font-size: 16px; font-weight: 700; }
         
-        .lang-flag {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            background: #232a3d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
+        /* Пошук активів */
+        .search-box { position: relative; margin-bottom: 12px; }
+        .search-box input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-main);
+            font-family: inherit;
         }
+        .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+        .asset-list { display: flex; flex-direction: column; gap: 4px; }
+        .asset-option { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 10px; cursor: pointer; }
+        .asset-option:active { background: var(--card-bg); }
+        .asset-option .name { font-weight: 600; }
+        .asset-option .type { font-size: 11px; color: var(--text-muted); }
+
+        /* Мовні опції та теми */
+        .list-options { display: flex; flex-direction: column; gap: 6px; }
+        .opt-row { display: flex; justify-content: space-between; padding: 14px 12px; background: var(--card-bg); border-radius: 10px; cursor: pointer; border: 1px solid transparent; }
+        .opt-row.active { border-color: #6366f1; }
+
+        /* Преміум картка */
+        .premium-card { background: linear-gradient(135deg, #1e1b4b, #311042); border: 1px solid #a855f7; position: relative; overflow: hidden; }
+        .premium-badge { position: absolute; top: 12px; right: 12px; background: var(--warning); color: #000; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; }
+
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; font-weight: 600; }
+        .form-group input { width: 100%; padding: 12px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); font-family: inherit; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="user-badge">
-            <div class="user-avatar" id="userAvatarText">U</div>
+    <svg style="width:0;height:0;position:absolute;">
+        <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6366f1" />
+            <stop offset="100%" stop-color="#a855f7" />
+        </linearGradient>
+    </svg>
+
+    <header>
+        <div class="user-block">
+            <div class="user-avatar" id="avatarLetter">U</div>
             <div class="user-info">
-                <div class="name" id="userDisplayName">User</div>
-                <div class="status" id="statusLabel">Premium Active</div>
+                <div class="username" id="topUsername">Loading...</div>
+                <div class="status" id="userStatusText"><i class="fas fa-shield-alt"></i> Standart Account</div>
             </div>
         </div>
         <div class="header-actions">
-            <button class="circle-btn" onclick="rotateTheme()"><i class="fas fa-bolt" id="themeIcon"></i></button>
-            <button class="circle-btn" onclick="openLangModal()"><i class="fas fa-globe"></i></button>
+            <button class="btn-circle" onclick="openLangModal()"><i class="fas fa-globe"></i></button>
+            <button class="btn-circle" onclick="openThemeModal()"><i class="fas fa-palette"></i></button>
+        </div>
+    </header>
+
+    <div id="trading" class="tab-content active">
+        <div class="card" style="padding:14px 16px; margin-bottom:12px;">
+            <div class="balance-title" id="lblBalance">Demo Balance</div>
+            <div class="balance-value" id="valBalance">$10,000.00</div>
+            <div class="grid-buttons">
+                <button class="btn-action primary" onclick="switchTab('premium')"><i class="fas fa-bolt"></i> <span id="btnUpgrade">Upgrade</span></button>
+                <button class="btn-action" onclick="resetDemoBalance()"><i class="fas fa-sync-alt"></i> <span id="btnReset">Reset</span></button>
+            </div>
+        </div>
+
+        <div class="asset-selector" onclick="openAssetModal()">
+            <div>
+                <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase;" id="lblAsset">Trading Asset</div>
+                <div style="font-size:16px; font-weight:700; margin-top:2px;" id="currentAssetDisplay">EURUSD</div>
+            </div>
+            <i class="fas fa-chevron-right" style="color:var(--text-muted);"></i>
+        </div>
+
+        <div class="timeframe-selector" id="tfContainer">
+            </div>
+
+        <div class="widget-container">
+            <div id="tradingview_widget" style="width:100%; height:100%;"></div>
+        </div>
+
+        <div class="card signal-box">
+            <div class="progress-circle-wrap">
+                <svg class="progress-circle-svg">
+                    <circle class="progress-circle-bg" cx="60" cy="60" r="48"></circle>
+                    <circle class="progress-circle-bar" id="signalCircle" cx="60" cy="60" r="48"></circle>
+                </svg>
+                <div class="progress-text" id="signalPercentage">0%</div>
+            </div>
+            <div class="signal-direction none" id="signalDirText">READY</div>
+            <div class="signal-prob" id="signalDesc">Select criteria and press analyze</div>
+            <button class="btn-action primary" style="width:100%; padding:14px; border-radius:12px;" onclick="requestSignal()" id="btnGetSignal">GENERATE SIGNAL</button>
         </div>
     </div>
 
-    <div class="container">
-        
-        <div id="tab-signals" class="tab-content active">
-            <div class="asset-selector" onclick="openAssetModal()">
-                <div class="asset-current">
-                    <div class="asset-icon" id="currentAssetIcon">$</div>
-                    <div class="asset-details">
-                        <div class="title" id="currentAssetTitle">EUR / USD</div>
-                        <div class="type" id="currentAssetType">Валютна пара (Forex)</div>
-                    </div>
-                </div>
-                <i class="fas fa-chevron-down" style="color: var(--text-muted)"></i>
+    <div id="hub" class="tab-content">
+        <div class="section-title"><i class="fas fa-newspaper" style="color:#a855f7;"></i> <span id="lblNewsTitle">Market Analytics</span></div>
+        <div id="newsContainer">
             </div>
 
-            <div class="timeframe-container" id="timeframeContainer"></div>
-
-            <div class="signal-monitor">
-                <div class="monitor-placeholder" id="monitorPlaceholder">
-                    <i class="fas fa-robot"></i>
-                    <p id="placeholderText">Оберіть актив, інтервал та надішліть запит на аналіз</p>
-                </div>
-
-                <div class="loader-container" id="loaderContainer">
-                    <div class="spinner"></div>
-                    <div class="loader-steps" id="loaderSteps">З'єднання з сервером...</div>
-                </div>
-
-                <div class="signal-result" id="signalResult">
-                    <div class="direction-badge" id="directionBadge">
-                        <i class="fas fa-arrow-up" id="directionIcon"></i>
-                        <span id="directionText">UP</span>
-                    </div>
-
-                    <div class="gauge-container">
-                        <svg class="gauge-svg">
-                            <circle class="gauge-bg" cx="70" cy="70" r="60"></circle>
-                            <circle class="gauge-fill" id="gaugeFill" cx="70" cy="70" r="60"></circle>
-                            <defs>
-                                <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" stop-color="#6366f1" />
-                                    <stop offset="100%" stop-color="#a855f7" />
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                        <div class="gauge-text">
-                            <div class="percent" id="probabilityPercent">0%</div>
-                            <div class="label" id="probabilityLabel">Сила</div>
-                        </div>
-                    </div>
-                </div>
+        <div class="section-title" style="margin-top:20px;"><i class="fas fa-graduation-cap" style="color:#6366f1;"></i> <span id="lblEduTitle">Trading Academy</span></div>
+        <div id="eduContainer">
             </div>
-
-            <button class="action-btn" id="signalActionButton" onclick="generateSignal()">ОТРИМАТИ СИГНАЛ</button>
-            <div style="margin-top: 16px;"></div>
-            
-            <div class="widget-card">
-                <div id="tradingview_widget" style="width: 100%; height: 100%;"></div>
-            </div>
-        </div>
-
-        <div id="tab-hub" class="tab-content">
-            <div class="section-title">
-                <i class="fas fa-newspaper" style="color: #6366f1"></i>
-                <span id="newsSectionTitle">Економічні події</span>
-            </div>
-            <div id="newsContainer"></div>
-
-            <div class="section-title">
-                <i class="fas fa-graduation-cap" style="color: #a855f7"></i>
-                <span id="eduSectionTitle">Академія трейдингу</span>
-            </div>
-            <div id="eduContainer"></div>
-        </div>
-
-        <div id="tab-profile" class="tab-content">
-            <div class="profile-card">
-                <div class="profile-avatar" id="profileAvatarText">U</div>
-                <h3 id="profileName">Username</h3>
-                <p style="color: #22c55e; font-size: 12px; margin-top: 4px; font-weight: 500;" id="profileStatus">Premium Account</p>
-                
-                <div style="margin-top: 20px;">
-                    <div class="single-stat-container">
-                        <i class="fas fa-chart-line" style="color: #a855f7; font-size: 18px;"></i>
-                        <div class="stat-value" id="signalsCountValue">0</div>
-                        <div class="stat-label" id="signalsCountLabel">Запитів за добу</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
-    <div class="modal" id="assetModal" onclick="closeAssetModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
+    <div id="ratings" class="tab-content">
+        <div class="card premium-card" style="margin-bottom:16px; background:linear-gradient(135deg, #0f172a, #1e293b);">
+            <div style="font-size:16px; font-weight:700; margin-bottom:4px;" id="lblRankTitle">Your Rating</div>
+            <div style="font-size:12px; color:var(--text-muted); line-height:1.4; margin-bottom:12px;" id="lblRankDesc">Trade, increase demo status balance and enter global top list!</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border-color); padding-top:10px;">
+                <div>
+                    <div style="font-size:11px; color:var(--text-muted);" id="lblYourRank">Current Place</div>
+                    <div style="font-size:18px; font-weight:700; color:#fbbf24;">#1,421</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:11px; color:var(--text-muted);" id="lblTotalTraders">Active Traders</div>
+                    <div style="font-size:14px; font-weight:600;">42,890</div>
+                </div>
+            </div>
+        </div>
+        <div class="section-title"><i class="fas fa-trophy" style="color:#fbbf24;"></i> <span id="lblTopList">Global Top Profit (Daily)</span></div>
+        <div class="card" id="ratingContainer" style="padding:4px 16px;">
+            </div>
+    </div>
+
+    <div id="premium" class="tab-content">
+        <div class="card premium-card" id="premiumStatusCard">
+            <span class="premium-badge">PRO</span>
+            <div style="font-size:18px; font-weight:700; margin-bottom:4px;" id="lblProTitle">Butovski Premium v3.5</div>
+            <div style="font-size:12px; color:#c084fc; line-height:1.4; margin-bottom:16px;" id="lblProDesc">Unlock maximum neural algorithm precision networks signals up to 98% accuracy.</div>
+            <button class="btn-action primary" style="background:#fff; color:#000; font-weight:700;" onclick="activatePremium()" id="btnActivatePro">Activate $19.99 / mon</button>
+        </div>
+
+        <div class="section-title"><i class="fas fa-users" style="color:#10b981;"></i> <span id="lblRefTitle">Referral System</span></div>
+        <div class="card">
+            <div style="font-size:12px; color:var(--text-muted); line-height:1.4; margin-bottom:12px;" id="lblRefDesc">Invite partners. When they purchase Premium status, you receive 30% payouts directly.</div>
+            <div class="form-group">
+                <label id="lblRefLink">Your Partner Link</label>
+                <div style="position:relative;">
+                    <input type="text" id="refLinkInput" readonly value="https://t.me/ButovskiAppBot?start=ref582910">
+                    <button onclick="copyRefLink()" style="position:absolute; right:6px; top:5px; bottom:5px; background:var(--bg-color); border:1px solid var(--border-color); color:var(--text-main); border-radius:6px; padding:0 10px; font-size:11px; font-weight:600; cursor:pointer;">COPY</button>
+                </div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; text-align:center; margin-top:6px; border-top:1px solid var(--border-color); padding-top:12px;">
+                <div>
+                    <div style="font-size:11px; color:var(--text-muted);" id="lblInvited">Invited</div>
+                    <div style="font-size:16px; font-weight:700; margin-top:2px;">0</div>
+                </div>
+                <div>
+                    <div style="font-size:11px; color:var(--text-muted);" id="lblEarned">Earned</div>
+                    <div style="font-size:16px; font-weight:700; margin-top:2px; color:var(--success);">$0.00</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-item active" onclick="switchTab('trading')" id="navTrading"><i class="fas fa-chart-line"></i><span id="navTextTrading">Signals</span></div>
+        <div class="nav-item" onclick="switchTab('hub')" id="navHub"><i class="fas fa-graduation-cap"></i><span id="navTextHub">Analytics</span></div>
+        <div class="nav-item" onclick="switchTab('ratings')" id="navRatings"><i class="fas fa-trophy"></i><span id="navTextRatings">Leaders</span></div>
+        <div class="nav-item" onclick="switchTab('premium')" id="navPremium"><i class="fas fa-user"></i><span id="navTextPremium">Profile</span></div>
+    </nav>
+
+    <div class="modal" id="assetModal">
+        <div class="modal-container">
             <div class="modal-header">
-                <h3 id="modalSelectTitle">Оберіть актив</h3>
-                <i class="fas fa-times" style="cursor: pointer; color: var(--text-muted)" onclick="closeAssetModal()"></i>
+                <div class="modal-title" id="lblModalAssetTitle">Select Asset</div>
+                <button class="btn-circle" onclick="closeAssetModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="search-box">
-                <i class="fas fa-search" style="color: var(--text-muted); margin-top: 2px;"></i>
-                <input type="text" id="assetSearchInput" placeholder="Пошук активу..." oninput="filterAssets()">
+                <i class="fas fa-search"></i>
+                <input type="text" id="assetSearchInput" placeholder="Search asset..." oninput="filterAssets()">
             </div>
-            <div id="assetsListContainer"></div>
+            <div class="asset-list" id="assetListContainer">
+                </div>
         </div>
     </div>
 
-    <div class="modal" id="langModal" onclick="closeLangModal()">
-        <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="modal" id="themeModal">
+        <div class="modal-container">
             <div class="modal-header">
-                <h3 id="modalLangTitle">Виберіть мову / Language</h3>
-                <i class="fas fa-times" style="cursor: pointer; color: var(--text-muted)" onclick="closeLangModal()"></i>
+                <div class="modal-title" id="lblModalThemeTitle">Interface Theme</div>
+                <button class="btn-circle" onclick="closeThemeModal()"><i class="fas fa-times"></i></button>
             </div>
-            <div id="langsListContainer"></div>
+            <div class="list-options" id="themeOptionsContainer">
+                </div>
         </div>
     </div>
 
-    <div class="navbar">
-        <div class="nav-item active" id="nav-signals-btn" onclick="switchTab('signals')">
-            <i class="fas fa-chart-pie"></i>
-            <span id="navSignalsText">Сигнали</span>
-        </div>
-        <div class="nav-item" id="nav-hub-btn" onclick="switchTab('hub')">
-            <i class="fas fa-brain"></i>
-            <span id="navHubText">Аналітика</span>
-        </div>
-        <div class="nav-item" id="nav-profile-btn" onclick="switchTab('profile')">
-            <i class="fas fa-user"></i>
-            <span id="navProfileText">Кабінет</span>
+    <div class="modal" id="langModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-title">Application Language</div>
+                <button class="btn-circle" onclick="closeLangModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="list-options" id="langOptionsContainer">
+                </div>
         </div>
     </div>
 
     <script>
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com/";
+        // --- ПАРАМЕТРИ ТА КОНФІГУРАЦІЯ ---
+        const BACKEND_URL = "https://osnova-chekera-pratsiuie.onrender.com"; 
         
-        let currentLang = 'uk';
-        const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold'];
-        let currentThemeIdx = 0;
-        let isSignalActive = false;
-        let localSignalsCount = 0;
+        let tg = window.Telegram?.WebApp;
+        if(tg) { tg.expand(); tg.ready(); }
 
-        const languagesMap = [
-            { code: 'uk', name: 'Українська', flag: '🇺🇦' },
-            { code: 'en', name: 'English', flag: '🇬🇧' },
-            { code: 'pl', name: 'Polski', flag: '🇵🇱' },
-            { code: 'de', name: 'Deutsch', flag: '🇩🇪' }
+        let currentAsset = "FX:EURUSD";
+        let currentTimeframe = "5"; // 5 хвилин за замовчуванням
+        let currentTheme = localStorage.getItem('theme') || 'cyberpunk';
+        let currentLang = localStorage.getItem('lang') || 'uk';
+        let isPremiumUser = false;
+
+        const timeframes = [
+            { value: "1", label: "1m" },
+            { value: "5", label: "5m" },
+            { value: "15", label: "15m" },
+            { value: "60", label: "1h" },
+            { value: "4H", label: "4h" },
+            { value: "D", label: "1D" }
         ];
 
-        const assetsData = [
-            { id: "FX:EURUSD", name: "EUR / USD", type: "forex", icon: "€" },
-            { id: "FX:GBPUSD", name: "GBP / USD", type: "forex", icon: "£" },
-            { id: "FX:USDJPY", name: "USD / JPY", type: "forex", icon: "¥" },
-            { id: "FX:AUDUSD", name: "AUD / USD", type: "forex", icon: "A$" },
-            { id: "FX:USDCAD", name: "USD / CAD", type: "forex", icon: "C$" },
-            { id: "FX:USDCHF", name: "USD / CHF", type: "forex", icon: "₣" },
-            { id: "FX:NZDUSD", name: "NZD / USD", type: "forex", icon: "N$" },
-            { id: "FX:EURGBP", name: "EUR / GBP", type: "forex", icon: "₠" },
-            { id: "FX:EURJPY", name: "EUR / JPY", type: "forex", icon: "₭" },
-            { id: "FX:GBPJPY", name: "GBP / JPY", type: "forex", icon: "ℒ" },
-            { id: "FX:AUDJPY", name: "AUD / JPY", type: "forex", icon: "ℳ" },
-            { id: "FX:EURAUD", name: "EUR / AUD", type: "forex", icon: "₧" },
-            { id: "FX:GBPCAD", name: "GBP / CAD", type: "forex", icon: "💱" },
-            { id: "OANDA:USDTRY", name: "USD / TRY", type: "forex", icon: "₺" },
-            { id: "OANDA:USDZAR", name: "USD / ZAR", type: "forex", icon: "R" },
-            { id: "OANDA:USDMXN", name: "USD / MXN", type: "forex", icon: "Mex" },
-            { id: "OANDA:EURSEK", name: "EUR / SEK", type: "forex", icon: "kr" },
-            { id: "BINANCE:BTCUSDT", name: "BTC / USDT", type: "crypto", icon: "₿" },
-            { id: "BINANCE:ETHUSDT", name: "ETH / USDT", type: "crypto", icon: "Ξ" },
-            { id: "BINANCE:SOLUSDT", name: "SOL / USDT", type: "crypto", icon: "☀️" },
-            { id: "BINANCE:TONUSDT", name: "TON / USDT", type: "crypto", icon: "💎" },
-            { id: "BINANCE:XRPUSDT", name: "XRP / USDT", type: "crypto", icon: "✕" },
-            { id: "BINANCE:BNBUSDT", name: "BNB / USDT", type: "crypto", icon: "🔶" },
-            { id: "BINANCE:ADAUSDT", name: "ADA / USDT", type: "crypto", icon: "₳" },
-            { id: "BINANCE:DOGEUSDT", name: "DOGE / USDT", type: "crypto", icon: "Ð" },
-            { id: "FOREXCOM:XAUUSD", name: "GOLD (XAU/USD)", type: "cfd", icon: "Au" },
-            { id: "FOREXCOM:XAGUSD", name: "SILVER (XAG/USD)", type: "cfd", icon: "Ag" },
-            { id: "FOREXCOM:USOIL", name: "Crude Oil WTI", type: "cfd", icon: "🛢️" }
+        const assets = [
+            { symbol: "FX:EURUSD", display: "EUR/USD", type: "Forex" },
+            { symbol: "FX:GBPUSD", display: "GBP/USD", type: "Forex" },
+            { symbol: "FX:USDJPY", display: "USD/JPY", type: "Forex" },
+            { symbol: "FX:AUDUSD", display: "AUD/USD", type: "Forex" },
+            { symbol: "FX:USDCAD", display: "USD/CAD", type: "Forex" },
+            { symbol: "BINANCE:BTCUSDT", display: "BTC/USDT", type: "Crypto" },
+            { symbol: "BINANCE:ETHUSDT", display: "ETH/USDT", type: "Crypto" },
+            { symbol: "BINANCE:SOLUSDT", display: "SOL/USDT", type: "Crypto" },
+            { symbol: "BINANCE:XRPUSDT", display: "XRP/USDT", type: "Crypto" }
         ];
 
-        const timeframesData = [
-            { id: "3s", name: "3s", value: "0.05", tvWidget: "1" },
-            { id: "15s", name: "15s", value: "0.25", tvWidget: "1" },
-            { id: "30s", name: "30s", value: "0.5", tvWidget: "1" },
-            { id: "1m", name: "1m", value: "1", tvWidget: "1" },
-            { id: "5m", name: "5m", value: "5", tvWidget: "5" },
-            { id: "15m", name: "15m", value: "15", tvWidget: "15" },
-            { id: "30m", name: "30m", value: "30", tvWidget: "30" },
-            { id: "1h", name: "1h", value: "60", tvWidget: "60" }
+        const themes = [
+            { id: "cyberpunk", name: "Cyberpunk Dark" },
+            { id: "light", name: "Classic Light" },
+            { id: "emerald", name: "Emerald Mint" },
+            { id: "gold", name: "Luxury Gold" }
         ];
 
-        let selectedAsset = assetsData[0];
-        let selectedTimeframe = timeframesData[3];
+        const languages = [
+            { code: "uk", name: "Українська" },
+            { code: "en", name: "English" },
+            { code: "pl", name: "Polski" },
+            { code: "de", name: "Deutsch" }
+        ];
 
         const translations = {
             uk: {
-                statusLabel: "Преміум Активовано",
-                placeholderText: "Оберіть актив, інтервал та надішліть запит на аналіз",
-                signalActionButton: "ОТРИМАТИ СИГНАЛ",
-                signalActionButtonNew: "НОВИЙ СИГНАЛ",
-                probabilityLabel: "СИЛА СИГНАЛУ",
-                signalsCountLabel: "Запитів за добу",
-                modalSelectTitle: "Оберіть актив",
-                navSignalsText: "Сигнали",
-                navHubText: "Аналітика",
-                navProfileText: "Кабінет",
-                forex: "Валютна пара (Forex)",
-                crypto: "Криптовалюта (Binance)",
-                cfd: "Товари та Метали (CFD)",
-                newsSectionTitle: "Економічні події",
-                eduSectionTitle: "Академія трейдингу",
-                assetSearchPlaceholder: "Пошук активу...",
-                buyText: "BUY / ВГОРУ",
-                sellText: "SELL / ВНИЗ",
-                readMore: "Читати деталі на джерелі",
-                openLesson: "Відкрити лекцію на джерелі",
-                errConnect: "Не вдалося з'єднатися з сервером. Перевірте роботу бекенду."
+                trading: "Сигнали", hub: "Аналітика", ratings: "Лідери", premium: "Профіль",
+                balance: "Демо Баланс", upgrade: "Активувати Pro", reset: "Скинути", asset: "Торговий Актив",
+                genSignal: "ЗГЕНЕРУВАТИ СИГНАЛ", newsTitle: "Аналітика Ринку", eduTitle: "Академія Трейдингу",
+                rankTitle: "Ваш Рейтинг", rankDesc: "Торгуйте в плюс, нарощуйте демонстраційний баланс та потрапляйте в глобальні списки кращих!",
+                yourRank: "Ваше Місце", totalTraders: "Всього Трейдерів", topList: "Світовий Топ Прибутку (Доба)",
+                proTitle: "Butovski Premium v3.5", proDesc: "Розблокуйте максимальну точність нейромережевих алгоритмів. Отримуйте сигнали з точністю до 98%.",
+                activatePro: "Активувати $19.99 / міс", refTitle: "Реферальна Система",
+                refDesc: "Запрошуйте партнерів. При придбанні ними Premium-статусу ви отримуєте 30% виплат на рахунок.",
+                refLink: "Ваше Партнерське Посилання", invited: "Запрошено", earned: "Зароблено",
+                selectAsset: "Вибір Активу", selectTheme: "Тема Інтерфейсу", ready: "ГОТОВИЙ",
+                analyzing: "АНАЛІЗ...", buy: "КУПУВАТИ", sell: "ПРОДАВАТИ", signalDescReady: "Оберіть параметри та натисніть кнопку аналізу",
+                signalDescResult: "Рекомендація сформована на основі хмарних індикаторів.", copySuccess: "Скопійовано!",
+                newsLoading: "Оновлення економічних подій...", newsError: "Не вдалося завантажити свіжі новини.", newsConnError: "Помилка з'єднання з сервером аналітики.", readMore: "Читати детальніше", openLesson: "Відкрити урок"
             },
             en: {
-                statusLabel: "Premium Activated",
-                placeholderText: "Select asset, interval and submit analysis request",
-                signalActionButton: "GET SIGNAL",
-                signalActionButtonNew: "NEW SIGNAL",
-                probabilityLabel: "SIGNAL STRENGTH",
-                signalsCountLabel: "Daily requests",
-                modalSelectTitle: "Select asset",
-                navSignalsText: "Signals",
-                navHubText: "Analytics",
-                navProfileText: "Cabinet",
-                forex: "Currency Pair (Forex)",
-                crypto: "Cryptocurrency (Binance)",
-                cfd: "Commodities & Metals (CFD)",
-                newsSectionTitle: "Economic Events",
-                eduSectionTitle: "Trading Academy",
-                assetSearchPlaceholder: "Search asset...",
-                buyText: "BUY / UP",
-                sellText: "SELL / DOWN",
-                readMore: "Read breakdown on source",
-                openLesson: "Open reference class",
-                errConnect: "Failed to connect to server. Check your backend deployment."
+                trading: "Signals", hub: "Analytics", ratings: "Leaders", premium: "Profile",
+                balance: "Demo Balance", upgrade: "Upgrade to Pro", reset: "Reset", asset: "Trading Asset",
+                genSignal: "GENERATE SIGNAL", newsTitle: "Market Analytics", eduTitle: "Trading Academy",
+                rankTitle: "Your Rating", rankDesc: "Trade, increase your demo balance and enter the global list of top traders!",
+                yourRank: "Your Place", totalTraders: "Total Traders", topList: "Global Top Profit (Daily)",
+                proTitle: "Butovski Premium v3.5", proDesc: "Unlock maximum neural network algorithm precision. Get signals with accuracy up to 98%.",
+                activatePro: "Activate $19.99 / mo", refTitle: "Referral System",
+                refDesc: "Invite partners. When they purchase Premium status, you receive a 30% payout directly.",
+                refLink: "Your Partner Link", invited: "Invited", earned: "Earned",
+                selectAsset: "Select Asset", selectTheme: "Interface Theme", ready: "READY",
+                analyzing: "ANALYZING...", buy: "STRONG BUY", sell: "STRONG SELL", signalDescReady: "Select criteria and press analyze",
+                signalDescResult: "Recommendation is formed based on cloud technical indicators.", copySuccess: "Copied!",
+                newsLoading: "Updating economic events...", newsError: "Failed to load fresh news.", newsConnError: "Connection error with analytics server.", readMore: "Read more", openLesson: "Open lesson"
             },
             pl: {
-                statusLabel: "Premium Aktywne",
-                placeholderText: "Wybierz aktywo, interwał i wyślij żądanie analizy",
-                signalActionButton: "POBIERZ SYGNAŁ",
-                signalActionButtonNew: "NOWY SYGNAŁ",
-                probabilityLabel: "SIŁA SYGNAŁU",
-                signalsCountLabel: "Zgłoszenia na dobę",
-                modalSelectTitle: "Wybierz aktywo",
-                navSignalsText: "Sygnały",
-                navHubText: "Analityka",
-                navProfileText: "Gabinet",
-                forex: "Para walutowa (Forex)",
-                crypto: "Kryptowaluta (Binance)",
-                cfd: "Towary i Metale (CFD)",
-                newsSectionTitle: "Wydarzenia gospodarcze",
-                eduSectionTitle: "Akademia Tradingu",
-                assetSearchPlaceholder: "Szukaj aktywów...",
-                buyText: "BUY / W GÓRĘ",
-                sellText: "SELL / W DÓŁ",
-                readMore: "Przeczytaj szczegóły w źródle",
-                openLesson: "Otwórz lekcję źródłową",
-                errConnect: "Nie można połączyć się z serwerem. Sprawdź backend."
+                trading: "Sygnały", hub: "Analityka", ratings: "Liderzy", premium: "Profil",
+                balance: "Demo Balans", upgrade: "Aktywuj Pro", reset: "Resetuj", asset: "Aktyw Handlowy",
+                genSignal: "GENERUJ SYGNAŁ", newsTitle: "Analityka Rynku", eduTitle: "Akademia Tradingu",
+                rankTitle: "Twój Ranking", rankDesc: "Handluj na plus, zwiększaj saldo demonstracyjne i dołączaj do globalnej listy najlepszych!",
+                yourRank: "Twoje Miejsce", totalTraders: "Wszystkich Traderów", topList: "Globalny Top Zysków (Doba)",
+                proTitle: "Butovski Premium v3.5", proDesc: "Odblokuj maksymalną precyzję algorytmów sieci neuronowych. Otrzymuj sygnały o dokładności do 98%.",
+                activatePro: "Aktywuj $19.99 / msc", refTitle: "System Polecający",
+                refDesc: "Zapraszaj partnerów. Gdy kupią status Premium, otrzymasz 30% prowizji na swoje konto.",
+                refLink: "Twój Link Partnerski", invited: "Zaproszono", earned: "Zarobiono",
+                selectAsset: "Wybierz Aktyw", selectTheme: "Motyw Interfejsu", ready: "GOTOWY",
+                analyzing: "ANALIZA...", buy: "KUPUJ", sell: "SPRZEDAJ", signalDescReady: "Wybierz parametry i naciśnij przycisk analizy",
+                signalDescResult: "Rekomendacja sformułowana na podstawie wskaźników chmurowych.", copySuccess: "Skopiowano!",
+                newsLoading: "Aktualizacja wydarzeń gospodarczych...", newsError: "Nie udało się załadować świeżych wiadomości.", newsConnError: "Błąd połączenia z serwerem analitycznym.", readMore: "Czytaj więcej", openLesson: "Otwórz lekcję"
             },
             de: {
-                statusLabel: "Premium Aktiviert",
-                placeholderText: "Wählen Sie Asset, Intervall und senden Sie eine Analyseanfrage",
-                signalActionButton: "SIGNAL ANFORDERN",
-                signalActionButtonNew: "NEUES SIGNAL",
-                probabilityLabel: "SIGNALSTÄRKE",
-                signalsCountLabel: "Anfragen pro Tag",
-                modalSelectTitle: "Asset auswählen",
-                navSignalsText: "Signale",
-                navHubText: "Analytik",
-                navProfileText: "Kabinett",
-                forex: "Währungspaar (Forex)",
-                crypto: "Kryptowährung (Binance)",
-                cfd: "Rohstoffe & Metalle (CFD)",
-                newsSectionTitle: "Wirtschaftsdaten",
-                eduSectionTitle: "Trading-Akademie",
-                assetSearchPlaceholder: "Asset suchen...",
-                buyText: "BUY / NACH OBEN",
-                sellText: "SELL / NACH UNTEN",
-                readMore: "Details in der Quelle lesen",
-                openLesson: "Lektion im Original öffnen",
-                errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen."
+                trading: "Signale", hub: "Analytik", ratings: "Bestenliste", premium: "Profil",
+                balance: "Demo-Guthaben", upgrade: "Pro Aktivieren", reset: "Zurücksetzen", asset: "Handelsaktiv",
+                genSignal: "SIGNAL GENERIEREN", newsTitle: "Marktanalyse", eduTitle: "Trading-Akademie",
+                rankTitle: "Ihre Bewertung", rankDesc: "Handeln Sie im Plus, erhöhen Sie Ihr Demo-Guthaben und tragen Sie sich in die weltweite Bestenliste ein!",
+                yourRank: "Ihr Platz", totalTraders: "Händler Gesamt", topList: "Weltweite Top-Gewinne (24h)",
+                proTitle: "Butovski Premium v3.5", proDesc: "Schalten Sie die maximale Präzision von neuronalen Netzwerkalgorithmen frei. Signale mit bis zu 98% Genauigkeit.",
+                activatePro: "Aktivieren $19.99 / Monat", refTitle: "Empfehlungssystem",
+                refDesc: "Laden Sie Partner ein. Wenn diese den Premium-Status erwerben, erhalten Sie direkt 30% Auszahlung.",
+                refLink: "Ihr Partner-Link", invited: "Eingeladen", earned: "Verdient",
+                selectAsset: "Asset Auswählen", selectTheme: "Interface-Thema", ready: "BEREIT",
+                analyzing: "ANALYSE...", buy: "KAUFEN", sell: "VERKAUFEN", signalDescReady: "Parameter wählen und Analyse drücken",
+                signalDescResult: "Die Empfehlung basiert auf Cloud-technischen Indikatoren.", copySuccess: "Kopiert!",
+                newsLoading: "Wirtschaftsereignisse werden aktualisiert...", newsError: "Frische Nachrichten konnten nicht geladen werden.", newsConnError: "Verbindungsfehler mit dem Analytics-Server.", readMore: "Weiterlesen", openLesson: "Lektion öffnen"
             }
         };
 
         const hubContent = {
-            news: [
-                {
-                    impact: "high",
-                    time: "15:30",
-                    url: "https://www.investing.com/economic-calendar/",
-                    title: {
-                        uk: "Публікація індексу споживчих цін (CPI) США — очікується висока волатильність на ринках.",
-                        en: "US Consumer Price Index (CPI) publication — massive global market impact ahead.",
-                        pl: "Publikacja wskaźnika cen towarów i usług konsumpcyjnych (CPI) w USA — oczekiwana zmienność.",
-                        de: "Veröffentlichung des US-Verbraucherpreisindex (CPI) — extreme Schwankungen erwartet."
-                    }
-                },
-                {
-                    impact: "med",
-                    time: "17:00",
-                    url: "https://www.bloomberg.com/markets",
-                    title: {
-                        uk: "Виступ голови Європейського центрального банку (ЄЦБ) щодо подальшої процентної ставки.",
-                        en: "Speech by the President of the European Central Bank (ECB) on interest rate trajectory.",
-                        pl: "Przemówienie Prezesa Europejskiego Banku Centralnego (EBC) o stopach procentowych.",
-                        de: "Rede der EZB-Präsidentin zur zukünftigen Zinspolitik und Inflation."
-                    }
-                }
-            ],
+            news: [], // ТЕПЕР ПОРОЖНІЙ, ДАНІ ПІДТЯГУЮТЬСЯ З БЕКЕНДУ ДИНАМІЧНО
             edu: [
-                {
-                    icon: "fa-chart-line",
-                    url: "https://www.tradingview.com/support/solutions/43000501844-relative-strength-index-rsi/",
-                    title: { 
-                        uk: "Як працює індикатор RSI?", 
-                        en: "How does the RSI indicator work?", 
-                        pl: "Jak działa wskaźnik RSI?", 
-                        de: "Wie funktioniert der RSI-Indikator?" 
-                    },
-                    desc: { 
-                        uk: "Основи визначення зон перекупленості та перепроданості ринку.", 
-                        en: "Basics of identifying market overbought and oversold zones.", 
-                        pl: "Podstawy identyfikacji stref wykupienia i wyprzedania rynku.", 
-                        de: "Grundlagen zur Erkennung überkaufter und überverkaufter Markzonen." 
-                    }
-                },
-                {
-                    icon: "fa-bolt",
-                    url: "https://www.binance.com/uk-UA/academy/articles/what-is-scalping-in-cryptocurrency-trading",
-                    title: { 
-                        uk: "Стратегія швидкого скальпінгу", 
-                        en: "Fast scalping strategy guide", 
-                        pl: "Strategia szybkiego skalpowania", 
-                        de: "Schnelle Scalping-Strategie" 
-                    } ,
-                    desc: { 
-                        uk: "Правила входу та суворого ризик-менеджменту в угоди на хвилинних інтервалах.", 
-                        en: "Rules for entering trades and risk management on short minute intervals.", 
-                        pl: "Zasady wchodzenia w transakcje i zarządzania ryzykiem na interwałach minutowych.", 
-                        de: "Regeln für den Einstieg in Trades und Risikomanagement auf Minutenintervallen." 
-                    }
-                }
-            ],
-            steps: {
-                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної моделі...", "Генерація результату..."],
-                en: ["Connecting to TV server...", "Collecting technical indicators...", "Calculating mathematical model...", "Generating result..."],
-                pl: ["Łączenie z serwerem TV...", "Zbieranie wskaźników technicznych...", "Obliczanie modelu matematycznego...", "Generowanie wyniku..."],
-                de: ["Verbindung zum TV-Server...", "Technische Indikatoren sammeln...", "Berechnung des mathematischen Modells...", "Ergebnis wird generiert..."]
-            }
+                { title: { uk: "Введення в технічний аналіз", en: "Introduction to Tech Analysis", pl: "Wprowadzenie do analizy technicznej", de: "Einführung in die technische Analyse" }, desc: { uk: "Основи побудови свічкових графіків, трендів та рівнів підтримки.", en: "Basics of candlestick charts, trends and support levels.", pl: "Podstawy wykresów świecowych, trendów i poziomów wsparcia.", de: "Grundlagen von Candlestick-Charts, Trends und Unterstützungsstufen." }, icon: "fa-chart-area", url: "https://tradingview.com" },
+                { title: { uk: "Робота з осциляторами", en: "Trading with Oscillators", pl: "Praca z oscylatorami", de: "Arbeit mit Oszillatoren" }, desc: { uk: "Як правильно шукати зони перекупленості та перепроданості через RSI.", en: "How to find overbought and oversold zones using RSI.", pl: "Jak poprawnie szukać stref wykupienia i wyprzedania za pomocą RSI.", de: "Wie man Überkauft- und Überverkauft-Zonen via RSI richtig findet." }, icon: "fa-wave-square", url: "https://tradingview.com" }
+            ]
         };
 
-        let initData = "";
-        try {
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
-                initData = tg.initData || "";
-                
-                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                    const u = tg.initDataUnsafe.user;
-                    const displayName = u.username ? "@" + u.username : `${u.first_name} ${u.last_name || ""}`;
-                    document.getElementById('userDisplayName').innerText = displayName;
-                    document.getElementById('profileName').innerText = displayName;
-                    
-                    const char = (u.username || u.first_name || "U").charAt(0).toUpperCase();
-                    document.getElementById('userAvatarText').innerText = char;
-                    document.getElementById('profileAvatarText').innerText = char;
-                }
-            }
-        } catch(e) { console.error(e); }
+        const leadersData = [
+            { name: "Pysarenko Diana", profit: "+$14,250.00" },
+            { name: "Alex_Trader", profit: "+$11,890.40" },
+            { name: "CryptoKing", profit: "+$9,420.00" },
+            { name: "Maxim_UA", profit: "+$7,110.00" },
+            { name: "Elena_Fx", profit: "+$5,900.25" }
+        ];
 
-        window.addEventListener('DOMContentLoaded', () => {
+        // --- ІНІЦІАЛІЗАЦІЯ ДОДАТКУ ---
+        document.addEventListener("DOMContentLoaded", () => {
+            initUser();
+            applyTheme(currentTheme);
+            updateLanguageInterface();
             renderTimeframes();
-            buildAssetDropdown();
-            buildLangDropdown();
-            renderHubContent();
-            switchTab('signals');
+            renderAssets();
+            renderThemes();
+            renderLanguages();
+            renderLeaders();
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
+            loadSavedBalance();
         });
 
+        function initUser() {
+            let name = "Guest User";
+            if(tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                let user = tg.initDataUnsafe.user;
+                name = user.first_name + (user.last_name ? " " + user.last_name : "");
+            }
+            document.getElementById('topUsername').innerText = name;
+            document.getElementById('avatarLetter').innerText = name.charAt(0).toUpperCase();
+        }
+
+        function loadSavedBalance() {
+            let bal = localStorage.getItem('demo_balance');
+            if(!bal) { bal = "10000.00"; localStorage.setItem('demo_balance', bal); }
+            document.getElementById('valBalance').innerText = "$" + parseFloat(bal).toLocaleString('en-US', { minimumFractionDigits: 2 });
+        }
+
+        function resetDemoBalance() {
+            localStorage.setItem('demo_balance', "10000.00");
+            loadSavedBalance();
+        }
+
+        // --- ЛОГІКА НАВІГАЦІЇ В КЛАДОК ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            
+            if(tabId === 'trading') document.getElementById('navTrading').classList.add('active');
+            if(tabId === 'hub') {
+                document.getElementById('navHub').classList.add('active');
+                renderHubContent(); // Робить динамічний запит на новини при переході
+            }
+            if(tabId === 'ratings') document.getElementById('navRatings').classList.add('active');
+            if(tabId === 'premium') document.getElementById('navPremium').classList.add('active');
+        }
+
+        // --- РЕНДЕРИНГ КОМПОНЕНТІВ ---
         function renderTimeframes() {
-            const container = document.getElementById('timeframeContainer');
-            container.innerHTML = "";
-            timeframesData.forEach(tf => {
+            const cont = document.getElementById('tfContainer');
+            cont.innerHTML = "";
+            timeframes.forEach(tf => {
                 const btn = document.createElement('button');
-                btn.className = `tf-btn ${tf.id === selectedTimeframe.id ? 'active' : ''}`;
-                btn.innerText = tf.name;
-                btn.onclick = () => selectTimeframe(tf);
-                container.appendChild(btn);
+                btn.className = `tf-btn ${tf.value === currentTimeframe ? 'active' : ''}`;
+                btn.innerText = tf.label;
+                btn.onclick = () => changeTimeframe(tf.value);
+                cont.appendChild(btn);
             });
         }
 
-        function selectTimeframe(tf) {
-            if (isSignalActive) return;
-            selectedTimeframe = tf;
+        function changeTimeframe(val) {
+            currentTimeframe = val;
             renderTimeframes();
-            initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, tf.tvWidget);
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
         }
 
-        function buildAssetDropdown() {
-            const container = document.getElementById('assetsListContainer');
-            container.innerHTML = "";
-            assetsData.forEach(asset => {
-                const isSel = asset.id === selectedAsset.id;
-                const div = document.createElement('div');
-                div.className = `asset-option ${isSel ? 'selected' : ''}`;
-                div.onclick = () => selectAsset(asset);
-                div.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="asset-icon">${asset.icon}</div>
-                        <div>
-                            <div style="font-size:14px; font-weight:600;">${asset.name}</div>
-                            <div style="font-size:11px; color:var(--text-muted);">${translations[currentLang][asset.type]}</div>
-                        </div>
-                    </div>
-                    ${isSel ? '<i class="fas fa-check" style="color:#6366f1;"></i>' : ''}
-                `;
-                container.appendChild(div);
+        function renderAssets() {
+            const cont = document.getElementById('assetListContainer');
+            cont.innerHTML = "";
+            assets.forEach(ast => {
+                const row = document.createElement('div');
+                row.className = "asset-option";
+                row.onclick = () => selectAsset(ast.symbol, ast.display);
+                row.innerHTML = `<div><div class="name">${ast.display}</div><div class="type">${ast.type}</div></div><i class="fas fa-chart-bar" style="color:var(--text-muted);"></i>`;
+                cont.appendChild(row);
             });
         }
 
-        function selectAsset(asset) {
-            selectedAsset = asset;
-            document.getElementById('currentAssetIcon').innerText = asset.icon;
-            document.getElementById('currentAssetTitle').innerText = asset.name;
-            document.getElementById('currentAssetType').innerText = translations[currentLang][asset.type];
+        function selectAsset(symbol, display) {
+            currentAsset = symbol;
+            document.getElementById('currentAssetDisplay').innerText = display;
             closeAssetModal();
-            buildAssetDropdown();
-            initTradingViewWidget(themesList[currentThemeIdx], asset.id, selectedTimeframe.tvWidget);
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
+            resetSignalState();
         }
 
-        function buildLangDropdown() {
-            const container = document.getElementById('langsListContainer');
-            container.innerHTML = "";
-            languagesMap.forEach(lang => {
-                const isSel = lang.code === currentLang;
-                const div = document.createElement('div');
-                div.className = `lang-option ${isSel ? 'selected' : ''}`;
-                div.onclick = () => selectLanguage(lang.code);
-                div.innerHTML = `
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="lang-flag">${lang.flag}</div>
-                        <div style="font-size:14px; font-weight:600; color: var(--text-main);">${lang.name}</div>
-                    </div>
-                    ${isSel ? '<i class="fas fa-check" style="color:#6366f1;"></i>' : ''}
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function selectLanguage(langCode) {
-            currentLang = langCode;
-            closeLangModal();
-            buildLangDropdown();
-            
-            document.getElementById('statusLabel').innerText = translations[currentLang].statusLabel;
-            document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
-            document.getElementById('probabilityLabel').innerText = translations[currentLang].probabilityLabel;
-            document.getElementById('signalsCountLabel').innerText = translations[currentLang].signalsCountLabel;
-            document.getElementById('modalSelectTitle').innerText = translations[currentLang].modalSelectTitle;
-            document.getElementById('navSignalsText').innerText = translations[currentLang].navSignalsText;
-            document.getElementById('navHubText').innerText = translations[currentLang].navHubText;
-            document.getElementById('navProfileText').innerText = translations[currentLang].navProfileText;
-            document.getElementById('newsSectionTitle').innerText = translations[currentLang].newsSectionTitle;
-            document.getElementById('eduSectionTitle').innerText = translations[currentLang].eduSectionTitle;
-            document.getElementById('assetSearchInput').placeholder = translations[currentLang].assetSearchPlaceholder;
-            
-            const btn = document.getElementById('signalActionButton');
-            btn.innerText = isSignalActive ? translations[currentLang].signalActionButtonNew : translations[currentLang].signalActionButton;
-            
-            buildAssetDropdown();
-            renderHubContent();
-            initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
-        }
-
-        function renderHubContent() {
+        // --- ДИНАМІЧНИЙ РЕНДЕРИНГ НОВИН ТА АКАДЕМІЇ ---
+        async function renderHubContent() {
             const newsCont = document.getElementById('newsContainer');
             newsCont.innerHTML = "";
-            hubContent.news.forEach(item => {
-                const card = document.createElement('a');
-                card.className = "news-card";
-                card.href = item.url;
-                card.target = "_blank";
-                card.innerHTML = `
-                    <div class="news-header">
-                        <span><i class="far fa-clock"></i> ${item.time}</span>
-                        <span class="news-impact ${item.impact}">${item.impact.toUpperCase()}</span>
-                    </div>
-                    <div class="news-title">${item.title[currentLang]}</div>
-                    <div class="link-hint">
-                        <span>${translations[currentLang].readMore}</span>
-                        <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
-                    </div>
-                `;
-                newsCont.appendChild(card);
-            });
+            
+            // Спінер завантаження новин
+            newsCont.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:13px;">
+                                    <i class="fas fa-spinner fa-spin" style="margin-right:8px; color:#a855f7;"></i> ${translations[currentLang].newsLoading}
+                                  </div>`;
 
+            try {
+                // Виклик нашого нового API на бекенді
+                const response = await fetch(`${BACKEND_URL}/api/get_news`);
+                const data = await response.json();
+
+                if (data.success && data.news.length > 0) {
+                    newsCont.innerHTML = ""; // Очищаємо статус завантаження
+                    
+                    data.news.forEach(item => {
+                        const card = document.createElement('a');
+                        card.className = "news-card";
+                        card.href = item.url;
+                        card.target = "_blank";
+                        card.innerHTML = `
+                            <div class="news-header">
+                                <span><i class="far fa-clock"></i> ${item.time}</span>
+                                <span class="news-impact ${item.impact}">${item.impact.toUpperCase()}</span>
+                            </div>
+                            <div class="news-title">${item.title[currentLang] || item.title['en']}</div>
+                            <div class="link-hint">
+                                <span>${translations[currentLang].readMore}</span>
+                                <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
+                            </div>
+                        `;
+                        newsCont.appendChild(card);
+                    });
+                } else {
+                    newsCont.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:13px;">${translations[currentLang].newsError}</div>`;
+                }
+            } catch (error) {
+                console.error("Помилка отримання новин з бекенду:", error);
+                newsCont.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-muted); font-size:13px;">${translations[currentLang].newsConnError}</div>`;
+            }
+
+            // Академія
             const eduCont = document.getElementById('eduContainer');
             eduCont.innerHTML = "";
             hubContent.edu.forEach(item => {
@@ -1097,118 +764,187 @@
             });
         }
 
-        async function generateSignal() {
-            const btn = document.getElementById('signalActionButton');
-            
-            if (isSignalActive) {
-                isSignalActive = false;
-                document.getElementById('signalResult').style.display = 'none';
-                document.getElementById('monitorPlaceholder').style.display = 'block';
-                document.getElementById('gaugeFill').style.strokeDashoffset = '377';
-                btn.innerText = translations[currentLang].signalActionButton;
-                return;
-            }
+        function renderLeaders() {
+            const cont = document.getElementById('ratingContainer');
+            cont.innerHTML = "";
+            leadersData.forEach((ldr, idx) => {
+                const item = document.createElement('div');
+                item.className = "leader-item";
+                item.innerHTML = `<div class="leader-left"><div class="leader-rank top-${idx+1}">${idx+1}</div><div class="leader-name">${ldr.name}</div></div><div class="leader-profit">${ldr.profit}</div>`;
+                cont.appendChild(item);
+            });
+        }
 
-            document.getElementById('monitorPlaceholder').style.display = 'none';
-            document.getElementById('signalResult').style.display = 'none';
-            const loader = document.getElementById('loaderContainer');
-            loader.style.display = 'flex';
+        function renderThemes() {
+            const cont = document.getElementById('themeOptionsContainer');
+            cont.innerHTML = "";
+            themes.forEach(th => {
+                const row = document.createElement('div');
+                row.className = `opt-row ${th.id === currentTheme ? 'active' : ''}`;
+                row.onclick = () => { applyTheme(th.id); renderThemes(); };
+                row.innerHTML = `<span>${th.name}</span>${th.id === currentTheme ? '<i class="fas fa-check" style="color:#6366f1;"></i>':''}`;
+                cont.appendChild(row);
+            });
+        }
+
+        function applyTheme(thId) {
+            currentTheme = thId;
+            localStorage.setItem('theme', thId);
+            document.documentElement.setAttribute('data-theme', thId);
+            initTradingViewWidget(currentTheme, currentAsset, currentTimeframe);
+        }
+
+        function renderLanguages() {
+            const cont = document.getElementById('langOptionsContainer');
+            cont.innerHTML = "";
+            languages.forEach(ln => {
+                const row = document.createElement('div');
+                row.className = `opt-row ${ln.code === currentLang ? 'active' : ''}`;
+                row.onclick = () => { currentLang = ln.code; localStorage.setItem('lang', ln.code); renderLanguages(); updateLanguageInterface(); if(document.getElementById('hub').classList.contains('active')) renderHubContent(); };
+                row.innerHTML = `<span>${ln.name}</span>${ln.code === currentLang ? '<i class="fas fa-check" style="color:#6366f1;"></i>':''}`;
+                cont.appendChild(row);
+            });
+        }
+
+        function updateLanguageInterface() {
+            let t = translations[currentLang];
+            document.getElementById('navTextTrading').innerText = t.trading;
+            document.getElementById('navTextHub').innerText = t.hub;
+            document.getElementById('navTextRatings').innerText = t.ratings;
+            document.getElementById('navTextPremium').innerText = t.premium;
+            document.getElementById('lblBalance').innerText = t.balance;
+            document.getElementById('btnUpgrade').innerText = t.upgrade;
+            document.getElementById('btnReset').innerText = t.reset;
+            document.getElementById('lblAsset').innerText = t.asset;
+            document.getElementById('btnGetSignal').innerText = t.genSignal;
+            document.getElementById('lblNewsTitle').innerText = t.newsTitle;
+            document.getElementById('lblEduTitle').innerText = t.eduTitle;
+            document.getElementById('lblRankTitle').innerText = t.rankTitle;
+            document.getElementById('lblRankDesc').innerText = t.rankDesc;
+            document.getElementById('lblYourRank').innerText = t.yourRank;
+            document.getElementById('lblTotalTraders').innerText = t.totalTraders;
+            document.getElementById('lblTopList').innerText = t.topList;
+            document.getElementById('lblProTitle').innerText = t.proTitle;
+            document.getElementById('lblProDesc').innerText = t.proDesc;
+            document.getElementById('btnActivatePro').innerText = t.activatePro;
+            document.getElementById('lblRefTitle').innerText = t.refTitle;
+            document.getElementById('lblRefDesc').innerText = t.refDesc;
+            document.getElementById('lblRefLink').innerText = t.refLink;
+            document.getElementById('lblInvited').innerText = t.invited;
+            document.getElementById('lblEarned').innerText = t.earned;
+            document.getElementById('lblModalAssetTitle').innerText = t.selectAsset;
+            document.getElementById('lblModalThemeTitle').innerText = t.selectTheme;
             
-            const steps = hubContent.steps[currentLang];
-            let stepIdx = 0;
-            document.getElementById('loaderSteps').innerText = steps[0];
-            const intervalTimer = setInterval(() => {
-                stepIdx++;
-                if(stepIdx < steps.length) {
-                    document.getElementById('loaderSteps').innerText = steps[stepIdx];
-                }
-            }, 650);
+            let dirEl = document.getElementById('signalDirText');
+            if(dirEl.classList.contains('none')) {
+                dirEl.innerText = t.ready;
+                document.getElementById('signalDesc').innerText = t.signalDescReady;
+            } else if(dirEl.classList.contains('up')) {
+                dirEl.innerText = t.buy;
+            } else if(dirEl.classList.contains('down')) {
+                dirEl.innerText = t.sell;
+            }
+            
+            document.getElementById('userStatusText').innerHTML = isPremiumUser ? `<i class="fas fa-crown" style="color:var(--warning);"></i> Premium Account` : `<i class="fas fa-shield-alt"></i> Standart Account`;
+        }
+
+        // --- СЕРВЕРНА ЛОГІКА СИГНАЛІВ ---
+        function resetSignalState() {
+            let t = translations[currentLang];
+            let dirText = document.getElementById('signalDirText');
+            dirText.className = "signal-direction none";
+            dirText.innerText = t.ready;
+            document.getElementById('signalDesc').innerText = t.signalDescReady;
+            document.getElementById('signalPercentage').innerText = "0%";
+            setCircleProgress(0);
+        }
+
+        function setCircleProgress(prob) {
+            const circle = document.getElementById('signalCircle');
+            let circumference = 2 * Math.PI * 48; // 301.59
+            let offset = circumference - (prob / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        async function requestSignal() {
+            let t = translations[currentLang];
+            let btn = document.getElementById('btnGetSignal');
+            let dirText = document.getElementById('signalDirText');
+            
+            btn.disabled = true;
+            dirText.className = "signal-direction none";
+            dirText.innerText = t.analyzing;
+            
+            let currentOffset = 0;
+            let interval = setInterval(() => {
+                currentOffset = (currentOffset + 5) % 100;
+                document.getElementById('signalPercentage').innerText = currentOffset + "%";
+                setCircleProgress(currentOffset);
+            }, 60);
 
             try {
-                const response = await fetch(`${BACKEND_URL}/api/get_signal`, {
+                // На надсилання йде чистий символ без префіксів бірж
+                let cleanSymbol = currentAsset.split(":")[1] || currentAsset;
+                
+                const response = await fetch(`${BACKEND_URL}/api/generate_signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        symbol: selectedAsset.id,
-                        timeframe: selectedTimeframe.value
-                    })
+                    body: JSON.stringify({ symbol: cleanSymbol, timeframe: currentTimeframe })
                 });
 
-                clearInterval(intervalTimer);
-                loader.style.display = 'none';
                 const data = await response.json();
+                clearInterval(interval);
+                btn.disabled = false;
 
                 if (data.success) {
-                    isSignalActive = true;
-                    btn.innerText = translations[currentLang].signalActionButtonNew;
+                    let finalProb = data.probability;
+                    document.getElementById('signalPercentage').innerText = finalProb + "%";
+                    setCircleProgress(finalProb);
 
-                    const badge = document.getElementById('directionBadge');
-                    const icon = document.getElementById('directionIcon');
-                    const text = document.getElementById('directionText');
-                    
-                    if (data.direction === 'UP') {
-                        badge.className = "direction-badge up";
-                        icon.className = "fas fa-arrow-up";
-                        text.innerText = translations[currentLang].buyText;
+                    if (data.direction === "UP") {
+                        dirText.className = "signal-direction up";
+                        dirText.innerText = t.buy;
                     } else {
-                        badge.className = "direction-badge down";
-                        icon.className = "fas fa-arrow-down";
-                        text.innerText = translations[currentLang].sellText;
+                        dirText.className = "signal-direction down";
+                        dirText.innerText = t.sell;
                     }
-
-                    document.getElementById('signalResult').style.display = 'block';
-                    document.getElementById('probabilityPercent').innerText = data.probability + '%';
-                    
-                    const offset = 377 - (377 * data.probability) / 100;
-                    setTimeout(() => {
-                        document.getElementById('gaugeFill').style.strokeDashoffset = offset;
-                    }, 50);
-
-                    localSignalsCount++;
-                    document.getElementById('signalsCountValue').innerText = localSignalsCount;
+                    document.getElementById('signalDesc').innerText = t.signalDescResult;
                 } else {
-                    alert("Error: " + data.error);
-                    document.getElementById('monitorPlaceholder').style.display = 'block';
+                    resetSignalState();
+                    alert("API Error: " + data.message);
                 }
             } catch (error) {
-                clearInterval(intervalTimer);
-                loader.style.display = 'none';
-                document.getElementById('monitorPlaceholder').style.display = 'block';
-                alert(translations[currentLang].errConnect);
+                clearInterval(interval);
+                btn.disabled = false;
+                resetSignalState();
+                console.error("Signal Fetch Critical Error:", error);
+                alert("Server Connection Error.");
             }
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-            document.getElementById(`nav-${tabId}-btn`).classList.add('active');
-
-            if(tabId === 'signals') {
-                setTimeout(() => {
-                    initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
-                }, 100);
-            }
+        // --- ДОДАТКОВІ ФУНКЦІЇ ПРОФІЛЮ ---
+        function activatePremium() {
+            isPremiumUser = true;
+            updateLanguageInterface();
+            document.getElementById('premiumStatusCard').style.background = "linear-gradient(135deg, #064e3b, #065f46)";
+            document.getElementById('premiumStatusCard').style.borderColor = "var(--success)";
+            document.getElementById('btnActivatePro').style.display = "none";
+            document.getElementById('lblProDesc').innerText = "Premium Lifetime License is fully activated on your Telegram ID account. Enjoy max cloud accuracy.";
         }
 
-        function rotateTheme() {
-            currentThemeIdx = (currentThemeIdx + 1) % themesList.length;
-            const newTheme = themesList[currentThemeIdx];
-            document.documentElement.setAttribute('data-theme', newTheme);
-            
-            const icon = document.getElementById('themeIcon');
-            if (newTheme === 'light') icon.className = "fas fa-sun";
-            else if (newTheme === 'emerald') icon.className = "fas fa-money-bill-wave";
-            else if (newTheme === 'ocean') icon.className = "fas fa-water";
-            else if (newTheme === 'gold') icon.className = "fas fa-crown";
-            else icon.className = "fas fa-bolt"; 
-            
-            initTradingViewWidget(newTheme, selectedAsset.id, selectedTimeframe.tvWidget);
+        function copyRefLink() {
+            let input = document.getElementById('refLinkInput');
+            input.select();
+            input.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(input.value);
+            alert(translations[currentLang].copySuccess);
         }
 
+        // --- КЕРУВАННЯ МОДАЛЬНИМИ ВІКНАМИ ---
         function openAssetModal() { document.getElementById('assetModal').classList.add('active'); }
         function closeAssetModal() { document.getElementById('assetModal').classList.remove('active'); }
+        function openThemeModal() { document.getElementById('themeModal').classList.add('active'); }
+        function closeThemeModal() { document.getElementById('themeModal').classList.remove('active'); }
         function openLangModal() { document.getElementById('langModal').classList.add('active'); }
         function closeLangModal() { document.getElementById('langModal').classList.remove('active'); }
 
