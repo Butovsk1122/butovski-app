@@ -632,6 +632,28 @@
                 <div id="tradingview_widget" style="width: 100%; height: 100%;"></div>
             </div>
         </div>
+        
+        <!-- НОВА ВКЛАДКА "ТОП ПАРИ" -->
+        <div id="tab-top" class="tab-content">
+            <div class="section-title">
+                <i class="fas fa-fire" style="color: #ef4444"></i>
+                <span id="topSectionTitle">Найкращі валютні пари</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;" id="topDescText">
+                Пошук пар з найвищою точністю для поточного інтервалу.
+            </p>
+            
+            <div class="timeframe-container" id="timeframeContainerTop"></div>
+
+            <button class="action-btn" id="scanTopBtn" onclick="scanTopSignals()">ЗНАЙТИ ТОП СИГНАЛИ (>45%)</button>
+
+            <div class="loader-container" id="topLoader" style="display: none; margin-top: 20px;">
+                <div class="spinner"></div>
+                <div class="loader-steps" id="topLoaderText">Аналіз ринку. Зачекайте 10-15 сек...</div>
+            </div>
+
+            <div id="topResults" style="margin-top: 16px;"></div>
+        </div>
 
         <div id="tab-hub" class="tab-content">
             <div class="section-title">
@@ -694,6 +716,13 @@
             <i class="fas fa-chart-pie"></i>
             <span id="navSignalsText">Сигнали</span>
         </div>
+        
+        <!-- НОВА КНОПКА ТОП У МЕНЮ -->
+        <div class="nav-item" id="nav-top-btn" onclick="switchTab('top')">
+            <i class="fas fa-fire"></i>
+            <span id="navTopText">Топ</span>
+        </div>
+
         <div class="nav-item" id="nav-hub-btn" onclick="switchTab('hub')">
             <i class="fas fa-brain"></i>
             <span id="navHubText">Аналітика</span>
@@ -705,7 +734,7 @@
     </div>
 
     <script>
-        const BACKEND_URL = "https://butovski-signal-bot.onrender.com"; // Виправлено URL (прибрано зайвий слеш)
+        const BACKEND_URL = "https://butovski-signal-bot.onrender.com"; 
         
         let currentLang = 'uk';
         const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold'];
@@ -775,6 +804,10 @@
                 signalsCountLabel: "Запитів за добу",
                 modalSelectTitle: "Оберіть актив",
                 navSignalsText: "Сигнали",
+                navTopText: "Топ Пари",
+                topSectionTitle: "Найкращі валютні пари",
+                scanTopBtn: "ЗНАЙТИ ТОП СИГНАЛИ (>45%)",
+                topDescText: "Пошук пар з найвищою точністю для поточного інтервалу.",
                 navHubText: "Аналітика",
                 navProfileText: "Кабінет",
                 forex: "Валютна пара (Forex)",
@@ -798,6 +831,10 @@
                 signalsCountLabel: "Daily requests",
                 modalSelectTitle: "Select asset",
                 navSignalsText: "Signals",
+                navTopText: "Top Pairs",
+                topSectionTitle: "Best Currency Pairs",
+                scanTopBtn: "FIND TOP SIGNALS (>45%)",
+                topDescText: "Search for pairs with the highest accuracy for the current interval.",
                 navHubText: "Analytics",
                 navProfileText: "Cabinet",
                 forex: "Currency Pair (Forex)",
@@ -821,6 +858,10 @@
                 signalsCountLabel: "Zgłoszenia na dobę",
                 modalSelectTitle: "Wybierz aktywo",
                 navSignalsText: "Sygnały",
+                navTopText: "Top Pary",
+                topSectionTitle: "Najlepsze pary walutowe",
+                scanTopBtn: "ZNAJDŹ TOP SYGNAŁY (>45%)",
+                topDescText: "Szukaj par o najwyższej dokładności dla bieżącego interwału.",
                 navHubText: "Analityka",
                 navProfileText: "Gabinet",
                 forex: "Para walutowa (Forex)",
@@ -844,6 +885,10 @@
                 signalsCountLabel: "Anfragen pro Tag",
                 modalSelectTitle: "Asset auswählen",
                 navSignalsText: "Signale",
+                navTopText: "Top Paare",
+                topSectionTitle: "Beste Währungspaare",
+                scanTopBtn: "TOP SIGNALE FINDEN (>45%)",
+                topDescText: "Suchen Sie nach Paaren mit der höchsten Genauigkeit für das aktuelle Intervall.",
                 navHubText: "Analytik",
                 navProfileText: "Kabinett",
                 forex: "Währungspaar (Forex)",
@@ -941,11 +986,10 @@
             buildAssetDropdown();
             buildLangDropdown();
             renderHubContent();
-            fetchDailyNews(); // <-- Додано функцію завантаження
+            fetchDailyNews(); 
             switchTab('signals');
         });
 
-        // <-- ДОДАНО ФУНКЦІЮ ЗАВАНТАЖЕННЯ НОВИН -->
         async function fetchDailyNews() {
             try {
                 const response = await fetch(`${BACKEND_URL}/api/get_news`);
@@ -961,20 +1005,30 @@
 
         function renderTimeframes() {
             const container = document.getElementById('timeframeContainer');
+            const containerTop = document.getElementById('timeframeContainerTop');
             container.innerHTML = "";
+            containerTop.innerHTML = "";
             timeframesData.forEach(tf => {
+                // Основна вкладка
                 const btn = document.createElement('button');
                 btn.className = `tf-btn ${tf.id === selectedTimeframe.id ? 'active' : ''}`;
                 btn.innerText = tf.name;
                 btn.onclick = () => selectTimeframe(tf);
                 container.appendChild(btn);
+
+                // Вкладка Топ
+                const btnTop = document.createElement('button');
+                btnTop.className = `tf-btn ${tf.id === selectedTimeframe.id ? 'active' : ''}`;
+                btnTop.innerText = tf.name;
+                btnTop.onclick = () => selectTimeframe(tf);
+                containerTop.appendChild(btnTop);
             });
         }
 
         function selectTimeframe(tf) {
             if (isSignalActive) return;
             selectedTimeframe = tf;
-            renderTimeframes();
+            renderTimeframes(); // Оновлює обидва контейнери таймфреймів
             initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, tf.tvWidget);
         }
 
@@ -1046,6 +1100,12 @@
             document.getElementById('eduSectionTitle').innerText = translations[currentLang].eduSectionTitle;
             document.getElementById('assetSearchInput').placeholder = translations[currentLang].assetSearchPlaceholder;
             
+            // Нові переклади
+            document.getElementById('navTopText').innerText = translations[currentLang].navTopText;
+            document.getElementById('topSectionTitle').innerText = translations[currentLang].topSectionTitle;
+            document.getElementById('scanTopBtn').innerText = translations[currentLang].scanTopBtn;
+            document.getElementById('topDescText').innerText = translations[currentLang].topDescText;
+
             const btn = document.getElementById('signalActionButton');
             btn.innerText = isSignalActive ? translations[currentLang].signalActionButtonNew : translations[currentLang].signalActionButton;
             
@@ -1129,6 +1189,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
+                        initData: initData,
                         symbol: selectedAsset.id,
                         timeframe: selectedTimeframe.value
                     })
@@ -1172,6 +1233,72 @@
                 loader.style.display = 'none';
                 document.getElementById('monitorPlaceholder').style.display = 'block';
                 alert(translations[currentLang].errConnect);
+            }
+        }
+
+        // НОВА ФУНКЦІЯ ДЛЯ ОТРИМАННЯ ТОП СИГНАЛІВ
+        async function scanTopSignals() {
+            const btn = document.getElementById('scanTopBtn');
+            const loader = document.getElementById('topLoader');
+            const resultsDiv = document.getElementById('topResults');
+            
+            btn.style.display = 'none';
+            resultsDiv.innerHTML = '';
+            loader.style.display = 'flex';
+            
+            const forexAssets = assetsData.filter(a => a.type === 'forex').map(a => a.id);
+            
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/get_top_signals`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        initData: initData,
+                        symbols: forexAssets,
+                        timeframe: selectedTimeframe.value
+                    })
+                });
+                
+                const data = await response.json();
+                loader.style.display = 'none';
+                btn.style.display = 'block';
+                
+                if (data.success && data.results && data.results.length > 0) {
+                    data.results.forEach(res => {
+                        const asset = assetsData.find(a => a.id === res.symbol);
+                        const card = document.createElement('div');
+                        card.className = "asset-selector";
+                        card.style.marginBottom = "8px";
+                        card.onclick = () => {
+                            selectAsset(asset);
+                            switchTab('signals');
+                        };
+                        
+                        const directionColor = res.direction === 'UP' ? '#22c55e' : '#ef4444';
+                        const directionIcon = res.direction === 'UP' ? 'fa-arrow-up' : 'fa-arrow-down';
+                        const dirText = res.direction === 'UP' ? 'BUY' : 'SELL';
+                        
+                        card.innerHTML = `
+                            <div class="asset-current">
+                                <div class="asset-icon">${asset.icon}</div>
+                                <div class="asset-details">
+                                    <div class="title">${asset.name}</div>
+                                    <div class="type" style="color: ${directionColor}; font-weight: bold; font-size: 13px;">
+                                        <i class="fas ${directionIcon}"></i> ${dirText} | ${res.probability}%
+                                    </div>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-right" style="color: var(--text-muted)"></i>
+                        `;
+                        resultsDiv.appendChild(card);
+                    });
+                } else {
+                    resultsDiv.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">Не знайдено сигналів з точністю понад 45% для цього інтервалу.</p>`;
+                }
+            } catch (e) {
+                loader.style.display = 'none';
+                btn.style.display = 'block';
+                resultsDiv.innerHTML = `<p style="text-align:center; color:#ef4444; font-size: 13px;">Помилка з'єднання з сервером.</p>`;
             }
         }
 
