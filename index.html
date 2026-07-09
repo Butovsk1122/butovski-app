@@ -861,6 +861,7 @@
         };
 
         const hubContent = {
+            // Ці новини є стартовими (резервними), вони оновлюватимуться автоматично при завантаженні
             news: [
                 {
                     impact: "high",
@@ -940,7 +941,6 @@
                     const displayName = u.username ? "@" + u.username : `${u.first_name} ${u.last_name || ""}`;
                     document.getElementById('userDisplayName').innerText = displayName;
                     document.getElementById('profileName').innerText = displayName;
-                    
                     const char = (u.username || u.first_name || "U").charAt(0).toUpperCase();
                     document.getElementById('userAvatarText').innerText = char;
                     document.getElementById('profileAvatarText').innerText = char;
@@ -953,8 +953,23 @@
             buildAssetDropdown();
             buildLangDropdown();
             renderHubContent();
+            fetchDailyNews(); // Запускаємо завантаження свіжих новин при старті
             switchTab('signals');
         });
+
+        // Завантаження актуальних новин з бекенду
+        async function fetchDailyNews() {
+            try {
+                const response = await fetch(`${BACKEND_URL}api/get_news`);
+                const data = await response.json();
+                if (data.success && data.news && data.news.length > 0) {
+                    hubContent.news = data.news;
+                    renderHubContent(); // Оновлюємо відображення, якщо новини успішно отримано
+                }
+            } catch(e) {
+                console.error("Error loading dynamic news:", e);
+            }
+        }
 
         function renderTimeframes() {
             const container = document.getElementById('timeframeContainer');
@@ -1072,7 +1087,6 @@
                 `;
                 newsCont.appendChild(card);
             });
-
             const eduCont = document.getElementById('eduContainer');
             eduCont.innerHTML = "";
             hubContent.edu.forEach(item => {
@@ -1099,7 +1113,6 @@
 
         async function generateSignal() {
             const btn = document.getElementById('signalActionButton');
-            
             if (isSignalActive) {
                 isSignalActive = false;
                 document.getElementById('signalResult').style.display = 'none';
@@ -1123,9 +1136,8 @@
                     document.getElementById('loaderSteps').innerText = steps[stepIdx];
                 }
             }, 650);
-
             try {
-                const response = await fetch(`${BACKEND_URL}/api/get_signal`, {
+                const response = await fetch(`${BACKEND_URL}api/get_signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1133,7 +1145,6 @@
                         timeframe: selectedTimeframe.value
                     })
                 });
-
                 clearInterval(intervalTimer);
                 loader.style.display = 'none';
                 const data = await response.json();
@@ -1145,7 +1156,6 @@
                     const badge = document.getElementById('directionBadge');
                     const icon = document.getElementById('directionIcon');
                     const text = document.getElementById('directionText');
-                    
                     if (data.direction === 'UP') {
                         badge.className = "direction-badge up";
                         icon.className = "fas fa-arrow-up";
@@ -1163,7 +1173,6 @@
                     setTimeout(() => {
                         document.getElementById('gaugeFill').style.strokeDashoffset = offset;
                     }, 50);
-
                     localSignalsCount++;
                     document.getElementById('signalsCountValue').innerText = localSignalsCount;
                 } else {
@@ -1222,7 +1231,6 @@
         function initTradingViewWidget(theme, asset, timeframe) {
             document.getElementById('tradingview_widget').innerHTML = "";
             let tvThemeValue = (theme === 'light') ? 'light' : 'dark';
-            
             if (typeof TradingView !== 'undefined') {
                 new TradingView.widget({
                     "autosize": true,
