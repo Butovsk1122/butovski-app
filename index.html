@@ -286,7 +286,7 @@
             border-radius: 30px;
             font-size: 18px;
             font-weight: 700;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .direction-badge.up { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
@@ -646,6 +646,9 @@
                             <i class="fas fa-arrow-up" id="directionIcon"></i>
                             <span id="directionText">UP</span>
                         </div>
+                        
+                        <!-- Блок для попереджень (Точки входу та Волатильність) -->
+                        <div id="signalWarnings" style="margin-bottom: 12px; font-weight: 500; text-align: center; display: flex; flex-direction: column; gap: 4px;"></div>
 
                         <div class="gauge-container">
                             <svg class="gauge-svg">
@@ -778,9 +781,8 @@
         let currentThemeIdx = 0;
         let isSignalActive = false;
         let localSignalsCount = 0;
-        let userRole = 'user'; // ДОДАНО: Зберігаємо роль користувача для перекладача
+        let userRole = 'user'; 
 
-        // ДОДАНО: Універсальна функція для оновлення статусів, щоб вони не збивались при зміні мови
         function updateUserStatusText() {
             if (userRole === 'admin') {
                 document.getElementById('statusLabel').innerText = "Admin / VIP";
@@ -872,7 +874,9 @@
                 sellText: "SELL / ВНИЗ",
                 readMore: "Читати деталі на джерелі",
                 openLesson: "Відкрити лекцію на джерелі",
-                errConnect: "Не вдалося з'єднатися з сервером. Перевірте роботу бекенду."
+                errConnect: "Не вдалося з'єднатися з сервером. Перевірте роботу бекенду.",
+                warnVol: "Низька волатильність (Флет)",
+                warnPullback: "Можливий відкат (Ціна на піку)"
             },
             en: {
                 statusLabel: "Premium Activated",
@@ -899,7 +903,9 @@
                 sellText: "SELL / DOWN",
                 readMore: "Read breakdown on source",
                 openLesson: "Open reference class",
-                errConnect: "Failed to connect to server. Check your backend deployment."
+                errConnect: "Failed to connect to server. Check your backend deployment.",
+                warnVol: "Low Volatility (Flat)",
+                warnPullback: "Pullback Risk (Peak price)"
             },
             pl: {
                 statusLabel: "Premium Aktywne",
@@ -926,7 +932,9 @@
                 sellText: "SELL / W DÓŁ",
                 readMore: "Przeczytaj szczegóły w źródle",
                 openLesson: "Otwórz lekcję źródłową",
-                errConnect: "Nie można połączyć się z serwerem. Sprawdź backend."
+                errConnect: "Nie można połączyć się z serwerem. Sprawdź backend.",
+                warnVol: "Niska zmienność (Boczny trend)",
+                warnPullback: "Ryzyko korekty (Cena na szczycie)"
             },
             de: {
                 statusLabel: "Premium Aktiviert",
@@ -953,7 +961,9 @@
                 sellText: "SELL / NACH UNTEN",
                 readMore: "Details in der Quelle lesen",
                 openLesson: "Lektion im Original öffnen",
-                errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen."
+                errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen.",
+                warnVol: "Niedrige Volatilität (Seitwärts)",
+                warnPullback: "Rückschlagrisiko (Höchstpreis)"
             }
         };
 
@@ -1056,7 +1066,6 @@
                     document.getElementById('lockScreen').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
                     
-                    // ДОДАНО: Визначаємо точну роль замість загального "Admin / VIP"
                     if (isAdmin) {
                         userRole = 'admin';
                     } else if (data.is_vip) {
@@ -1064,7 +1073,7 @@
                     } else {
                         userRole = 'user';
                     }
-                    updateUserStatusText(); // Застосовуємо текст
+                    updateUserStatusText(); 
                     
                     renderTimeframes();
                     buildAssetDropdown();
@@ -1083,7 +1092,6 @@
                     document.getElementById('lockScreen').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
                     
-                    // ДОДАНО: Ставимо роль адміна як fallback
                     userRole = 'admin';
                     updateUserStatusText();
 
@@ -1209,7 +1217,6 @@
             closeLangModal();
             buildLangDropdown();
             
-            // ДОДАНО: Замість жорсткого перезапису викликаємо функцію
             updateUserStatusText(); 
             
             document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
@@ -1289,11 +1296,15 @@
                 document.getElementById('monitorPlaceholder').style.display = 'block';
                 document.getElementById('gaugeFill').style.strokeDashoffset = '377';
                 btn.innerText = translations[currentLang].signalActionButton;
+                const warningsDiv = document.getElementById('signalWarnings');
+                if (warningsDiv) warningsDiv.innerHTML = '';
                 return;
             }
 
             document.getElementById('monitorPlaceholder').style.display = 'none';
             document.getElementById('signalResult').style.display = 'none';
+            const warningsDiv = document.getElementById('signalWarnings');
+            if (warningsDiv) warningsDiv.innerHTML = '';
             const loader = document.getElementById('loaderContainer');
             loader.style.display = 'flex';
             
@@ -1335,6 +1346,16 @@
                         badge.className = "direction-badge down";
                         icon.className = "fas fa-arrow-down";
                         text.innerText = translations[currentLang].sellText;
+                    }
+                    
+                    // Блок виводу попереджень
+                    if (data.tech_info) {
+                        if (data.tech_info.low_volatility) {
+                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#f59e0b; margin-top:4px;"><i class="fas fa-exclamation-triangle"></i> ${translations[currentLang].warnVol}</div>`;
+                        }
+                        if (data.tech_info.pullback_warning) {
+                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px;"><i class="fas fa-sync-alt"></i> ${translations[currentLang].warnPullback}</div>`;
+                        }
                     }
 
                     document.getElementById('signalResult').style.display = 'block';
