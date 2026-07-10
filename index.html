@@ -769,13 +769,30 @@
                 <span id="navProfileText">Кабінет</span>
             </div>
         </div>
-    </div> <script>
+    </div> 
+
+    <script>
         const BACKEND_URL = "https://butovski-signal-bot.onrender.com";
         let currentLang = 'uk';
         const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold'];
         let currentThemeIdx = 0;
         let isSignalActive = false;
         let localSignalsCount = 0;
+        let userRole = 'user'; // ДОДАНО: Зберігаємо роль користувача для перекладача
+
+        // ДОДАНО: Універсальна функція для оновлення статусів, щоб вони не збивались при зміні мови
+        function updateUserStatusText() {
+            if (userRole === 'admin') {
+                document.getElementById('statusLabel').innerText = "Admin / VIP";
+                document.getElementById('profileStatus').innerText = "Admin / VIP Account";
+            } else if (userRole === 'vip') {
+                document.getElementById('statusLabel').innerText = "VIP";
+                document.getElementById('profileStatus').innerText = "VIP Account";
+            } else {
+                document.getElementById('statusLabel').innerText = translations[currentLang].statusLabel;
+                document.getElementById('profileStatus').innerText = translations[currentLang].statusLabel + " Account";
+            }
+        }
 
         const languagesMap = [
             { code: 'uk', name: 'Українська', flag: '🇺🇦' },
@@ -1017,9 +1034,7 @@
             }
         } catch(e) { console.error(e); }
 
-        // ВИПРАВЛЕНО: ГОЛОВНА ФУНКЦІЯ ПЕРЕВІРКИ ДОСТУПУ (ЕКРАН БЛОКУВАННЯ) З ЖОРСТКИМ ПРАВИЛОМ ДЛЯ АДМІНА
         async function checkAccess() {
-            // 1. Отримуємо локальний ID користувача для строгої перевірки
             let localUserId = null;
             try {
                 if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
@@ -1027,7 +1042,6 @@
                 }
             } catch(e) {}
 
-            // 2. Якщо це адмін - пропускаємо примусово (== ігнорує різницю текст/число)
             const isAdmin = (localUserId == 963368232);
 
             try {
@@ -1039,16 +1053,19 @@
                 const data = await response.json();
                 
                 if (data.has_access || data.is_vip || isAdmin) {
-                    // Якщо доступ є - приховуємо екран блокування і показуємо контент
                     document.getElementById('lockScreen').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
                     
-                    if(data.is_vip || isAdmin) {
-                        document.getElementById('statusLabel').innerText = "Admin / VIP";
-                        document.getElementById('profileStatus').innerText = "Admin / VIP Account";
+                    // ДОДАНО: Визначаємо точну роль замість загального "Admin / VIP"
+                    if (isAdmin) {
+                        userRole = 'admin';
+                    } else if (data.is_vip) {
+                        userRole = 'vip';
+                    } else {
+                        userRole = 'user';
                     }
+                    updateUserStatusText(); // Застосовуємо текст
                     
-                    // Завантажуємо дані лише після успішної авторизації
                     renderTimeframes();
                     buildAssetDropdown();
                     buildLangDropdown();
@@ -1056,19 +1073,20 @@
                     fetchDailyNews(); 
                     switchTab('signals');
                 } else {
-                    // Якщо доступу немає - показуємо повідомлення про помилку
                     document.getElementById('authSpinner').style.display = 'none';
                     document.getElementById('lockMessage').style.display = 'block';
                 }
             } catch (error) {
                 console.error("Auth error:", error);
                 
-                // Якщо сервер впав, але ми ТОЧНО знаємо що це адмін - впускаємо все одно!
                 if (isAdmin) {
                     document.getElementById('lockScreen').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
-                    document.getElementById('statusLabel').innerText = "Admin / VIP";
-                    document.getElementById('profileStatus').innerText = "Admin / VIP Account";
+                    
+                    // ДОДАНО: Ставимо роль адміна як fallback
+                    userRole = 'admin';
+                    updateUserStatusText();
+
                     renderTimeframes();
                     buildAssetDropdown();
                     buildLangDropdown();
@@ -1089,7 +1107,6 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Замість прямого завантаження інтерфейсу спочатку перевіряємо доступ
             checkAccess();
         });
 
@@ -1192,7 +1209,9 @@
             closeLangModal();
             buildLangDropdown();
             
-            document.getElementById('statusLabel').innerText = translations[currentLang].statusLabel;
+            // ДОДАНО: Замість жорсткого перезапису викликаємо функцію
+            updateUserStatusText(); 
+            
             document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
             document.getElementById('probabilityLabel').innerText = translations[currentLang].probabilityLabel;
             document.getElementById('signalsCountLabel').innerText = translations[currentLang].signalsCountLabel;
