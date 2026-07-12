@@ -783,6 +783,23 @@
         let localSignalsCount = 0;
         let userRole = 'user'; 
 
+        // Функція для ініціалізації та перевірки лічильника запитів на добу
+        function initDailyCount() {
+            const today = new Date().toLocaleDateString();
+            const savedDate = localStorage.getItem('signalsDate');
+            
+            if (savedDate !== today) {
+                // Якщо настав новий день, скидаємо лічильник
+                localStorage.setItem('signalsDate', today);
+                localStorage.setItem('signalsCount', '0');
+                localSignalsCount = 0;
+            } else {
+                // Якщо день той самий, відновлюємо збережене значення
+                localSignalsCount = parseInt(localStorage.getItem('signalsCount')) || 0;
+            }
+            document.getElementById('signalsCountValue').innerText = localSignalsCount;
+        }
+
         function updateUserStatusText() {
             if (userRole === 'admin') {
                 document.getElementById('statusLabel').innerText = "Admin / VIP";
@@ -831,7 +848,29 @@
             { id: "BINANCE:DOGEUSDT", name: "DOGE / USDT", type: "crypto", icon: "Ð" },
             { id: "FOREXCOM:XAUUSD", name: "GOLD (XAU/USD)", type: "cfd", icon: "Au" },
             { id: "FOREXCOM:XAGUSD", name: "SILVER (XAG/USD)", type: "cfd", icon: "Ag" },
-            { id: "FOREXCOM:USOIL", name: "Crude Oil WTI", type: "cfd", icon: "🛢️" }
+            { id: "FOREXCOM:USOIL", name: "Crude Oil WTI", type: "cfd", icon: "🛢️" },
+            
+            // НОВІ 20 ПАР (Найпопулярніші крос-курси та крипто)
+            { id: "FX:CADJPY", name: "CAD / JPY", type: "forex", icon: "C$" },
+            { id: "FX:CHFJPY", name: "CHF / JPY", type: "forex", icon: "₣" },
+            { id: "FX:NZDJPY", name: "NZD / JPY", type: "forex", icon: "N$" },
+            { id: "FX:EURNZD", name: "EUR / NZD", type: "forex", icon: "€" },
+            { id: "FX:EURCAD", name: "EUR / CAD", type: "forex", icon: "€" },
+            { id: "FX:EURCHF", name: "EUR / CHF", type: "forex", icon: "€" },
+            { id: "FX:GBPAUD", name: "GBP / AUD", type: "forex", icon: "£" },
+            { id: "FX:GBPNZD", name: "GBP / NZD", type: "forex", icon: "£" },
+            { id: "FX:GBPCHF", name: "GBP / CHF", type: "forex", icon: "£" },
+            { id: "FX:AUDCAD", name: "AUD / CAD", type: "forex", icon: "A$" },
+            { id: "FX:AUDCHF", name: "AUD / CHF", type: "forex", icon: "A$" },
+            { id: "FX:AUDNZD", name: "AUD / NZD", type: "forex", icon: "A$" },
+            { id: "FX:NZDCAD", name: "NZD / CAD", type: "forex", icon: "N$" },
+            { id: "FX:NZDCHF", name: "NZD / CHF", type: "forex", icon: "N$" },
+            { id: "FX:CADCHF", name: "CAD / CHF", type: "forex", icon: "C$" },
+            { id: "OANDA:USDHKD", name: "USD / HKD", type: "forex", icon: "$" },
+            { id: "OANDA:USDSGD", name: "USD / SGD", type: "forex", icon: "S$" },
+            { id: "OANDA:USDNOK", name: "USD / NOK", type: "forex", icon: "kr" },
+            { id: "BINANCE:LTCUSDT", name: "LTC / USDT", type: "crypto", icon: "Ł" },
+            { id: "BINANCE:LINKUSDT", name: "LINK / USDT", type: "crypto", icon: "🔗" }
         ];
 
         const timeframesData = [
@@ -1115,6 +1154,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            initDailyCount(); // Ініціалізуємо лічильник при завантаженні
             checkAccess();
         });
 
@@ -1365,7 +1405,10 @@
                     setTimeout(() => {
                         document.getElementById('gaugeFill').style.strokeDashoffset = offset;
                     }, 50);
+                    
+                    // Оновлення та збереження лічильника запитів
                     localSignalsCount++;
+                    localStorage.setItem('signalsCount', localSignalsCount);
                     document.getElementById('signalsCountValue').innerText = localSignalsCount;
                 } else {
                     alert("Error: " + data.error);
