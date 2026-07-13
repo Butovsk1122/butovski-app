@@ -84,7 +84,6 @@
             margin: 0;
         }
 
-        /* ЕКРАН БЛОКУВАННЯ */
         #lockScreen {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -109,9 +108,7 @@
         #lockScreen h2 { font-size: 24px; margin-bottom: 12px; }
         #lockScreen p { color: var(--text-muted); font-size: 14px; max-width: 300px; line-height: 1.5; }
         
-        #appContent {
-            display: none;
-        }
+        #appContent { display: none; }
 
         .header {
             display: flex;
@@ -122,11 +119,7 @@
             background-color: var(--card-bg);
         }
 
-        .user-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .user-badge { display: flex; align-items: center; gap: 10px; }
 
         .user-avatar {
             width: 36px;
@@ -140,21 +133,9 @@
             color: white;
         }
 
-        .user-info .name {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .user-info .status {
-            font-size: 11px;
-            color: #22c55e;
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 8px;
-        }
+        .user-info .name { font-size: 14px; font-weight: 600; }
+        .user-info .status { font-size: 11px; color: #22c55e; font-weight: 500; }
+        .header-actions { display: flex; gap: 8px; }
 
         .circle-btn {
             width: 36px;
@@ -169,17 +150,10 @@
             cursor: pointer;
         }
 
-        .container {
-            padding: 16px;
-        }
+        .container { padding: 16px; }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         .asset-selector {
             background-color: var(--card-bg);
@@ -193,11 +167,7 @@
             cursor: pointer;
         }
 
-        .asset-current {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .asset-current { display: flex; align-items: center; gap: 12px; }
 
         .asset-icon {
             width: 32px;
@@ -211,15 +181,8 @@
             font-weight: bold;
         }
 
-        .asset-details .title {
-            font-size: 15px;
-            font-weight: 600;
-        }
-
-        .asset-details .type {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
+        .asset-details .title { font-size: 15px; font-weight: 600; }
+        .asset-details .type { font-size: 11px; color: var(--text-muted); }
 
         .timeframe-container {
             display: flex;
@@ -268,14 +231,8 @@
             margin-bottom: 12px;
         }
 
-        .monitor-placeholder p {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .signal-result {
-            display: none;
-        }
+        .monitor-placeholder p { color: var(--text-muted); font-size: 14px; }
+        .signal-result { display: none; }
 
         .direction-badge {
             display: inline-flex;
@@ -298,12 +255,7 @@
             margin: 0 auto 16px;
         }
 
-        .gauge-svg {
-            transform: rotate(-90deg);
-            width: 140px;
-            height: 140px;
-        }
-
+        .gauge-svg { transform: rotate(-90deg); width: 140px; height: 140px; }
         .gauge-bg { fill: none; stroke: var(--border-color); stroke-width: 10; }
         .gauge-fill {
             fill: none;
@@ -315,13 +267,7 @@
             transition: stroke-dashoffset 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
         }
 
-        .gauge-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
+        .gauge-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
         .gauge-text .percent { font-size: 28px; font-weight: 700; }
         .gauge-text .label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
 
@@ -345,11 +291,7 @@
 
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .loader-steps {
-            font-size: 13px;
-            color: var(--text-muted);
-            height: 20px;
-        }
+        .loader-steps { font-size: 13px; color: var(--text-muted); height: 20px; }
 
         .action-btn {
             width: 100%;
@@ -395,98 +337,45 @@
             text-decoration: none;
             color: inherit;
         }
-        .news-card:hover, .edu-card:hover {
-            transform: translateY(-2px);
-            border-color: #6366f1;
-        }
+        .news-card:hover, .edu-card:hover { transform: translateY(-2px); border-color: #6366f1; }
 
-        .news-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-        }
-
-        .news-impact {
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-        }
+        .news-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+        .news-impact { padding: 2px 6px; border-radius: 4px; font-weight: 600; }
         .news-impact.high { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
         .news-impact.med { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-
         .news-title { font-size: 13px; font-weight: 600; line-height: 1.4; }
         
-        .link-hint {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 11px;
-            color: #6366f1;
-            margin-top: 8px;
-            font-weight: 500;
-        }
+        .link-hint { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #6366f1; margin-top: 8px; font-weight: 500; }
 
-        .edu-flex-container {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+        .edu-flex-container { display: flex; align-items: center; gap: 14px; }
+        .edu-icon { width: 40px; height: 40px; border-radius: 12px; background: rgba(99, 102, 241, 0.1); display: flex; align-items: center; justify-content: center; color: #6366f1; font-size: 18px; flex-shrink: 0; }
 
-        .edu-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            background: rgba(99, 102, 241, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6366f1;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
+        .profile-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; text-align: center; margin-bottom: 16px; }
+        .profile-avatar { width: 76px; height: 76px; border-radius: 50%; background: var(--accent-gradient); display: flex; align-items: center; justify-content: center; font-size: 26px; color: white; margin: 0 auto 12px; }
 
-        .profile-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .profile-avatar {
-            width: 76px;
-            height: 76px;
-            border-radius: 50%;
-            background: var(--accent-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            color: white;
-            margin: 0 auto 12px;
-        }
-
-        .single-stat-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-            max-width: 240px;
-            margin: 0 auto;
-        }
-
+        .single-stat-container { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px; text-align: center; max-width: 240px; margin: 0 auto; }
         .stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; color: #6366f1; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
 
+        /* Стилі для вкладки історії */
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--bg-color);
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+        .history-asset { font-weight: 600; font-size: 14px; }
+        .history-time { font-size: 11px; color: var(--text-muted); }
+        .history-result { font-weight: 700; font-size: 13px; padding: 4px 8px; border-radius: 6px; }
+        .history-result.win { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .history-result.loss { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
         .navbar {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             height: 64px;
             background-color: var(--nav-bg);
             border-top: 1px solid var(--border-color);
@@ -514,15 +403,11 @@
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6);
             z-index: 1000;
             align-items: flex-end;
         }
-
         .modal.active { display: flex; }
 
         .modal-content {
@@ -535,56 +420,17 @@
             padding: 20px;
         }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 
         .search-box {
-            display: flex;
-            background: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 10px;
-            width: 100%;
-            margin-bottom: 16px;
-            gap: 8px;
+            display: flex; background: var(--bg-color); border: 1px solid var(--border-color);
+            border-radius: 12px; padding: 10px; width: 100%; margin-bottom: 16px; gap: 8px;
         }
+        .search-box input { background: transparent; border: none; color: var(--text-main); outline: none; width: 100%; }
 
-        .search-box input {
-            background: transparent;
-            border: none;
-            color: var(--text-main);
-            outline: none;
-            width: 100%;
-        }
-
-        .asset-option, .lang-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-bottom: 6px;
-        }
-        .asset-option:hover, .asset-option.selected,
-        .lang-option:hover, .lang-option.selected {
-            background: rgba(99, 102, 241, 0.08);
-        }
-        
-        .lang-flag {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            background: #232a3d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-        }
+        .asset-option, .lang-option { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-radius: 12px; cursor: pointer; margin-bottom: 6px; }
+        .asset-option:hover, .asset-option.selected, .lang-option:hover, .lang-option.selected { background: rgba(99, 102, 241, 0.08); }
+        .lang-flag { width: 24px; height: 24px; border-radius: 4px; background: #232a3d; display: flex; align-items: center; justify-content: center; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -646,7 +492,6 @@
                             <span id="directionText">UP</span>
                         </div>
                         
-                        <!-- Блок для попереджень (Точки входу та Волатильність) -->
                         <div id="signalWarnings" style="margin-bottom: 12px; font-weight: 500; text-align: center; display: flex; flex-direction: column; gap: 4px;"></div>
 
                         <div class="gauge-container">
@@ -695,6 +540,41 @@
                 </div>
 
                 <div id="topResults" style="margin-top: 16px;"></div>
+            </div>
+
+            <!-- НОВА ВКЛАДКА СТАТИСТИКИ ТА ІСТОРІЇ -->
+            <div id="tab-stats" class="tab-content">
+                <div class="section-title">
+                    <i class="fas fa-history" style="color: #10b981"></i>
+                    <span id="statsSectionTitle">Історія та Статистика</span>
+                </div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 16px;" id="statsDescText">
+                    Довіра до сигналів — це головне. Статистика відпрацювання за минулу добу.
+                </p>
+
+                <div class="widget-card" style="height: auto; padding: 20px;">
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <div>
+                            <div style="font-size: 28px; font-weight: 700; color: #22c55e;" id="statsWin">0</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">В плюс</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 28px; font-weight: 700; color: #ef4444;" id="statsLoss">0</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">В мінус</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 28px; font-weight: 700; color: #3b82f6;" id="statsWinrate">0%</div>
+                            <div style="font-size: 12px; color: var(--text-muted);">Вінрейт</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="margin-bottom: 10px; font-size: 14px; font-weight: 600;" id="statsHistoryLabel">Останні сигнали:</h4>
+                        <div id="historyListContainer" style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="text-align:center; font-size:12px; color:var(--text-muted);">Завантаження історії...</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="tab-hub" class="tab-content">
@@ -761,6 +641,11 @@
             <div class="nav-item" id="nav-top-btn" onclick="switchTab('top')">
                 <i class="fas fa-fire"></i>
                 <span id="navTopText">Топ</span>
+            </div>
+            <!-- КНОПКА СТАТИСТИКИ -->
+            <div class="nav-item" id="nav-stats-btn" onclick="switchTab('stats')">
+                <i class="fas fa-history"></i>
+                <span id="navStatsText">Статистика</span>
             </div>
             <div class="nav-item" id="nav-hub-btn" onclick="switchTab('hub')">
                 <i class="fas fa-brain"></i>
@@ -845,27 +730,9 @@
             { id: "FOREXCOM:XAUUSD", name: "GOLD (XAU/USD)", type: "cfd", icon: "Au" },
             { id: "FOREXCOM:XAGUSD", name: "SILVER (XAG/USD)", type: "cfd", icon: "Ag" },
             { id: "FOREXCOM:USOIL", name: "Crude Oil WTI", type: "cfd", icon: "🛢️" },
-            
             { id: "FX:CADJPY", name: "CAD / JPY", type: "forex", icon: "C$" },
             { id: "FX:CHFJPY", name: "CHF / JPY", type: "forex", icon: "₣" },
-            { id: "FX:NZDJPY", name: "NZD / JPY", type: "forex", icon: "N$" },
-            { id: "FX:EURNZD", name: "EUR / NZD", type: "forex", icon: "€" },
-            { id: "FX:EURCAD", name: "EUR / CAD", type: "forex", icon: "€" },
-            { id: "FX:EURCHF", name: "EUR / CHF", type: "forex", icon: "€" },
-            { id: "FX:GBPAUD", name: "GBP / AUD", type: "forex", icon: "£" },
-            { id: "FX:GBPNZD", name: "GBP / NZD", type: "forex", icon: "£" },
-            { id: "FX:GBPCHF", name: "GBP / CHF", type: "forex", icon: "£" },
-            { id: "FX:AUDCAD", name: "AUD / CAD", type: "forex", icon: "A$" },
-            { id: "FX:AUDCHF", name: "AUD / CHF", type: "forex", icon: "A$" },
-            { id: "FX:AUDNZD", name: "AUD / NZD", type: "forex", icon: "A$" },
-            { id: "FX:NZDCAD", name: "NZD / CAD", type: "forex", icon: "N$" },
-            { id: "FX:NZDCHF", name: "NZD / CHF", type: "forex", icon: "N$" },
-            { id: "FX:CADCHF", name: "CAD / CHF", type: "forex", icon: "C$" },
-            { id: "OANDA:USDHKD", name: "USD / HKD", type: "forex", icon: "$" },
-            { id: "OANDA:USDSGD", name: "USD / SGD", type: "forex", icon: "S$" },
-            { id: "OANDA:USDNOK", name: "USD / NOK", type: "forex", icon: "kr" },
-            { id: "BINANCE:LTCUSDT", name: "LTC / USDT", type: "crypto", icon: "Ł" },
-            { id: "BINANCE:LINKUSDT", name: "LINK / USDT", type: "crypto", icon: "🔗" }
+            { id: "FX:NZDJPY", name: "NZD / JPY", type: "forex", icon: "N$" }
         ];
 
         const timeframesData = [
@@ -893,6 +760,8 @@
                 modalSelectTitle: "Оберіть актив",
                 navSignalsText: "Сигнали",
                 navTopText: "Топ Пари",
+                navStatsText: "Статистика",
+                statsSectionTitle: "Історія та Статистика",
                 topSectionTitle: "Найкращі валютні пари",
                 scanTopBtn: "ЗНАЙТИ ТОП СИГНАЛИ (>45%)",
                 topDescText: "Пошук пар з найвищою точністю для поточного інтервалу.",
@@ -925,6 +794,8 @@
                 modalSelectTitle: "Select asset",
                 navSignalsText: "Signals",
                 navTopText: "Top Pairs",
+                navStatsText: "Statistics",
+                statsSectionTitle: "History & Statistics",
                 topSectionTitle: "Best Currency Pairs",
                 scanTopBtn: "FIND TOP SIGNALS (>45%)",
                 topDescText: "Search for pairs with the highest accuracy for the current interval.",
@@ -957,6 +828,8 @@
                 modalSelectTitle: "Wybierz aktywo",
                 navSignalsText: "Sygnały",
                 navTopText: "Top Pary",
+                navStatsText: "Statystyka",
+                statsSectionTitle: "Historia i Statystyki",
                 topSectionTitle: "Najlepsze pary walutowe",
                 scanTopBtn: "ZNAJDŹ TOP SYGNAŁY (>45%)",
                 topDescText: "Szukaj par o najwyższej dokładności dla bieżącego interwału.",
@@ -973,7 +846,7 @@
                 flatText: "CZEKAJ / PŁASKO",
                 readMore: "Przeczytaj szczegóły w źródle",
                 openLesson: "Otwórz lekcję źródłową",
-                errConnect: "Nie można połączyć się z serwerem. Sprawdź backend.",
+                errConnect: "Nie można połączyć z serwerem.",
                 warnVol: "Handel zabroniony (Niska zmienność / Boczny trend)",
                 warnPullback: "Ryzyko korekty (Strefa wykupienia/wyprzedania)",
                 warnTrend: "Konflikt z globalnym trendem (Wysokie ryzyko)",
@@ -989,9 +862,11 @@
                 modalSelectTitle: "Asset auswählen",
                 navSignalsText: "Signale",
                 navTopText: "Top Paare",
+                navStatsText: "Statistik",
+                statsSectionTitle: "Geschichte & Statistik",
                 topSectionTitle: "Beste Währungspaare",
                 scanTopBtn: "TOP SIGNALE FINDEN (>45%)",
-                topDescText: "Suchen Sie nach Paaren mit der höchsten Genauigkeit für das current Intervall.",
+                topDescText: "Suchen Sie nach Paaren mit höchster Genauigkeit.",
                 navHubText: "Analytik",
                 navProfileText: "Kabinett",
                 forex: "Währungspaar (Forex)",
@@ -1005,7 +880,7 @@
                 flatText: "WARTEN / FLACH",
                 readMore: "Details in der Quelle lesen",
                 openLesson: "Lektion im Original öffnen",
-                errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen.",
+                errConnect: "Verbindung fehlgeschlagen.",
                 warnVol: "Handel verboten (Niedrige Volatilität / Seitwärts)",
                 warnPullback: "Rückschlagrisiko (Überkauft/Überverkauft)",
                 warnTrend: "Globaler Trendkonflikt (Hohes Risiko)",
@@ -1020,9 +895,9 @@
                     time: "15:30",
                     url: "https://www.investing.com/economic-calendar/",
                     title: {
-                        uk: "⚠️ [РЕЗЕРВ] Публікація індексу споживчих цін (CPI) США — очікується висока волатильність.",
-                        en: "⚠️ [FALLBACK] US Consumer Price Index (CPI) publication — massive global market impact ahead.",
-                        pl: "⚠️ [REZERWA] Publikacja wskaźnika cen towarów i usług konsumpcyjnych (CPI) w USA.",
+                        uk: "⚠️ [РЕЗЕРВ] Публікація індексу споживчих цін (CPI) США.",
+                        en: "⚠️ [FALLBACK] US Consumer Price Index (CPI) publication.",
+                        pl: "⚠️ [REZERWA] Publikacja wskaźnika cen konsumpcyjnych (CPI) w USA.",
                         de: "⚠️ [BACKUP] Veröffentlichung des US-Verbraucherpreisindex (CPI)."
                     }
                 }
@@ -1031,34 +906,14 @@
                 {
                     icon: "fa-chart-line",
                     url: "https://www.tradingview.com/support/solutions/43000501844-relative-strength-index-rsi/",
-                    title: { 
-                        uk: "Як працює індикатор RSI?", 
-                        en: "How does the RSI indicator work?", 
-                        pl: "Jak działa wskaźnik RSI?", 
-                        de: "Wie funktioniert der RSI-Indikator?" 
-                    },
-                    desc: { 
-                        uk: "Основи визначення зон перекупленості та перепроданості ринку.", 
-                        en: "Basics of identifying market overbought and oversold zones.", 
-                        pl: "Podstawy identyfikacji stref wykupienia i wyprzedania rynku.", 
-                        de: "Grundlagen zur Erkennung überkaufter und überverkaufter Markzonen." 
-                    }
+                    title: { uk: "Як працює індикатор RSI?", en: "How does the RSI indicator work?", pl: "Jak działa wskaźnik RSI?", de: "Wie funktioniert der RSI-Indikator?" },
+                    desc: { uk: "Основи визначення зон перекупленості та перепроданості ринку.", en: "Basics of identifying market overbought and oversold zones.", pl: "Podstawy identyfikacji stref wykupienia i wyprzedania.", de: "Grundlagen zur Erkennung überkaufter und überverkaufter Markzonen." }
                 },
                 {
                     icon: "fa-bolt",
                     url: "https://www.binance.com/uk-UA/academy/articles/what-is-scalping-in-cryptocurrency-trading",
-                    title: { 
-                        uk: "Стратегія швидкого скальпінгу", 
-                        en: "Fast scalping strategy guide", 
-                        pl: "Strategia szybkiego skalpowania", 
-                        de: "Schnelle Scalping-Strategie" 
-                    } ,
-                    desc: { 
-                        uk: "Правила входу та суворого ризик-менеджменту в угоди на хвилинних інтервалах.", 
-                        en: "Rules for entering trades and risk management on short minute intervals.", 
-                        pl: "Zasady wchodzenia w transakcje i zarządzania ryzykiem na interwałach minutowych.", 
-                        de: "Regeln für den Einstieg in Trades und Risikomanagement auf Minutenintervallen." 
-                    }
+                    title: { uk: "Стратегія швидкого скальпінгу", en: "Fast scalping strategy guide", pl: "Strategia szybkiego skalpowania", de: "Schnelle Scalping-Strategie" } ,
+                    desc: { uk: "Правила входу та ризик-менеджменту в угоди на хвилинних інтервалах.", en: "Rules for entering trades on short intervals.", pl: "Zasady wchodzenia w transakcje na interwałach minutowych.", de: "Regeln für den Einstieg in Trades auf Minutenintervallen." }
                 }
             ],
             steps: {
@@ -1073,22 +928,19 @@
         try {
             if (window.Telegram && window.Telegram.WebApp) {
                 const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
+                tg.ready(); tg.expand();
                 initData = tg.initData || "";
-                
                 if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                     const u = tg.initDataUnsafe.user;
                     const displayName = u.username ? "@" + u.username : `${u.first_name} ${u.last_name || ""}`;
                     document.getElementById('userDisplayName').innerText = displayName;
                     document.getElementById('profileName').innerText = displayName;
-
                     const char = (u.username || u.first_name || "U").charAt(0).toUpperCase();
                     document.getElementById('userAvatarText').innerText = char;
                     document.getElementById('profileAvatarText').innerText = char;
                 }
             }
-        } catch(e) { console.error(e); }
+        } catch(e) {}
 
         async function checkAccess() {
             let localUserId = null;
@@ -1097,7 +949,6 @@
                     localUserId = window.Telegram.WebApp.initDataUnsafe.user.id;
                 }
             } catch(e) {}
-
             const isAdmin = (localUserId == 963368232);
 
             try {
@@ -1111,98 +962,57 @@
                 if (data.has_access || data.is_vip || isAdmin) {
                     document.getElementById('lockScreen').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
-                    
-                    if (isAdmin) {
-                        userRole = 'admin';
-                    } else if (data.is_vip) {
-                        userRole = 'vip';
-                    } else {
-                        userRole = 'user';
-                    }
+                    userRole = isAdmin ? 'admin' : (data.is_vip ? 'vip' : 'user');
                     updateUserStatusText(); 
-                    
-                    renderTimeframes();
-                    buildAssetDropdown();
-                    buildLangDropdown();
-                    renderHubContent();
-                    fetchDailyNews(); 
-                    switchTab('signals');
+                    renderTimeframes(); buildAssetDropdown(); buildLangDropdown(); renderHubContent(); fetchDailyNews(); switchTab('signals');
                 } else {
                     document.getElementById('authSpinner').style.display = 'none';
                     document.getElementById('lockMessage').style.display = 'block';
                 }
             } catch (error) {
-                console.error("Auth error:", error);
-                
                 if (isAdmin) {
                     document.getElementById('lockScreen').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
-                    
-                    userRole = 'admin';
-                    updateUserStatusText();
-
-                    renderTimeframes();
-                    buildAssetDropdown();
-                    buildLangDropdown();
-                    renderHubContent();
-                    fetchDailyNews(); 
-                    switchTab('signals');
+                    userRole = 'admin'; updateUserStatusText();
+                    renderTimeframes(); buildAssetDropdown(); buildLangDropdown(); renderHubContent(); fetchDailyNews(); switchTab('signals');
                     return;
                 }
-
                 document.getElementById('authSpinner').style.display = 'none';
-                document.getElementById('lockMessage').innerHTML = `
-                    <i class="fas fa-wifi lock-icon"></i>
-                    <h2>Помилка з'єднання</h2>
-                    <p>Не вдалося зв'язатися з сервером перевірки доступу.</p>
-                `;
+                document.getElementById('lockMessage').innerHTML = `<i class="fas fa-wifi lock-icon"></i><h2>Помилка з'єднання</h2>`;
                 document.getElementById('lockMessage').style.display = 'block';
             }
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            initDailyCount(); 
-            checkAccess();
-        });
+        window.addEventListener('DOMContentLoaded', () => { initDailyCount(); checkAccess(); });
 
         async function fetchDailyNews() {
             try {
-                const response = await fetch(`${BACKEND_URL}/api/get_news`);
-                const data = await response.json();
-                if (data.success && data.news && data.news.length > 0) {
-                    hubContent.news = data.news;
-                    renderHubContent(); 
-                }
-            } catch(e) {
-                console.error("Error loading dynamic news:", e);
-            }
+                const res = await fetch(`${BACKEND_URL}/api/get_news`);
+                const data = await res.json();
+                if (data.success && data.news && data.news.length > 0) { hubContent.news = data.news; renderHubContent(); }
+            } catch(e) {}
         }
 
         function renderTimeframes() {
             const container = document.getElementById('timeframeContainer');
             const containerTop = document.getElementById('timeframeContainerTop');
-            container.innerHTML = "";
-            containerTop.innerHTML = "";
+            container.innerHTML = ""; containerTop.innerHTML = "";
             timeframesData.forEach(tf => {
                 const btn = document.createElement('button');
                 btn.className = `tf-btn ${tf.id === selectedTimeframe.id ? 'active' : ''}`;
-                btn.innerText = tf.name;
-                btn.onclick = () => selectTimeframe(tf);
-                
+                btn.innerText = tf.name; btn.onclick = () => selectTimeframe(tf);
                 container.appendChild(btn);
-
+                
                 const btnTop = document.createElement('button');
                 btnTop.className = `tf-btn ${tf.id === selectedTimeframe.id ? 'active' : ''}`;
-                btnTop.innerText = tf.name;
-                btnTop.onclick = () => selectTimeframe(tf);
+                btnTop.innerText = tf.name; btnTop.onclick = () => selectTimeframe(tf);
                 containerTop.appendChild(btnTop);
             });
         }
 
         function selectTimeframe(tf) {
             if (isSignalActive) return;
-            selectedTimeframe = tf;
-            renderTimeframes(); 
+            selectedTimeframe = tf; renderTimeframes(); 
             initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, tf.tvWidget);
         }
 
@@ -1214,7 +1024,6 @@
                 const div = document.createElement('div');
                 div.className = `asset-option ${isSel ? 'selected' : ''}`;
                 div.onclick = () => selectAsset(asset);
-            
                 div.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div class="asset-icon">${asset.icon}</div>
@@ -1234,8 +1043,7 @@
             document.getElementById('currentAssetIcon').innerText = asset.icon;
             document.getElementById('currentAssetTitle').innerText = asset.name;
             document.getElementById('currentAssetType').innerText = translations[currentLang][asset.type];
-            closeAssetModal();
-            buildAssetDropdown();
+            closeAssetModal(); buildAssetDropdown();
             initTradingViewWidget(themesList[currentThemeIdx], asset.id, selectedTimeframe.tvWidget);
         }
 
@@ -1247,7 +1055,6 @@
                 const div = document.createElement('div');
                 div.className = `lang-option ${isSel ? 'selected' : ''}`;
                 div.onclick = () => selectLanguage(lang.code);
-            
                 div.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div class="lang-flag">${lang.flag}</div>
@@ -1260,10 +1067,7 @@
         }
 
         function selectLanguage(langCode) {
-            currentLang = langCode;
-            closeLangModal();
-            buildLangDropdown();
-            updateUserStatusText(); 
+            currentLang = langCode; closeLangModal(); buildLangDropdown(); updateUserStatusText(); 
             
             document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
             document.getElementById('probabilityLabel').innerText = translations[currentLang].probabilityLabel;
@@ -1280,11 +1084,13 @@
             document.getElementById('topSectionTitle').innerText = translations[currentLang].topSectionTitle;
             document.getElementById('scanTopBtn').innerText = translations[currentLang].scanTopBtn;
             document.getElementById('topDescText').innerText = translations[currentLang].topDescText;
+            
+            document.getElementById('navStatsText').innerText = translations[currentLang].navStatsText;
+            document.getElementById('statsSectionTitle').innerText = translations[currentLang].statsSectionTitle;
 
             const btn = document.getElementById('signalActionButton');
             btn.innerText = isSignalActive ? translations[currentLang].signalActionButtonNew : translations[currentLang].signalActionButton;
-            buildAssetDropdown();
-            renderHubContent();
+            buildAssetDropdown(); renderHubContent();
             initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
         }
 
@@ -1293,19 +1099,14 @@
             newsCont.innerHTML = "";
             hubContent.news.forEach(item => {
                 const card = document.createElement('a');
-                card.className = "news-card";
-                card.href = item.url;
-                card.target = "_blank";
+                card.className = "news-card"; card.href = item.url; card.target = "_blank";
                 card.innerHTML = `
                     <div class="news-header">
                         <span><i class="far fa-clock"></i> ${item.time}</span>
                         <span class="news-impact ${item.impact}">${item.impact.toUpperCase()}</span>
                     </div>
                     <div class="news-title">${item.title[currentLang]}</div>
-                    <div class="link-hint">
-                        <span>${translations[currentLang].readMore}</span>
-                        <i class="fas fa-external-link-alt" style="font-size:10px;"></i>
-                    </div>
+                    <div class="link-hint"><span>${translations[currentLang].readMore}</span><i class="fas fa-external-link-alt" style="font-size:10px;"></i></div>
                 `;
                 newsCont.appendChild(card);
             });
@@ -1313,25 +1114,58 @@
             eduCont.innerHTML = "";
             hubContent.edu.forEach(item => {
                 const card = document.createElement('a');
-                card.className = "edu-card";
-                card.href = item.url;
-                card.target = "_blank";
-                card.innerHTML = 
-`
+                card.className = "edu-card"; card.href = item.url; card.target = "_blank";
+                card.innerHTML = `
                     <div class="edu-flex-container">
                         <div class="edu-icon"><i class="fas ${item.icon}"></i></div>
                         <div>
                             <div style="font-size:13px; font-weight:600; margin-bottom:4px;">${item.title[currentLang]}</div>
                             <div style="font-size:11px; color:var(--text-muted); line-height:1.4;">${item.desc[currentLang]}</div>
-                            <div class="link-hint">
-                                <span>${translations[currentLang].openLesson}</span>
-                                <i class="fas fa-graduation-cap" style="font-size:10px;"></i>
-                            </div>
+                            <div class="link-hint"><span>${translations[currentLang].openLesson}</span><i class="fas fa-graduation-cap" style="font-size:10px;"></i></div>
                         </div>
                     </div>
                 `;
                 eduCont.appendChild(card);
             });
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('nav-' + tabId + '-btn').classList.add('active');
+            
+            if(tabId === 'stats') loadStatistics();
+        }
+
+        async function loadStatistics() {
+            try {
+                const res = await fetch(`${BACKEND_URL}/api/get_statistics`);
+                const data = await res.json();
+                if(data.success) {
+                    document.getElementById('statsWin').innerText = data.wins;
+                    document.getElementById('statsLoss').innerText = data.losses;
+                    document.getElementById('statsWinrate').innerText = data.winrate + '%';
+                    
+                    const container = document.getElementById('historyListContainer');
+                    container.innerHTML = '';
+                    data.history.forEach(item => {
+                        const isWin = item.result === 'win';
+                        container.innerHTML += `
+                            <div class="history-item">
+                                <div>
+                                    <div class="history-asset">${item.asset}</div>
+                                    <div class="history-time">${item.time}</div>
+                                </div>
+                                <div class="history-result ${isWin ? 'win' : 'loss'}">
+                                    ${item.profit}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            } catch(e) { console.error("Error loading stats", e); }
         }
 
         async function generateSignal() {
@@ -1355,23 +1189,15 @@
             loader.style.display = 'flex';
             
             const steps = hubContent.steps[currentLang];
-            let stepIdx = 0;
-            document.getElementById('loaderSteps').innerText = steps[0];
+            let stepIdx = 0; document.getElementById('loaderSteps').innerText = steps[0];
             const intervalTimer = setInterval(() => {
-                stepIdx++;
-                if(stepIdx < steps.length) {
-                    document.getElementById('loaderSteps').innerText = steps[stepIdx];
-                }
+                stepIdx++; if(stepIdx < steps.length) document.getElementById('loaderSteps').innerText = steps[stepIdx];
             }, 650);
             try {
                 const response = await fetch(`${BACKEND_URL}/api/get_signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        initData: initData,
-                        symbol: selectedAsset.id,
-                        timeframe: selectedTimeframe.value
-                    })
+                    body: JSON.stringify({ initData: initData, symbol: selectedAsset.id, timeframe: selectedTimeframe.value })
                 });
                 clearInterval(intervalTimer);
                 loader.style.display = 'none';
@@ -1381,64 +1207,49 @@
                     isSignalActive = true;
                     btn.innerText = translations[currentLang].signalActionButtonNew;
 
+                    localSignalsCount++;
+                    localStorage.setItem('signalsCount', localSignalsCount.toString());
+                    document.getElementById('signalsCountValue').innerText = localSignalsCount;
+
                     const badge = document.getElementById('directionBadge');
                     const icon = document.getElementById('directionIcon');
                     const text = document.getElementById('directionText');
                     
-                    badge.className = "direction-badge";
-                    badge.style.background = "";
-                    badge.style.color = "";
+                    badge.className = "direction-badge"; badge.style.background = ""; badge.style.color = "";
                     
                     if (data.direction === 'UP') {
-                        badge.classList.add("up");
-                        icon.className = "fas fa-arrow-up";
-                        text.innerText = translations[currentLang].buyText;
+                        badge.classList.add("up"); icon.className = "fas fa-arrow-up"; text.innerText = translations[currentLang].buyText;
                     } else if (data.direction === 'DOWN') {
-                        badge.classList.add("down");
-                        icon.className = "fas fa-arrow-down";
-                        text.innerText = translations[currentLang].sellText;
+                        badge.classList.add("down"); icon.className = "fas fa-arrow-down"; text.innerText = translations[currentLang].sellText;
                     } else {
-                        badge.style.background = "rgba(100, 116, 139, 0.15)";
-                        badge.style.color = "#94a3b8";
-                        icon.className = "fas fa-minus";
-                        text.innerText = translations[currentLang].flatText;
+                        badge.style.background = "rgba(100, 116, 139, 0.15)"; badge.style.color = "#94a3b8";
+                        icon.className = "fas fa-minus"; text.innerText = translations[currentLang].flatText;
                     }
                     
                     if (data.tech_info) {
-                        if (data.tech_info.low_volatility) {
-                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px; font-weight: bold;"><i class="fas fa-ban"></i> ${translations[currentLang].warnVol}</div>`;
-                        }
-                        if (data.tech_info.pullback_warning && data.direction !== 'FLAT') {
-                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px;"><i class="fas fa-sync-alt"></i> ${translations[currentLang].warnPullback}</div>`;
-                        }
-                        if (data.tech_info.mtf_conflict && data.direction !== 'FLAT') {
-                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#f59e0b; margin-top:4px;"><i class="fas fa-project-diagram"></i> ${translations[currentLang].warnTrend}</div>`;
-                        }
-                        if (data.tech_info.synergy && data.direction !== 'FLAT') {
-                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#22c55e; margin-top:4px;"><i class="fas fa-bolt"></i> ${translations[currentLang].synergyActive}</div>`;
-                        }
+                        if (data.tech_info.low_volatility) warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px; font-weight: bold;"><i class="fas fa-ban"></i> ${translations[currentLang].warnVol}</div>`;
+                        if (data.tech_info.pullback_warning && data.direction !== 'FLAT') warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px;"><i class="fas fa-sync-alt"></i> ${translations[currentLang].warnPullback}</div>`;
+                        if (data.tech_info.mtf_conflict && data.direction !== 'FLAT') warningsDiv.innerHTML += `<div style="font-size:12px; color:#f59e0b; margin-top:4px;"><i class="fas fa-project-diagram"></i> ${translations[currentLang].warnTrend}</div>`;
+                        if (data.tech_info.synergy && data.direction !== 'FLAT') warningsDiv.innerHTML += `<div style="font-size:12px; color:#22c55e; margin-top:4px;"><i class="fas fa-bolt"></i> ${translations[currentLang].synergyActive}</div>`;
                     }
 
                     document.getElementById('signalResult').style.display = 'block';
                     document.getElementById('probabilityPercent').innerText = data.probability + '%';
                     
                     const offset = 377 - (377 * data.probability) / 100;
-                    setTimeout(() => {
-                        document.getElementById('gaugeFill').style.strokeDashoffset = offset;
-                    }, 50);
-                    
-                    localSignalsCount++;
-                    localStorage.setItem('signalsCount', localSignalsCount);
-                    document.getElementById('signalsCountValue').innerText = localSignalsCount;
+                    setTimeout(() => { document.getElementById('gaugeFill').style.strokeDashoffset = offset; }, 100);
                 } else {
-                    alert("Error: " + data.error);
-                    document.getElementById('monitorPlaceholder').style.display = 'block';
+                    alert(data.error || translations[currentLang].errConnect);
+                    btn.innerText = translations[currentLang].signalActionButton;
+                    isSignalActive = false;
+                    document.getElementById('signalResult').style.display = 'none'; document.getElementById('monitorPlaceholder').style.display = 'block';
                 }
-            } catch (error) {
-                clearInterval(intervalTimer);
-                loader.style.display = 'none';
-                document.getElementById('monitorPlaceholder').style.display = 'block';
+            } catch (err) {
+                clearInterval(intervalTimer); loader.style.display = 'none';
                 alert(translations[currentLang].errConnect);
+                btn.innerText = translations[currentLang].signalActionButton;
+                isSignalActive = false;
+                document.getElementById('signalResult').style.display = 'none'; document.getElementById('monitorPlaceholder').style.display = 'block';
             }
         }
 
@@ -1447,123 +1258,102 @@
             const loader = document.getElementById('topLoader');
             const resultsDiv = document.getElementById('topResults');
             
-            btn.style.display = 'none';
-            resultsDiv.innerHTML = '';
-            loader.style.display = 'flex';
-            const forexAssets = assetsData.filter(a => a.type === 'forex').map(a => a.id);
+            btn.style.display = 'none'; loader.style.display = 'flex'; resultsDiv.innerHTML = '';
+            
             try {
                 const response = await fetch(`${BACKEND_URL}/api/get_top_signals`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        initData: initData,
-                        symbols: forexAssets,
-                        timeframe: selectedTimeframe.value
-                    })
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData: initData, timeframe: selectedTimeframe.value, symbols: assetsData.slice(0, 15).map(a => a.id) })
                 });
+                
                 const data = await response.json();
-                loader.style.display = 'none';
-                btn.style.display = 'block';
-                if (data.success && data.results && data.results.length > 0) {
+                loader.style.display = 'none'; btn.style.display = 'block';
+                
+                if(data.success && data.results.length > 0) {
                     data.results.forEach(res => {
-                        const asset = assetsData.find(a => a.id === res.symbol);
-                        const card = document.createElement('div');
-            
-                        card.className = "asset-selector";
-                        card.style.marginBottom = "8px";
-                        card.onclick = () => {
-                            selectAsset(asset);
-                            switchTab('signals');
-                        };
+                        const isUp = res.direction === 'UP';
+                        const color = isUp ? '#22c55e' : '#ef4444';
+                        const bg = isUp ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+                        const icon = isUp ? 'fa-arrow-up' : 'fa-arrow-down';
+                        const dirText = isUp ? translations[currentLang].buyText : translations[currentLang].sellText;
+                        const assetObj = assetsData.find(a => a.id === res.symbol);
+                        const assetName = assetObj ? assetObj.name : res.symbol;
                         
-                        const directionColor = res.direction === 'UP' ? '#22c55e' : '#ef4444';
-                        const directionIcon = res.direction === 'UP' ? 'fa-arrow-up' : 'fa-arrow-down';
-                        const dirText = res.direction === 'UP' ? 'BUY' : 'SELL';
-                        
-                        card.innerHTML = `
-                            <div class="asset-current">
-                                <div class="asset-icon">${asset.icon}</div>
-                                <div class="asset-details">
-                                    <div class="title">${asset.name}</div>
-                                    <div class="type" style="color: ${directionColor}; font-weight: bold; font-size: 13px;">
-                                        <i class="fas ${directionIcon}"></i> ${dirText} | ${res.probability}%
+                        resultsDiv.innerHTML += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 8px;">
+                                <div style="font-weight: 600;">${assetName}</div>
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div style="color: ${color}; background: ${bg}; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;">
+                                        <i class="fas ${icon}"></i> ${dirText}
                                     </div>
+                                    <div style="font-weight: 700; font-size: 14px;">${res.probability}%</div>
                                 </div>
                             </div>
-                            <i class="fas fa-chevron-right" style="color: var(--text-muted)"></i>
                         `;
-                        resultsDiv.appendChild(card);
                     });
                 } else {
-                    resultsDiv.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">Не знайдено сильних сигналів без флету для цього інтервалу.</p>`;
+                    resultsDiv.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Сигналів не знайдено</div>`;
                 }
-            } catch (e) {
-                loader.style.display = 'none';
-                btn.style.display = 'block';
-                resultsDiv.innerHTML = `<p style="text-align:center; color:#ef4444; font-size: 13px;">Помилка з'єднання з сервером.</p>`;
+            } catch(e) {
+                loader.style.display = 'none'; btn.style.display = 'block';
+                resultsDiv.innerHTML = `<div style="text-align:center; padding: 20px; color: #ef4444;">Помилка сканування</div>`;
             }
-        }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-            document.getElementById(`nav-${tabId}-btn`).classList.add('active');
-
-            if(tabId === 'signals') {
-                setTimeout(() => {
-                    initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
-                }, 100);
-            }
-        }
-
-        function rotateTheme() {
-            currentThemeIdx = (currentThemeIdx + 1) % themesList.length;
-            const newTheme = themesList[currentThemeIdx];
-            document.documentElement.setAttribute('data-theme', newTheme);
-            
-            const icon = document.getElementById('themeIcon');
-            if (newTheme === 'light') icon.className = "fas fa-sun";
-            else if (newTheme === 'emerald') icon.className = "fas fa-money-bill-wave";
-            else if (newTheme === 'ocean') icon.className = "fas fa-water";
-            else if (newTheme === 'gold') icon.className = "fas fa-crown";
-            else icon.className = "fas fa-bolt"; 
-            
-            initTradingViewWidget(newTheme, selectedAsset.id, selectedTimeframe.tvWidget);
         }
 
         function openAssetModal() { document.getElementById('assetModal').classList.add('active'); }
         function closeAssetModal() { document.getElementById('assetModal').classList.remove('active'); }
         function openLangModal() { document.getElementById('langModal').classList.add('active'); }
         function closeLangModal() { document.getElementById('langModal').classList.remove('active'); }
-
         function filterAssets() {
-            const query = document.getElementById('assetSearchInput').value.toLowerCase();
-            document.querySelectorAll('.asset-option').forEach(opt => {
-                opt.style.display = opt.innerText.toLowerCase().includes(query) ? "flex" : "none";
+            const val = document.getElementById('assetSearchInput').value.toLowerCase();
+            const container = document.getElementById('assetsListContainer');
+            container.innerHTML = "";
+            assetsData.filter(a => a.name.toLowerCase().includes(val) || a.id.toLowerCase().includes(val)).forEach(asset => {
+                const isSel = asset.id === selectedAsset.id;
+                const div = document.createElement('div');
+                div.className = `asset-option ${isSel ? 'selected' : ''}`;
+                div.onclick = () => selectAsset(asset);
+                div.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div class="asset-icon">${asset.icon}</div>
+                        <div>
+                            <div style="font-size:14px; font-weight:600;">${asset.name}</div>
+                            <div style="font-size:11px; color:var(--text-muted);">${translations[currentLang][asset.type]}</div>
+                        </div>
+                    </div>
+                    ${isSel ? '<i class="fas fa-check" style="color:#6366f1;"></i>' : ''}
+                `;
+                container.appendChild(div);
             });
         }
-
-        function initTradingViewWidget(theme, asset, timeframe) {
-            document.getElementById('tradingview_widget').innerHTML = "";
-            let tvThemeValue = (theme === 'light') ? 'light' : 'dark';
-            if (typeof TradingView !== 'undefined') {
-                new TradingView.widget({
-                    "autosize": true,
-                    "symbol": asset,
-                    "interval": timeframe,
-                    "timezone": "Etc/UTC",
-                    "theme": tvThemeValue,
-                    "style": "1",
-                    "locale": currentLang,
-                    "toolbar_bg": "#f1f3f6",
-                    "enable_publishing": false,
-                    "hide_legend": true,
-                    "save_image": false,
-                    "container_id": "tradingview_widget"
-                });
-            }
+        function rotateTheme() {
+            currentThemeIdx = (currentThemeIdx + 1) % themesList.length;
+            document.documentElement.setAttribute('data-theme', themesList[currentThemeIdx]);
+            initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
+        }
+        function initTradingViewWidget(theme, symbol, interval) {
+            const container = document.getElementById('tradingview_widget');
+            container.innerHTML = "";
+            let tvSymbol = symbol;
+            if (symbol.includes("BINANCE:")) tvSymbol = symbol;
+            else if (symbol.includes("FX:")) tvSymbol = symbol;
+            else if (symbol.includes("FOREXCOM:")) tvSymbol = symbol;
+            else if (symbol.includes("OANDA:")) tvSymbol = symbol;
+            
+            new TradingView.widget({
+                "autosize": true,
+                "symbol": tvSymbol,
+                "interval": interval,
+                "timezone": "Etc/UTC",
+                "theme": document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
+                "style": "1",
+                "locale": "uk",
+                "enable_publishing": false,
+                "hide_top_toolbar": true,
+                "hide_legend": true,
+                "save_image": false,
+                "container_id": "tradingview_widget"
+            });
         }
     </script>
 </body>
