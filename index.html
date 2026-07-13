@@ -109,7 +109,6 @@
         #lockScreen h2 { font-size: 24px; margin-bottom: 12px; }
         #lockScreen p { color: var(--text-muted); font-size: 14px; max-width: 300px; line-height: 1.5; }
         
-        /* Ховаємо основний контент до авторизації */
         #appContent {
             display: none;
         }
@@ -783,18 +782,15 @@
         let localSignalsCount = 0;
         let userRole = 'user'; 
 
-        // Функція для ініціалізації та перевірки лічильника запитів на добу
         function initDailyCount() {
             const today = new Date().toLocaleDateString();
             const savedDate = localStorage.getItem('signalsDate');
             
             if (savedDate !== today) {
-                // Якщо настав новий день, скидаємо лічильник
                 localStorage.setItem('signalsDate', today);
                 localStorage.setItem('signalsCount', '0');
                 localSignalsCount = 0;
             } else {
-                // Якщо день той самий, відновлюємо збережене значення
                 localSignalsCount = parseInt(localStorage.getItem('signalsCount')) || 0;
             }
             document.getElementById('signalsCountValue').innerText = localSignalsCount;
@@ -850,7 +846,6 @@
             { id: "FOREXCOM:XAGUSD", name: "SILVER (XAG/USD)", type: "cfd", icon: "Ag" },
             { id: "FOREXCOM:USOIL", name: "Crude Oil WTI", type: "cfd", icon: "🛢️" },
             
-            // НОВІ 20 ПАР (Найпопулярніші крос-курси та крипто)
             { id: "FX:CADJPY", name: "CAD / JPY", type: "forex", icon: "C$" },
             { id: "FX:CHFJPY", name: "CHF / JPY", type: "forex", icon: "₣" },
             { id: "FX:NZDJPY", name: "NZD / JPY", type: "forex", icon: "N$" },
@@ -911,11 +906,14 @@
                 assetSearchPlaceholder: "Пошук активу...",
                 buyText: "BUY / ВГОРУ",
                 sellText: "SELL / ВНИЗ",
+                flatText: "ОЧІКУВАННЯ / ФЛЕТ",
                 readMore: "Читати деталі на джерелі",
                 openLesson: "Відкрити лекцію на джерелі",
                 errConnect: "Не вдалося з'єднатися з сервером. Перевірте роботу бекенду.",
-                warnVol: "Низька волатильність (Флет)",
-                warnPullback: "Можливий відкат (Ціна на піку)"
+                warnVol: "Торгівля заборонена (Низька волатильність / Флет)",
+                warnPullback: "Можливий відкат (Ціна в зоні перекупленості/перепроданості)",
+                warnTrend: "Конфлікт з глобальним трендом (Високий ризик)",
+                synergyActive: "Ефект синергії (Максимальна точність)"
             },
             en: {
                 statusLabel: "Premium Activated",
@@ -940,11 +938,14 @@
                 assetSearchPlaceholder: "Search asset...",
                 buyText: "BUY / UP",
                 sellText: "SELL / DOWN",
+                flatText: "WAIT / FLAT",
                 readMore: "Read breakdown on source",
                 openLesson: "Open reference class",
                 errConnect: "Failed to connect to server. Check your backend deployment.",
-                warnVol: "Low Volatility (Flat)",
-                warnPullback: "Pullback Risk (Peak price)"
+                warnVol: "Trading banned (Low Volatility / Flat)",
+                warnPullback: "Pullback Risk (Overbought/Oversold zone)",
+                warnTrend: "Global trend conflict (High risk)",
+                synergyActive: "Synergy effect (Max accuracy)"
             },
             pl: {
                 statusLabel: "Premium Aktywne",
@@ -969,11 +970,14 @@
                 assetSearchPlaceholder: "Szukaj aktywów...",
                 buyText: "BUY / W GÓRĘ",
                 sellText: "SELL / W DÓŁ",
+                flatText: "CZEKAJ / PŁASKO",
                 readMore: "Przeczytaj szczegóły w źródle",
                 openLesson: "Otwórz lekcję źródłową",
                 errConnect: "Nie można połączyć się z serwerem. Sprawdź backend.",
-                warnVol: "Niska zmienność (Boczny trend)",
-                warnPullback: "Ryzyko korekty (Cena na szczycie)"
+                warnVol: "Handel zabroniony (Niska zmienność / Boczny trend)",
+                warnPullback: "Ryzyko korekty (Strefa wykupienia/wyprzedania)",
+                warnTrend: "Konflikt z globalnym trendem (Wysokie ryzyko)",
+                synergyActive: "Efekt synergii (Maksymalna dokładność)"
             },
             de: {
                 statusLabel: "Premium Aktiviert",
@@ -998,11 +1002,14 @@
                 assetSearchPlaceholder: "Asset suchen...",
                 buyText: "BUY / NACH OBEN",
                 sellText: "SELL / NACH UNTEN",
+                flatText: "WARTEN / FLACH",
                 readMore: "Details in der Quelle lesen",
                 openLesson: "Lektion im Original öffnen",
                 errConnect: "Verbindung zum Server fehlgeschlagen. Backend prüfen.",
-                warnVol: "Niedrige Volatilität (Seitwärts)",
-                warnPullback: "Rückschlagrisiko (Höchstpreis)"
+                warnVol: "Handel verboten (Niedrige Volatilität / Seitwärts)",
+                warnPullback: "Rückschlagrisiko (Überkauft/Überverkauft)",
+                warnTrend: "Globaler Trendkonflikt (Hohes Risiko)",
+                synergyActive: "Synergieeffekt (Max. Genauigkeit)"
             }
         };
 
@@ -1154,7 +1161,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            initDailyCount(); // Ініціалізуємо лічильник при завантаженні
+            initDailyCount(); 
             checkAccess();
         });
 
@@ -1256,7 +1263,6 @@
             currentLang = langCode;
             closeLangModal();
             buildLangDropdown();
-            
             updateUserStatusText(); 
             
             document.getElementById('placeholderText').innerText = translations[currentLang].placeholderText;
@@ -1378,23 +1384,38 @@
                     const badge = document.getElementById('directionBadge');
                     const icon = document.getElementById('directionIcon');
                     const text = document.getElementById('directionText');
+                    
+                    badge.className = "direction-badge";
+                    badge.style.background = "";
+                    badge.style.color = "";
+                    
                     if (data.direction === 'UP') {
-                        badge.className = "direction-badge up";
+                        badge.classList.add("up");
                         icon.className = "fas fa-arrow-up";
                         text.innerText = translations[currentLang].buyText;
-                    } else {
-                        badge.className = "direction-badge down";
+                    } else if (data.direction === 'DOWN') {
+                        badge.classList.add("down");
                         icon.className = "fas fa-arrow-down";
                         text.innerText = translations[currentLang].sellText;
+                    } else {
+                        badge.style.background = "rgba(100, 116, 139, 0.15)";
+                        badge.style.color = "#94a3b8";
+                        icon.className = "fas fa-minus";
+                        text.innerText = translations[currentLang].flatText;
                     }
                     
-                    // Блок виводу попереджень
                     if (data.tech_info) {
                         if (data.tech_info.low_volatility) {
-                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#f59e0b; margin-top:4px;"><i class="fas fa-exclamation-triangle"></i> ${translations[currentLang].warnVol}</div>`;
+                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px; font-weight: bold;"><i class="fas fa-ban"></i> ${translations[currentLang].warnVol}</div>`;
                         }
-                        if (data.tech_info.pullback_warning) {
+                        if (data.tech_info.pullback_warning && data.direction !== 'FLAT') {
                             warningsDiv.innerHTML += `<div style="font-size:12px; color:#ef4444; margin-top:4px;"><i class="fas fa-sync-alt"></i> ${translations[currentLang].warnPullback}</div>`;
+                        }
+                        if (data.tech_info.mtf_conflict && data.direction !== 'FLAT') {
+                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#f59e0b; margin-top:4px;"><i class="fas fa-project-diagram"></i> ${translations[currentLang].warnTrend}</div>`;
+                        }
+                        if (data.tech_info.synergy && data.direction !== 'FLAT') {
+                            warningsDiv.innerHTML += `<div style="font-size:12px; color:#22c55e; margin-top:4px;"><i class="fas fa-bolt"></i> ${translations[currentLang].synergyActive}</div>`;
                         }
                     }
 
@@ -1406,7 +1427,6 @@
                         document.getElementById('gaugeFill').style.strokeDashoffset = offset;
                     }, 50);
                     
-                    // Оновлення та збереження лічильника запитів
                     localSignalsCount++;
                     localStorage.setItem('signalsCount', localSignalsCount);
                     document.getElementById('signalsCountValue').innerText = localSignalsCount;
@@ -1475,7 +1495,7 @@
                         resultsDiv.appendChild(card);
                     });
                 } else {
-                    resultsDiv.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">Не знайдено сигналів з точністю понад 45% для цього інтервалу.</p>`;
+                    resultsDiv.innerHTML = `<p style="text-align:center; color:var(--text-muted); font-size: 13px;">Не знайдено сильних сигналів без флету для цього інтервалу.</p>`;
                 }
             } catch (e) {
                 loader.style.display = 'none';
