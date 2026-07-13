@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* Базові та кастомні теми оформлення */
         :root, [data-theme="cyberpunk"] {
             --bg-color: #0d0f14;
             --card-bg: #141822;
@@ -357,7 +356,6 @@
         .stat-value { font-size: 20px; font-weight: 700; margin-top: 4px; color: #6366f1; }
         .stat-label { font-size: 12px; color: var(--text-muted); }
 
-        /* Стилі для вкладки історії */
         .history-item {
             display: flex;
             justify-content: space-between;
@@ -542,7 +540,6 @@
                 <div id="topResults" style="margin-top: 16px;"></div>
             </div>
 
-            <!-- НОВА ВКЛАДКА СТАТИСТИКИ ТА ІСТОРІЇ -->
             <div id="tab-stats" class="tab-content">
                 <div class="section-title">
                     <i class="fas fa-history" style="color: #10b981"></i>
@@ -642,7 +639,6 @@
                 <i class="fas fa-fire"></i>
                 <span id="navTopText">Топ</span>
             </div>
-            <!-- КНОПКА СТАТИСТИКИ -->
             <div class="nav-item" id="nav-stats-btn" onclick="switchTab('stats')">
                 <i class="fas fa-history"></i>
                 <span id="navStatsText">Статистика</span>
@@ -1304,6 +1300,7 @@
         function closeAssetModal() { document.getElementById('assetModal').classList.remove('active'); }
         function openLangModal() { document.getElementById('langModal').classList.add('active'); }
         function closeLangModal() { document.getElementById('langModal').classList.remove('active'); }
+        
         function filterAssets() {
             const val = document.getElementById('assetSearchInput').value.toLowerCase();
             const container = document.getElementById('assetsListContainer');
@@ -1326,34 +1323,33 @@
                 container.appendChild(div);
             });
         }
+
+        // ВІДНОВЛЕНІ КРИТИЧНІ ФУНКЦІЇ, ЯКІ БУЛИ ОБІРВАНІ
+        function initTradingViewWidget(theme, symbol, interval) {
+            if (typeof TradingView !== 'undefined') {
+                new TradingView.widget({
+                    "width": "100%",
+                    "height": "100%",
+                    "symbol": symbol,
+                    "interval": interval,
+                    "timezone": "Etc/UTC",
+                    "theme": theme === 'light' ? 'light' : 'dark',
+                    "style": "1",
+                    "locale": currentLang === 'uk' ? 'uk' : currentLang,
+                    "toolbar_bg": "#f1f3f6",
+                    "enable_publishing": false,
+                    "hide_side_toolbar": true,
+                    "allow_symbol_change": false,
+                    "container_id": "tradingview_widget"
+                });
+            }
+        }
+
         function rotateTheme() {
             currentThemeIdx = (currentThemeIdx + 1) % themesList.length;
-            document.documentElement.setAttribute('data-theme', themesList[currentThemeIdx]);
-            initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
-        }
-        function initTradingViewWidget(theme, symbol, interval) {
-            const container = document.getElementById('tradingview_widget');
-            container.innerHTML = "";
-            let tvSymbol = symbol;
-            if (symbol.includes("BINANCE:")) tvSymbol = symbol;
-            else if (symbol.includes("FX:")) tvSymbol = symbol;
-            else if (symbol.includes("FOREXCOM:")) tvSymbol = symbol;
-            else if (symbol.includes("OANDA:")) tvSymbol = symbol;
-            
-            new TradingView.widget({
-                "autosize": true,
-                "symbol": tvSymbol,
-                "interval": interval,
-                "timezone": "Etc/UTC",
-                "theme": document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark',
-                "style": "1",
-                "locale": "uk",
-                "enable_publishing": false,
-                "hide_top_toolbar": true,
-                "hide_legend": true,
-                "save_image": false,
-                "container_id": "tradingview_widget"
-            });
+            const newTheme = themesList[currentThemeIdx];
+            document.documentElement.setAttribute('data-theme', newTheme);
+            initTradingViewWidget(newTheme, selectedAsset.id, selectedTimeframe.tvWidget);
         }
     </script>
 </body>
