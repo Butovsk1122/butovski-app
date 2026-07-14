@@ -65,7 +65,6 @@
             --tv-theme: dark;
         }
 
-        /* --- НОВІ ТЕМИ --- */
         [data-theme="neon"] {
             --bg-color: #120414;
             --card-bg: #1c0822;
@@ -219,7 +218,7 @@
 
         .timeframe-container {
             display: flex;
-            flex-wrap: wrap; /* ВИПРАВЛЕНО ВИПОВЗАННЯ ЗА ЕКРАН */
+            flex-wrap: wrap;
             justify-content: center;
             gap: 6px;
             padding-bottom: 8px;
@@ -279,22 +278,8 @@
             margin-bottom: 12px;
         }
 
-        /* --- НОВІ КОЛЬОРИ ТА ПІДСВІТКА ДЛЯ BUY/SELL --- */
         .direction-badge.up { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-        .direction-badge.up span {
-            color: #22c55e !important;
-            text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
-        }
         .direction-badge.down { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-        .direction-badge.down span {
-            color: #ef4444 !important;
-            text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
-        }
-        .direction-badge.flat { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-        .direction-badge.flat span {
-            color: #f59e0b !important;
-            text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
-        }
 
         .gauge-container {
             position: relative;
@@ -341,7 +326,6 @@
 
         .loader-steps { font-size: 13px; color: var(--text-muted); height: 20px; }
 
-        /* --- НОВА АНІМАЦІЯ КНОПКИ ОТРИМАТИ СИГНАЛ --- */
         .action-btn {
             width: 100%;
             background: var(--accent-gradient);
@@ -353,15 +337,6 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .action-btn:hover:not(:disabled) {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
-            background: linear-gradient(135deg, #7a7df4, #b975f8);
-        }
-        .action-btn:active:not(:disabled) {
-            transform: translateY(1px) scale(0.98);
         }
 
         .widget-card {
@@ -430,7 +405,6 @@
         .history-result.win { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
         .history-result.loss { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
-        /* --- НОВІ АНІМАЦІЇ НАВБАРА --- */
         .navbar {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -506,7 +480,6 @@
             50% { transform: scale(1.3) translateY(-6px); }
             100% { transform: scale(1.15) translateY(-4px); }
         }
-        /* --- КІНЕЦЬ СТИЛІВ НАВБАРА --- */
 
         .modal {
             display: none;
@@ -540,7 +513,6 @@
         .asset-option:hover, .asset-option.selected, .lang-option:hover, .lang-option.selected { background: rgba(99, 102, 241, 0.08); }
         .lang-flag { width: 24px; height: 24px; border-radius: 4px; background: #232a3d; display: flex; align-items: center; justify-content: center; font-size: 12px; }
 
-        /* СТИЛІ ДЛЯ АНІМАЦІЇ КНОПОК МАРКУВАННЯ */
         .trade-animated-btn {
             border: none;
             padding: 12px 24px;
@@ -555,25 +527,20 @@
             gap: 6px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-        .win-btn {
-            background: linear-gradient(135deg, #22c55e, #15803d);
-        }
+        .win-btn { background: linear-gradient(135deg, #22c55e, #15803d); }
         .win-btn:hover {
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 6px 15px rgba(34, 197, 94, 0.4);
             animation: winPulse 1.5s infinite;
         }
-        .loss-btn {
-            background: linear-gradient(135deg, #ef4444, #b91c1c);
-        }
+        .loss-btn { background: linear-gradient(135deg, #ef4444, #b91c1c); }
         .loss-btn:hover {
             transform: translateY(-2px) scale(1.05);
             box-shadow: 0 6px 15px rgba(239, 68, 68, 0.4);
             animation: lossPulse 1.5s infinite;
         }
-        .trade-animated-btn:active {
-            transform: translateY(1px) scale(0.98);
-        }
+        .trade-animated-btn:active { transform: translateY(1px) scale(0.98); }
+        
         @keyframes winPulse {
             0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
             70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
@@ -828,7 +795,6 @@
     <script>
         const BACKEND_URL = "https://butovski-signal-bot.onrender.com";
         let currentLang = 'uk';
-        // --- ДОДАНО НОВІ ТЕМИ ---
         const themesList = ['cyberpunk', 'light', 'emerald', 'ocean', 'gold', 'neon', 'dracula', 'matrix'];
         
         const themesMap = [
@@ -892,7 +858,7 @@
             { id: "FX:EURGBP", name: "EUR / GBP", type: "forex", icon: "₠" },
             { id: "FX:EURJPY", name: "EUR / JPY", type: "forex", icon: "₭" },
             { id: "FX:GBPJPY", name: "GBP / JPY", type: "forex", icon: "ℒ" },
-            { id: "FX:AUDJPY", name: "AUD / JPY", type: "forex", icon: "ℳ" },
+            { id: "FX:AUDJPY", name: "AUD / JPY", type: "forex", icon: "₳" },
             { id: "FX:EURAUD", name: "EUR / AUD", type: "forex", icon: "₧" },
             { id: "FX:GBPCAD", name: "GBP / CAD", type: "forex", icon: "💱" },
             { id: "OANDA:USDTRY", name: "USD / TRY", type: "forex", icon: "₺" },
@@ -935,7 +901,6 @@
             { id: "FX:NZDJPY", name: "NZD / JPY", type: "forex", icon: "N$" }
         ];
 
-        // --- ВИПРАВЛЕНО ПОРЯДОК ТАЙМФРЕЙМІВ ---
         const timeframesData = [
             { id: "3s", name: "3s", value: "0.05", tvWidget: "1" },
             { id: "5s", name: "5s", value: "5s", tvWidget: "1" },
@@ -948,8 +913,8 @@
             { id: "1h", name: "1h", value: "60", tvWidget: "60" }
         ];
 
-        let selectedAsset = assetsData[4]; // 1m default
-        let selectedTimeframe = timeframesData[4]; // За замовчуванням 1м
+        let selectedAsset = assetsData[0];
+        let selectedTimeframe = timeframesData[4]; // 1м за замовчуванням
 
         const translations = {
             uk: {
@@ -961,6 +926,7 @@
                 signalsCountLabel: "Запитів за добу",
                 modalSelectTitle: "Оберіть актив",
                 modalThemeTitle: "Оберіть тему застосунку",
+                modalLangTitle: "Оберіть мову / Language",
                 navSignalsText: "Сигнали",
                 navTopText: "Топ Пари",
                 navStatsText: "Статистика",
@@ -986,8 +952,6 @@
                 warnPullback: "Можливий відкат (Ціна в зоні перекупленості/перепроданості)",
                 warnTrend: "Конфлікт з глобальним трендом (Високий ризик)",
                 synergyActive: "Ефект синергії (Максимальна точність)",
-                
-                // ДОДАНО СЛОВНИК ДЛЯ СТАТИСТИКИ
                 statsDescText: "Реальні показники вашої торгівлі на основі відмічених вами сигналів.",
                 statsWinText: "Заробив",
                 statsLossText: "Злив",
@@ -996,8 +960,7 @@
                 historyEmpty: "Історія порожня...",
                 profitWin: "Заробив (+)",
                 profitLoss: "Злив (-)",
-
-                // ДОДАНО ПЕРЕКЛАД ТАЙМФРЕЙМІВ
+                tradeMarkingStatus: "Результат збережено у вкладку Статистика!",
                 tf_3s: "3 с", tf_5s: "5 с", tf_15s: "15 с", tf_30s: "30 с",
                 tf_1m: "1 хв", tf_5m: "5 хв", tf_15m: "15 хв", tf_30m: "30 хв",
                 tf_1h: "1 год"
@@ -1011,6 +974,7 @@
                 signalsCountLabel: "Daily requests",
                 modalSelectTitle: "Select asset",
                 modalThemeTitle: "Select App Theme",
+                modalLangTitle: "Select Language / Мова",
                 navSignalsText: "Signals",
                 navTopText: "Top Pairs",
                 navStatsText: "Statistics",
@@ -1036,7 +1000,6 @@
                 warnPullback: "Pullback Risk (Overbought/Oversold zone)",
                 warnTrend: "Global trend conflict (High risk)",
                 synergyActive: "Synergy effect (Max accuracy)",
-                
                 statsDescText: "Real performance of your trading based on marked signals.",
                 statsWinText: "Won",
                 statsLossText: "Lost",
@@ -1045,7 +1008,7 @@
                 historyEmpty: "History is empty...",
                 profitWin: "Won (+)",
                 profitLoss: "Lost (-)",
-                
+                tradeMarkingStatus: "Result successfully logged to statistics!",
                 tf_3s: "3s", tf_5s: "5s", tf_15s: "15s", tf_30s: "30s",
                 tf_1m: "1m", tf_5m: "5m", tf_15m: "15m", tf_30m: "30m",
                 tf_1h: "1h"
@@ -1059,6 +1022,7 @@
                 signalsCountLabel: "Zgłoszenia na dobę",
                 modalSelectTitle: "Wybierz aktywo",
                 modalThemeTitle: "Wybierz motyw aplikacji",
+                modalLangTitle: "Wybierz język / Language",
                 navSignalsText: "Sygnały",
                 navTopText: "Top Pary",
                 navStatsText: "Statystyka",
@@ -1084,7 +1048,6 @@
                 warnPullback: "Ryzyko korekty (Strefa wykupienia/wyprzedania)",
                 warnTrend: "Konflikt z globalnym trendem (Wysokie ryzyko)",
                 synergyActive: "Efekt synergii (Maksymalna dokładność)",
-                
                 statsDescText: "Rzeczywiste wskaźniki Twojego handlu na podstawie oznaczonych sygnałów.",
                 statsWinText: "Zarobił",
                 statsLossText: "Stracił",
@@ -1093,7 +1056,7 @@
                 historyEmpty: "Historia jest pusta...",
                 profitWin: "Zarobił (+)",
                 profitLoss: "Stracił (-)",
-                
+                tradeMarkingStatus: "Wynik pomyślnie zapisany do statystyk!",
                 tf_3s: "3s", tf_5s: "5s", tf_15s: "15s", tf_30s: "30s",
                 tf_1m: "1m", tf_5m: "5m", tf_15m: "15m", tf_30m: "30m",
                 tf_1h: "1g"
@@ -1107,6 +1070,7 @@
                 signalsCountLabel: "Anfragen pro Tag",
                 modalSelectTitle: "Asset auswählen",
                 modalThemeTitle: "App-Design auswählen",
+                modalLangTitle: "Sprache auswählen / Select Lang",
                 navSignalsText: "Signale",
                 navTopText: "Top Paare",
                 navStatsText: "Statistik",
@@ -1132,7 +1096,6 @@
                 warnPullback: "Rückschlagrisiko (Überkauft/Überverkauft)",
                 warnTrend: "Globaler Trendkonflikt (Hohes Risiko)",
                 synergyActive: "Synergieeffekt (Max. Genauigkeit)",
-                
                 statsDescText: "Reale Leistung Ihres Handels basierend auf markierten Signalen.",
                 statsWinText: "Gewonnen",
                 statsLossText: "Verloren",
@@ -1141,7 +1104,7 @@
                 historyEmpty: "Geschichte ist leer...",
                 profitWin: "Gewonnen (+)",
                 profitLoss: "Verloren (-)",
-                
+                tradeMarkingStatus: "Ergebnis erfolgreich in Statistik eingetragen!",
                 tf_3s: "3s", tf_5s: "5s", tf_15s: "15s", tf_30s: "30s",
                 tf_1m: "1m", tf_5m: "5m", tf_15m: "15m", tf_30m: "30m",
                 tf_1h: "1S"
@@ -1177,7 +1140,7 @@
                 }
             ],
             steps: {
-                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної модели...", "Генерація результату..."],
+                uk: ["З'єднання з сервером ТV...", "Збір технічних індикаторів...", "Обчислення математичної моделі...", "Генерація результату..."],
                 en: ["Connecting to TV server...", "Collecting technical indicators...", "Calculating mathematical model...", "Generating result..."],
                 pl: ["Łączenie z serwerem TV...", "Zbieranie wskaźników technicznych...", "Obliczanie modelu matematycznego...", "Generowanie wyniku..."],
                 de: ["Verbindung zum TV-Server...", "Technische Indikatoren sammeln...", "Berechnung des mathematischen Modells...", "Ergebnis wird generiert..."]
@@ -1253,7 +1216,6 @@
             } catch(e) {}
         }
 
-        // --- ВІДОБРАЖЕННЯ ТАЙМФРЕЙМІВ З УРАХУВАННЯМ ПЕРЕКЛАДУ ---
         function renderTimeframes() {
             const container = document.getElementById('timeframeContainer');
             const containerTop = document.getElementById('timeframeContainerTop');
@@ -1335,10 +1297,16 @@
             document.getElementById('currentAssetTitle').innerText = asset.name;
             document.getElementById('currentAssetType').innerText = translations[currentLang][asset.type];
             closeAssetModal();
+            buildAssetDropdown();
             initTradingViewWidget(themesList[currentThemeIdx], asset.id, selectedTimeframe.tvWidget);
         }
-        
-        function openAssetModal() { document.getElementById('assetModal').classList.add('active'); }
+
+        function openAssetModal() {
+            document.getElementById('assetModal').classList.add('active');
+            document.getElementById('assetSearchInput').value = "";
+            filterAssets();
+        }
+
         function closeAssetModal() { document.getElementById('assetModal').classList.remove('active'); }
         function openLangModal() { document.getElementById('langModal').classList.add('active'); }
         function closeLangModal() { document.getElementById('langModal').classList.remove('active'); }
@@ -1352,17 +1320,11 @@
                 const isSel = lang.code === currentLang;
                 const div = document.createElement('div');
                 div.className = `lang-option ${isSel ? 'selected' : ''}`;
-                div.onclick = () => {
-                    currentLang = lang.code;
-                    applyTranslations();
-                    buildLangDropdown();
-                    closeLangModal();
-                    renderTimeframes();
-                };
+                div.onclick = () => selectLanguage(lang.code);
                 div.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div class="lang-flag">${lang.flag}</div>
-                        <div style="font-size:14px; font-weight:600;">${lang.name}</div>
+                        <div style="font-weight: 600; font-size: 14px;">${lang.name}</div>
                     </div>
                     ${isSel ? '<i class="fas fa-check" style="color:#6366f1;"></i>' : ''}
                 `;
@@ -1370,25 +1332,29 @@
             });
         }
 
-        // --- ВІДНОВЛЕННЯ ТА ДОПОВНЕННЯ ЛОГІКИ, ЩО БУЛА ОБРІЗАНА ---
+        function selectLanguage(langCode) {
+            currentLang = langCode;
+            closeLangModal();
+            buildLangDropdown();
+            renderTimeframes();
+            applyTranslations();
+            renderHubContent();
+            updateUserStatusText();
+            buildAssetDropdown();
+        }
+
         function buildThemeDropdown() {
             const container = document.getElementById('themesListContainer');
             container.innerHTML = "";
             themesMap.forEach((theme, idx) => {
                 const isSel = idx === currentThemeIdx;
                 const div = document.createElement('div');
-                div.className = `lang-option ${isSel ? 'selected' : ''}`;
-                div.onclick = () => {
-                    currentThemeIdx = idx;
-                    document.documentElement.setAttribute('data-theme', theme.id);
-                    buildThemeDropdown();
-                    closeThemeModal();
-                    initTradingViewWidget(theme.id, selectedAsset.id, selectedTimeframe.tvWidget);
-                };
+                div.className = `asset-option ${isSel ? 'selected' : ''}`;
+                div.onclick = () => selectTheme(idx);
                 div.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div class="lang-flag">${theme.icon}</div>
-                        <div style="font-size:14px; font-weight:600;">${theme.name}</div>
+                        <div style="font-size: 18px;">${theme.icon}</div>
+                        <div style="font-weight: 600; font-size: 14px;">${theme.name}</div>
                     </div>
                     ${isSel ? '<i class="fas fa-check" style="color:#6366f1;"></i>' : ''}
                 `;
@@ -1396,13 +1362,13 @@
             });
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('tab-' + tabId).classList.add('active');
-            document.getElementById('nav-' + tabId + '-btn').classList.add('active');
-            
-            if (tabId === 'stats') loadStatistics();
+        function selectTheme(idx) {
+            currentThemeIdx = idx;
+            const theme = themesMap[idx].id;
+            document.documentElement.setAttribute('data-theme', theme);
+            closeThemeModal();
+            buildThemeDropdown();
+            initTradingViewWidget(theme, selectedAsset.id, selectedTimeframe.tvWidget);
         }
 
         function applyTranslations() {
@@ -1413,249 +1379,268 @@
             document.getElementById('signalsCountLabel').innerText = t.signalsCountLabel;
             document.getElementById('modalSelectTitle').innerText = t.modalSelectTitle;
             document.getElementById('modalThemeTitle').innerText = t.modalThemeTitle;
+            document.getElementById('modalLangTitle').innerText = t.modalLangTitle;
+            
             document.getElementById('navSignalsText').innerText = t.navSignalsText;
             document.getElementById('navTopText').innerText = t.navTopText;
             document.getElementById('navStatsText').innerText = t.navStatsText;
-            document.getElementById('statsSectionTitle').innerText = t.statsSectionTitle;
-            document.getElementById('topSectionTitle').innerText = t.topSectionTitle;
-            document.getElementById('scanTopBtn').innerText = t.scanTopBtn;
-            document.getElementById('topDescText').innerText = t.topDescText;
             document.getElementById('navHubText').innerText = t.navHubText;
             document.getElementById('navProfileText').innerText = t.navProfileText;
+
+            document.getElementById('statsSectionTitle').innerText = t.statsSectionTitle;
+            document.getElementById('statsDescText').innerText = t.statsDescText;
+            document.getElementById('topSectionTitle').innerText = t.topSectionTitle;
+            document.getElementById('topDescText').innerText = t.topDescText;
+            document.getElementById('scanTopBtn').innerText = t.scanTopBtn;
             document.getElementById('newsSectionTitle').innerText = t.newsSectionTitle;
             document.getElementById('eduSectionTitle').innerText = t.eduSectionTitle;
             document.getElementById('assetSearchInput').placeholder = t.assetSearchPlaceholder;
-            document.getElementById('currentAssetType').innerText = t[selectedAsset.type];
-            
-            document.getElementById('statsDescText').innerText = t.statsDescText;
-            document.getElementById('statsWin').nextElementSibling.innerText = t.statsWinText;
-            document.getElementById('statsLoss').nextElementSibling.innerText = t.statsLossText;
-            document.getElementById('statsWinrate').nextElementSibling.innerText = t.statsWinrateText;
-            document.getElementById('statsHistoryLabel').innerText = t.statsHistoryLabel;
 
-            renderTimeframes();
-            buildAssetDropdown();
-            renderHubContent();
-            updateUserStatusText();
+            document.querySelector('#statsWin + div').innerText = t.statsWinText;
+            document.querySelector('#statsLoss + div').innerText = t.statsLossText;
+            document.querySelector('#statsWinrate + div').innerText = t.statsWinrateText;
+            document.getElementById('statsHistoryLabel').innerText = t.statsHistoryLabel;
         }
 
         function renderHubContent() {
-            const t = translations[currentLang];
-            const newsContainer = document.getElementById('newsContainer');
-            newsContainer.innerHTML = "";
+            const newsCont = document.getElementById('newsContainer');
+            const eduCont = document.getElementById('eduContainer');
+            newsCont.innerHTML = "";
+            eduCont.innerHTML = "";
+
             hubContent.news.forEach(item => {
+                const impactClass = item.impact === 'high' ? 'high' : 'med';
+                const impactText = item.impact === 'high' ? 'HIGH' : 'MEDIUM';
                 const title = item.title[currentLang] || item.title['en'];
-                newsContainer.innerHTML += `
-                    <a href="${item.url}" target="_blank" class="news-card">
-                        <div class="news-header">
-                            <span class="news-impact ${item.impact}">${item.impact === 'high' ? 'High Impact' : 'Medium Impact'}</span>
-                            <span>${item.time}</span>
-                        </div>
-                        <div class="news-title">${title}</div>
-                        <div class="link-hint"><i class="fas fa-external-link-alt"></i> ${t.readMore}</div>
-                    </a>
+                
+                const card = document.createElement('a');
+                card.className = "news-card";
+                card.href = item.url;
+                card.target = "_blank";
+                card.innerHTML = `
+                    <div class="news-header">
+                        <span class="news-impact ${impactClass}">${impactText}</span>
+                        <span>${item.time}</span>
+                    </div>
+                    <div class="news-title">${title}</div>
+                    <div class="link-hint">${translations[currentLang].readMore} <i class="fas fa-external-link-alt"></i></div>
                 `;
+                newsCont.appendChild(card);
             });
 
-            const eduContainer = document.getElementById('eduContainer');
-            eduContainer.innerHTML = "";
             hubContent.edu.forEach(item => {
                 const title = item.title[currentLang] || item.title['en'];
                 const desc = item.desc[currentLang] || item.desc['en'];
-                eduContainer.innerHTML += `
-                    <a href="${item.url}" target="_blank" class="edu-card">
-                        <div class="edu-flex-container">
-                            <div class="edu-icon"><i class="fas ${item.icon}"></i></div>
-                            <div>
-                                <div class="news-title">${title}</div>
-                                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">${desc}</div>
-                            </div>
+                
+                const card = document.createElement('a');
+                card.className = "edu-card";
+                card.href = item.url;
+                card.target = "_blank";
+                card.innerHTML = `
+                    <div class="edu-flex-container">
+                        <div class="edu-icon"><i class="fas ${item.icon}"></i></div>
+                        <div>
+                            <div style="font-size:14px; font-weight:600; margin-bottom:4px;">${title}</div>
+                            <div style="font-size:11px; color:var(--text-muted); line-height:1.4;">${desc}</div>
+                            <div class="link-hint">${translations[currentLang].openLesson} <i class="fas fa-external-link-alt"></i></div>
                         </div>
-                        <div class="link-hint"><i class="fas fa-external-link-alt"></i> ${t.openLesson}</div>
-                    </a>
+                    </div>
                 `;
+                eduCont.appendChild(card);
             });
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.navbar .nav-item').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(`nav-${tabId}-btn`).classList.add('active');
+            
+            if (tabId === 'stats') {
+                loadStatistics();
+            } else if (tabId === 'signals') {
+                initTradingViewWidget(themesList[currentThemeIdx], selectedAsset.id, selectedTimeframe.tvWidget);
+            }
         }
 
         function initTradingViewWidget(theme, symbol, timeframe) {
             const container = document.getElementById('tradingview_widget_container');
             container.style.display = 'block';
             document.getElementById('tradingview_widget').innerHTML = "";
-            let tvTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
             
             let tvSymbol = symbol;
-            if (symbol.includes('BINANCE:')) tvSymbol = symbol;
-            else if (symbol.includes('FX:')) tvSymbol = symbol;
-            else if (symbol.includes('OANDA:')) tvSymbol = symbol;
-            else if (symbol.includes('FOREXCOM:')) tvSymbol = symbol;
-
+            if (symbol.includes("BINANCE:")) {
+                tvSymbol = symbol.replace("BINANCE:", "BINANCE:");
+            } else if (symbol.includes("FX:")) {
+                tvSymbol = symbol.replace("FX:", "FX_IDC:");
+            }
+            
             new TradingView.widget({
                 "autosize": true,
                 "symbol": tvSymbol,
                 "interval": timeframe,
-                "timezone": "Europe/Kyiv",
-                "theme": tvTheme,
+                "timezone": "Etc/UTC",
+                "theme": theme === 'light' ? 'light' : 'dark',
                 "style": "1",
-                "locale": currentLang === 'uk' ? "uk" : "en",
+                "locale": currentLang,
+                "toolbar_bg": "#f1f3f6",
                 "enable_publishing": false,
-                "backgroundColor": "rgba(0, 0, 0, 0)",
-                "gridColor": "rgba(255, 255, 255, 0.06)",
-                "hide_top_toolbar": true,
-                "hide_legend": true,
-                "save_image": false,
+                "hide_side_toolbar": true,
+                "allow_symbol_change": false,
                 "container_id": "tradingview_widget"
             });
         }
 
-        function animateGauge(percent) {
-            const gaugeFill = document.getElementById('gaugeFill');
-            const circumference = 377; 
-            const offset = circumference - (percent / 100) * circumference;
-            
-            gaugeFill.style.strokeDashoffset = circumference;
-            setTimeout(() => {
-                gaugeFill.style.strokeDashoffset = offset;
-            }, 100);
-
-            let currentPercent = 0;
-            const percentEl = document.getElementById('probabilityPercent');
-            const interval = setInterval(() => {
-                currentPercent += 2;
-                if (currentPercent >= percent) {
-                    currentPercent = percent;
-                    clearInterval(interval);
-                }
-                percentEl.innerText = currentPercent + "%";
-            }, 20);
-        }
-
         async function generateSignal() {
-            const t = translations[currentLang];
-            
+            if (isSignalActive) {
+                isSignalActive = false;
+                document.getElementById('monitorPlaceholder').style.display = 'block';
+                document.getElementById('signalResult').style.display = 'none';
+                document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButton;
+                document.getElementById('tradeMarkingStatus').style.display = 'none';
+                return;
+            }
+
             document.getElementById('monitorPlaceholder').style.display = 'none';
             document.getElementById('signalResult').style.display = 'none';
             document.getElementById('loaderContainer').style.display = 'flex';
-            document.getElementById('tradeMarkingContainer').style.display = 'none';
-            document.getElementById('tradeMarkingStatus').style.display = 'none';
             
-            const btn = document.getElementById('signalActionButton');
-            btn.disabled = true;
-            btn.style.opacity = '0.7';
-
-            const steps = hubContent.steps[currentLang] || hubContent.steps['en'];
-            const stepEl = document.getElementById('loaderSteps');
+            const steps = hubContent.steps[currentLang];
             let stepIdx = 0;
-            stepEl.innerText = steps[0];
+            document.getElementById('loaderSteps').innerText = steps[0];
+            
             const stepInterval = setInterval(() => {
                 stepIdx++;
                 if (stepIdx < steps.length) {
-                    stepEl.innerText = steps[stepIdx];
+                    document.getElementById('loaderSteps').innerText = steps[stepIdx];
                 }
             }, 800);
 
             try {
-                const reqData = {
-                    initData: initData,
-                    symbol: selectedAsset.id,
-                    timeframe: selectedTimeframe.value
-                };
-
-                const response = await fetch(`${BACKEND_URL}/api/get-market-signal`, {
+                const response = await fetch(`${BACKEND_URL}/api/get_signal`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(reqData)
+                    body: JSON.stringify({
+                        initData: initData,
+                        symbol: selectedAsset.id,
+                        timeframe: selectedTimeframe.value
+                    })
                 });
                 
                 clearInterval(stepInterval);
-                const data = await response.json();
-                
                 document.getElementById('loaderContainer').style.display = 'none';
-                
+
+                if (!response.ok) {
+                    throw new Error("HTTP error");
+                }
+
+                const data = await response.json();
                 if (data.success) {
-                    isSignalActive = true;
-                    btn.innerText = t.signalActionButtonNew;
-                    
+                    displaySignal(data);
                     localSignalsCount++;
                     localStorage.setItem('signalsCount', localSignalsCount.toString());
                     document.getElementById('signalsCountValue').innerText = localSignalsCount;
-                    
-                    document.getElementById('signalResult').style.display = 'block';
-                    document.getElementById('tradeMarkingContainer').style.display = 'flex';
-                    
-                    const directionBadge = document.getElementById('directionBadge');
-                    const directionIcon = document.getElementById('directionIcon');
-                    const directionText = document.getElementById('directionText');
-                    const warningsContainer = document.getElementById('signalWarnings');
-                    warningsContainer.innerHTML = "";
-                    
-                    if (data.direction === "UP") {
-                        directionBadge.className = "direction-badge up";
-                        directionIcon.className = "fas fa-arrow-up";
-                        directionText.innerHTML = `<span>${t.buyText}</span>`;
-                    } else if (data.direction === "DOWN") {
-                        directionBadge.className = "direction-badge down";
-                        directionIcon.className = "fas fa-arrow-down";
-                        directionText.innerHTML = `<span>${t.sellText}</span>`;
-                    } else {
-                        directionBadge.className = "direction-badge flat";
-                        directionIcon.className = "fas fa-minus";
-                        directionText.innerHTML = `<span>${t.flatText}</span>`;
-                    }
-                    
-                    if (data.tech_info) {
-                        if (data.tech_info.low_volatility) {
-                            warningsContainer.innerHTML += `<div style="color: #ef4444;"><i class="fas fa-exclamation-triangle"></i> ${t.warnVol}</div>`;
-                        }
-                        if (data.tech_info.pullback_warning) {
-                            warningsContainer.innerHTML += `<div style="color: #f59e0b;"><i class="fas fa-undo"></i> ${t.warnPullback}</div>`;
-                        }
-                        if (data.tech_info.mtf_conflict) {
-                            warningsContainer.innerHTML += `<div style="color: #ef4444;"><i class="fas fa-bolt"></i> ${t.warnTrend}</div>`;
-                        }
-                        if (data.tech_info.synergy && data.probability > 75) {
-                            warningsContainer.innerHTML += `<div style="color: #22c55e;"><i class="fas fa-star"></i> ${t.synergyActive}</div>`;
-                        }
-                    }
-
-                    animateGauge(data.probability);
                 } else {
-                    document.getElementById('monitorPlaceholder').style.display = 'block';
-                    document.getElementById('placeholderText').innerText = data.error || t.errConnect;
+                    alert(data.error || "Error");
+                    resetToPlaceholder();
                 }
-            } catch (err) {
+            } catch (error) {
                 clearInterval(stepInterval);
                 document.getElementById('loaderContainer').style.display = 'none';
-                document.getElementById('monitorPlaceholder').style.display = 'block';
-                document.getElementById('placeholderText').innerText = t.errConnect;
+                alert(translations[currentLang].errConnect);
+                resetToPlaceholder();
+            }
+        }
+
+        function resetToPlaceholder() {
+            isSignalActive = false;
+            document.getElementById('monitorPlaceholder').style.display = 'block';
+            document.getElementById('signalResult').style.display = 'none';
+            document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButton;
+        }
+
+        let lastDirection = "FLAT";
+
+        function displaySignal(data) {
+            isSignalActive = true;
+            document.getElementById('signalResult').style.display = 'block';
+            document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButtonNew;
+
+            const dirBadge = document.getElementById('directionBadge');
+            const dirIcon = document.getElementById('directionIcon');
+            const dirText = document.getElementById('directionText');
+            const warningsCont = document.getElementById('signalWarnings');
+            
+            warningsCont.innerHTML = "";
+            lastDirection = data.direction;
+
+            if (data.direction === "UP") {
+                dirBadge.className = "direction-badge up";
+                dirIcon.className = "fas fa-arrow-up";
+                dirText.innerText = translations[currentLang].buyText;
+            } else if (data.direction === "DOWN") {
+                dirBadge.className = "direction-badge down";
+                dirIcon.className = "fas fa-arrow-down";
+                dirText.innerText = translations[currentLang].sellText;
+            } else {
+                dirBadge.className = "direction-badge";
+                dirBadge.style.background = "rgba(100, 116, 139, 0.15)";
+                dirBadge.style.color = "var(--text-muted)";
+                dirIcon.className = "fas fa-arrows-alt-h";
+                dirText.innerText = translations[currentLang].flatText;
             }
 
-            btn.disabled = false;
-            btn.style.opacity = '1';
+            const t = translations[currentLang];
+            if (data.tech_info.low_volatility) {
+                warningsCont.innerHTML += `<span style="color: #ef4444; font-size: 11px;"><i class="fas fa-exclamation-triangle"></i> ${t.warnVol}</span>`;
+            }
+            if (data.tech_info.pullback_warning) {
+                warningsCont.innerHTML += `<span style="color: #f59e0b; font-size: 11px;"><i class="fas fa-exclamation-circle"></i> ${t.warnPullback}</span>`;
+            }
+            if (data.tech_info.mtf_conflict) {
+                warningsCont.innerHTML += `<span style="color: #ef4444; font-size: 11px;"><i class="fas fa-times-circle"></i> ${t.warnTrend}</span>`;
+            }
+            if (data.tech_info.synergy) {
+                warningsCont.innerHTML += `<span style="color: #22c55e; font-size: 11px;"><i class="fas fa-bolt"></i> ${t.synergyActive}</span>`;
+            }
+
+            const percent = data.probability;
+            document.getElementById('probabilityPercent').innerText = `${percent}%`;
+            
+            const circle = document.getElementById('gaugeFill');
+            const radius = circle.r.baseVal.value;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
         }
 
         async function recordTradeResult(result) {
             try {
-                const reqData = {
-                    initData: initData,
-                    asset: selectedAsset.name,
-                    direction: document.getElementById('directionText').innerText.split('/')[0].trim(),
-                    result: result
-                };
-
-                await fetch(`${BACKEND_URL}/api/save_trade`, {
+                const response = await fetch(`${BACKEND_URL}/api/save_trade`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(reqData)
+                    body: JSON.stringify({
+                        initData: initData,
+                        asset: selectedAsset.name,
+                        direction: lastDirection,
+                        result: result
+                    })
                 });
-                
-                document.getElementById('tradeMarkingContainer').style.display = 'none';
-                document.getElementById('tradeMarkingStatus').style.display = 'block';
+                const data = await response.json();
+                if (data.success) {
+                    const statusEl = document.getElementById('tradeMarkingStatus');
+                    statusEl.innerText = translations[currentLang].tradeMarkingStatus || "Результат збережено!";
+                    statusEl.style.display = "block";
+                    setTimeout(() => { statusEl.style.display = "none"; }, 3000);
+                }
             } catch(e) {}
         }
 
         async function loadStatistics() {
             const container = document.getElementById('historyListContainer');
-            container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);"><div class="spinner" style="width:24px; height:24px; border-width:2px; margin: 0 auto;"></div></div>`;
+            container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">Завантаження історії...</div>`;
+            
             try {
                 const response = await fetch(`${BACKEND_URL}/api/get_statistics`, {
                     method: 'POST',
@@ -1663,102 +1648,99 @@
                     body: JSON.stringify({ initData: initData })
                 });
                 const data = await response.json();
-                
                 if (data.success) {
                     document.getElementById('statsWin').innerText = data.wins;
                     document.getElementById('statsLoss').innerText = data.losses;
-                    document.getElementById('statsWinrate').innerText = data.winrate + "%";
+                    document.getElementById('statsWinrate').innerText = `${data.winrate}%`;
                     
                     container.innerHTML = "";
                     if (data.history && data.history.length > 0) {
                         data.history.forEach(item => {
-                            const t = translations[currentLang];
-                            const profitText = item.result === 'win' ? t.profitWin : t.profitLoss;
-                            container.innerHTML += `
-                                <div class="history-item">
-                                    <div>
-                                        <div class="history-asset">${item.asset} (${item.direction})</div>
-                                        <div class="history-time">${item.time}</div>
-                                    </div>
-                                    <div class="history-result ${item.result}">${profitText}</div>
+                            const isWin = item.result === 'win';
+                            const resClass = isWin ? 'win' : 'loss';
+                            const resText = isWin ? translations[currentLang].profitWin : translations[currentLang].profitLoss;
+                            
+                            const div = document.createElement('div');
+                            div.className = "history-item";
+                            div.innerHTML = `
+                                <div>
+                                    <div class="history-asset">${item.asset}</div>
+                                    <div class="history-time">${item.time}</div>
                                 </div>
+                                <div class="history-result ${resClass}">${resText}</div>
                             `;
+                            container.appendChild(div);
                         });
                     } else {
                         container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">${translations[currentLang].historyEmpty}</div>`;
                     }
                 }
             } catch(e) {
-                container.innerHTML = `<div style="text-align:center; font-size:12px; color:red;">Error loading stats</div>`;
+                container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">Помилка завантаження даних</div>`;
             }
         }
 
         async function scanTopSignals() {
-            const resultsContainer = document.getElementById('topResults');
-            const loader = document.getElementById('topLoader');
             const btn = document.getElementById('scanTopBtn');
-            const t = translations[currentLang];
+            const loader = document.getElementById('topLoader');
+            const resultsDiv = document.getElementById('topResults');
             
-            resultsContainer.innerHTML = "";
+            btn.style.display = 'none';
             loader.style.display = 'flex';
-            btn.disabled = true;
-            btn.style.opacity = '0.7';
-            
-            const symbolsList = assetsData.filter(a => a.type === 'forex' || a.type === 'crypto').map(a => a.id).slice(0, 12);
-            
-            try {
-                const reqData = {
-                    initData: initData,
-                    timeframe: selectedTimeframe.value,
-                    symbols: symbolsList
-                };
+            resultsDiv.innerHTML = "";
 
+            const scanList = assetsData.slice(0, 10).map(a => a.id);
+
+            try {
                 const response = await fetch(`${BACKEND_URL}/api/get_top_signals`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(reqData)
+                    body: JSON.stringify({
+                        initData: initData,
+                        timeframe: selectedTimeframe.value,
+                        symbols: scanList
+                    })
                 });
-                
                 const data = await response.json();
                 loader.style.display = 'none';
-                
+                btn.style.display = 'block';
+
                 if (data.success && data.results && data.results.length > 0) {
-                    data.results.forEach(res => {
-                        const assetObj = assetsData.find(a => a.id === res.symbol);
-                        const assetName = assetObj ? assetObj.name : res.symbol;
-                        const dirClass = res.direction === 'UP' ? 'win' : (res.direction === 'DOWN' ? 'loss' : '');
-                        const dirText = res.direction === 'UP' ? t.buyText.split('/')[0].trim() : (res.direction === 'DOWN' ? t.sellText.split('/')[0].trim() : 'FLAT');
+                    data.results.forEach(item => {
+                        const originalAsset = assetsData.find(a => a.id === item.symbol) || { name: item.symbol, icon: "$" };
+                        const isUp = item.direction === "UP";
+                        const dirIcon = isUp ? 'fa-arrow-up' : 'fa-arrow-down';
+                        const dirColor = isUp ? '#22c55e' : '#ef4444';
                         
-                        resultsContainer.innerHTML += `
-                            <div class="history-item" style="margin-bottom: 8px; cursor: pointer;" onclick="selectAssetById('${res.symbol}')">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <div class="asset-icon" style="width: 32px; height: 32px; font-size:14px;">${assetObj ? assetObj.icon : '$'}</div>
-                                    <div>
-                                        <div class="history-asset">${assetName}</div>
-                                        <div class="history-time">TF: ${selectedTimeframe.name} | ${res.probability}%</div>
+                        const div = document.createElement('div');
+                        div.className = "history-item";
+                        div.style.marginBottom = "8px";
+                        div.style.cursor = "pointer";
+                        div.onclick = () => {
+                            selectAsset(originalAsset);
+                            switchTab('signals');
+                        };
+                        div.innerHTML = `
+                            <div style="display:flex; align-items:center; gap:10px;">
+                                <div class="asset-icon">${originalAsset.icon}</div>
+                                <div>
+                                    <div class="history-asset">${originalAsset.name}</div>
+                                    <div style="font-size:11px; color:${dirColor}; font-weight:600;">
+                                        <i class="fas ${dirIcon}"></i> ${isUp ? translations[currentLang].buyText : translations[currentLang].sellText}
                                     </div>
                                 </div>
-                                <div class="history-result ${dirClass}">${dirText}</div>
                             </div>
+                            <div class="history-result" style="background:rgba(99,102,241,0.15); color:#6366f1;">${item.probability}%</div>
                         `;
+                        resultsDiv.appendChild(div);
                     });
                 } else {
-                    resultsContainer.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Сигналів >45% не знайдено. Спробуйте інший таймфрейм.</div>`;
+                    resultsDiv.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">Не знайдено сильних сигналів на даному таймфреймі. Спробуйте інший.</div>`;
                 }
             } catch(e) {
                 loader.style.display = 'none';
-                resultsContainer.innerHTML = `<div style="text-align:center; color: red;">${t.errConnect}</div>`;
-            }
-            
-            btn.disabled = false;
-            btn.style.opacity = '1';
-        }
-        
-        function selectAssetById(id) {
-            const asset = assetsData.find(a => a.id === id);
-            if (asset) {
-                selectAsset(asset);
-                switchTab('signals');
+                btn.style.display = 'block';
+                resultsDiv.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">${translations[currentLang].errConnect}</div>`;
             }
         }
     </script>
