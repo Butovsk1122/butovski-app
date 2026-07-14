@@ -279,8 +279,22 @@
             margin-bottom: 12px;
         }
 
+        /* --- НОВІ КОЛЬОРИ ТА ПІДСВІТКА ДЛЯ BUY/SELL --- */
         .direction-badge.up { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+        .direction-badge.up span {
+            color: #22c55e !important;
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
         .direction-badge.down { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+        .direction-badge.down span {
+            color: #ef4444 !important;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+        }
+        .direction-badge.flat { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .direction-badge.flat span {
+            color: #f59e0b !important;
+            text-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+        }
 
         .gauge-container {
             position: relative;
@@ -327,6 +341,7 @@
 
         .loader-steps { font-size: 13px; color: var(--text-muted); height: 20px; }
 
+        /* --- НОВА АНІМАЦІЯ КНОПКИ ОТРИМАТИ СИГНАЛ --- */
         .action-btn {
             width: 100%;
             background: var(--accent-gradient);
@@ -338,6 +353,15 @@
             font-weight: 600;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .action-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.5);
+            background: linear-gradient(135deg, #7a7df4, #b975f8);
+        }
+        .action-btn:active:not(:disabled) {
+            transform: translateY(1px) scale(0.98);
         }
 
         .widget-card {
@@ -924,7 +948,7 @@
             { id: "1h", name: "1h", value: "60", tvWidget: "60" }
         ];
 
-        let selectedAsset = assetsData[0];
+        let selectedAsset = assetsData[4]; // 1m default
         let selectedTimeframe = timeframesData[4]; // За замовчуванням 1м
 
         const translations = {
@@ -1305,7 +1329,6 @@
             });
         }
 
-        // --- ВІДНОВЛЕНИЙ JS-КОД, ЩО БУВ ОБРІЗАНИЙ У ВАШОМУ ФАЙЛІ ---
         function selectAsset(asset) {
             selectedAsset = asset;
             document.getElementById('currentAssetIcon').innerText = asset.icon;
@@ -1347,6 +1370,7 @@
             });
         }
 
+        // --- ВІДНОВЛЕННЯ ТА ДОПОВНЕННЯ ЛОГІКИ, ЩО БУЛА ОБРІЗАНА ---
         function buildThemeDropdown() {
             const container = document.getElementById('themesListContainer');
             container.innerHTML = "";
@@ -1372,6 +1396,15 @@
             });
         }
 
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tabId).classList.add('active');
+            document.getElementById('nav-' + tabId + '-btn').classList.add('active');
+            
+            if (tabId === 'stats') loadStatistics();
+        }
+
         function applyTranslations() {
             const t = translations[currentLang];
             document.getElementById('placeholderText').innerText = t.placeholderText;
@@ -1392,307 +1425,78 @@
             document.getElementById('newsSectionTitle').innerText = t.newsSectionTitle;
             document.getElementById('eduSectionTitle').innerText = t.eduSectionTitle;
             document.getElementById('assetSearchInput').placeholder = t.assetSearchPlaceholder;
-            
-            // Вкладка статистики
-            document.getElementById('statsDescText').innerText = t.statsDescText;
-            document.getElementById('statsHistoryLabel').innerText = t.statsHistoryLabel;
-            
-            if(document.getElementById('statsWin').nextElementSibling) 
-                document.getElementById('statsWin').nextElementSibling.innerText = t.statsWinText;
-            if(document.getElementById('statsLoss').nextElementSibling) 
-                document.getElementById('statsLoss').nextElementSibling.innerText = t.statsLossText;
-            if(document.getElementById('statsWinrate').nextElementSibling) 
-                document.getElementById('statsWinrate').nextElementSibling.innerText = t.statsWinrateText;
-
             document.getElementById('currentAssetType').innerText = t[selectedAsset.type];
-            renderHubContent();
             
-            const historyContainer = document.getElementById('historyListContainer');
-            if(historyContainer.innerHTML.includes("Завантаження") || historyContainer.innerHTML.includes("Loading")) {
-                 historyContainer.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">${t.historyEmpty}</div>`;
-            } else {
-                 loadStats();
-            }
+            document.getElementById('statsDescText').innerText = t.statsDescText;
+            document.getElementById('statsWin').nextElementSibling.innerText = t.statsWinText;
+            document.getElementById('statsLoss').nextElementSibling.innerText = t.statsLossText;
+            document.getElementById('statsWinrate').nextElementSibling.innerText = t.statsWinrateText;
+            document.getElementById('statsHistoryLabel').innerText = t.statsHistoryLabel;
+
+            renderTimeframes();
+            buildAssetDropdown();
+            renderHubContent();
             updateUserStatusText();
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(`tab-${tabId}`).classList.add('active');
-            document.getElementById(`nav-${tabId}-btn`).classList.add('active');
-
-            if(tabId === 'stats') { loadStats(); }
-        }
-        
-        async function loadStats() {
-            try {
-                const res = await fetch(`${BACKEND_URL}/api/get_statistics`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ initData: initData })
-                });
-                const data = await res.json();
-                if(data.success) {
-                    document.getElementById('statsWin').innerText = data.wins;
-                    document.getElementById('statsLoss').innerText = data.losses;
-                    document.getElementById('statsWinrate').innerText = data.winrate + '%';
-                    
-                    const container = document.getElementById('historyListContainer');
-                    container.innerHTML = "";
-                    if(data.history && data.history.length > 0) {
-                        const t = translations[currentLang];
-                        data.history.forEach(item => {
-                            const profitText = item.result === 'win' ? t.profitWin : t.profitLoss;
-                            const resClass = item.result === 'win' ? 'win' : 'loss';
-                            container.innerHTML += `
-                                <div class="history-item">
-                                    <div>
-                                        <div class="history-asset">${item.asset}</div>
-                                        <div class="history-time">${item.time}</div>
-                                    </div>
-                                    <div class="history-result ${resClass}">${profitText}</div>
-                                </div>
-                            `;
-                        });
-                    } else {
-                        container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">${translations[currentLang].historyEmpty}</div>`;
-                    }
-                }
-            } catch(e) {}
-        }
-
         function renderHubContent() {
+            const t = translations[currentLang];
             const newsContainer = document.getElementById('newsContainer');
             newsContainer.innerHTML = "";
-            hubContent.news.forEach(n => {
-                const title = n.title[currentLang] || n.title['en'];
+            hubContent.news.forEach(item => {
+                const title = item.title[currentLang] || item.title['en'];
                 newsContainer.innerHTML += `
-                    <a href="${n.url}" target="_blank" class="news-card">
+                    <a href="${item.url}" target="_blank" class="news-card">
                         <div class="news-header">
-                            <span class="news-impact ${n.impact}">${n.impact === 'high' ? 'HIGH' : 'MED'} IMPACT</span>
-                            <span>${n.time}</span>
+                            <span class="news-impact ${item.impact}">${item.impact === 'high' ? 'High Impact' : 'Medium Impact'}</span>
+                            <span>${item.time}</span>
                         </div>
                         <div class="news-title">${title}</div>
-                        <div class="link-hint"><i class="fas fa-external-link-alt"></i> ${translations[currentLang].readMore}</div>
+                        <div class="link-hint"><i class="fas fa-external-link-alt"></i> ${t.readMore}</div>
                     </a>
                 `;
             });
 
             const eduContainer = document.getElementById('eduContainer');
             eduContainer.innerHTML = "";
-            hubContent.edu.forEach(e => {
-                const title = e.title[currentLang] || e.title['en'];
-                const desc = e.desc[currentLang] || e.desc['en'];
+            hubContent.edu.forEach(item => {
+                const title = item.title[currentLang] || item.title['en'];
+                const desc = item.desc[currentLang] || item.desc['en'];
                 eduContainer.innerHTML += `
-                    <a href="${e.url}" target="_blank" class="edu-card">
+                    <a href="${item.url}" target="_blank" class="edu-card">
                         <div class="edu-flex-container">
-                            <div class="edu-icon"><i class="fas ${e.icon}"></i></div>
+                            <div class="edu-icon"><i class="fas ${item.icon}"></i></div>
                             <div>
-                                <div class="news-title" style="margin-bottom: 4px;">${title}</div>
-                                <div style="font-size: 11px; color: var(--text-muted);">${desc}</div>
-                                <div class="link-hint"><i class="fas fa-play-circle"></i> ${translations[currentLang].openLesson}</div>
+                                <div class="news-title">${title}</div>
+                                <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">${desc}</div>
                             </div>
                         </div>
+                        <div class="link-hint"><i class="fas fa-external-link-alt"></i> ${t.openLesson}</div>
                     </a>
                 `;
             });
         }
 
-        async function generateSignal() {
-            if (isSignalActive) {
-                isSignalActive = false;
-                document.getElementById('signalResult').style.display = 'none';
-                document.getElementById('monitorPlaceholder').style.display = 'block';
-                document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButton;
-                document.getElementById('tradingview_widget_container').style.display = 'none';
-                document.getElementById('tradeMarkingStatus').style.display = 'none';
-                return;
-            }
-
-            document.getElementById('monitorPlaceholder').style.display = 'none';
-            document.getElementById('loaderContainer').style.display = 'flex';
-            document.getElementById('tradeMarkingStatus').style.display = 'none';
+        function initTradingViewWidget(theme, symbol, timeframe) {
+            const container = document.getElementById('tradingview_widget_container');
+            container.style.display = 'block';
+            document.getElementById('tradingview_widget').innerHTML = "";
+            let tvTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
             
-            let step = 0;
-            const loaderText = document.getElementById('loaderSteps');
-            const stepsArray = hubContent.steps[currentLang] || hubContent.steps['en'];
-            const stepInterval = setInterval(() => {
-                loaderText.innerText = stepsArray[step];
-                step = (step + 1) % stepsArray.length;
-            }, 800);
+            let tvSymbol = symbol;
+            if (symbol.includes('BINANCE:')) tvSymbol = symbol;
+            else if (symbol.includes('FX:')) tvSymbol = symbol;
+            else if (symbol.includes('OANDA:')) tvSymbol = symbol;
+            else if (symbol.includes('FOREXCOM:')) tvSymbol = symbol;
 
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/get_signal`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        initData: initData,
-                        symbol: selectedAsset.id,
-                        timeframe: selectedTimeframe.value
-                    })
-                });
-                
-                const data = await response.json();
-                clearInterval(stepInterval);
-                document.getElementById('loaderContainer').style.display = 'none';
-
-                if (data.success) {
-                    isSignalActive = true;
-                    localSignalsCount++;
-                    localStorage.setItem('signalsCount', localSignalsCount.toString());
-                    document.getElementById('signalsCountValue').innerText = localSignalsCount;
-
-                    document.getElementById('signalResult').style.display = 'block';
-                    document.getElementById('signalActionButton').innerText = translations[currentLang].signalActionButtonNew;
-                    document.getElementById('tradingview_widget_container').style.display = 'block';
-
-                    const dirBadge = document.getElementById('directionBadge');
-                    const dirIcon = document.getElementById('directionIcon');
-                    const dirText = document.getElementById('directionText');
-                    
-                    if (data.direction === 'UP') {
-                        dirBadge.className = 'direction-badge up';
-                        dirIcon.className = 'fas fa-arrow-up';
-                        dirText.innerText = translations[currentLang].buyText;
-                    } else if (data.direction === 'DOWN') {
-                        dirBadge.className = 'direction-badge down';
-                        dirIcon.className = 'fas fa-arrow-down';
-                        dirText.innerText = translations[currentLang].sellText;
-                    } else {
-                        dirBadge.className = 'direction-badge';
-                        dirBadge.style.background = 'rgba(100, 116, 139, 0.15)';
-                        dirBadge.style.color = '#94a3b8';
-                        dirIcon.className = 'fas fa-minus';
-                        dirText.innerText = translations[currentLang].flatText;
-                    }
-
-                    const prob = data.probability || 0;
-                    document.getElementById('probabilityPercent').innerText = prob + '%';
-                    const offset = 377 - (377 * prob) / 100;
-                    setTimeout(() => {
-                        document.getElementById('gaugeFill').style.strokeDashoffset = offset;
-                    }, 100);
-
-                    const warningsContainer = document.getElementById('signalWarnings');
-                    warningsContainer.innerHTML = "";
-                    if (data.tech_info) {
-                        const t = translations[currentLang];
-                        if (data.tech_info.low_volatility) {
-                            warningsContainer.innerHTML += `<div style="color: #ef4444;"><i class="fas fa-exclamation-triangle"></i> ${t.warnVol}</div>`;
-                        }
-                        if (data.tech_info.pullback_warning) {
-                            warningsContainer.innerHTML += `<div style="color: #f59e0b;"><i class="fas fa-exclamation-circle"></i> ${t.warnPullback}</div>`;
-                        }
-                        if (data.tech_info.mtf_conflict) {
-                            warningsContainer.innerHTML += `<div style="color: #ef4444;"><i class="fas fa-times-circle"></i> ${t.warnTrend}</div>`;
-                        }
-                        if (data.tech_info.synergy) {
-                            warningsContainer.innerHTML += `<div style="color: #22c55e;"><i class="fas fa-check-circle"></i> ${t.synergyActive}</div>`;
-                        }
-                    }
-                } else {
-                    alert("Error: " + (data.error || "Unknown"));
-                    document.getElementById('monitorPlaceholder').style.display = 'block';
-                }
-            } catch (error) {
-                clearInterval(stepInterval);
-                document.getElementById('loaderContainer').style.display = 'none';
-                document.getElementById('monitorPlaceholder').style.display = 'block';
-                alert(translations[currentLang].errConnect);
-            }
-        }
-        
-        async function recordTradeResult(resultType) {
-            if (!isSignalActive) return;
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/save_trade`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        initData: initData,
-                        asset: selectedAsset.name,
-                        direction: document.getElementById('directionText').innerText,
-                        result: resultType
-                    })
-                });
-                const data = await response.json();
-                if(data.success) {
-                    const statusEl = document.getElementById('tradeMarkingStatus');
-                    statusEl.style.display = 'block';
-                    setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
-                    loadStats();
-                }
-            } catch(e) {}
-        }
-
-        async function scanTopSignals() {
-            document.getElementById('topResults').innerHTML = "";
-            document.getElementById('topLoader').style.display = 'flex';
-            
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/get_top_signals`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        initData: initData,
-                        timeframe: selectedTimeframe.value,
-                        symbols: assetsData.slice(0, 12).map(a => a.id)
-                    })
-                });
-                
-                const data = await response.json();
-                document.getElementById('topLoader').style.display = 'none';
-                
-                if (data.success && data.results) {
-                    const container = document.getElementById('topResults');
-                    if (data.results.length === 0) {
-                        container.innerHTML = `<div style="text-align:center; color:var(--text-muted); font-size:14px; padding: 20px;">Не знайдено сильних сигналів (>45%). Спробуйте інший таймфрейм.</div>`;
-                        return;
-                    }
-                    
-                    data.results.forEach(res => {
-                        const assetObj = assetsData.find(a => a.id === res.symbol) || { name: res.symbol, icon: '📈' };
-                        const isUp = res.direction === 'UP';
-                        const colorHex = isUp ? '#22c55e' : '#ef4444';
-                        const icon = isUp ? 'fa-arrow-up' : 'fa-arrow-down';
-                        const dirText = isUp ? translations[currentLang].buyText : translations[currentLang].sellText;
-                        
-                        container.innerHTML += `
-                            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--card-bg); border:1px solid var(--border-color); padding:12px 16px; border-radius:16px; margin-bottom:10px;">
-                                <div style="display:flex; align-items:center; gap:12px;">
-                                    <div class="asset-icon">${assetObj.icon}</div>
-                                    <div style="font-weight:600;">${assetObj.name}</div>
-                                </div>
-                                <div style="display:flex; align-items:center; gap:12px;">
-                                    <div style="font-weight:700; color:${colorHex}; font-size:14px;"><i class="fas ${icon}"></i> ${dirText}</div>
-                                    <div style="background:${isUp ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)'}; color:${colorHex}; padding:4px 8px; border-radius:8px; font-weight:700;">${res.probability}%</div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                } else {
-                    document.getElementById('topResults').innerHTML = `<div style="text-align:center; color:#ef4444; font-size:14px; padding: 20px;">Помилка отримання даних.</div>`;
-                }
-            } catch (e) {
-                document.getElementById('topLoader').style.display = 'none';
-                document.getElementById('topResults').innerHTML = `<div style="text-align:center; color:#ef4444; font-size:14px; padding: 20px;">${translations[currentLang].errConnect}</div>`;
-            }
-        }
-
-        function initTradingViewWidget(theme, symbol, interval) {
-            const container = document.getElementById('tradingview_widget');
-            container.innerHTML = "";
-            const tvTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-            
             new TradingView.widget({
                 "autosize": true,
-                "symbol": symbol,
-                "interval": interval,
-                "timezone": "Etc/UTC",
+                "symbol": tvSymbol,
+                "interval": timeframe,
+                "timezone": "Europe/Kyiv",
                 "theme": tvTheme,
                 "style": "1",
-                "locale": currentLang === 'uk' ? 'uk' : (currentLang === 'pl' ? 'pl' : (currentLang === 'de' ? 'de' : 'en')),
+                "locale": currentLang === 'uk' ? "uk" : "en",
                 "enable_publishing": false,
                 "backgroundColor": "rgba(0, 0, 0, 0)",
                 "gridColor": "rgba(255, 255, 255, 0.06)",
@@ -1701,6 +1505,261 @@
                 "save_image": false,
                 "container_id": "tradingview_widget"
             });
+        }
+
+        function animateGauge(percent) {
+            const gaugeFill = document.getElementById('gaugeFill');
+            const circumference = 377; 
+            const offset = circumference - (percent / 100) * circumference;
+            
+            gaugeFill.style.strokeDashoffset = circumference;
+            setTimeout(() => {
+                gaugeFill.style.strokeDashoffset = offset;
+            }, 100);
+
+            let currentPercent = 0;
+            const percentEl = document.getElementById('probabilityPercent');
+            const interval = setInterval(() => {
+                currentPercent += 2;
+                if (currentPercent >= percent) {
+                    currentPercent = percent;
+                    clearInterval(interval);
+                }
+                percentEl.innerText = currentPercent + "%";
+            }, 20);
+        }
+
+        async function generateSignal() {
+            const t = translations[currentLang];
+            
+            document.getElementById('monitorPlaceholder').style.display = 'none';
+            document.getElementById('signalResult').style.display = 'none';
+            document.getElementById('loaderContainer').style.display = 'flex';
+            document.getElementById('tradeMarkingContainer').style.display = 'none';
+            document.getElementById('tradeMarkingStatus').style.display = 'none';
+            
+            const btn = document.getElementById('signalActionButton');
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            const steps = hubContent.steps[currentLang] || hubContent.steps['en'];
+            const stepEl = document.getElementById('loaderSteps');
+            let stepIdx = 0;
+            stepEl.innerText = steps[0];
+            const stepInterval = setInterval(() => {
+                stepIdx++;
+                if (stepIdx < steps.length) {
+                    stepEl.innerText = steps[stepIdx];
+                }
+            }, 800);
+
+            try {
+                const reqData = {
+                    initData: initData,
+                    symbol: selectedAsset.id,
+                    timeframe: selectedTimeframe.value
+                };
+
+                const response = await fetch(`${BACKEND_URL}/api/get-market-signal`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reqData)
+                });
+                
+                clearInterval(stepInterval);
+                const data = await response.json();
+                
+                document.getElementById('loaderContainer').style.display = 'none';
+                
+                if (data.success) {
+                    isSignalActive = true;
+                    btn.innerText = t.signalActionButtonNew;
+                    
+                    localSignalsCount++;
+                    localStorage.setItem('signalsCount', localSignalsCount.toString());
+                    document.getElementById('signalsCountValue').innerText = localSignalsCount;
+                    
+                    document.getElementById('signalResult').style.display = 'block';
+                    document.getElementById('tradeMarkingContainer').style.display = 'flex';
+                    
+                    const directionBadge = document.getElementById('directionBadge');
+                    const directionIcon = document.getElementById('directionIcon');
+                    const directionText = document.getElementById('directionText');
+                    const warningsContainer = document.getElementById('signalWarnings');
+                    warningsContainer.innerHTML = "";
+                    
+                    if (data.direction === "UP") {
+                        directionBadge.className = "direction-badge up";
+                        directionIcon.className = "fas fa-arrow-up";
+                        directionText.innerHTML = `<span>${t.buyText}</span>`;
+                    } else if (data.direction === "DOWN") {
+                        directionBadge.className = "direction-badge down";
+                        directionIcon.className = "fas fa-arrow-down";
+                        directionText.innerHTML = `<span>${t.sellText}</span>`;
+                    } else {
+                        directionBadge.className = "direction-badge flat";
+                        directionIcon.className = "fas fa-minus";
+                        directionText.innerHTML = `<span>${t.flatText}</span>`;
+                    }
+                    
+                    if (data.tech_info) {
+                        if (data.tech_info.low_volatility) {
+                            warningsContainer.innerHTML += `<div style="color: #ef4444;"><i class="fas fa-exclamation-triangle"></i> ${t.warnVol}</div>`;
+                        }
+                        if (data.tech_info.pullback_warning) {
+                            warningsContainer.innerHTML += `<div style="color: #f59e0b;"><i class="fas fa-undo"></i> ${t.warnPullback}</div>`;
+                        }
+                        if (data.tech_info.mtf_conflict) {
+                            warningsContainer.innerHTML += `<div style="color: #ef4444;"><i class="fas fa-bolt"></i> ${t.warnTrend}</div>`;
+                        }
+                        if (data.tech_info.synergy && data.probability > 75) {
+                            warningsContainer.innerHTML += `<div style="color: #22c55e;"><i class="fas fa-star"></i> ${t.synergyActive}</div>`;
+                        }
+                    }
+
+                    animateGauge(data.probability);
+                } else {
+                    document.getElementById('monitorPlaceholder').style.display = 'block';
+                    document.getElementById('placeholderText').innerText = data.error || t.errConnect;
+                }
+            } catch (err) {
+                clearInterval(stepInterval);
+                document.getElementById('loaderContainer').style.display = 'none';
+                document.getElementById('monitorPlaceholder').style.display = 'block';
+                document.getElementById('placeholderText').innerText = t.errConnect;
+            }
+
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+
+        async function recordTradeResult(result) {
+            try {
+                const reqData = {
+                    initData: initData,
+                    asset: selectedAsset.name,
+                    direction: document.getElementById('directionText').innerText.split('/')[0].trim(),
+                    result: result
+                };
+
+                await fetch(`${BACKEND_URL}/api/save_trade`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reqData)
+                });
+                
+                document.getElementById('tradeMarkingContainer').style.display = 'none';
+                document.getElementById('tradeMarkingStatus').style.display = 'block';
+            } catch(e) {}
+        }
+
+        async function loadStatistics() {
+            const container = document.getElementById('historyListContainer');
+            container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);"><div class="spinner" style="width:24px; height:24px; border-width:2px; margin: 0 auto;"></div></div>`;
+            try {
+                const response = await fetch(`${BACKEND_URL}/api/get_statistics`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ initData: initData })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('statsWin').innerText = data.wins;
+                    document.getElementById('statsLoss').innerText = data.losses;
+                    document.getElementById('statsWinrate').innerText = data.winrate + "%";
+                    
+                    container.innerHTML = "";
+                    if (data.history && data.history.length > 0) {
+                        data.history.forEach(item => {
+                            const t = translations[currentLang];
+                            const profitText = item.result === 'win' ? t.profitWin : t.profitLoss;
+                            container.innerHTML += `
+                                <div class="history-item">
+                                    <div>
+                                        <div class="history-asset">${item.asset} (${item.direction})</div>
+                                        <div class="history-time">${item.time}</div>
+                                    </div>
+                                    <div class="history-result ${item.result}">${profitText}</div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        container.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted);">${translations[currentLang].historyEmpty}</div>`;
+                    }
+                }
+            } catch(e) {
+                container.innerHTML = `<div style="text-align:center; font-size:12px; color:red;">Error loading stats</div>`;
+            }
+        }
+
+        async function scanTopSignals() {
+            const resultsContainer = document.getElementById('topResults');
+            const loader = document.getElementById('topLoader');
+            const btn = document.getElementById('scanTopBtn');
+            const t = translations[currentLang];
+            
+            resultsContainer.innerHTML = "";
+            loader.style.display = 'flex';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            
+            const symbolsList = assetsData.filter(a => a.type === 'forex' || a.type === 'crypto').map(a => a.id).slice(0, 12);
+            
+            try {
+                const reqData = {
+                    initData: initData,
+                    timeframe: selectedTimeframe.value,
+                    symbols: symbolsList
+                };
+
+                const response = await fetch(`${BACKEND_URL}/api/get_top_signals`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reqData)
+                });
+                
+                const data = await response.json();
+                loader.style.display = 'none';
+                
+                if (data.success && data.results && data.results.length > 0) {
+                    data.results.forEach(res => {
+                        const assetObj = assetsData.find(a => a.id === res.symbol);
+                        const assetName = assetObj ? assetObj.name : res.symbol;
+                        const dirClass = res.direction === 'UP' ? 'win' : (res.direction === 'DOWN' ? 'loss' : '');
+                        const dirText = res.direction === 'UP' ? t.buyText.split('/')[0].trim() : (res.direction === 'DOWN' ? t.sellText.split('/')[0].trim() : 'FLAT');
+                        
+                        resultsContainer.innerHTML += `
+                            <div class="history-item" style="margin-bottom: 8px; cursor: pointer;" onclick="selectAssetById('${res.symbol}')">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <div class="asset-icon" style="width: 32px; height: 32px; font-size:14px;">${assetObj ? assetObj.icon : '$'}</div>
+                                    <div>
+                                        <div class="history-asset">${assetName}</div>
+                                        <div class="history-time">TF: ${selectedTimeframe.name} | ${res.probability}%</div>
+                                    </div>
+                                </div>
+                                <div class="history-result ${dirClass}">${dirText}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    resultsContainer.innerHTML = `<div style="text-align:center; padding: 20px; color: var(--text-muted);">Сигналів >45% не знайдено. Спробуйте інший таймфрейм.</div>`;
+                }
+            } catch(e) {
+                loader.style.display = 'none';
+                resultsContainer.innerHTML = `<div style="text-align:center; color: red;">${t.errConnect}</div>`;
+            }
+            
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+        
+        function selectAssetById(id) {
+            const asset = assetsData.find(a => a.id === id);
+            if (asset) {
+                selectAsset(asset);
+                switchTab('signals');
+            }
         }
     </script>
 </body>
